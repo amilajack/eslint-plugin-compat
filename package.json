@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-compat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "eslint-plugin-compat",
   "main": "index.js",
   "repository": {
