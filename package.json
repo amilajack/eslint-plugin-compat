@@ -1,17 +1,17 @@
 {
-  "name": "eslint-plugin-caniuse",
+  "name": "eslint-plugin-compat",
   "version": "0.0.1-0",
-  "description": "eslint-plugin-caniuse",
+  "description": "eslint-plugin-compat",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amilajack/eslint-plugin-caniuse.git"
+    "url": "git+https://github.com/amilajack/eslint-plugin-compat.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/amilajack/eslint-plugin-caniuse/issues"
+    "url": "https://github.com/amilajack/eslint-plugin-compat/issues"
   },
-  "homepage": "https://github.com/amilajack/eslint-plugin-caniuse#readme"
+  "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme"
 }
