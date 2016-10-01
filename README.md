@@ -14,7 +14,8 @@ WORK IN PROGRESS
 ### Default
 ```
  22:  navigator.serviceWorker
-                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in IE, Edge and Safari. Has about 60% browser coverage 😢
+                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in IE, Edge and Safari.
+                               Has about 60% browser coverage 😢
 ```
 
 ### Targeting Browsers
@@ -27,7 +28,8 @@ WORK IN PROGRESS
 
 ```
  22:  navigator.serviceWorker
-                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in two of your target browsers: Safari and Edge.
+                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in two of your target
+                              browsers: Safari and Edge.
 ```
 
 ## Inspiration
