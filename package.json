@@ -1,0 +1,20 @@
+{
+  "name": "eslint-plugin-caniuse",
+  "version": "0.0.0",
+  "description": "eslint-plugin-caniuse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amilajack/eslint-plugin-caniuse.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amilajack/eslint-plugin-caniuse/issues"
+  },
+  "homepage": "https://github.com/amilajack/eslint-plugin-caniuse#readme"
+}
