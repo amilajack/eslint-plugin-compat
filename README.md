@@ -11,14 +11,14 @@ WORK IN PROGRESS
 
 ## Idea
 
-### Default
+**Default**
 ```
  22:  navigator.serviceWorker
                 ^^^^^^^^^^^^^ `ServiceWorker` is not supported in IE, Edge and Safari.
                                Has about 60% browser coverage 😢
 ```
 
-### Targeting Browsers
+**Targeting Browsers**
 ```js
 // in `.eslintrc`
 {
