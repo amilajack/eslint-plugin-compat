@@ -31,7 +31,8 @@ WORK IN PROGRESS
 ```js
 // in `.eslintrc`
 {
-    browsers: ['chrome', 'firefox', 'edge', 'safari'] // screw IE
+    browsers: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'] // screw IE
+    compiler: 'babel'
 }
 ```
 
