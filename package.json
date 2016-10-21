@@ -7,7 +7,12 @@
     "type": "git",
     "url": "git+https://github.com/amilajack/eslint-plugin-compat.git"
   },
-  "keywords": [],
+  "keywords": [
+    "eslint",
+    "browser",
+    "compatibility",
+    "api"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -18,16 +23,10 @@
     "lib"
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
-  "keywords": [
-    "eslint",
-    "browser",
-    "compatibility",
-    "api"
-  ],
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir lib && npm run build-web",
     "clean": "rm -rf lib",
-    "lint": "cross-env NODE_ENV=test eslint src test",
+    "lint": "cross-env NODE_ENV=test eslint src",
     "precommit": "npm run test-all",
     "spec": "cross-env NODE_ENV=test mocha --bail --timeout 30000 --inline-diffs --async-only --growl --compilers js:babel-register --recursive --require ./test/setup.js test/*.spec.js",
     "test": "cross-env NODE_ENV=test npm run lint && npm run spec && npm run build",
@@ -45,13 +44,17 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.14.0",
     "chai": "^3.5.0",
-    "cross-env": "^3.0.0",
+    "cross-env": "^3.1.3",
     "eslint": "^3.6.0",
     "eslint-config-airbnb": "^11.2.0",
+    "eslint-plugin-flowtype": "^2.20.0",
+    "eslint-plugin-flowtype-errors": "^1.4.1",
+    "eslint-plugin-fp": "^2.2.0",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-react": "^6.3.0",
+    "eslint-plugin-promise": "^3.3.0",
+    "eslint-plugin-react": "^6.4.1",
     "husky": "^0.11.8",
     "json-loader": "^0.5.4",
     "mocha": "^2.0.2",
