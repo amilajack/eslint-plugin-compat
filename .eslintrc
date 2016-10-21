@@ -1,0 +1,25 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+  "rules": {
+    "arrow-parens": 0,
+    "comma-dangle": ["error", "never"],
+    "consistent-return": 0,
+    "func-names": 2,
+    "generator-star-spacing": [0], # HACK: https://github.com/airbnb/javascript/issues/948
+    "import/newline-after-import": 0,
+    "import/no-extraneous-dependencies": ["off"],
+    "jsx-filename-extension": 0,
+    "new-cap": 0,
+    "no-implicit-coercion": "error",
+    "no-mixed-operators": 0,
+    "no-nested-ternary": 0,
+    "no-underscore-dangle": 0,
+    "no-var": "error"
+  }
+}
