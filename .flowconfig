@@ -1,0 +1,12 @@
+[ignore]
+.*/node_modules/fbjs/.*
+.*/node_modules/*
+.*/git/.*
+
+[include]
+./test/*.example.js
+
+[options]
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+esproposal.export_star_as=enable
