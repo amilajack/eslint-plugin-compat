@@ -1,3 +1,7 @@
-function some() {
+export default {
+  rules: {
+    init(context) {
 
-}
+    }
+  }
+};

@@ -2,9 +2,8 @@
   "parser": "babel-eslint",
   "extends": "airbnb",
   "env": {
-    "browser": true,
     "node": true,
-    "es6": true
+    "jest": true
   },
   "rules": {
     "arrow-parens": 0,
@@ -12,52 +11,54 @@
     "comma-dangle": ["error", "never"],
     "consistent-return": 2,
     "func-names": 2,
-    # "fp/no-class": "error",             # TODO: In progress
-    "fp/no-delete": "error",
-    "fp/no-events": "error",
-    "fp/no-let": "error",
-    "fp/no-loops": "error",
-    "fp/no-mutating-assign": "error",
-    "flowtype-errors/show-errors": 1,
-    # "fp/no-mutation": "error",          # TODO: In progress
-    # "fp/no-nil": "error",               # TODO: In progress
-    # "fp/no-proxy": "error",             # TODO: In progress
-    # "fp/no-this": "error",              # TODO: In progress
-    # "fp/no-throw": "error",             # TODO: In progress
-    # "fp/no-unused-expression": "error", # TODO: In progress
+    "flowtype-errors/show-errors": 2,
+    "fp/no-class": "off",
+    "fp/no-delete": "off",
+    "fp/no-events": "off",
+    "fp/no-let": "off",
+    "fp/no-loops": "off",
+    "fp/no-mutating-assign": "off",
+    "fp/no-mutation": "off",
+    "fp/no-nil": "off",
+    "fp/no-proxy": "off",
+    "fp/no-this": "off",
+    "fp/no-throw": "off",
+    "fp/no-unused-expression": "off",
     "generator-star-spacing": [0],        # HACK: https://github.com/airbnb/javascript/issues/948
     "import/no-extraneous-dependencies": ["off"],
     "import/extensions": 0,
     "import/no-unresolved": [2, { "ignore": ["electron"] }],
     "jsx-filename-extension": 0,
     "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/anchor-has-content": 0,
     "new-cap": 0,
+    "no-bitwise": 0,
     "no-implicit-coercion": "error",
     "no-mixed-operators": 0,
+    "no-plusplus": 0,
     "no-use-before-define": 0,
     "no-nested-ternary": 0,
     "no-underscore-dangle": 0,
     "no-console": 0,
     "no-var": "error",
+    "semi": ["error", "always"],
     "promise/param-names": 2,
     "promise/always-return": 2,
     "promise/catch-or-return": 2,
     "promise/no-native": 0,
-    # "react/no-set-state": 2,            # TODO: In progress
-    "react/no-unused-prop-types": 0,
-    "react/jsx-no-bind": 2,
-    "react/prefer-stateless-function": 2,
-    "react/jsx-filename-extension": 0,
-    "react/sort-comp": 0,
     "flowtype/define-flow-type": 2,
-    # "flowtype/require-parameter-type": 2,
-    # "flowtype/require-return-type": [   # TODO: In progress
-    #   2,
-    #   "always",
-    #   {
-    #     "annotateUndefined": "never"
-    #   }
-    # ],
+    "flowtype/require-parameter-type": 2,
+    "flowtype/require-valid-file-annotation": [
+      2,
+      "always"
+    ],
+    "flowtype/require-return-type": [
+      2,
+      "always",
+      {
+        "annotateUndefined": "never"
+      }
+    ],
     "flowtype/space-after-type-colon": [
       2,
       "always"
@@ -65,10 +66,6 @@
     "flowtype/space-before-type-colon": [
       2,
       "never"
-    ],
-    "flowtype/type-id-match": [
-      2,
-      "^([A-Z][a-z0-9]+)+Type$"
     ],
     "flowtype/use-flow-type": 2,
     "flowtype/valid-syntax": 2
@@ -78,12 +75,6 @@
     "fp",
     "promise",
     "flowtype",
-    "flowtype-errors",
-    "react"
-  ],
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
-    }
-  }
+    "flowtype-errors"
+  ]
 }
