@@ -30,30 +30,26 @@ export type Node = {
   id: string,
   object: string,
   property: string,
-  isValid: (node: Object, eslintNode: ESLintNode) => bool;
-}
-
-/**
- * Check if the feature is supported
- */
-function DetermineCompat(node: ESLintNode, polyfills: Set<string>, targets: string[]): bool {
-  // Given the AST, find all the matching AST nodes and validate each one
-
+  isValid: (
+    node: Object,
+    eslintNode: ESLintNode,
+    targets: string[]
+  ) => bool;
 }
 
 /**
  * Return false if a if a rule fails
  */
-function Validate(node: ESLintNode): bool {
-  // Find the corresponding rules for a node by it's ASTNodeType
+function Validate(eslintNode: ESLintNode): bool {
+  // Find the corresponding rules for a eslintNode by it's ASTNodeType
   return rules
     .filter((rule: Node): bool =>
       // Validate ASTNodeType
-      rule.ASTNodeType !== node.type &&
+      rule.ASTNodeType !== eslintNode.type &&
       // Check if polyfill is provided
       !tempPolyfills.has(rule.id)
     )
-    .some((rule: Node): bool => rule.isValid(node, node));
+    .some((rule: Node): bool => rule.isValid(eslintNode));
 }
 
-export default DetermineCompat;
+export default Validate;
