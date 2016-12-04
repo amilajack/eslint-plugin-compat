@@ -1,24 +1,52 @@
 // @flow
-type node = {
-  ASTNodeType: string,
-  object: string,
-  property: string
+import { readFileSync } from 'fs';
+import type { Node, ESLintNode, Targets } from '../DetermineCompat';
+
+
+export const supportedTargets: Targets = [
+  'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge',
+  'ios_saf', 'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff',
+  'ie_mob', 'and_uc', 'samsung'
+];
+
+function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
+  // Filter non-matching objects and properties
+  if (
+    !eslintNode.callee.object.name === node.object ||
+    !eslintNode.callee.property.name === node.property
+  ) return false;
+
+  // Check the CanIUse database to see if targets are supported
+  const caniuseRecord: Object = JSON.parse(
+    readFileSync(`./caniuse/features-json/${node.id}.json`).toString()
+  ).stats;
+
+  // Check if targets are supported. By default, get the latest version of each
+  // target environment
+  return targets.some((target: Object): bool => {
+    const versions = Object.values(caniuseRecord[target]);
+    const latest = versions[versions.length - 1];
+    return latest !== 'n';
+  });
 }
 
-export function Provider(_node: node): bool {
-  // Check if polyfill is provided
-  global.doo = _node.object + {};
-}
-
-export default {
-  'typed-array': {
+const CanIUseProvider: Node[] = [
+  // ex. Float32Array()
+  {
+    id: 'typed-array',
     ASTNodeType: 'CallExpression',
     object: 'document',
-    property: 'ServiceWorker'
+    property: 'ServiceWorker',
+    isValid
   },
-  'document-queryselector': {
+  // ex. document.querySelector()
+  {
+    id: 'query-selector',
     ASTNodeType: 'CallExpression',
-    global: 'document',
-    property: 'querySelector'
+    object: 'document',
+    property: 'querySelector',
+    isValid
   }
-};
+];
+
+export default CanIUseProvider;
