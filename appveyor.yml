@@ -7,6 +7,11 @@ environment:
 cache:
   - "%LOCALAPPDATA%/Yarn"
 
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - set CI=true
+  - yarn
+
 matrix:
   fast_finish: true
 
