@@ -4,13 +4,18 @@ environment:
     - nodejs_version: 6
     - nodejs_version: 4
 
-cache:
-  - "%LOCALAPPDATA%/Yarn"
+test_script:
+  - node --version
+  - yarn --version
+  - yarn test
 
 install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - yarn
+
+cache:
+  - "%LOCALAPPDATA%/Yarn"
 
 matrix:
   fast_finish: true
