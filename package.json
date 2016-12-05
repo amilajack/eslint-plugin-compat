@@ -10,9 +10,11 @@
   "keywords": [
     "eslint",
     "browser",
+    "support",
     "api",
     "lint",
-    "caniuse"
+    "caniuse",
+    "kangax"
   ],
   "author": "",
   "license": "MIT",
@@ -25,8 +27,8 @@
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
-    "build": "cross-env NODE_ENV=production babel src --out-dir lib && npm run build-web",
-    "lint": "eslint --cache --ignore-path .eslintignore .gitignore --format=node_modules/eslint-formatter-pretty . *.js",
+    "build": "cross-env NODE_ENV=production babel src --out-dir lib",
+    "lint": "eslint --cache --ignore-path .eslintignore --format=node_modules/eslint-formatter-pretty . *.js",
     "spec": "jest",
     "test": "cross-env NODE_ENV=test npm run lint && npm run spec && npm run build",
     "version": "npm run build"
@@ -54,17 +56,13 @@
     "eslint-plugin-flowtype": "^2.29.1",
     "eslint-plugin-flowtype-errors": "^1.5.0",
     "eslint-plugin-fp": "^2.2.0",
-    "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-react": "^6.7.1",
     "esprima": "^3.1.2",
-    "husky": "^0.11.9",
     "jest-cli": "^17.0.3",
-    "json-loader": "^0.5.4",
-    "tcomb": "^3.2.15",
-    "webpack": "^1.13.3"
+    "tcomb": "^3.2.15"
   },
   "dependencies": {
     "babel-runtime": "^6.18.0"
