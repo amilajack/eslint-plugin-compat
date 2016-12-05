@@ -1,2 +1,2 @@
 /* eslint-disable */
-document.querySelector('.some');
+document.currentScript('.some');

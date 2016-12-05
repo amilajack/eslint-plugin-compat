@@ -1,4 +1,5 @@
 // @flow
+import path from 'path';
 import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../DetermineCompat';
 
@@ -12,18 +13,18 @@ export const supportedTargets: Targets = [
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
   if (
-    !eslintNode.callee.object.name === node.object ||
-    !eslintNode.callee.property.name === node.property
-  ) return false;
+    eslintNode.callee.object.name !== node.object ||
+    eslintNode.callee.property.name !== node.property
+  ) return true;
 
   // Check the CanIUse database to see if targets are supported
   const caniuseRecord: Object = JSON.parse(
-    readFileSync(`./caniuse/features-json/${node.id}.json`).toString()
+    readFileSync(path.join(__dirname, `./caniuse/features-json/${node.id}.json`)).toString()
   ).stats;
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
-  return targets.some((target: Object): bool => {
+  return targets.every((target: Object): bool => {
     const versions = Object.values(caniuseRecord[target]);
     const latest = versions[versions.length - 1];
     return latest !== 'n';
@@ -31,9 +32,9 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 }
 
 const CanIUseProvider: Node[] = [
-  // ex. Float32Array()
+  // ex. new ServiceWorker()
   {
-    id: 'typed-array',
+    id: 'serviceworkers',
     ASTNodeType: 'CallExpression',
     object: 'document',
     property: 'ServiceWorker',
@@ -41,10 +42,18 @@ const CanIUseProvider: Node[] = [
   },
   // ex. document.querySelector()
   {
-    id: 'query-selector',
+    id: 'queryselector',
     ASTNodeType: 'CallExpression',
     object: 'document',
     property: 'querySelector',
+    isValid
+  },
+  // ex. document.currentScript()
+  {
+    id: 'document-currentscript',
+    ASTNodeType: 'CallExpression',
+    object: 'document',
+    property: 'currentScript',
     isValid
   }
 ];
