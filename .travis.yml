@@ -9,10 +9,5 @@ node_js:
 
 cache: yarn
 
-script:
-  - yarn run test
-  - yarn run lint
-  - yarn run build
-
 notifications:
   email: false

@@ -1,21 +1,26 @@
-// @flow
-import path from 'path';
+/* eslint no-restricted-syntax: 0, flowtype/require-valid-file-annotation: 0 */
 import { SourceCode } from 'eslint';
 import esprima from 'esprima';
-import { readFileSync } from 'fs';
+import { expect } from 'chai';
 import DetermineCompat from '../../src/DetermineCompat';
+import tests from './tests';
 
 
-const file = readFileSync(path.join(__dirname, 'example.js')).toString();
+describe('CanIUseProvider', () => {
+  for (const test of tests) {
+    const MemberExpression = new SourceCode(test.code, esprima.parse(test.code, {
+      tokens: true,
+      loc: true,
+      comment: true,
+      range: true,
+      tolerant: true,
+      attachComment: true
+    }));
 
-const MemberExpression = new SourceCode(file, esprima.parse(file, {
-  tokens: true,
-  loc: true,
-  comment: true,
-  range: true,
-  tolerant: true,
-  attachComment: true
-}));
+    const isValid = DetermineCompat(MemberExpression.ast.body[0].expression);
 
-const isValid = DetermineCompat(MemberExpression.ast.body[0].expression);
-console.log(isValid);
+    it(test.name || test.id, () => {
+      expect(isValid).to.equal(test.pass);
+    });
+  }
+});
