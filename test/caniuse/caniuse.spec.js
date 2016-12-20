@@ -1,6 +1,5 @@
 /* eslint no-restricted-syntax: 0, flowtype/require-valid-file-annotation: 0 */
-import { SourceCode } from 'eslint';
-import esprima from 'esprima';
+import { linter } from 'eslint';
 import { expect } from 'chai';
 import DetermineCompat from '../../src/DetermineCompat';
 import tests from './tests';
@@ -8,19 +7,23 @@ import tests from './tests';
 
 describe('CanIUseProvider', () => {
   for (const test of tests) {
-    const MemberExpression = new SourceCode(test.code, esprima.parse(test.code, {
-      tokens: true,
-      loc: true,
-      comment: true,
-      range: true,
-      tolerant: true,
-      attachComment: true
-    }));
+    it(test.name || `${test.id} supported by default targets`, () => {
+      const messages = linter.verify(
+        test.code,
+        {
+          plugins: ['compat'],
+          rules: {
+            'compat/test': 2
+          }
+        },
+        {
+          filename: 'foo.js'
+        }
+      );
 
-    const isValid = DetermineCompat(MemberExpression.ast.body[0].expression);
+      console.log(messages);
 
-    it(test.name || test.id, () => {
-      expect(isValid).to.equal(test.pass);
+      // expect(isValid).to.equal(test.pass);
     });
   }
 });

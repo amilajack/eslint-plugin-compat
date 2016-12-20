@@ -1,6 +1,12 @@
 // @flow
 export default {
   rules: {
-    // init(context) {}
+    test(): Object {
+      return {
+        CallExpression() {
+
+        }
+      };
+    }
   }
 };

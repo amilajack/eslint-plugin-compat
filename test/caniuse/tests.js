@@ -29,6 +29,21 @@ const tests: Test[] = [
     targets
   },
   {
+    name: 'document-currentscript, accept no args',
+    id: 'document-currentscript',
+    code: 'document.currentScript()',
+    pass: true,
+    targets
+  },
+  {
+    name: 'document-currentscript, accept no semi',
+    id: 'document-currentscript',
+    code: 'document.currentScript();',
+    pass: true,
+    targets
+  },
+  {
+    name: 'document-currentscript, fail on ',
     id: 'document-currentscript',
     code: "document.currentScript('.some');",
     pass: false,
