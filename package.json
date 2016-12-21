@@ -28,7 +28,7 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir lib",
-    "lint": "eslint --cache --ignore-path .eslintignore --format=node_modules/eslint-formatter-pretty . *.js",
+    "lint": "eslint --cache --ignore-path .gitignore .eslintignore --format=node_modules/eslint-formatter-pretty . *.js",
     "spec": "jest",
     "test": "cross-env NODE_ENV=test npm run lint && npm run spec && npm run build",
     "version": "npm run build"
