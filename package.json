@@ -2,7 +2,7 @@
   "name": "eslint-plugin-compat",
   "version": "0.0.3-0",
   "description": "eslint-plugin-compat",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amilajack/eslint-plugin-compat.git"
@@ -63,6 +63,7 @@
     "esprima": "^3.1.2",
     "flow-bin": "^0.37.3",
     "jest-cli": "^18.0.0",
+    "requireindex": "^1.1.0",
     "tcomb": "^3.2.15"
   },
   "dependencies": {

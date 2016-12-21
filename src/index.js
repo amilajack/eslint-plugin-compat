@@ -1,39 +1,21 @@
-// @flow
-import Lint from './Lint';
+/* eslint-disable */
+
+/**
+ * @fileoverview some
+ * @author Amila Welihinda
+ */
 
 
-export default {
-  meta: {
-    docs: {
-      description: 'Ensure cross-browser API compatability',
-      category: 'Compatability',
-      recommended: true
-    },
-    fixable: 'code',
-    schema: []
-  },
-  create(context: Object): Object {
-    function lint(node: Object) {
-      const isValid = Lint(node, context.settings.targets);
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
 
-      // HACK: Eventually, we'll have an error message returned from Lint
-      // const { isValid, message } = Lint(context);
+import requireIndex from 'requireindex';
 
-      if (!isValid) {
-        context.report({
-          node,
-          message: 'Unsupported API being used'
-        });
-      }
-    }
+//------------------------------------------------------------------------------
+// Plugin Definition
+//------------------------------------------------------------------------------
 
-    return {
-      // HACK: Ideally, rules will be generated at runtime. Each rule will have
-      //       have the ability to register itself to run on specific AST
-      //       nodes. For now, we're using the `CallExpression` node since
-      //       its what most rules will run on
-      MemberExpression: lint,
-      NewExpression: lint
-    };
-  }
-};
+
+// import all rules in lib/rules
+export const rules = requireIndex(`${__dirname}/rules`);
