@@ -5,9 +5,9 @@ import type { Node, ESLintNode, Targets } from '../Lint';
 
 
 export const supportedTargets: Targets = [
-  'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge',
-  'ios_saf', 'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff',
-  'ie_mob', 'and_uc', 'samsung'
+  'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
+  'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
+  'samsung'
 ];
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
@@ -56,6 +56,10 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
     return latest !== 'n';
   });
 }
+
+//
+// TODO: Refactor to separate module
+//
 
 const CanIUseProvider: Node[] = [
   // ex. new ServiceWorker()
