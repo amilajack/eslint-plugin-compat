@@ -5,8 +5,8 @@ import Lint from './Lint';
 export default {
   meta: {
     docs: {
-      description: 'Browser API compatability ------ desc',
-      category: 'Browser API compatability',
+      description: 'Ensure cross-browser API compatability',
+      category: 'Compatability',
       recommended: true
     },
     fixable: 'code',

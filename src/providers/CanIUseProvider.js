@@ -37,7 +37,6 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
-
   return targets.every((target: Object): bool => {
     const sortedVersions =
       Object
