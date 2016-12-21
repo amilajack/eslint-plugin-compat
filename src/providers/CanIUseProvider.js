@@ -20,11 +20,15 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
       ) return true;
       break;
     case 'MemberExpression':
+      // Pass tests if non-matching object or property
       if (!eslintNode.object || !eslintNode.property) return true;
-      if (
-        eslintNode.object.name !== node.object ||
-        eslintNode.property.name !== node.property
-      ) return true;
+      if (eslintNode.object.name !== node.object) return true;
+
+      // If the property is missing from the rule, it means that only the
+      // object is required to determine compatability
+      if (!node.property) break;
+
+      if (eslintNode.property.name !== node.property) return true;
       break;
     default:
       return true;
@@ -32,7 +36,10 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   // Check the CanIUse database to see if targets are supported
   const caniuseRecord: Object = JSON.parse(
-    readFileSync(path.join(__dirname, `./caniuse/features-json/${node.id}.json`)).toString()
+    readFileSync(path.join(
+      __dirname,
+      `./caniuse/features-json/${node.id}.json`
+    )).toString()
   ).stats;
 
   // Check if targets are supported. By default, get the latest version of each
@@ -71,7 +78,13 @@ const CanIUseProvider: Node[] = [
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
     object: 'WebAssembly',
-    property: 'compile',
+    isValid
+  },
+  // ex. IntersectionObserver
+  {
+    id: 'intersectionobserver',
+    ASTNodeType: 'NewExpression',
+    object: 'IntersectionObserver',
     isValid
   },
   // ex. document.currentScript()

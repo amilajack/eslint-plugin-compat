@@ -1,9 +1,9 @@
-/* eslint no-restricted-syntax: 0, flowtype/require-valid-file-annotation: 0 */
+/* eslint flowtype/require-valid-file-annotation: 0 */
 import { RuleTester } from 'eslint';
 import rule from '../../src/index';
 
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
 ruleTester.run('compat', rule, {
   valid: [
@@ -13,27 +13,39 @@ ruleTester.run('compat', rule, {
       settings: { targets: ['chrome', 'firefox'] }
     },
     {
-      code: 'document.currentScript()',
-      errors: [{
-        message: 'Unsupported API being used',
-        type: 'MemberExpression'
-      }]
+      code: 'document.currentScript()'
     },
     {
-      code: "document.currentScript('some')",
-      errors: [{
-        message: 'Unsupported API being used',
-        type: 'MemberExpression'
-      }]
+      code: "document.currentScript('some')"
     },
     {
       code: 'WebAssembly.compile()',
       settings: { targets: ['chrome', 'firefox'] }
+    },
+    {
+      code: 'new IntersectionObserver(() => {}, {});',
+      settings: { targets: ['chrome'] }
     }
   ],
   invalid: [
+    // TODO: Atomcis are not yet supported by caniuse
+    //
+    // {
+    //   code: 'Atomics.store()',
+    //   errors: [{
+    //     message: 'Unsupported API being used',
+    //     type: 'MemberExpression'
+    //   }]
+    // },
     {
       code: 'new ServiceWorker()',
+      errors: [{
+        message: 'Unsupported API being used',
+        type: 'NewExpression'
+      }]
+    },
+    {
+      code: 'new IntersectionObserver(() => {}, {});',
       errors: [{
         message: 'Unsupported API being used',
         type: 'NewExpression'
