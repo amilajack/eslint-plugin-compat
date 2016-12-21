@@ -3,7 +3,9 @@ import { RuleTester } from 'eslint';
 import rule from '../../src/rules/compat';
 
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({
+  parserOptions: { ecmaVersion: 2015 }
+});
 
 ruleTester.run('compat', rule, {
   valid: [
@@ -53,6 +55,13 @@ ruleTester.run('compat', rule, {
     },
     {
       code: 'WebAssembly.compile()',
+      errors: [{
+        message: 'Unsupported API being used',
+        type: 'MemberExpression'
+      }]
+    },
+    {
+      code: 'navigator.serviceWorker',
       errors: [{
         message: 'Unsupported API being used',
         type: 'MemberExpression'

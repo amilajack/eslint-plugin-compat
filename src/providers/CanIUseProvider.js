@@ -69,6 +69,13 @@ const CanIUseProvider: Node[] = [
     object: 'ServiceWorker',
     isValid
   },
+  {
+    id: 'serviceworkers',
+    ASTNodeType: 'MemberExpression',
+    object: 'navigator',
+    property: 'serviceWorker',
+    isValid
+  },
   // ex. document.querySelector()
   {
     id: 'queryselector',
