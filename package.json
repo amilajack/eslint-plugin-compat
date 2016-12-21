@@ -63,11 +63,11 @@
     "esprima": "^3.1.2",
     "flow-bin": "^0.37.3",
     "jest-cli": "^18.0.0",
-    "requireindex": "^1.1.0",
     "tcomb": "^3.2.15"
   },
   "dependencies": {
-    "babel-runtime": "^6.20.0"
+    "babel-runtime": "^6.20.0",
+    "requireindex": "^1.1.0"
   },
   "engines": {
     "node": ">=4.x",
