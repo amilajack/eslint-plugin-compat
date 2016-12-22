@@ -30,8 +30,8 @@ export type Node = {
     node: Node,
     eslintNode: ESLintNode,
     targets: string[]
-  ) => bool;
-}
+  ) => bool
+};
 
 /**
  * Return false if a if a rule fails

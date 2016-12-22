@@ -39,7 +39,7 @@ eslint-plugin-compat
   // ...
   settings: {
     targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // screw IE
-    polyfills: ['simd', 'fetch'], // screw IE
+    polyfills: ['simd', 'fetch'],
     compiler: 'babel'
   }
 }
@@ -48,8 +48,12 @@ eslint-plugin-compat
 **Explicit Error Messages**
 ```
  22:  navigator.serviceWorker
-                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in two of your target
-                              browsers: Safari and Edge.
+                ^^^^^^^^^^^^^ ServiceWorker is not supported in two of your target
+                              browsers: Safari and Edge
+                              
+ 91:  const some = () => true
+                   ^^^^^^^^^^ Arrow Functions are not supported by your babel preset
+                              (using .babelrc)
 ```
 
 ## Inspiration
