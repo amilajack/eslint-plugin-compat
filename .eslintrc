@@ -42,6 +42,7 @@
     "promise/catch-or-return": 2,
     "promise/no-native": 0,
     "flowtype/define-flow-type": 2,
+    "flowtype/no-weak-types": 2,
     "flowtype/require-parameter-type": 2,
     "flowtype/require-valid-file-annotation": [
       2,

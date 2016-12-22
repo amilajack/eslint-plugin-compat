@@ -25,6 +25,10 @@ ruleTester.run('compat', rule, {
       settings: { targets: ['chrome', 'firefox'] }
     },
     {
+      code: 'WebAssembly.compile()',
+      settings: { polyfills: ['wasm'] }
+    },
+    {
       code: 'new IntersectionObserver(() => {}, {});',
       settings: { targets: ['chrome'] }
     }

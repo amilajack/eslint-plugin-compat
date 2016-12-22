@@ -6,7 +6,7 @@ eslint-plugin-compat
 [![Dependency Status](https://img.shields.io/david/amilajack/eslint-plugin-compat.svg)](https://david-dm.org/amilajack/eslint-plugin-compat)
 [![npm](https://img.shields.io/npm/dm/eslint-plugin-compat.svg)](https://npm-stat.com/charts.html?package=eslint-plugin-compat)
 
-**WORK IN PROGRESS**
+**⚠️ WORK IN PROGRESS ⚠️**
 
 ## Goals
  - Allow configuration of target browser/s, percentage of feature supported
@@ -38,7 +38,8 @@ eslint-plugin-compat
 {
   // ...
   settings: {
-    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'] // screw IE
+    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // screw IE
+    polyfills: ['simd', 'fetch'], // screw IE
     compiler: 'babel'
   }
 }
