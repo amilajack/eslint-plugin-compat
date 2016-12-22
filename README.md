@@ -34,13 +34,17 @@ eslint-plugin-compat
 
 **Targeting Browsers**
 ```js
-// in `.eslintrc`
+// .eslintrc
 {
+  // ...
+  settings: {
     targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'] // screw IE
     compiler: 'babel'
+  }
 }
 ```
 
+**Explicit Error Messages**
 ```
  22:  navigator.serviceWorker
                 ^^^^^^^^^^^^^ `ServiceWorker` is not supported in two of your target
