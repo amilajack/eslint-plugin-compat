@@ -4,11 +4,13 @@ import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../Lint';
 
 
+export const modern = ['chrome >= 50', 'safari >= 8', 'firefox >= 44'];
+
 type CanIUseRecord = {
   [x: string]: {
     [x: string]: string
   }
-}
+};
 
 export const supportedTargets: Targets = [
   'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
@@ -111,7 +113,7 @@ const CanIUseProvider: Node[] = [
     object: 'IntersectionObserver',
     isValid
   },
-  // IntersectionObserver
+  // fetch
   {
     id: 'fetch',
     ASTNodeType: 'CallExpression',

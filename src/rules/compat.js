@@ -5,7 +5,7 @@ import type { ESLintNode } from '../Lint'; // eslint-disable-line
 
 type ESLint = {
   [x: string]: (node: ESLintNode) => void
-}
+};
 
 type Context = {
   node: ESLintNode,
@@ -14,7 +14,7 @@ type Context = {
     polyfills: Array<string>
   },
   report: () => void
-}
+};
 
 export default {
   meta: {
