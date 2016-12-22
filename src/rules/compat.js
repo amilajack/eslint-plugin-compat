@@ -52,6 +52,7 @@ export default {
       //       have the ability to register itself to run on specific AST
       //       nodes. For now, we're using the `CallExpression` node since
       //       its what most rules will run on
+      CallExpression: lint,
       MemberExpression: lint,
       NewExpression: lint
     };

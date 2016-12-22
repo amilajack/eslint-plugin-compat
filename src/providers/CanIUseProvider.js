@@ -19,6 +19,12 @@ export const supportedTargets: Targets = [
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
   switch (eslintNode.type) {
+    case 'CallExpression':
+      if (!eslintNode.callee) return true;
+      if (
+        eslintNode.callee.name !== node.object
+      ) return true;
+      break;
     case 'NewExpression':
       if (!eslintNode.callee) return true;
       if (
@@ -103,6 +109,13 @@ const CanIUseProvider: Node[] = [
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
+    isValid
+  },
+  // IntersectionObserver
+  {
+    id: 'fetch',
+    ASTNodeType: 'CallExpression',
+    object: 'fetch',
     isValid
   },
   // document.currentScript()
