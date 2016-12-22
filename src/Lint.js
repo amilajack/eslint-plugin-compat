@@ -4,30 +4,22 @@ import { rules } from './providers/index';
 
 export type Targets = string[];
 
+type node = {
+  type?: string,
+  name?: string
+};
+
 export type ESLintNode = {
-  type: string,
-  object?: {
-    type?: string,
-    name?: string
-  },
-  property?: {
-    type?: string,
-    name?: string
-  },
+  object?: node,
+  property?: node,
   callee?: {
     name?: string,
     type?: string,
     computed: bool,
-    object?: {
-      type: string,
-      name: string
-    },
-    property?: {
-      type: string,
-      name: string
-    }
+    object?: node,
+    property?: node
   }
-}
+} & node;
 
 export type Node = {
   ASTNodeType: string,
@@ -35,7 +27,7 @@ export type Node = {
   object: string,
   property?: string,
   isValid: (
-    node: Object,
+    node: Node,
     eslintNode: ESLintNode,
     targets: string[]
   ) => bool;

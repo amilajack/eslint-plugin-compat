@@ -1,9 +1,14 @@
 // @flow
 import Lint from '../Lint';
+import type { ESLintNode } from '../Lint'; // eslint-disable-line
 
+
+type ESLint = {
+  [x: string]: (node: ESLintNode) => void
+}
 
 type Context = {
-  node: Object,
+  node: ESLintNode,
   settings: {
     targets: Array<string>,
     polyfills: Array<string>
@@ -21,8 +26,8 @@ export default {
     fixable: 'code',
     schema: []
   },
-  create(context: Context): Object {
-    function lint(node: Object) {
+  create(context: Context): ESLint {
+    function lint(node: ESLintNode) {
       const isValid = Lint(
         node,
         context.settings.targets,

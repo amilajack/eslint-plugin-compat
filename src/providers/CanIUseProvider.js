@@ -4,6 +4,12 @@ import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../Lint';
 
 
+type CanIUseRecord = {
+  [x: string]: {
+    [x: string]: string
+  }
+}
+
 export const supportedTargets: Targets = [
   'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
   'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
@@ -35,7 +41,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   }
 
   // Check the CanIUse database to see if targets are supported
-  const caniuseRecord: Object = JSON.parse(
+  const caniuseRecord: CanIUseRecord = JSON.parse(
     readFileSync(path.join(
       __dirname,
       `./caniuse/features-json/${node.id}.json`
@@ -44,10 +50,11 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
-  return targets.every((target: Object): bool => {
+  return targets.every((target: string): bool => {
     const sortedVersions =
       Object
-        .keys(caniuseRecord[target])
+        // HACK: Sort strings by number value, ex. '12' > '2'
+        .keys(caniuseRecord[target]) // eslint-disable-line
         .sort((a: number, b: number): number => a - b);
 
     const latestVersion = sortedVersions[sortedVersions.length - 1];
