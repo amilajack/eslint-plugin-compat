@@ -1,6 +1,20 @@
 // @flow
 import Lint from '../Lint';
+import type { ESLintNode } from '../Lint'; // eslint-disable-line
 
+
+type ESLint = {
+  [x: string]: (node: ESLintNode) => void
+}
+
+type Context = {
+  node: ESLintNode,
+  settings: {
+    targets: Array<string>,
+    polyfills: Array<string>
+  },
+  report: () => void
+}
 
 export default {
   meta: {
@@ -12,9 +26,15 @@ export default {
     fixable: 'code',
     schema: []
   },
-  create(context: Object): Object {
-    function lint(node: Object) {
-      const isValid = Lint(node, context.settings.targets);
+  create(context: Context): ESLint {
+    function lint(node: ESLintNode) {
+      const isValid = Lint(
+        node,
+        context.settings.targets,
+        context.settings.polyfills
+          ? new Set(context.settings.polyfills)
+          : undefined
+      );
 
       // HACK: Eventually, we'll have an error message returned from Lint
       // const { isValid, message } = Lint(context);
