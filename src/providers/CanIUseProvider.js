@@ -8,7 +8,7 @@ type CanIUseRecord = {
   [x: string]: {
     [x: string]: string
   }
-}
+};
 
 export const supportedTargets: Targets = [
   'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
