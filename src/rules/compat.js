@@ -2,6 +2,15 @@
 import Lint from '../Lint';
 
 
+type Context = {
+  node: Object,
+  settings: {
+    targets: Array<string>,
+    polyfills: Array<string>
+  },
+  report: () => void
+}
+
 export default {
   meta: {
     docs: {
@@ -12,9 +21,15 @@ export default {
     fixable: 'code',
     schema: []
   },
-  create(context: Object): Object {
+  create(context: Context): Object {
     function lint(node: Object) {
-      const isValid = Lint(node, context.settings.targets);
+      const isValid = Lint(
+        node,
+        context.settings.targets,
+        context.settings.polyfills
+          ? new Set(context.settings.polyfills)
+          : undefined
+      );
 
       // HACK: Eventually, we'll have an error message returned from Lint
       // const { isValid, message } = Lint(context);
