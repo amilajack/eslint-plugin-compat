@@ -39,7 +39,7 @@ eslint-plugin-compat
   // ...
   settings: {
     targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // screw IE
-    polyfills: ['simd', 'fetch'], // screw IE
+    polyfills: ['simd', 'fetch'],
     compiler: 'babel'
   }
 }
