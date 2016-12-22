@@ -62,7 +62,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 //
 
 const CanIUseProvider: Node[] = [
-  // ex. new ServiceWorker()
+  // new ServiceWorker()
   {
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
@@ -76,7 +76,7 @@ const CanIUseProvider: Node[] = [
     property: 'serviceWorker',
     isValid
   },
-  // ex. document.querySelector()
+  // document.querySelector()
   {
     id: 'queryselector',
     ASTNodeType: 'MemberExpression',
@@ -84,21 +84,21 @@ const CanIUseProvider: Node[] = [
     property: 'querySelector',
     isValid
   },
-  // ex. WebAssembly
+  // WebAssembly
   {
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
     object: 'WebAssembly',
     isValid
   },
-  // ex. IntersectionObserver
+  // IntersectionObserver
   {
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
     isValid
   },
-  // ex. document.currentScript()
+  // document.currentScript()
   {
     id: 'document-currentscript',
     ASTNodeType: 'MemberExpression',
