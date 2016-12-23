@@ -4,6 +4,9 @@ import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../Lint';
 
 
+// HACK: modern targets should be determined once at runtime
+export const modern = ['chrome >= 50', 'safari >= 8', 'firefox >= 44'];
+
 type CanIUseRecord = {
   [x: string]: {
     [x: string]: string
@@ -19,6 +22,12 @@ export const supportedTargets: Targets = [
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
   switch (eslintNode.type) {
+    case 'CallExpression':
+      if (!eslintNode.callee) return true;
+      if (
+        eslintNode.callee.name !== node.object
+      ) return true;
+      break;
     case 'NewExpression':
       if (!eslintNode.callee) return true;
       if (
@@ -53,7 +62,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   return targets.every((target: string): bool => {
     const sortedVersions =
       Object
-        // HACK: Sort strings by number value, ex. '12' > '2'
+        // HACK: Sort strings by number value, ex. '12' - '2' === '10'
         .keys(caniuseRecord[target]) // eslint-disable-line
         .sort((a: number, b: number): number => a - b);
 
@@ -66,10 +75,11 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
 //
 // TODO: Refactor to separate module
+// TODO: Refactor isValid(), remove from rules
 //
 
 const CanIUseProvider: Node[] = [
-  // ex. new ServiceWorker()
+  // new ServiceWorker()
   {
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
@@ -83,7 +93,7 @@ const CanIUseProvider: Node[] = [
     property: 'serviceWorker',
     isValid
   },
-  // ex. document.querySelector()
+  // document.querySelector()
   {
     id: 'queryselector',
     ASTNodeType: 'MemberExpression',
@@ -91,21 +101,28 @@ const CanIUseProvider: Node[] = [
     property: 'querySelector',
     isValid
   },
-  // ex. WebAssembly
+  // WebAssembly
   {
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
     object: 'WebAssembly',
     isValid
   },
-  // ex. IntersectionObserver
+  // IntersectionObserver
   {
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
     isValid
   },
-  // ex. document.currentScript()
+  // fetch
+  {
+    id: 'fetch',
+    ASTNodeType: 'CallExpression',
+    object: 'fetch',
+    isValid
+  },
+  // document.currentScript()
   {
     id: 'document-currentscript',
     ASTNodeType: 'MemberExpression',

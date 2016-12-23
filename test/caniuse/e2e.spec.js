@@ -70,6 +70,14 @@ ruleTester.run('compat', rule, {
         message: 'Unsupported API being used',
         type: 'MemberExpression'
       }]
+    },
+    {
+      code: 'fetch("google.com")',
+      settings: { targets: ['ie'] },
+      errors: [{
+        message: 'Unsupported API being used',
+        type: 'CallExpression'
+      }]
     }
   ]
 });

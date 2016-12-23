@@ -27,6 +27,13 @@ export default {
     schema: []
   },
   create(context: Context): ESLint {
+    // FIXME: lint() creates a new Set on every invocation. Fix this by removing
+    //        creating a single set and passing a refrence lint() a reference
+    //        to it
+    //
+    // FIXME: Another performance enhancement includes collecting all the rules
+    //        into a single list. As of now, every call to lint() must find
+    //        all the corresponding AST node rules.
     function lint(node: ESLintNode) {
       const isValid = Lint(
         node,
@@ -52,6 +59,7 @@ export default {
       //       have the ability to register itself to run on specific AST
       //       nodes. For now, we're using the `CallExpression` node since
       //       its what most rules will run on
+      CallExpression: lint,
       MemberExpression: lint,
       NewExpression: lint
     };
