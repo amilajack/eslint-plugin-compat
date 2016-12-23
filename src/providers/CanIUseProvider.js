@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../Lint';
 
 
+// HACK: modern targets should be determined once at runtime
 export const modern = ['chrome >= 50', 'safari >= 8', 'firefox >= 44'];
 
 type CanIUseRecord = {
@@ -61,7 +62,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   return targets.every((target: string): bool => {
     const sortedVersions =
       Object
-        // HACK: Sort strings by number value, ex. '12' > '2'
+        // HACK: Sort strings by number value, ex. '12' - '2' === '10'
         .keys(caniuseRecord[target]) // eslint-disable-line
         .sort((a: number, b: number): number => a - b);
 
@@ -74,6 +75,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
 //
 // TODO: Refactor to separate module
+// TODO: Refactor isValid(), remove from rules
 //
 
 const CanIUseProvider: Node[] = [
