@@ -15,12 +15,13 @@ eslint-plugin-compat
  - Only lint against ES features and Web API's that cannot be polyfilled or transpiled
  - Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) as endpoints for determining coverage
  - Check the environment using `.eslintrc` and enable rules like such.
+ - See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki)
 ```js
- "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
+"env": {
+  "browser": true,
+  "node": true,
+  "es6": true
+}
 ```
 
 ## Installation
