@@ -25,7 +25,6 @@ export type Node = {
   ASTNodeType: string,
   id: string,
   object: string,
-  name?: string,
   property?: string,
   isValid: (
     node: Node,
@@ -49,5 +48,5 @@ export default function Lint(
       // Check if polyfill is provided
       !polyfills.has(rule.id)
     )
-    .every((rule: Node): bool => rule.isValid(rule, eslintNode, targets).error);
+    .every((rule: Node): bool => rule.isValid(rule, eslintNode, targets));
 }
