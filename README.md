@@ -23,6 +23,20 @@ eslint-plugin-compat
   },
 ```
 
+## Installation
+```bash
+npm install --save-dev eslint-plugin-compat
+```
+
+Add `'compat'` to `.eslintrc` plugins section:
+```js
+// .eslintrc
+{
+  // ...
+  plugins: ['compat']
+}
+```
+
 ## Idea
 
 **Default**
