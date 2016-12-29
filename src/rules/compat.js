@@ -1,6 +1,6 @@
 // @flow
 import Lint from '../Lint';
-import type { ESLintNode } from '../Lint'; // eslint-disable-line
+import type { ESLintNode, Node } from '../Lint'; // eslint-disable-line
 
 
 type ESLint = {
@@ -15,6 +15,12 @@ type Context = {
   },
   report: () => void
 };
+
+function generateErrorName(node: Node): string {
+  if (node.name) return node.name;
+  if (node.property) return `${node.object}.${node.property}()`;
+  return node.object;
+}
 
 export default {
   meta: {
@@ -35,7 +41,7 @@ export default {
     //        into a single list. As of now, every call to lint() must find
     //        all the corresponding AST node rules.
     function lint(node: ESLintNode) {
-      const isValid = Lint(
+      const { isValid, rule } = Lint(
         node,
         context.settings.targets,
         context.settings.polyfills
@@ -43,13 +49,10 @@ export default {
           : undefined
       );
 
-      // HACK: Eventually, we'll have an error message returned from Lint
-      // const { isValid, message } = Lint(context);
-
       if (!isValid) {
         context.report({
           node,
-          message: 'Unsupported API being used'
+          message: `${generateErrorName(rule)} is not supported`
         });
       }
     }

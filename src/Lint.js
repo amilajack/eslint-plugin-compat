@@ -26,11 +26,17 @@ export type Node = {
   id: string,
   object: string,
   property?: string,
+  name?: string,
   isValid: (
     node: Node,
     eslintNode: ESLintNode,
     targets: string[]
   ) => bool
+};
+
+type isValidObject = {
+  rule: Node | bool,
+  isValid: bool
 };
 
 /**
@@ -39,14 +45,19 @@ export type Node = {
 export default function Lint(
   eslintNode: ESLintNode,
   targets: Targets = ['chrome', 'firefox', 'safari', 'edge'],
-  polyfills: Set<string> = new Set()): bool {
+  polyfills: Set<string> = new Set()): isValidObject {
   // Find the corresponding rules for a eslintNode by it's ASTNodeType
-  return rules
+  const foundFailingRule = rules
     .filter((rule: Node): bool =>
       // Validate ASTNodeType
       rule.ASTNodeType === eslintNode.type &&
       // Check if polyfill is provided
       !polyfills.has(rule.id)
     )
-    .every((rule: Node): bool => rule.isValid(rule, eslintNode, targets));
+    // Find the first failing rule
+    .find((rule: Node): bool => !rule.isValid(rule, eslintNode, targets));
+
+  return foundFailingRule
+    ? { rule: foundFailingRule, isValid: false }
+    : { rule: false, isValid: true };
 }
