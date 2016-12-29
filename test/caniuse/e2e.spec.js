@@ -46,28 +46,28 @@ ruleTester.run('compat', rule, {
     {
       code: 'new ServiceWorker()',
       errors: [{
-        message: 'Unsupported API being used',
+        message: 'ServiceWorker is not supported in IE, Edge and Safari. Coverage @ 62%',
         type: 'NewExpression'
       }]
     },
     {
       code: 'new IntersectionObserver(() => {}, {});',
       errors: [{
-        message: 'Unsupported API being used',
+        message: 'IntersectionObserver is not supported in IE, Edge and Safari. Coverage @ 50%',
         type: 'NewExpression'
       }]
     },
     {
       code: 'WebAssembly.compile()',
       errors: [{
-        message: 'Unsupported API being used',
+        message: 'WebAssembly is not supported in IE, Edge and Safari. Coverage @ 0%',
         type: 'MemberExpression'
       }]
     },
     {
       code: 'navigator.serviceWorker',
       errors: [{
-        message: 'Unsupported API being used',
+        message: 'ServiceWorker is not supported in IE, Edge and Safari. Coverage @ 50%',
         type: 'MemberExpression'
       }]
     },
@@ -75,7 +75,7 @@ ruleTester.run('compat', rule, {
       code: 'fetch("google.com")',
       settings: { targets: ['ie'] },
       errors: [{
-        message: 'Unsupported API being used',
+        message: 'fetch is not supported in IE, Edge and Safari. Coverage @ 50%',
         type: 'CallExpression'
       }]
     }

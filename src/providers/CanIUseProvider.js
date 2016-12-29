@@ -13,40 +13,56 @@ type CanIUseRecord = {
   }
 };
 
+export type isValidMessage = {
+  error: bool,
+  message: string
+};
+
 export const supportedTargets: Targets = [
   'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
   'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
   'samsung'
 ];
 
-function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
+function generateErrorName(node: Node): string {
+  if (node.name) return node.name;
+  if (node.property) return `${node.object}.${node.property}()`;
+  return node.object;
+}
+
+const isValidObject = {
+  message: 'Supported',
+  error: false
+};
+
+function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): isValidMessage {
   // Filter non-matching objects and properties
   switch (eslintNode.type) {
     case 'CallExpression':
-      if (!eslintNode.callee) return true;
+      if (!eslintNode.callee) return isValidObject;
       if (
         eslintNode.callee.name !== node.object
-      ) return true;
+      ) return isValidObject;
       break;
     case 'NewExpression':
-      if (!eslintNode.callee) return true;
+      if (!eslintNode.callee) return isValidObject;
       if (
         eslintNode.callee.name !== node.object
-      ) return true;
+      ) return isValidObject;
       break;
     case 'MemberExpression':
       // Pass tests if non-matching object or property
-      if (!eslintNode.object || !eslintNode.property) return true;
-      if (eslintNode.object.name !== node.object) return true;
+      if (!eslintNode.object || !eslintNode.property) return isValidObject;
+      if (eslintNode.object.name !== node.object) return isValidObject;
 
       // If the property is missing from the rule, it means that only the
       // object is required to determine compatability
       if (!node.property) break;
 
-      if (eslintNode.property.name !== node.property) return true;
+      if (eslintNode.property.name !== node.property) return isValidObject;
       break;
     default:
-      return true;
+      return isValidObject;
   }
 
   // Check the CanIUse database to see if targets are supported
@@ -59,7 +75,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
-  return targets.every((target: string): bool => {
+  const ifTargetsSupported = targets.every((target: string): bool => {
     const sortedVersions =
       Object
         // HACK: Sort strings by number value, ex. '12' - '2' === '10'
@@ -71,6 +87,13 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
     return latest !== 'n';
   });
+
+  return ifTargetsSupported
+    ? isValidObject
+    : {
+      message: `${generateErrorName(node)} is not supported in`,
+      error: true
+    };
 }
 
 //
@@ -84,6 +107,7 @@ const CanIUseProvider: Node[] = [
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
     object: 'ServiceWorker',
+    name: 'ServiceWorker',
     isValid
   },
   {
@@ -91,6 +115,7 @@ const CanIUseProvider: Node[] = [
     ASTNodeType: 'MemberExpression',
     object: 'navigator',
     property: 'serviceWorker',
+    name: 'ServiceWorker',
     isValid
   },
   // document.querySelector()
@@ -99,6 +124,7 @@ const CanIUseProvider: Node[] = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'querySelector',
+    name: 'document.querySelector()',
     isValid
   },
   // WebAssembly
