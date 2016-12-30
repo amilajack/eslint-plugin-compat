@@ -48,9 +48,9 @@ export default {
           node,
           message: [
             generateErrorName(rule),
-            'is not supported in',
-            unsupportedTargets.join(', ')
-          ].join(' ')
+            'is not supported in latest', // HACK: 'latest' is hardcoded. should
+            unsupportedTargets.join(', ') //       be resolved dynamically using
+          ].join(' ')                     //       eslintrc config
         });
       }
     }

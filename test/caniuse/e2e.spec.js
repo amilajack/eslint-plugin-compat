@@ -46,28 +46,28 @@ ruleTester.run('compat', rule, {
     {
       code: 'new ServiceWorker()',
       errors: [{
-        message: 'ServiceWorker is not supported in safari, edge',
+        message: 'ServiceWorker is not supported in latest safari, edge',
         type: 'NewExpression'
       }]
     },
     {
       code: 'new IntersectionObserver(() => {}, {});',
       errors: [{
-        message: 'IntersectionObserver is not supported in safari, edge',
+        message: 'IntersectionObserver is not supported in latest safari, edge',
         type: 'NewExpression'
       }]
     },
     {
       code: 'WebAssembly.compile()',
       errors: [{
-        message: 'WebAssembly is not supported in safari, edge',
+        message: 'WebAssembly is not supported in latest safari, edge',
         type: 'MemberExpression'
       }]
     },
     {
       code: 'navigator.serviceWorker',
       errors: [{
-        message: 'navigator.serviceWorker() is not supported in safari, edge',
+        message: 'navigator.serviceWorker() is not supported in latest safari, edge',
         type: 'MemberExpression'
       }]
     },
@@ -75,7 +75,7 @@ ruleTester.run('compat', rule, {
       code: 'fetch("google.com")',
       settings: { targets: ['ie'] },
       errors: [{
-        message: 'fetch is not supported in ie',
+        message: 'fetch is not supported in latest ie',
         type: 'CallExpression'
       }]
     }

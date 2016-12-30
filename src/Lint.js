@@ -11,6 +11,9 @@ export function generateErrorName(_node: Node): string {
 
 /**
  * Return false if a if a rule fails
+ *
+ * TODO: Eventually, targets will default to 'modern', ('chrome@50', safari@8)
+ *       See https://github.com/amilajack/eslint-plugin-compat/wiki#release-200
  */
 export default function Lint(
   eslintNode: ESLintNode,
@@ -33,5 +36,9 @@ export default function Lint(
       isValid: false,
       unsupportedTargets: failingRule.getUnsupportedTargets(failingRule, targets)
     }
-    : { rule: {}, unsupportedTargets: [], isValid: true };
+    : {
+      rule: {},
+      unsupportedTargets: [],
+      isValid: true
+    };
 }
