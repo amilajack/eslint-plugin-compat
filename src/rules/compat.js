@@ -46,7 +46,11 @@ export default {
       if (!isValid) {
         context.report({
           node,
-          message: `${generateErrorName(rule)} is not supported in ${unsupportedTargets.join(', ')}`
+          message: [
+            generateErrorName(rule),
+            'is not supported in',
+            unsupportedTargets.join(', ')
+          ].join(' ')
         });
       }
     }

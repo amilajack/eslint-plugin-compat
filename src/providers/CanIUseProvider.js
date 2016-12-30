@@ -1,7 +1,7 @@
 // @flow
 import path from 'path';
 import { readFileSync } from 'fs';
-import type { Node, ESLintNode, Targets } from '../Lint';
+import type { Node, ESLintNode, Targets } from '../LintTypes';
 
 
 // HACK: modern targets should be determined once at runtime
@@ -51,11 +51,6 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   return getUnsupportedTargets(node, targets).length === 0;
 }
-
-// TODO: Refactor record retrival from isValid. This will make finding the
-//       unsupported browsers of a specific rule much easier. isValid can
-//       return a bool and getUnsupportedEnv can return array of unsupported
-//       environments
 
 /**
  * Return an array of all unsupported targets
