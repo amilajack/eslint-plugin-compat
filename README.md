@@ -12,12 +12,27 @@ eslint-plugin-compat
  - Allow configuration of target browser/s, percentage of feature supported
  - Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) for determining coverage
  - Enable config using `.eslintrc`
+ - See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki)
 ```js
- "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
+"env": {
+  "browser": true,
+  "node": true,
+  "es6": true
+}
+```
+
+## Installation
+```bash
+npm install --save-dev eslint-plugin-compat
+```
+
+Add `'compat'` to `.eslintrc` plugins section:
+```js
+// .eslintrc
+{
+  // ...
+  plugins: ['compat']
+}
 ```
 
 ## Idea
