@@ -49,6 +49,18 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
       return true;
   }
 
+  return getUnsupportedTargets(node, targets).length === 0;
+}
+
+// TODO: Refactor record retrival from isValid. This will make finding the
+//       unsupported browsers of a specific rule much easier. isValid can
+//       return a bool and getUnsupportedEnv can return array of unsupported
+//       environments
+
+/**
+ * Return an array of all unsupported targets
+ */
+export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
   // Check the CanIUse database to see if targets are supported
   const caniuseRecord: CanIUseRecord = JSON.parse(
     readFileSync(path.join(
@@ -59,7 +71,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
-  return targets.every((target: string): bool => {
+  return targets.filter((target: string): bool => {
     const sortedVersions =
       Object
         // HACK: Sort strings by number value, ex. '12' - '2' === '10'
@@ -69,7 +81,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
     const latestVersion = sortedVersions[sortedVersions.length - 1];
     const latest = caniuseRecord[target][latestVersion];
 
-    return latest !== 'n';
+    return latest === 'n';
   });
 }
 
@@ -84,14 +96,16 @@ const CanIUseProvider: Node[] = [
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
     object: 'ServiceWorker',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   {
     id: 'serviceworkers',
     ASTNodeType: 'MemberExpression',
     object: 'navigator',
     property: 'serviceWorker',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // document.querySelector()
   {
@@ -99,28 +113,32 @@ const CanIUseProvider: Node[] = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'querySelector',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // WebAssembly
   {
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
     object: 'WebAssembly',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // IntersectionObserver
   {
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // fetch
   {
     id: 'fetch',
     ASTNodeType: 'CallExpression',
     object: 'fetch',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // document.currentScript()
   {
@@ -128,7 +146,8 @@ const CanIUseProvider: Node[] = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'currentScript',
-    isValid
+    isValid,
+    getUnsupportedTargets
   }
 ];
 
