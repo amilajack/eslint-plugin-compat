@@ -1,6 +1,6 @@
 // /* eslint-disable */
 // // @flow
-import type { Node } from '../Lint';
+import type { Node } from '../LintTypes';
 
 
 const KangaxProvider: Node[] = [];

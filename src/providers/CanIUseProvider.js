@@ -1,7 +1,7 @@
 // @flow
 import path from 'path';
 import { readFileSync } from 'fs';
-import type { Node, ESLintNode, Targets } from '../Lint';
+import type { Node, ESLintNode, Targets } from '../LintTypes';
 
 
 // HACK: modern targets should be determined once at runtime
@@ -18,6 +18,29 @@ export const supportedTargets: Targets = [
   'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
   'samsung'
 ];
+
+const targetNameMappings = {
+  chrome: 'Chrome',
+  firefox: 'Firefox',
+  opera: 'Opera',
+  safari: 'Safari',
+  android: 'Android Browser',
+  ie: 'IE',
+  edge: 'Edge',
+  ios_saf: 'iOS Safari',
+  op_mini: 'Opera Mini',
+  bb: 'Blackberry Browser',
+  op_mob: 'Opera Mobile',
+  and_chr: 'Android Chrome',
+  and_ff: 'Android Firefox',
+  ie_mob: 'IE Mobile',
+  and_uc: 'Android UC Browser',
+  samsung: 'Samsung Browser'
+};
+
+function formatTargetNames(targetName: string): string {
+  return targetNameMappings[targetName];
+}
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
@@ -49,6 +72,13 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
       return true;
   }
 
+  return getUnsupportedTargets(node, targets).length === 0;
+}
+
+/**
+ * Return an array of all unsupported targets
+ */
+export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
   // Check the CanIUse database to see if targets are supported
   const caniuseRecord: CanIUseRecord = JSON.parse(
     readFileSync(path.join(
@@ -59,7 +89,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
-  return targets.every((target: string): bool => {
+  return targets.filter((target: string): bool => {
     const sortedVersions =
       Object
         // HACK: Sort strings by number value, ex. '12' - '2' === '10'
@@ -69,8 +99,9 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
     const latestVersion = sortedVersions[sortedVersions.length - 1];
     const latest = caniuseRecord[target][latestVersion];
 
-    return latest !== 'n';
-  });
+    return latest === 'n';
+  })
+  .map(formatTargetNames);
 }
 
 //
@@ -84,14 +115,16 @@ const CanIUseProvider: Node[] = [
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
     object: 'ServiceWorker',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   {
     id: 'serviceworkers',
     ASTNodeType: 'MemberExpression',
     object: 'navigator',
     property: 'serviceWorker',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // document.querySelector()
   {
@@ -99,28 +132,32 @@ const CanIUseProvider: Node[] = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'querySelector',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // WebAssembly
   {
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
     object: 'WebAssembly',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // IntersectionObserver
   {
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // fetch
   {
     id: 'fetch',
     ASTNodeType: 'CallExpression',
     object: 'fetch',
-    isValid
+    isValid,
+    getUnsupportedTargets
   },
   // document.currentScript()
   {
@@ -128,7 +165,8 @@ const CanIUseProvider: Node[] = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'currentScript',
-    isValid
+    isValid,
+    getUnsupportedTargets
   }
 ];
 

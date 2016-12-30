@@ -10,11 +10,8 @@ eslint-plugin-compat
 
 ## Goals
  - Allow configuration of target browser/s, percentage of feature supported
- - Errors should report with the list of browsers no supported and the percentage of the feature
- - Speed. This may involve caching the caniuse db
- - Only lint against ES features and Web API's that cannot be polyfilled or transpiled
- - Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) as endpoints for determining coverage
- - Check the environment using `.eslintrc` and enable rules like such.
+ - Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) for determining coverage
+ - Enable config using `.eslintrc`
  - See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki)
 ```js
 "env": {
@@ -43,8 +40,8 @@ Add `'compat'` to `.eslintrc` plugins section:
 **Default**
 ```
  22:  navigator.serviceWorker
-                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in IE, Edge and Safari.
-                               Has about 60% browser coverage 😢
+                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in IE 11, Edge 15
+                               and Safari 8 😢
 ```
 
 **Targeting Browsers**
@@ -53,19 +50,16 @@ Add `'compat'` to `.eslintrc` plugins section:
 {
   // ...
   settings: {
-    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // screw IE
-    polyfills: ['simd', 'fetch'],
-    compiler: 'babel'
+    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // Determine target env's
+    polyfills: ['simd', 'fetch'], // Indicate features to be ignored
+    coverage: false, // Show the global coverage of the feature
+    compiler: 'babel' // Warn against usage of API's unsupported by compiler
   }
 }
 ```
 
 **Explicit Error Messages**
 ```
- 22:  navigator.serviceWorker
-                ^^^^^^^^^^^^^ ServiceWorker is not supported in two of your target
-                              browsers: Safari and Edge
-                              
  91:  const some = () => true
                    ^^^^^^^^^^ Arrow Functions are not supported by your babel preset
                               (using .babelrc)
