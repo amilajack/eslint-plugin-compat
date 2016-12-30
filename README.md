@@ -35,9 +35,10 @@ eslint-plugin-compat
 {
   // ...
   settings: {
-    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // screw IE
-    polyfills: ['simd', 'fetch'],
-    compiler: 'babel'
+    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // Determine target env's
+    polyfills: ['simd', 'fetch'], // Indicate features to be ignored
+    coverage: false, // Show the global coverage of the feature
+    compiler: 'babel' // Warn against usage of API's unsupported by compiler
   }
 }
 ```

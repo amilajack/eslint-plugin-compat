@@ -19,6 +19,29 @@ export const supportedTargets: Targets = [
   'samsung'
 ];
 
+const targetNameMappings = {
+  chrome: 'Chrome',
+  firefox: 'Firefox',
+  opera: 'Opera',
+  safari: 'Safari',
+  android: 'Android Browser',
+  ie: 'IE',
+  edge: 'Edge',
+  ios_saf: 'iOS Safari',
+  op_mini: 'Opera Mini',
+  bb: 'Blackberry Browser',
+  op_mob: 'Opera Mobile',
+  and_chr: 'Android Chrome',
+  and_ff: 'Android Firefox',
+  ie_mob: 'IE Mobile',
+  and_uc: 'Android UC Browser',
+  samsung: 'Samsung Browser'
+};
+
+function formatTargetNames(targetName: string): string {
+  return targetNameMappings[targetName];
+}
+
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
   switch (eslintNode.type) {
@@ -77,7 +100,8 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
     const latest = caniuseRecord[target][latestVersion];
 
     return latest === 'n';
-  });
+  })
+  .map(formatTargetNames);
 }
 
 //
