@@ -22,10 +22,6 @@ ruleTester.run('compat', rule, {
     },
     {
       code: 'WebAssembly.compile()',
-      settings: { targets: ['chrome', 'firefox'] }
-    },
-    {
-      code: 'WebAssembly.compile()',
       settings: { polyfills: ['wasm'] }
     },
     {
@@ -60,8 +56,16 @@ ruleTester.run('compat', rule, {
     {
       code: 'WebAssembly.compile()',
       errors: [{
-        message: 'WebAssembly is not supported in latest Safari, Edge',
+        message: 'WebAssembly is not supported in latest Chrome, Firefox, Safari, Edge',
         type: 'MemberExpression'
+      }]
+    },
+    {
+      code: 'new PaymentRequest(methodData, details, options)',
+      settings: { targets: ['chrome'] },
+      errors: [{
+        message: 'PaymentRequest is not supported in latest Chrome',
+        type: 'NewExpression'
       }]
     },
     {

@@ -99,7 +99,7 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
     const latestVersion = sortedVersions[sortedVersions.length - 1];
     const latest = caniuseRecord[target][latestVersion];
 
-    return latest === 'n';
+    return latest.includes('n');
   })
   .map(formatTargetNames);
 }
@@ -148,6 +148,14 @@ const CanIUseProvider: Node[] = [
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
+    isValid,
+    getUnsupportedTargets
+  },
+  // IntersectionObserver
+  {
+    id: 'payment-request',
+    ASTNodeType: 'NewExpression',
+    object: 'PaymentRequest',
     isValid,
     getUnsupportedTargets
   },
