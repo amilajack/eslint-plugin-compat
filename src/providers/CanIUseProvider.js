@@ -5,7 +5,7 @@ import type { Node, ESLintNode, Targets } from '../LintTypes';
 
 
 type TargetMetadata = {
-  // adsf
+  // List of modern targets
   modern: Array<string>,
   // The list of targets supported by the provider
   targets: Targets
