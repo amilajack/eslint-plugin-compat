@@ -4,20 +4,30 @@ import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../LintTypes';
 
 
+type TargetMetadata = {
+  // adsf
+  modern: Array<string>,
+  // The list of targets supported by the provider
+  targets: Targets
+  // Return a list of unsupported browsers
+  // TODO: latest: (versions: Array<string>) => Array<string>
+};
+
 // HACK: modern targets should be determined once at runtime
-export const modern = ['chrome >= 50', 'safari >= 8', 'firefox >= 44'];
+export const targetMetadata: TargetMetadata = {
+  modern: ['chrome 40', 'safari 8', 'firefox 44'],
+  targets: [
+    'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
+    'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
+    'samsung'
+  ]
+};
 
 type CanIUseRecord = {
   [x: string]: {
     [x: string]: string
   }
 };
-
-export const supportedTargets: Targets = [
-  'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
-  'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
-  'samsung'
-];
 
 const targetNameMappings = {
   chrome: 'Chrome',
