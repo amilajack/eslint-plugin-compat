@@ -151,7 +151,7 @@ const CanIUseProvider: Node[] = [
     isValid,
     getUnsupportedTargets
   },
-  // IntersectionObserver
+  // PaymentRequest
   {
     id: 'payment-request',
     ASTNodeType: 'NewExpression',
