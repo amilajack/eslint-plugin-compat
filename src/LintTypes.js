@@ -1,5 +1,3 @@
-export type Targets = string[];
-
 export type node = {
   type?: string,
   name?: string

@@ -4,20 +4,30 @@ import { readFileSync } from 'fs';
 import type { Node, ESLintNode, Targets } from '../LintTypes';
 
 
+type TargetMetadata = {
+  // List of modern targets
+  modern: Array<string>,
+  // The list of targets supported by the provider
+  targets: Targets
+  // Return a list of unsupported browsers
+  // TODO: latest: (versions: Array<string>) => Array<string>
+};
+
 // HACK: modern targets should be determined once at runtime
-export const modern = ['chrome >= 50', 'safari >= 8', 'firefox >= 44'];
+export const targetMetadata: TargetMetadata = {
+  modern: ['chrome 40', 'safari 8', 'firefox 44'],
+  targets: [
+    'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
+    'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
+    'samsung'
+  ]
+};
 
 type CanIUseRecord = {
   [x: string]: {
     [x: string]: string
   }
 };
-
-export const supportedTargets: Targets = [
-  'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
-  'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
-  'samsung'
-];
 
 const targetNameMappings = {
   chrome: 'Chrome',
@@ -99,7 +109,7 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
     const latestVersion = sortedVersions[sortedVersions.length - 1];
     const latest = caniuseRecord[target][latestVersion];
 
-    return latest === 'n';
+    return latest.includes('n');
   })
   .map(formatTargetNames);
 }
@@ -148,6 +158,14 @@ const CanIUseProvider: Node[] = [
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
+    isValid,
+    getUnsupportedTargets
+  },
+  // PaymentRequest
+  {
+    id: 'payment-request',
+    ASTNodeType: 'NewExpression',
+    object: 'PaymentRequest',
     isValid,
     getUnsupportedTargets
   },
