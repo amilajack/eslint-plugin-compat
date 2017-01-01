@@ -1,8 +1,7 @@
-/* eslint-disable */
-
 /**
  * @fileoverview some
  * @author Amila Welihinda
+ * @flow
  */
 
 
@@ -10,7 +9,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import requireIndex from 'requireindex';
+import requireIndex from 'requireindex'; // eslint-disable-line flowtype-errors/show-errors
+import recommended from './config/recommended.json';
+
+
+export const config = {
+  recommended
+};
 
 //------------------------------------------------------------------------------
 // Plugin Definition
