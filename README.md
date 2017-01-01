@@ -8,6 +8,8 @@ eslint-plugin-compat
 
 **⚠️ WORK IN PROGRESS ⚠️**
 
+![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/eslint-plugin-compat-demo.gif)
+
 ## Goals
  - Allow configuration of target browser/s, percentage of feature supported
  - Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) for determining coverage
