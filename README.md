@@ -6,8 +6,6 @@ eslint-plugin-compat
 [![Dependency Status](https://img.shields.io/david/amilajack/eslint-plugin-compat.svg)](https://david-dm.org/amilajack/eslint-plugin-compat)
 [![npm](https://img.shields.io/npm/dm/eslint-plugin-compat.svg)](https://npm-stat.com/charts.html?package=eslint-plugin-compat)
 
-**⚠️ WORK IN PROGRESS ⚠️**
-
 ![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/eslint-plugin-compat-demo.gif)
 
 ## Goals
