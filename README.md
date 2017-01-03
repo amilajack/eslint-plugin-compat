@@ -9,29 +9,26 @@ eslint-plugin-compat
 ![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/eslint-plugin-compat-demo.gif)
 
 ## Goals
- - Allow configuration of target browser/s, percentage of feature supported
- - Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) for determining coverage
- - Enable config using `.eslintrc`
- - See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki)
-```js
-"env": {
-  "browser": true,
-  "node": true,
-  "es6": true
-}
-```
+ - [x] Allow configuration of target browser/s
+ - [x] Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) for determining coverage
+ - [x] Enable config using `.eslintrc`
+
+See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for more details
 
 ## Installation
 ```bash
 npm install --save-dev eslint-plugin-compat
 ```
 
-Add `'compat'` to `.eslintrc` plugins section:
+Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`:
 ```js
 // .eslintrc
 {
   // ...
-  plugins: ['compat']
+  "env": {
+    "browser": true
+  },
+  "plugins": ["compat"]
 }
 ```
 
