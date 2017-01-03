@@ -29,7 +29,11 @@ Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"en
   "env": {
     "browser": true
   },
-  "plugins": ["compat"]
+  "plugins": ["compat"],
+  "rules": {
+    // ...
+    "compat/compat": 2
+  }
 }
 ```
 
