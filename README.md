@@ -60,6 +60,9 @@ Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"en
 }
 ```
 
+## Adding Polyfills
+[See wiki](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
+
 **Explicit Error Messages**
 ```
  91:  const some = () => true
