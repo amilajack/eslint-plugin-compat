@@ -10,7 +10,7 @@ eslint-plugin-compat
 
 ## Goals
  - [x] Allow configuration of target browser/s
- - [x] Use [caniuse](http://caniuse.com) and [@kangax's compta table](http://kangax.github.io/compat-table/es6/) for determining coverage
+ - [x] Use [caniuse](http://caniuse.com) and [@kangax's compat table](http://kangax.github.io/compat-table/es6/) for determining coverage
  - [x] Enable config using `.eslintrc`
 
 See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for more details
