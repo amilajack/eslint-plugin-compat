@@ -12,6 +12,7 @@ eslint-plugin-compat
  - [x] Allow configuration of target browser/s
  - [x] Use [caniuse](http://caniuse.com) and [@kangax's compat table](http://kangax.github.io/compat-table/es6/) for determining coverage
  - [x] Enable config using `.eslintrc`
+ - [ ] Babel integration (using `babel-preset-env` config)
 
 See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for more details
 
@@ -63,4 +64,6 @@ Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"en
 ```
 
 ## Inspiration
-This project was inspired by a two hour argument I had with someone on the experience of web development and if it is terrible or not. The premise they argued was that `x` browser doesn't support `y` feature while `z` browser does. Eventually, I agreed with him on this and checked made this plugin to save web developers from having to memorize browser compatibility of specs.
+Toolchains for native platforms, like iOS and Android, have had API linting from the start. It's about time that the web had similar tooling.
+
+This project was inspired by a two hour conversation I had with someone on the experience of web development and if it is terrible or not. The premise they argued was that `x` browser doesn't support `y` feature while `z` browser does. Eventually, I agreed with him on this and checked made this plugin to save web developers from having to memorize browser compatibility of specs.
