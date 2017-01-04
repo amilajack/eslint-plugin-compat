@@ -19,8 +19,8 @@ type Context = {
 export default {
   meta: {
     docs: {
-      description: 'Ensure cross-browser API compatability',
-      category: 'Compatability',
+      description: 'Ensure cross-browser API compatibility',
+      category: 'Compatibility',
       recommended: true
     },
     fixable: 'code',
