@@ -73,7 +73,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
       if (eslintNode.object.name !== node.object) return true;
 
       // If the property is missing from the rule, it means that only the
-      // object is required to determine compatability
+      // object is required to determine compatibility
       if (!node.property) break;
 
       if (eslintNode.property.name !== node.property) return true;
