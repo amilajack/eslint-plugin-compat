@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 import requireIndex from 'requireindex'; // eslint-disable-line flowtype-errors/show-errors
-import recommended from './config/recommended.json';
+import recommended from './config/recommended';
 
 
 export const config = {
