@@ -21,7 +21,9 @@ See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for m
 npm install --save-dev eslint-plugin-compat
 ```
 
-Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`:
+Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`
+
+If you use **typescript**, see [typescript-eslint-parser](https://github.com/eslint/typescript-eslint-parser).
 ```js
 // .eslintrc
 {
