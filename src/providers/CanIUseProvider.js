@@ -13,6 +13,21 @@ type TargetMetadata = {
   // TODO: latest: (versions: Array<string>) => Array<string>
 };
 
+type CanIUseRecord = {
+  data: {
+    [x: string]: {
+      [x: string]: string
+    }
+  }
+};
+
+const caniuseRecord: CanIUseRecord = JSON.parse(
+  readFileSync(path.join(
+    __dirname,
+    './caniuse/fulldata-json/data-2.0.json'
+  )).toString()
+);
+
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
   modern: ['chrome 40', 'safari 8', 'firefox 44'],
@@ -21,12 +36,6 @@ export const targetMetadata: TargetMetadata = {
     'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
     'samsung'
   ]
-};
-
-type CanIUseRecord = {
-  [x: string]: {
-    [x: string]: string
-  }
 };
 
 const targetNameMappings = {
@@ -90,12 +99,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
  */
 export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
   // Check the CanIUse database to see if targets are supported
-  const caniuseRecord: CanIUseRecord = JSON.parse(
-    readFileSync(path.join(
-      __dirname,
-      `./caniuse/features-json/${node.id}.json`
-    )).toString()
-  ).stats;
+  const { stats } = caniuseRecord.data[node.id];
 
   // Check if targets are supported. By default, get the latest version of each
   // target environment
@@ -103,11 +107,11 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
     const sortedVersions =
       Object
         // HACK: Sort strings by number value, ex. '12' - '2' === '10'
-        .keys(caniuseRecord[target]) // eslint-disable-line
+        .keys(stats[target]) // eslint-disable-line
         .sort((a: number, b: number): number => a - b);
 
     const latestVersion = sortedVersions[sortedVersions.length - 1];
-    const latest = caniuseRecord[target][latestVersion];
+    const latest = stats[target][latestVersion];
 
     return latest.includes('n');
   })
