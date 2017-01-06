@@ -49,7 +49,7 @@ ruleTester.run('compat', rule, {
     {
       code: 'new IntersectionObserver(() => {}, {});',
       errors: [{
-        message: 'IntersectionObserver is not supported in latest Safari, Edge',
+        message: 'IntersectionObserver is not supported in latest Firefox, Safari',
         type: 'NewExpression'
       }]
     },
