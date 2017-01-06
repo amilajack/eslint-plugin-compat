@@ -31,7 +31,7 @@
     "clone-caniuse" : "wget https://raw.githubusercontent.com/Fyrd/caniuse/master/fulldata-json/data-2.0.json && mkdir -p src/providers/caniuse/fulldata-json && mv data-2.0.json src/providers/caniuse/fulldata-json/data-2.0.json",
     "lint": "eslint --cache --ignore-path .gitignore .eslintignore --format=node_modules/eslint-formatter-pretty . *.js",
     "spec": "jest",
-    "test": "cross-env NODE_ENV=test npm run clone-caniuse && npm run lint && npm run spec && npm run build",
+    "test": "cross-env NODE_ENV=test npm run lint && npm run spec && npm run build",
     "version": "npm run build"
   },
   "jest": {
