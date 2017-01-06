@@ -9,6 +9,7 @@ test_script:
   - yarn test
 
 install:
+  - choco install wget
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - yarn
