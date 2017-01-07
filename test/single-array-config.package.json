@@ -1,0 +1,9 @@
+{
+  "browsers": [
+    ">1%",
+    "last 4 versions",
+    "last 10 chrome version",
+    "Firefox ESR",
+    "not ie < 9"
+  ]
+}

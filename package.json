@@ -28,9 +28,10 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir lib && cp -r src/providers/caniuse lib/providers/caniuse",
-    "lint": "eslint --cache --ignore-path .gitignore .eslintignore --format=node_modules/eslint-formatter-pretty . *.js",
+    "lint": "eslint --cache --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty .",
     "spec": "jest",
-    "test": "cross-env NODE_ENV=test npm run lint && npm run spec && npm run build",
+    "flow": "flow",
+    "test": "cross-env NODE_ENV=test npm run lint && npm run flow && npm run spec && npm run build",
     "version": "npm run build"
   },
   "jest": {
@@ -48,7 +49,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.18.0",
-    "chai": "^3.5.0",
+    "browserslist": "^1.5.2",
     "cross-env": "^3.1.4",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",

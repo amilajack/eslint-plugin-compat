@@ -3,6 +3,13 @@ export type node = {
   name?: string
 };
 
+export type Target = {
+  target: string,
+  version: number | string | 'all'
+};
+
+export type Targets = Array<Target>;
+
 export type ESLintNode = {
   object?: node,
   property?: node,

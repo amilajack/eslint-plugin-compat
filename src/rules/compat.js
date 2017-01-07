@@ -1,6 +1,8 @@
 // @flow
+import path from 'path';
 import Lint, { generateErrorName } from '../Lint';
-import type { ESLintNode, Node } from '../Lint'; // eslint-disable-line
+import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
+import type { ESLintNode, Node } from '../LintTypes'; // eslint-disable-line
 
 
 type ESLint = {
@@ -15,6 +17,15 @@ type Context = {
   },
   report: () => void
 };
+
+export type BrowserListConfig =
+  Array<string> |
+  {
+    production?: Array<string>,
+    development?: Array<string>
+  } |
+  null;
+
 
 export default {
   meta: {
@@ -34,10 +45,25 @@ export default {
     // FIXME: Another performance enhancement includes collecting all the rules
     //        into a single list. As of now, every call to lint() must find
     //        all the corresponding AST node rules.
+
+    // Get the path to user's package.json
+    const packageJSON = require(path.join(__dirname, '../../package.json')) || {}; // eslint-disable-line
+
+    // Attempt to set the config
+    const browserslistConfig: BrowserListConfig =
+      packageJSON.browsers ||
+      packageJSON.targets ||
+      packageJSON.targets ||
+      context.settings.browsers ||
+      ['last 2 versions'];
+
+    // Determine lowest targets from browserslist config
+    const browserslistTargets = Versioning(DetermineTargetsFromConfig(browserslistConfig));
+
     function lint(node: ESLintNode) {
       const { isValid, rule, unsupportedTargets } = Lint(
         node,
-        context.settings.targets,
+        browserslistTargets,
         context.settings.polyfills
           ? new Set(context.settings.polyfills)
           : undefined
@@ -48,9 +74,9 @@ export default {
           node,
           message: [
             generateErrorName(rule),
-            'is not supported in latest', // HACK: 'latest' is hardcoded. should
-            unsupportedTargets.join(', ') //       be resolved dynamically using
-          ].join(' ')                     //       eslintrc config
+            'is not supported in',
+            unsupportedTargets.join(', ')
+          ].join(' ')
         });
       }
     }
