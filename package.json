@@ -27,7 +27,7 @@
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
-    "build": "cross-env NODE_ENV=production babel src --out-dir lib && cp -r src/providers/caniuse lib/providers/caniuse",
+    "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib && cp -r src/providers/caniuse lib/providers/caniuse",
     "lint": "eslint --cache --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty .",
     "clone-caniuse": "wget https://raw.githubusercontent.com/Fyrd/caniuse/master/fulldata-json/data-2.0.json && mkdir -p src/providers/caniuse/fulldata-json && mv data-2.0.json src/providers/caniuse/fulldata-json/data-2.0.json",
     "spec": "jest",
@@ -70,6 +70,8 @@
   },
   "dependencies": {
     "babel-runtime": "^6.20.0",
+    "find-up": "^2.1.0",
+    "read-pkg-up": "^2.0.0",
     "requireindex": "^1.1.0"
   },
   "peerDependencies": {

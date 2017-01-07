@@ -1,5 +1,4 @@
 // @flow
-import path from 'path';
 import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
 import type { ESLintNode, Node } from '../LintTypes'; // eslint-disable-line
@@ -12,9 +11,10 @@ type ESLint = {
 type Context = {
   node: ESLintNode,
   settings: {
-    targets: Array<string>,
+    browsers: Array<string>,
     polyfills: Array<string>
   },
+  getFilename: () => string,
   report: () => void
 };
 
@@ -38,26 +38,12 @@ export default {
     schema: []
   },
   create(context: Context): ESLint {
-    // FIXME: lint() creates a new Set on every invocation. Fix this by removing
-    //        creating a single set and passing a refrence lint() a reference
-    //        to it
-    //
-    // FIXME: Another performance enhancement includes collecting all the rules
-    //        into a single list. As of now, every call to lint() must find
-    //        all the corresponding AST node rules.
-
-    // Get the path to user's package.json
-    const packageJSON = require(path.join(__dirname, '../../package.json')) || {}; // eslint-disable-line
-
-    // Attempt to set the config
+    // Determine lowest targets from browserslist config, which reads user's
+    // package.json config section. Use config from eslintrc for testing purposes
     const browserslistConfig: BrowserListConfig =
-      packageJSON.browsers ||
-      packageJSON.targets ||
       context.settings.browsers ||
-      context.settings.targets ||
-      ['last 2 versions'];
+      context.settings.targets;
 
-    // Determine lowest targets from browserslist config
     const browserslistTargets = Versioning(DetermineTargetsFromConfig(browserslistConfig));
 
     function lint(node: ESLintNode) {

@@ -12,7 +12,7 @@ eslint-plugin-compat
  - [x] Allow configuration of target browser/s
  - [x] Use [caniuse](http://caniuse.com) and [@kangax's compat table](http://kangax.github.io/compat-table/es6/) for determining coverage
  - [x] Enable config using `.eslintrc`
- - [ ] Babel integration (using `babel-preset-env` config)
+ - [x] `browserslist` integration (using `package.json`)
 
 See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for more details
 
@@ -48,29 +48,25 @@ If you use **typescript**, see [typescript-eslint-parser](https://github.com/esl
                                and Safari 8 😢
 ```
 
-**Targeting Browsers**
+## Targeting Browsers
+`eslint-plugin-compat` uses the browserslist configuration in `package.json`
+
+See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Here's some examples:
+
 ```js
-// .eslintrc
 {
-  // ...
-  settings: {
-    targets: ['chrome >= 50', 'firefox', 'edge', 'safari >= 9'], // Determine target env's
-    polyfills: ['simd', 'fetch'], // Indicate features to be ignored
-    coverage: false, // Show the global coverage of the feature
-    compiler: 'babel' // Warn against usage of API's unsupported by compiler
+  // Simple configuration
+  "browserslist": ["last 1 versions", "not ie <= 8"],
+  // Use development and production configurations
+  "browserslist": {
+    "development": ["last 2 versions"],
+    "production": ["last 4 versions"]
   }
 }
 ```
 
 ## Adding Polyfills
-[See wiki](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
-
-**Explicit Error Messages**
-```
- 91:  const some = () => true
-                   ^^^^^^^^^^ Arrow Functions are not supported by your babel preset
-                              (using .babelrc)
-```
+[See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
 
 ## Inspiration
 Toolchains for native platforms, like iOS and Android, have had API linting from the start. It's about time that the web had similar tooling.
