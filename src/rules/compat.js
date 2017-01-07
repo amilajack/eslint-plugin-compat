@@ -53,8 +53,8 @@ export default {
     const browserslistConfig: BrowserListConfig =
       packageJSON.browsers ||
       packageJSON.targets ||
-      packageJSON.targets ||
       context.settings.browsers ||
+      context.settings.targets ||
       ['last 2 versions'];
 
     // Determine lowest targets from browserslist config
