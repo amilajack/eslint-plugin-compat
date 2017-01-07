@@ -54,10 +54,17 @@ If you use **typescript**, see [typescript-eslint-parser](https://github.com/esl
 See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Here's some examples:
 
 ```js
+// Simple configuration (package.json)
 {
-  // Simple configuration
+  // ...
   "browserslist": ["last 1 versions", "not ie <= 8"],
-  // Use development and production configurations
+}
+```
+
+```js
+// Use development and production configurations (package.json)
+{
+  // ...
   "browserslist": {
     "development": ["last 2 versions"],
     "production": ["last 4 versions"]
