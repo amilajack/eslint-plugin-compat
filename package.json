@@ -29,9 +29,11 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir lib && cp -r src/providers/caniuse lib/providers/caniuse",
     "lint": "eslint --cache --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty .",
+    "clone-caniuse": "wget https://raw.githubusercontent.com/Fyrd/caniuse/master/fulldata-json/data-2.0.json && mkdir -p src/providers/caniuse/fulldata-json && mv data-2.0.json src/providers/caniuse/fulldata-json/data-2.0.json",
     "spec": "jest",
     "flow": "flow",
-    "test": "cross-env NODE_ENV=test npm run lint && npm run flow && npm run spec && npm run build",
+    "flow-typed": "flow-typed install",
+    "test": "cross-env NODE_ENV=test npm run lint && npm run spec && npm run build",
     "version": "npm run build"
   },
   "jest": {
@@ -62,6 +64,7 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-react": "^6.8.0",
     "flow-bin": "^0.37.4",
+    "flow-typed": "latest",
     "jest-cli": "^18.1.0",
     "tcomb": "^3.2.16"
   },
