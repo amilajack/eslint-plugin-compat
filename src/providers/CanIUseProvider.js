@@ -1,16 +1,12 @@
 // @flow
 import path from 'path';
 import { readFileSync } from 'fs';
-import type { Node, ESLintNode, Targets } from '../LintTypes';
+import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
 
 
 type TargetMetadata = {
-  // List of modern targets
-  modern: Array<string>,
   // The list of targets supported by the provider
   targets: Targets
-  // Return a list of unsupported browsers
-  // TODO: latest: (versions: Array<string>) => Array<string>
 };
 
 type CanIUseRecord = {
@@ -22,15 +18,14 @@ type CanIUseRecord = {
 };
 
 const caniuseRecord: CanIUseRecord = JSON.parse(
-  readFileSync(path.join(
-    __dirname,
-    './caniuse/fulldata-json/data-2.0.json'
-  )).toString()
+  readFileSync(
+    path.join(__dirname, './caniuse/fulldata-json/data-2.0.json')
+  )
+  .toString()
 );
 
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
-  modern: ['chrome 40', 'safari 8', 'firefox 44'],
   targets: [
     'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
     'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
@@ -57,8 +52,8 @@ const targetNameMappings = {
   samsung: 'Samsung Browser'
 };
 
-function formatTargetNames(targetName: string): string {
-  return targetNameMappings[targetName];
+function formatTargetNames(targetName: Target): string {
+  return `${targetNameMappings[targetName.target]} ${targetName.version}`;
 }
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
@@ -101,21 +96,11 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
   // Check the CanIUse database to see if targets are supported
   const { stats } = caniuseRecord.data[node.id];
 
-  // Check if targets are supported. By default, get the latest version of each
-  // target environment
-  return targets.filter((target: string): bool => {
-    const sortedVersions =
-      Object
-        // HACK: Sort strings by number value, ex. '12' - '2' === '10'
-        .keys(stats[target]) // eslint-disable-line
-        .sort((a: number, b: number): number => a - b);
-
-    const latestVersion = sortedVersions[sortedVersions.length - 1];
-    const latest = stats[target][latestVersion];
-
-    return latest.includes('n');
-  })
-  .map(formatTargetNames);
+  return targets
+    .filter(
+      (target: Target): bool => stats[target.target][`${target.version}`].includes('n')
+    )
+    .map(formatTargetNames);
 }
 
 //
