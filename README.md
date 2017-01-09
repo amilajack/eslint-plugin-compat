@@ -72,6 +72,8 @@ See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Her
 }
 ```
 
+:bulb: You can also define browsers in a [separate browserslist file](https://github.com/ai/browserslist#config-file)
+
 ## Adding Polyfills
 [See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
 
@@ -79,3 +81,6 @@ See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Her
 Toolchains for native platforms, like iOS and Android, have had API linting from the start. It's about time that the web had similar tooling.
 
 This project was inspired by a two hour conversation I had with someone on the experience of web development and if it is terrible or not. The premise they argued was that `x` browser doesn't support `y` feature while `z` browser does. Eventually, I agreed with him on this and checked made this plugin to save web developers from having to memorize browser compatibility of specs.
+
+## Demo
+For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)

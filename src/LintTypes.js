@@ -35,12 +35,12 @@ export type Node = {
   isValid: (
     node: Node,
     eslintNode: ESLintNode,
-    targets: string[]
+    targets: Array<string>
   ) => bool
 };
 
 export type isValidObject = {
-  rule: Node | Object, // eslint-disable-line flowtype/no-weak-types
+  rule: Node,
   isValid: bool,
   unsupportedTargets: Array<string>
 };
