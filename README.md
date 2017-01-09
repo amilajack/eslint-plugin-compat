@@ -72,6 +72,8 @@ See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Her
 }
 ```
 
+:bulb: You can also define browsers in a [separate browserslist file](https://github.com/ai/browserslist#config-file)
+
 ## Adding Polyfills
 [See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
 

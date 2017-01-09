@@ -46,7 +46,8 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
             : parseFloat(version, 10)
       };
     })
-    // Sort the targets by target name and then version number in ascending order
+    // Sort the targets by target name and then version number in descending order
+    // ex. [a@3, b@3, a@1] => [a@3, a@1, b@3]
     .sort((a: TargetListItem, b: TargetListItem): number => {
       if (b.target === a.target) {
         // If any version === 'all', return 0. The only version of op_mini is 'all'

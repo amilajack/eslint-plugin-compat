@@ -52,9 +52,28 @@ const targetNameMappings = {
   samsung: 'Samsung Browser'
 };
 
-function formatTargetNames(targetName: Target): string {
-  return `${targetNameMappings[targetName.target]} ${targetName.version}`;
+/**
+ * Take a target's id and return it's full name by using `targetNameMappings`
+ * ex. {target: and_ff, version: 40} => 'Android FireFox 40'
+ */
+function formatTargetNames(target: Target): string {
+  return `${targetNameMappings[target.target]} ${target.version}`;
 }
+
+/**
+ * Return an array of all unsupported targets
+ */
+export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
+  // Check the CanIUse database to see if targets are supported
+  const { stats } = caniuseRecord.data[node.id];
+
+  return targets
+    .filter(
+      (target: Target): bool => stats[target.target][target.version].includes('n')
+    )
+    .map(formatTargetNames);
+}
+
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
@@ -87,20 +106,6 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   }
 
   return getUnsupportedTargets(node, targets).length === 0;
-}
-
-/**
- * Return an array of all unsupported targets
- */
-export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
-  // Check the CanIUse database to see if targets are supported
-  const { stats } = caniuseRecord.data[node.id];
-
-  return targets
-    .filter(
-      (target: Target): bool => stats[target.target][target.version].includes('n')
-    )
-    .map(formatTargetNames);
 }
 
 //

@@ -1,102 +1,43 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:fp/recommended",
+    "plugin:flowtype/recommended"
+  ],
   "env": {
     "node": true,
     "jest": true
   },
   "rules": {
     "arrow-parens": 0,
-    "class-methods-use-this": 0,          # HACK: Classes will be replaced by pure fn's
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": [2, "never"],
     "consistent-return": 2,
-    "func-names": 2,
-    "flowtype-errors/show-errors": 2,
-    "fp/no-class": "off",
-    "fp/no-delete": "off",
-    "fp/no-events": "off",
-    "fp/no-let": "off",
-    "fp/no-loops": "off",
-    "fp/no-mutating-assign": "off",
-    "fp/no-mutation": "off",
-    "fp/no-nil": "off",
-    "fp/no-proxy": "off",
-    "fp/no-this": "off",
-    "fp/no-throw": "off",
-    "fp/no-unused-expression": "off",
-    "generator-star-spacing": [0],        # HACK: https://github.com/airbnb/javascript/issues/948
-    "import/no-extraneous-dependencies": ["off"],
-    "import/extensions": 0,
-    "import/no-unresolved": [2, { "ignore": ["electron"] }],
-    "new-cap": 0,
-    "no-implicit-coercion": "error",
-    "no-mixed-operators": 0,
-    "no-plusplus": 0,
-    "no-use-before-define": 0,
-    "no-nested-ternary": 0,
-    "no-underscore-dangle": 0,
-    "no-var": "error",
-    "semi": ["error", "always"],
-    "promise/param-names": 2,
-    "promise/always-return": 2,
-    "promise/catch-or-return": 2,
-    "promise/no-native": 0,
     "flowtype/boolean-style": [
       2,
       "bool"
     ],
-    "flowtype/define-flow-type": 2,
-    "flowtype/delimiter-dangle": [
-      2,
-      "never"
-    ],
-    "flowtype/generic-spacing": [
-      2,
-      "never"
-    ],
-    "flowtype/no-primitive-constructor-types": 2,
-    "flowtype/no-weak-types": 2,
-    "flowtype/object-type-delimiter": [
-      2,
-      "comma"
-    ],
-    "flowtype/require-parameter-type": 2,
-    "flowtype/require-return-type": [
-      2,
-      "always",
-      {
-        "annotateUndefined": "never"
-      }
-    ],
-    "flowtype/require-valid-file-annotation": 2,
-    "flowtype/semi": [
-      2,
-      "always"
-    ],
-    "flowtype/space-after-type-colon": [
-      2,
-      "always"
-    ],
-    "flowtype/space-before-generic-bracket": [
-      2,
-      "never"
-    ],
-    "flowtype/space-before-type-colon": [
-      2,
-      "never"
-    ],
-    "flowtype/union-intersection-spacing": [
-      2,
-      "always"
-    ],
-    "flowtype/use-flow-type": 2,
-    "flowtype/valid-syntax": 2
+    "flowtype-errors/show-errors": 2,
+    "fp/no-nil": 0,
+    "fp/no-mutating-methods": 0,
+    "fp/no-unused-expression": 0,
+    "no-nested-ternary": 0,
+    "no-var": 2,
+    "promise/always-return": 2,
+    "promise/no-return-wrap": 2,
+    "promise/param-names": 2,
+    "promise/catch-or-return": 2,
+    "promise/no-native": "off",
+    "promise/no-nesting": 2,
+    "promise/no-promise-in-callback": 2,
+    "promise/no-callback-in-promise": 2,
+    "promise/avoid-new": 2,
+    "semi": [2, "always"]
   },
   "plugins": [
-    "import",
-    "fp",
-    "promise",
     "flowtype",
-    "flowtype-errors"
+    "flowtype-errors",
+    "fp",
+    "promise"
   ]
 }

@@ -1,5 +1,4 @@
-// /* eslint-disable */
-// // @flow
+// @flow
 import type { Node } from '../LintTypes';
 
 
