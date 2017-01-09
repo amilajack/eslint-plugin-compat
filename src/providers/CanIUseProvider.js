@@ -113,7 +113,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 // TODO: Refactor isValid(), remove from rules
 //
 
-const CanIUseProvider: Node[] = [
+const CanIUseProvider: Array<Node> = [
   // new ServiceWorker()
   {
     id: 'serviceworkers',

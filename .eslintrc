@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "airbnb",
+    "airbnb-base",
     "plugin:fp/recommended",
     "plugin:flowtype/recommended"
   ],

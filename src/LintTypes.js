@@ -35,7 +35,7 @@ export type Node = {
   isValid: (
     node: Node,
     eslintNode: ESLintNode,
-    targets: string[]
+    targets: Array<string>
   ) => bool
 };
 
