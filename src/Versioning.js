@@ -5,13 +5,14 @@ import type { BrowserListConfig } from './rules/compat';
 
 type TargetListItem = {
   target: string,
-  version: number | string | 'all'
+  parsedVersion: number,
+  version: string | 'all'
 };
 
 /**
  * Determine the targets based on the browserslist config object
  */
-export default function DetermineTargetsFromConfig(config: BrowserListConfig): Array<string> {
+export default function DetermineTargetsFromConfig(config?: BrowserListConfig): Array<string> {
   if (Array.isArray(config)) {
     return browserslist(config);
   }
@@ -23,7 +24,7 @@ export default function DetermineTargetsFromConfig(config: BrowserListConfig): A
     ]);
   }
 
-  return browserslist(['last 2 versions']);
+  return browserslist();
 }
 
 /**
@@ -32,15 +33,17 @@ export default function DetermineTargetsFromConfig(config: BrowserListConfig): A
  */
 export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
   return targetslist
+    // Sort the targets by target name and then version number in ascending order
     .map((e: string): TargetListItem => {
       const [target, version] = e.split(' ');
       return {
         target,
-        version: version === 'all'
-                  ? 'all'
-                  : version.includes('-')
-                    ? parseFloat(version.split('-')[0])
-                    : parseFloat(version, 10)
+        version,
+        parsedVersion: version === 'all'
+          ? 0
+          : version.includes('-')
+            ? parseFloat(version.split('-')[0])
+            : parseFloat(version, 10)
       };
     })
     // Sort the targets by target name and then version number in ascending order
@@ -49,11 +52,11 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
         // If any version === 'all', return 0. The only version of op_mini is 'all'
         // Otherwise, compare the versions
         return (
-          typeof b.version === 'string' ||
-          typeof a.version === 'string'
+          typeof b.parsedVersion === 'string' ||
+          typeof a.parsedVersion === 'string'
         )
         ? 0
-        : b.version - a.version;
+        : b.parsedVersion - a.parsedVersion;
       }
       return b.target > a.target ? 1 : -1;
     })

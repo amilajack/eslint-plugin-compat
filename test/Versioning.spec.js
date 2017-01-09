@@ -10,19 +10,19 @@ describe('Versioning', () => {
     const result = Versioning(config);
 
     expect(result).toEqual([
-      { target: 'samsung', version: 4 },
-      { target: 'safari', version: 8 },
-      { target: 'opera', version: 39 },
-      { target: 'op_mini', version: 'all' },
-      { target: 'ios_saf', version: 8.1 },
-      { target: 'ie_mob', version: 10 },
-      { target: 'ie', version: 9 },
-      { target: 'firefox', version: 45 },
-      { target: 'edge', version: 12 },
-      { target: 'chrome', version: 49 },
-      { target: 'android', version: 4.4 },
-      { target: 'and_uc', version: 11 },
-      { target: 'and_chr', version: 55 }
+      { target: 'samsung', version: '4', parsedVersion: 4 },
+      { target: 'safari', version: '8', parsedVersion: 8 },
+      { target: 'opera', version: '39', parsedVersion: 39 },
+      { target: 'op_mini', version: 'all', parsedVersion: 0 },
+      { target: 'ios_saf', version: '8.1-8.4', parsedVersion: 8.1 },
+      { target: 'ie_mob', version: '10', parsedVersion: 10 },
+      { target: 'ie', version: '9', parsedVersion: 9 },
+      { target: 'firefox', version: '45', parsedVersion: 45 },
+      { target: 'edge', version: '12', parsedVersion: 12 },
+      { target: 'chrome', version: '49', parsedVersion: 49 },
+      { target: 'android', version: '4.4', parsedVersion: 4.4 },
+      { target: 'and_uc', version: '11', parsedVersion: 11 },
+      { target: 'and_chr', version: '55', parsedVersion: 55 }
     ]);
   });
 
@@ -31,19 +31,19 @@ describe('Versioning', () => {
     const result = Versioning(config);
 
     expect(result).toEqual([
-      { target: 'samsung', version: 4 },
-      { target: 'safari', version: 8 },
-      { target: 'opera', version: 39 },
-      { target: 'op_mini', version: 'all' },
-      { target: 'ios_saf', version: 8.1 },
-      { target: 'ie_mob', version: 10 },
-      { target: 'ie', version: 9 },
-      { target: 'firefox', version: 45 },
-      { target: 'edge', version: 12 },
-      { target: 'chrome', version: 46 },
-      { target: 'android', version: 4.4 },
-      { target: 'and_uc', version: 11 },
-      { target: 'and_chr', version: 55 }
+      { target: 'samsung', version: '4', parsedVersion: 4 },
+      { target: 'safari', version: '8', parsedVersion: 8 },
+      { target: 'opera', version: '39', parsedVersion: 39 },
+      { target: 'op_mini', version: 'all', parsedVersion: 0 },
+      { target: 'ios_saf', version: '8.1-8.4', parsedVersion: 8.1 },
+      { target: 'ie_mob', version: '10', parsedVersion: 10 },
+      { target: 'ie', version: '9', parsedVersion: 9 },
+      { target: 'firefox', version: '45', parsedVersion: 45 },
+      { target: 'edge', version: '12', parsedVersion: 12 },
+      { target: 'chrome', version: '46', parsedVersion: 46 },
+      { target: 'android', version: '4.4', parsedVersion: 4.4 },
+      { target: 'and_uc', version: '11', parsedVersion: 11 },
+      { target: 'and_chr', version: '55', parsedVersion: 55 }
     ]);
   });
 
@@ -52,10 +52,10 @@ describe('Versioning', () => {
     const result = Versioning(config);
 
     expect(result).toEqual([
-      { target: 'safari', version: 9 },
-      { target: 'ie', version: 9 },
-      { target: 'firefox', version: 20 },
-      { target: 'chrome', version: 32 }
+      { target: 'safari', version: '9', parsedVersion: 9 },
+      { target: 'ie', version: '9', parsedVersion: 9 },
+      { target: 'firefox', version: '20', parsedVersion: 20 },
+      { target: 'chrome', version: '32', parsedVersion: 32 }
     ]);
   });
 
@@ -71,15 +71,18 @@ describe('Versioning', () => {
     expect(Versioning(versions)).toEqual([
       {
         target: 'node',
-        version: 7
+        version: '7',
+        parsedVersion: 7
       },
       {
         target: 'firefox',
-        version: 50.5
+        version: '50.5',
+        parsedVersion: 50.5
       },
       {
         target: 'chrome',
-        version: 20
+        version: '20',
+        parsedVersion: 20
       }
     ]);
   });

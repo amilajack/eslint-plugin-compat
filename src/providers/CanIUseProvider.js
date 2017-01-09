@@ -98,7 +98,7 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
 
   return targets
     .filter(
-      (target: Target): bool => stats[target.target][`${target.version}`].includes('n')
+      (target: Target): bool => stats[target.target][target.version].includes('n')
     )
     .map(formatTargetNames);
 }
