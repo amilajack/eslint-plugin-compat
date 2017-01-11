@@ -29,7 +29,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib && cp -r src/providers/caniuse lib/providers/caniuse",
     "lint": "eslint --cache --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty .",
-    "clone-caniuse": "wget https://raw.githubusercontent.com/Fyrd/caniuse/master/fulldata-json/data-2.0.json && mkdir -p src/providers/caniuse/fulldata-json && mv data-2.0.json src/providers/caniuse/fulldata-json/data-2.0.json",
+    "update-caniuse-db": "download https://raw.githubusercontent.com/Fyrd/caniuse/master/fulldata-json/data-2.0.json && mkdir -p src/providers/caniuse/fulldata-json && mv data-2.0.json src/providers/caniuse/fulldata-json/data-2.0.json",
     "spec": "jest",
     "flow": "flow",
     "flow-typed": "flow-typed install",
