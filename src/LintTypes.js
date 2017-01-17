@@ -20,7 +20,8 @@ export type ESLintNode = {
     object?: node,
     property?: node
   }
-} & node;
+}
+& node;
 
 export type Node = {
   ASTNodeType: string,
