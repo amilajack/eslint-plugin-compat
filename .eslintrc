@@ -18,6 +18,7 @@
       "bool"
     ],
     "flowtype-errors/show-errors": 2,
+    "flowtype/require-valid-file-annotation": 2,
     "fp/no-nil": 0,
     "fp/no-mutating-methods": 0,
     "fp/no-unused-expression": 0,

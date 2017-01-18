@@ -11,8 +11,8 @@ type TargetMetadata = {
 
 type CanIUseRecord = {
   data: {
-    [x: string]: {
-      [x: string]: string
+    [browser: string]: {
+      [version: string]: string
     }
   }
 };

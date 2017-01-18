@@ -5,7 +5,7 @@ import type { ESLintNode, Node } from '../LintTypes'; // eslint-disable-line
 
 
 type ESLint = {
-  [x: string]: (node: ESLintNode) => void
+  [ASTNodeTypeName: string]: (node: ESLintNode) => void
 };
 
 type Context = {
@@ -19,12 +19,12 @@ type Context = {
 };
 
 export type BrowserListConfig =
-  Array<string> |
-  {
+  Array<string>
+  | {
     production?: Array<string>,
     development?: Array<string>
-  } |
-  null;
+  }
+  | null;
 
 
 export default {
