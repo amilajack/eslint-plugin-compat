@@ -1,5 +1,7 @@
 eslint-plugin-compat
 =====================
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/amilajack/eslint-plugin-compat.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/amilajack/eslint-plugin-compat.svg?branch=master&maxAge=2592000)](https://travis-ci.org/amilajack/eslint-plugin-compat)
 [![Build status](https://ci.appveyor.com/api/projects/status/at71r1stbghsgcja/branch/master?svg=true&maxAge=2592000)](https://ci.appveyor.com/project/amilajack/eslint-plugin-compat/branch/master)
 [![NPM version](https://badge.fury.io/js/eslint-plugin-compat.svg?maxAge=2592000)](http://badge.fury.io/js/eslint-plugin-compat)
