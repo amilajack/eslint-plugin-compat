@@ -61,19 +61,46 @@ function formatTargetNames(target: Target): string {
 }
 
 /**
- * Return an array of all unsupported targets
+ * Check version for the range format.
+ * ex. 10.0-10.2
  */
-export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
-  // Check the CanIUse database to see if targets are supported
-  const { stats } = caniuseRecord.data[node.id];
-
-  return targets
-    .filter(
-      (target: Target): bool => stats[target.target][target.version].includes('n')
-    )
-    .map(formatTargetNames);
+function versionIsRange(version: string): bool {
+  return version.includes('-');
 }
 
+/**
+ * Get first value in range.
+*/
+function rangeStart(range: string): string {
+  return range.split('-')[0];
+}
+
+/**
+ * Return an array of all unsupported targets
+*/
+export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
+   // Check the CanIUse database to see if targets are supported
+  const { stats } = caniuseRecord.data[node.id];
+
+  return targets.filter((target: Target): bool => {
+    const { version } = target;
+    const targetStats = stats[target.target];
+
+    if (versionIsRange(version)) {
+      const versionRangeStart = rangeStart(version);
+      return Object.keys(targetStats).some((statsVersion: string): bool => {
+        if (
+          versionIsRange(statsVersion) &&
+            versionRangeStart === rangeStart(statsVersion)
+        ) {
+          return targetStats[statsVersion].includes('n');
+        }
+        return false;
+      });
+    }
+    return targetStats[version].includes('n');
+  }).map(formatTargetNames);
+}
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
