@@ -69,30 +69,24 @@ function versionIsRange(version: string): bool {
 }
 
 /**
- * Get first value in range.
+ * Parse version from caniuse and compare with parsed version from browserslist.
 */
-function rangeStart(range: string): string {
-  return range.split('-')[0];
+function compareRanges(targetVersion: number, statsVersion: string): bool {
+  return targetVersion === parseFloat(statsVersion, 10);
 }
 
 /**
  * Return an array of all unsupported targets
 */
 export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
-   // Check the CanIUse database to see if targets are supported
+  // Check the CanIUse database to see if targets are supported
   const { stats } = caniuseRecord.data[node.id];
-
   return targets.filter((target: Target): bool => {
     const { version } = target;
     const targetStats = stats[target.target];
-
     if (versionIsRange(version)) {
-      const versionRangeStart = rangeStart(version);
       return Object.keys(targetStats).some((statsVersion: string): bool => {
-        if (
-          versionIsRange(statsVersion) &&
-            versionRangeStart === rangeStart(statsVersion)
-        ) {
+        if (versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion)) {
           return targetStats[statsVersion].includes('n');
         }
         return false;
