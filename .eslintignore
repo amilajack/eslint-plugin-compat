@@ -1,1 +1,3 @@
-src/providers/caniuse
+src/providers/caniuse/**/*
+flow-typed/**/*.js
+lib
