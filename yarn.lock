@@ -34,17 +34,6 @@ acorn@^4.0.1:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.4.tgz#17a8d6a7a6c4ef538b814ec9abac2779293bf30a"
 
-ajv-keywords@^1.0.0:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
-
-ajv@^4.7.0:
-  version "4.11.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.2.tgz#f166c3c11cbc6cb9dcc102a5bcfe5b72c95287e6"
-  dependencies:
-    co "^4.6.0"
-    json-stable-stringify "^1.0.1"
-
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/align-text/-/align-text-0.1.4.tgz#0cd90a561093f35d0a99256c22b7069433fad117"
@@ -954,12 +943,12 @@ browser-resolve@^1.11.2:
   dependencies:
     resolve "1.1.7"
 
-browserslist@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-1.6.0.tgz#85fb7c993540d3fda31c282baf7f5aee698ac9ee"
+browserslist@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-1.7.0.tgz#738df5b2971354d198b2fbd5a22c560d2d896084"
   dependencies:
-    caniuse-db "^1.0.30000613"
-    electron-to-chromium "^1.2.0"
+    caniuse-db "^1.0.30000617"
+    electron-to-chromium "^1.2.1"
 
 bser@^1.0.2:
   version "1.0.2"
@@ -1019,7 +1008,7 @@ camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
 
-caniuse-db@^1.0.30000613, caniuse-db@^1.0.30000617:
+caniuse-db@1.0.30000617, caniuse-db@^1.0.30000617:
   version "1.0.30000617"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000617.tgz#9b7fd81f58a35526315c83e60cb5f076f0beb392"
 
@@ -1142,10 +1131,6 @@ clone@^1.0.2:
 co@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/co/-/co-3.1.0.tgz#4ea54ea5a08938153185e15210c68d9092bc1b78"
-
-co@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
 
 code-point-at@^1.0.0:
   version "1.1.0"
@@ -1449,7 +1434,7 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
-electron-to-chromium@^1.2.0:
+electron-to-chromium@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.2.1.tgz#63ac7579a1c5bedb296c8607621f2efc9a54b968"
 
@@ -1630,7 +1615,7 @@ eslint-plugin-promise@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-3.4.0.tgz#6ba9048c2df57be77d036e0c68918bc9b4fc4195"
 
-eslint@^3.14.0:
+eslint@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-3.14.1.tgz#8a62175f2255109494747a1b25128d97b8eb3d97"
   dependencies:
@@ -2732,7 +2717,7 @@ json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
 
-json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
+json-stable-stringify@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz#9a759d39c5f2ff503fd5300646ed445f88c4f9af"
   dependencies:
@@ -3886,7 +3871,7 @@ supports-color@^3.1.2:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.1.tgz#8549dd1d01fa9f893c18cc9ab0b106b4d9b168cb"
 
-table@3.7.8:
+table@3.7.8, table@^3.7.8:
   version "3.7.8"
   resolved "https://registry.yarnpkg.com/table/-/table-3.7.8.tgz#b424433ef596851922b2fd77224a69a1951618eb"
   dependencies:
@@ -3898,17 +3883,6 @@ table@3.7.8:
     strip-ansi "^3.0.0"
     tv4 "^1.2.7"
     xregexp "^3.0.0"
-
-table@^3.7.8:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/table/-/table-3.8.3.tgz#2bbc542f0fda9861a755d3947fefd8b3f513855f"
-  dependencies:
-    ajv "^4.7.0"
-    ajv-keywords "^1.0.0"
-    chalk "^1.1.1"
-    lodash "^4.0.0"
-    slice-ansi "0.0.4"
-    string-width "^2.0.0"
 
 tar-pack@~3.3.0:
   version "3.3.0"

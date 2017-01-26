@@ -1,5 +1,6 @@
 // @flow
-import caniuseRecord from './caniuse/fulldata-json/data-2.0.json';
+// $FlowFixMe: Flow import error
+import caniuseRecord from 'caniuse-db/fulldata-json/data-2.0.json'; // eslint-disable-line
 import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
 
 
