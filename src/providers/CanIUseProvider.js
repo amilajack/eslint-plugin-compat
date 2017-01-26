@@ -61,19 +61,40 @@ function formatTargetNames(target: Target): string {
 }
 
 /**
- * Return an array of all unsupported targets
+ * Check version for the range format.
+ * ex. 10.0-10.2
  */
+function versionIsRange(version: string): bool {
+  return version.includes('-');
+}
+
+/**
+ * Parse version from caniuse and compare with parsed version from browserslist.
+*/
+function compareRanges(targetVersion: number, statsVersion: string): bool {
+  return targetVersion === parseFloat(statsVersion, 10);
+}
+
+/**
+ * Return an array of all unsupported targets
+*/
 export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
   // Check the CanIUse database to see if targets are supported
   const { stats } = caniuseRecord.data[node.id];
-
-  return targets
-    .filter(
-      (target: Target): bool => stats[target.target][target.version].includes('n')
-    )
-    .map(formatTargetNames);
+  return targets.filter((target: Target): bool => {
+    const { version } = target;
+    const targetStats = stats[target.target];
+    if (versionIsRange(version)) {
+      return Object.keys(targetStats).some((statsVersion: string): bool => {
+        if (versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion)) {
+          return targetStats[statsVersion].includes('n');
+        }
+        return false;
+      });
+    }
+    return targetStats[version].includes('n');
+  }).map(formatTargetNames);
 }
-
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
   // Filter non-matching objects and properties
