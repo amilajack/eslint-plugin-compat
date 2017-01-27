@@ -67,7 +67,7 @@ ruleTester.run('compat', rule, {
       code: 'new IntersectionObserver(() => {}, {});',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'IntersectionObserver is not supported in Safari TP, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 52, Edge 14',
+        message: 'IntersectionObserver is not supported in Safari TP, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 53, Edge 14',
         type: 'NewExpression'
       }]
     },
@@ -75,7 +75,7 @@ ruleTester.run('compat', rule, {
       code: 'WebAssembly.compile()',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'WebAssembly is not supported in Safari TP, Opera 43, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 52, Edge 14, Chrome 57',
+        message: 'WebAssembly is not supported in Safari TP, Opera 43, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 53, Edge 14, Chrome 58',
         type: 'MemberExpression'
       }]
     },
@@ -83,7 +83,7 @@ ruleTester.run('compat', rule, {
       code: 'new PaymentRequest(methodData, details, options)',
       settings: { browsers: ['last 2 chrome versions'] },
       errors: [{
-        message: 'PaymentRequest is not supported in Chrome 57',
+        message: 'PaymentRequest is not supported in Chrome 58',
         type: 'NewExpression'
       }]
     },

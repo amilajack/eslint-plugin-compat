@@ -2,7 +2,7 @@
   "browsers": [
     "chrome 32",
     "firefox 20",
-    "safari 9",
+    "safari 8",
     "ie 9"
   ]
 }

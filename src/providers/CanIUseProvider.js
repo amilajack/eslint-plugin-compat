@@ -1,6 +1,6 @@
 // @flow
-import path from 'path';
-import { readFileSync } from 'fs';
+// $FlowFixMe: Flow import error
+import caniuseRecord from 'caniuse-db/fulldata-json/data-2.0.json'; // eslint-disable-line
 import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
 
 
@@ -16,13 +16,6 @@ type CanIUseRecord = {
     }
   }
 };
-
-const caniuseRecord: CanIUseRecord = JSON.parse(
-  readFileSync(
-    path.join(__dirname, './caniuse/fulldata-json/data-2.0.json')
-  )
-  .toString()
-);
 
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
@@ -70,30 +63,31 @@ function versionIsRange(version: string): bool {
 
 /**
  * Parse version from caniuse and compare with parsed version from browserslist.
-*/
+ */
 function compareRanges(targetVersion: number, statsVersion: string): bool {
   return targetVersion === parseFloat(statsVersion, 10);
 }
 
 /**
  * Return an array of all unsupported targets
-*/
+ */
 export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
   // Check the CanIUse database to see if targets are supported
-  const { stats } = caniuseRecord.data[node.id];
+  const { stats } = (caniuseRecord: CanIUseRecord).data[node.id];
+
   return targets.filter((target: Target): bool => {
     const { version } = target;
     const targetStats = stats[target.target];
-    if (versionIsRange(version)) {
-      return Object.keys(targetStats).some((statsVersion: string): bool => {
-        if (versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion)) {
-          return targetStats[statsVersion].includes('n');
-        }
-        return false;
-      });
-    }
-    return targetStats[version].includes('n');
-  }).map(formatTargetNames);
+
+    return (versionIsRange(version))
+      ? Object.keys(targetStats).some((statsVersion: string): bool =>
+        ((versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion))
+          ? targetStats[statsVersion].includes('n')
+          : false)
+      )
+      : targetStats[version].includes('n');
+  })
+  .map(formatTargetNames);
 }
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
@@ -130,7 +124,7 @@ function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
 }
 
 //
-// TODO: Refactor to separate module
+// TODO: Migrate to compat-db
 // TODO: Refactor isValid(), remove from rules
 //
 
