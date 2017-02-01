@@ -56,7 +56,7 @@
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-formatter-pretty": "^1.1.0",
     "eslint-plugin-flowtype": "^2.30.0",
-    "eslint-plugin-flowtype-errors": "^2.0.3",
+    "eslint-plugin-flowtype-errors": "^3.0.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-promise": "^3.4.0",
