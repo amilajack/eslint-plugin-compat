@@ -20,7 +20,7 @@ type CanIUseRecord = {
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
   targets: [
-    'chrome', 'firefox', 'opera', 'safari', 'android', 'ie', 'edge', 'ios_saf',
+    'chrome', 'firefox', 'opera', 'safari', 'ie', 'edge', 'ios_saf',
     'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
     'samsung'
   ]
