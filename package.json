@@ -62,7 +62,7 @@
     "eslint-plugin-promise": "^3.4.0",
     "flow-bin": "^0.38.0",
     "flow-typed": "^2.0.0",
-    "jest-cli": "^18.1.0",
+    "jest-cli": "^19.0.0",
     "tcomb": "^3.2.16"
   },
   "dependencies": {
