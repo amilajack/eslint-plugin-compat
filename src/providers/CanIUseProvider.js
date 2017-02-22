@@ -85,7 +85,7 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
           ? targetStats[statsVersion].includes('n')
           : false)
       )
-      : targetStats[version].includes('n');
+      : targetStats[version] && targetStats[version].includes('n');
   })
   .map(formatTargetNames);
 }
