@@ -59,7 +59,7 @@ ruleTester.run('compat', rule, {
       code: 'new ServiceWorker()',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'ServiceWorker is not supported in Safari TP, iOS Safari 9.3, IE Mobile 10, IE 10, Edge 14',
+        message: 'ServiceWorker is not supported in Safari 9.1, iOS Safari 9.3, IE Mobile 10, IE 10, Edge 13',
         type: 'NewExpression'
       }]
     },
@@ -67,7 +67,7 @@ ruleTester.run('compat', rule, {
       code: 'new IntersectionObserver(() => {}, {});',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'IntersectionObserver is not supported in Safari TP, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 53, Edge 14',
+        message: 'IntersectionObserver is not supported in Safari 9.1, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 50, Edge 13',
         type: 'NewExpression'
       }]
     },
@@ -75,7 +75,7 @@ ruleTester.run('compat', rule, {
       code: 'WebAssembly.compile()',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'WebAssembly is not supported in Safari TP, Opera 43, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 53, Edge 14, Chrome 58',
+        message: 'WebAssembly is not supported in Safari 9.1, Opera 41, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 50, Edge 13, Chrome 55',
         type: 'MemberExpression'
       }]
     },
@@ -83,7 +83,7 @@ ruleTester.run('compat', rule, {
       code: 'new PaymentRequest(methodData, details, options)',
       settings: { browsers: ['last 2 chrome versions'] },
       errors: [{
-        message: 'PaymentRequest is not supported in Chrome 58',
+        message: 'PaymentRequest is not supported in Chrome 55',
         type: 'NewExpression'
       }]
     },
@@ -91,7 +91,7 @@ ruleTester.run('compat', rule, {
       code: 'navigator.serviceWorker',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'navigator.serviceWorker() is not supported in Safari TP, iOS Safari 9.3, IE Mobile 10, IE 10, Edge 14',
+        message: 'navigator.serviceWorker() is not supported in Safari 9.1, iOS Safari 9.3, IE Mobile 10, IE 10, Edge 13',
         type: 'MemberExpression'
       }]
     },
