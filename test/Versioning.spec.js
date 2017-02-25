@@ -12,7 +12,7 @@ describe('Versioning', () => {
     expect(result).toEqual([
       { target: 'samsung', version: '4', parsedVersion: 4 },
       { target: 'safari', version: '8', parsedVersion: 8 },
-      { target: 'opera', version: '39', parsedVersion: 39 },
+      { target: 'opera', version: '40', parsedVersion: 40 },
       { target: 'op_mini', version: 'all', parsedVersion: 0 },
       { target: 'ios_saf', version: '8.1-8.4', parsedVersion: 8.1 },
       { target: 'ie_mob', version: '10', parsedVersion: 10 },
@@ -33,7 +33,7 @@ describe('Versioning', () => {
     expect(result).toEqual([
       { target: 'samsung', version: '4', parsedVersion: 4 },
       { target: 'safari', version: '8', parsedVersion: 8 },
-      { target: 'opera', version: '39', parsedVersion: 39 },
+      { target: 'opera', version: '40', parsedVersion: 40 },
       { target: 'op_mini', version: 'all', parsedVersion: 0 },
       { target: 'ios_saf', version: '8.1-8.4', parsedVersion: 8.1 },
       { target: 'ie_mob', version: '10', parsedVersion: 10 },

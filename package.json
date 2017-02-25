@@ -60,7 +60,7 @@
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-promise": "^3.4.2",
-    "flow-bin": "^0.39.0",
+    "flow-bin": "^0.40.0",
     "flow-typed": "^2.0.0",
     "jest-cli": "^19.0.2",
     "tcomb": "^3.2.17"

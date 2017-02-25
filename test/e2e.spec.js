@@ -75,7 +75,7 @@ ruleTester.run('compat', rule, {
       code: 'WebAssembly.compile()',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'WebAssembly is not supported in Safari 9.1, Opera 41, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 50, Edge 13, Chrome 55',
+        message: 'WebAssembly is not supported in Safari 9.1, Opera 42, iOS Safari 9.3, IE Mobile 10, IE 10, Firefox 50, Edge 13, Chrome 55',
         type: 'MemberExpression'
       }]
     },
