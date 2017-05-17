@@ -1,3 +1,4 @@
+// @flow
 export type node = {
   type?: string,
   name?: string
