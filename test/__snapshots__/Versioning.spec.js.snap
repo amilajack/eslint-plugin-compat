@@ -25,7 +25,7 @@ Array [
 ]
 `;
 
-exports[`Versioning should get lowest taret versions 1`] = `
+exports[`Versioning should get lowest target versions 1`] = `
 Array [
   Object {
     "parsedVersion": 7,

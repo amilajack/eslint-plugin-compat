@@ -28,11 +28,12 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib",
-    "flow": "flow check",
+    "flow": "flow",
     "flow-typed": "flow-typed install",
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
     "spec": "jest",
-    "test": "cross-env NODE_ENV=test npm run lint && npm run flow && npm run spec && npm run build",
+    "test": "cross-env NODE_ENV=test npm run spec && npm run build",
+    "test-all": "cross-env NODE_ENV=test npm run lint && npm run flow && npm run spec && npm run build",
     "version": "npm run build"
   },
   "jest": {

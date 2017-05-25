@@ -28,7 +28,7 @@ describe('Versioning', () => {
     ]);
   });
 
-  it('should get lowest taret versions', () => {
+  it('should get lowest target versions', () => {
     const versions = [
       'chrome 20',
       'chrome 30',

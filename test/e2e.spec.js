@@ -67,7 +67,7 @@ ruleTester.run('compat', rule, {
       code: 'new IntersectionObserver(() => {}, {});',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'IntersectionObserver is not supported in Samsung Browser 4, Safari 10, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.0-10.2, IE Mobile 10, IE 10, Firefox 52, Edge 14, Blackberry Browser 7, undefined 7.12, Android Browser 4.4.3-4.4.4, Android UC Browser 11.4, undefined 1.2, Android Firefox 52',
+        message: 'IntersectionObserver is not supported in Samsung Browser 4, Safari 10, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.0-10.2, IE Mobile 10, IE 10, Firefox 52, Edge 14, Blackberry Browser 7, Baidu 7.12, Android Browser 4.4.3-4.4.4, Android UC Browser 11.4, QQ Browser 1.2, Android Firefox 52',
         type: 'NewExpression'
       }]
     },
@@ -75,7 +75,7 @@ ruleTester.run('compat', rule, {
       code: 'WebAssembly.compile()',
       settings: { browsers: ['last 2 versions'] },
       errors: [{
-        message: 'WebAssembly is not supported in Samsung Browser 4, Safari 10, Opera 43, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.0-10.2, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, undefined 7.12, Android Browser 4.4.3-4.4.4, Android UC Browser 11.4, undefined 1.2',
+        message: 'WebAssembly is not supported in Samsung Browser 4, Safari 10, Opera 43, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.0-10.2, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android Browser 4.4.3-4.4.4, Android UC Browser 11.4, QQ Browser 1.2',
         type: 'MemberExpression'
       }]
     },
