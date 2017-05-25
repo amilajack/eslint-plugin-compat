@@ -88,9 +88,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 50,
+    "parsedVersion": 45,
     "target": "firefox",
-    "version": "50",
+    "version": "45",
   },
   Object {
     "parsedVersion": 12,
@@ -183,9 +183,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 50,
+    "parsedVersion": 45,
     "target": "firefox",
-    "version": "50",
+    "version": "45",
   },
   Object {
     "parsedVersion": 12,
