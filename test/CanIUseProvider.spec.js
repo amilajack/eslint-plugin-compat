@@ -9,6 +9,6 @@ describe('CanIUseProvider', () => {
     const config = DetermineTargetsFromConfig(expectRangeResultJSON.browsers);
     const targets = Versioning(config);
     const result = getUnsupportedTargets(node, targets);
-    expect(result).toEqual(['iOS Safari 10.0-10.2']);
+    expect(result).toMatchSnapshot();
   });
 });

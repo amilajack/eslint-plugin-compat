@@ -22,7 +22,7 @@ export const targetMetadata: TargetMetadata = {
   targets: [
     'chrome', 'firefox', 'opera', 'safari', 'ie', 'edge', 'ios_saf',
     'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
-    'samsung'
+    'samsung', 'baidu'
   ]
 };
 
@@ -30,6 +30,8 @@ const targetNameMappings = {
   chrome: 'Chrome',
   firefox: 'Firefox',
   opera: 'Opera',
+  baidu: 'Baidu',
+  and_qq: 'QQ Browser',
   safari: 'Safari',
   android: 'Android Browser',
   ie: 'IE',

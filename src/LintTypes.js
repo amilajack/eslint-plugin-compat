@@ -1,3 +1,4 @@
+// @flow
 export type node = {
   type?: string,
   name?: string
@@ -8,7 +9,7 @@ export type Target = {
   version: number | string | 'all'
 };
 
-export type Targets = Array<Target>;
+export type Targets = Array<string>;
 
 export type ESLintNode = {
   object?: node,

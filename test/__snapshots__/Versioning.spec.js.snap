@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[object Object],[object Object],[object Object],[object Object] 1`] = `
+Array [
+  Object {
+    "parsedVersion": 8,
+    "target": "safari",
+    "version": "8",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "ie",
+    "version": "9",
+  },
+  Object {
+    "parsedVersion": 20,
+    "target": "firefox",
+    "version": "20",
+  },
+  Object {
+    "parsedVersion": 32,
+    "target": "chrome",
+    "version": "32",
+  },
+]
+`;
+
+exports[`Versioning should get lowest target versions 1`] = `
+Array [
+  Object {
+    "parsedVersion": 7,
+    "target": "node",
+    "version": "7",
+  },
+  Object {
+    "parsedVersion": 50.5,
+    "target": "firefox",
+    "version": "50.5",
+  },
+  Object {
+    "parsedVersion": 20,
+    "target": "chrome",
+    "version": "20",
+  },
+]
+`;
+
+exports[`Versioning should support multi env config in browserslist package.json 1`] = `
+Array [
+  Object {
+    "parsedVersion": 4,
+    "target": "samsung",
+    "version": "4",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "safari",
+    "version": "9",
+  },
+  Object {
+    "parsedVersion": 41,
+    "target": "opera",
+    "version": "41",
+  },
+  Object {
+    "parsedVersion": 11.5,
+    "target": "op_mob",
+    "version": "11.5",
+  },
+  Object {
+    "parsedVersion": 0,
+    "target": "op_mini",
+    "version": "all",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "ios_saf",
+    "version": "9.0-9.2",
+  },
+  Object {
+    "parsedVersion": 10,
+    "target": "ie_mob",
+    "version": "10",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "ie",
+    "version": "9",
+  },
+  Object {
+    "parsedVersion": 45,
+    "target": "firefox",
+    "version": "45",
+  },
+  Object {
+    "parsedVersion": 12,
+    "target": "edge",
+    "version": "12",
+  },
+  Object {
+    "parsedVersion": 49,
+    "target": "chrome",
+    "version": "49",
+  },
+  Object {
+    "parsedVersion": 7,
+    "target": "bb",
+    "version": "7",
+  },
+  Object {
+    "parsedVersion": 7.12,
+    "target": "baidu",
+    "version": "7.12",
+  },
+  Object {
+    "parsedVersion": 4.2,
+    "target": "android",
+    "version": "4.2-4.3",
+  },
+  Object {
+    "parsedVersion": 11.4,
+    "target": "and_uc",
+    "version": "11.4",
+  },
+  Object {
+    "parsedVersion": 1.2,
+    "target": "and_qq",
+    "version": "1.2",
+  },
+  Object {
+    "parsedVersion": 52,
+    "target": "and_ff",
+    "version": "52",
+  },
+  Object {
+    "parsedVersion": 57,
+    "target": "and_chr",
+    "version": "57",
+  },
+]
+`;
+
+exports[`Versioning should support single array config in browserslist package.json 1`] = `
+Array [
+  Object {
+    "parsedVersion": 4,
+    "target": "samsung",
+    "version": "4",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "safari",
+    "version": "9",
+  },
+  Object {
+    "parsedVersion": 41,
+    "target": "opera",
+    "version": "41",
+  },
+  Object {
+    "parsedVersion": 11.5,
+    "target": "op_mob",
+    "version": "11.5",
+  },
+  Object {
+    "parsedVersion": 0,
+    "target": "op_mini",
+    "version": "all",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "ios_saf",
+    "version": "9.0-9.2",
+  },
+  Object {
+    "parsedVersion": 10,
+    "target": "ie_mob",
+    "version": "10",
+  },
+  Object {
+    "parsedVersion": 9,
+    "target": "ie",
+    "version": "9",
+  },
+  Object {
+    "parsedVersion": 45,
+    "target": "firefox",
+    "version": "45",
+  },
+  Object {
+    "parsedVersion": 12,
+    "target": "edge",
+    "version": "12",
+  },
+  Object {
+    "parsedVersion": 49,
+    "target": "chrome",
+    "version": "49",
+  },
+  Object {
+    "parsedVersion": 7,
+    "target": "bb",
+    "version": "7",
+  },
+  Object {
+    "parsedVersion": 7.12,
+    "target": "baidu",
+    "version": "7.12",
+  },
+  Object {
+    "parsedVersion": 4.2,
+    "target": "android",
+    "version": "4.2-4.3",
+  },
+  Object {
+    "parsedVersion": 11.4,
+    "target": "and_uc",
+    "version": "11.4",
+  },
+  Object {
+    "parsedVersion": 1.2,
+    "target": "and_qq",
+    "version": "1.2",
+  },
+  Object {
+    "parsedVersion": 52,
+    "target": "and_ff",
+    "version": "52",
+  },
+  Object {
+    "parsedVersion": 57,
+    "target": "and_chr",
+    "version": "57",
+  },
+]
+`;
