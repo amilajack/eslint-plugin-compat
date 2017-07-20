@@ -58,9 +58,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 41,
+    "parsedVersion": 43,
     "target": "opera",
-    "version": "41",
+    "version": "43",
   },
   Object {
     "parsedVersion": 11.5,
@@ -88,9 +88,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 45,
+    "parsedVersion": 51,
     "target": "firefox",
-    "version": "45",
+    "version": "51",
   },
   Object {
     "parsedVersion": 12,
@@ -128,14 +128,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 54,
     "target": "and_ff",
-    "version": "52",
+    "version": "54",
   },
   Object {
-    "parsedVersion": 57,
+    "parsedVersion": 59,
     "target": "and_chr",
-    "version": "57",
+    "version": "59",
   },
 ]
 `;
@@ -153,9 +153,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 41,
+    "parsedVersion": 43,
     "target": "opera",
-    "version": "41",
+    "version": "43",
   },
   Object {
     "parsedVersion": 11.5,
@@ -183,9 +183,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 45,
+    "parsedVersion": 51,
     "target": "firefox",
-    "version": "45",
+    "version": "51",
   },
   Object {
     "parsedVersion": 12,
@@ -223,14 +223,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 54,
     "target": "and_ff",
-    "version": "52",
+    "version": "54",
   },
   Object {
-    "parsedVersion": 57,
+    "parsedVersion": 59,
     "target": "and_chr",
-    "version": "57",
+    "version": "59",
   },
 ]
 `;
