@@ -34,7 +34,7 @@ If you use **typescript**, see [typescript-eslint-parser](https://github.com/esl
   "plugins": ["compat"],
   "rules": {
     // ...
-    "compat/compat": 2
+    "compat/compat": "error"
   }
 }
 ```
