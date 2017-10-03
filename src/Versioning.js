@@ -43,7 +43,7 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
           ? 0
           : version.includes('-')
             ? parseFloat(version.split('-')[0])
-            : parseFloat(version, 10)
+            : parseFloat(version)
       };
     })
     // Sort the targets by target name and then version number in descending order
@@ -56,8 +56,8 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
           typeof b.parsedVersion === 'string' ||
           typeof a.parsedVersion === 'string'
         )
-        ? 0
-        : b.parsedVersion - a.parsedVersion;
+          ? 0
+          : b.parsedVersion - a.parsedVersion;
       }
       return b.target > a.target ? 1 : -1;
     })
@@ -65,6 +65,5 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
     .filter((e: TargetListItem, i: number, items: Array<TargetListItem>): bool =>
       // Check if the current target is the last of its kind. If it is, then it
       // is most recent version
-      (i + 1 === items.length) || (e.target !== items[i + 1].target)
-    );
+      (i + 1 === items.length) || (e.target !== items[i + 1].target));
 }

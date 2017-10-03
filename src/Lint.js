@@ -18,15 +18,15 @@ export function generateErrorName(_node: Node): string {
 export default function Lint(
   eslintNode: ESLintNode,
   targets: Targets = ['chrome', 'firefox', 'safari', 'edge'],
-  polyfills: Set<string> = new Set()): isValidObject {
+  polyfills: Set<string> = new Set()
+): isValidObject {
   // Find the corresponding rules for a eslintNode by it's ASTNodeType
   const failingRule = rules
     .filter((rule: Node): bool =>
       // Validate ASTNodeType
       rule.ASTNodeType === eslintNode.type &&
       // Check if polyfill is provided
-      !polyfills.has(rule.id)
-    )
+      !polyfills.has(rule.id))
     // Find the first failing rule
     .find((rule: Node): bool => !rule.isValid(rule, eslintNode, targets));
 

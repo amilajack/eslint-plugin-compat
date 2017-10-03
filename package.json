@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
@@ -53,23 +53,24 @@
     "babel-register": "^6.26.0",
     "cross-env": "^5.0.5",
     "download-cli": "^1.0.5",
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb-base": "^11.3.2",
-    "eslint-formatter-pretty": "^1.1.0",
-    "eslint-plugin-flowtype": "^2.35.0",
-    "eslint-plugin-flowtype-errors": "^3.3.1",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-config-bliss": "^1.0.14",
+    "eslint-formatter-pretty": "^1.3.0",
+    "eslint-plugin-flowtype": "^2.37.0",
+    "eslint-plugin-flowtype-errors": "^3.3.2",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-promise": "^3.5.0",
-    "flow-bin": "^0.53.1",
+    "flow-bin": "^0.56.0",
     "flow-typed": "^2.1.5",
-    "jest-cli": "^20.0.4",
-    "tcomb": "^3.2.22"
+    "jest-cli": "^21.2.1",
+    "tcomb": "^3.2.24"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "browserslist": "^2.3.3",
-    "caniuse-db": "^1.0.30000717",
+    "browserslist": "^2.4.0",
+    "caniuse-db": "^1.0.30000741",
     "requireindex": "^1.1.0"
   },
   "peerDependencies": {
