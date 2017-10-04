@@ -1,11 +1,14 @@
 {
-  "presets": ["es2015", "stage-0"],
+  "presets": [
+    ["env", {
+      "targets": { "node": 4 },
+      "useBuiltIns": true
+    }],
+    "stage-0"
+  ],
   "plugins": [
     "syntax-flow",
-    /*"tcomb",*/
     "transform-flow-strip-types",
-		"transform-runtime",
-    "add-module-exports",
-    "transform-es2015-modules-umd"
+		"transform-runtime"
 	]
 }
