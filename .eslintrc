@@ -1,44 +1,8 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "airbnb-base",
-    "plugin:fp/recommended",
-    "plugin:flowtype/recommended"
-  ],
+  "extends": "bliss",
   "env": {
     "node": true,
     "jest": true
-  },
-  "rules": {
-    "arrow-parens": 0,
-    "comma-dangle": [2, "never"],
-    "consistent-return": 2,
-    "flowtype/boolean-style": [
-      2,
-      "bool"
-    ],
-    "flowtype-errors/show-errors": 2,
-    "flowtype/require-valid-file-annotation": 2,
-    "fp/no-nil": 0,
-    "fp/no-mutating-methods": 0,
-    "fp/no-unused-expression": 0,
-    "no-nested-ternary": 0,
-    "no-var": 2,
-    "promise/always-return": 2,
-    "promise/no-return-wrap": 2,
-    "promise/param-names": 2,
-    "promise/catch-or-return": 2,
-    "promise/no-native": "off",
-    "promise/no-nesting": 2,
-    "promise/no-promise-in-callback": 2,
-    "promise/no-callback-in-promise": 2,
-    "promise/avoid-new": 2,
-    "semi": [2, "always"]
-  },
-  "plugins": [
-    "flowtype",
-    "flowtype-errors",
-    "fp",
-    "promise"
-  ]
+  }
 }

@@ -4,11 +4,11 @@ language: node_js
 
 os:
   - linux
-  - osx
+  # - osx
 
 node_js:
+  - 8
   - 7
-  - 6
 
 cache: yarn
 

@@ -67,7 +67,7 @@ function versionIsRange(version: string): bool {
  * Parse version from caniuse and compare with parsed version from browserslist.
  */
 function compareRanges(targetVersion: number, statsVersion: string): bool {
-  return targetVersion === parseFloat(statsVersion, 10);
+  return targetVersion === parseFloat(statsVersion);
 }
 
 /**
@@ -85,11 +85,10 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
       ? Object.keys(targetStats).some((statsVersion: string): bool =>
         ((versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion))
           ? targetStats[statsVersion].includes('n')
-          : false)
-      )
+          : false))
       : targetStats[version] && targetStats[version].includes('n');
   })
-  .map(formatTargetNames);
+    .map(formatTargetNames);
 }
 
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
