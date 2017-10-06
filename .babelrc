@@ -9,6 +9,7 @@
   "plugins": [
     "syntax-flow",
     "transform-flow-strip-types",
-		"transform-runtime"
+		"transform-runtime",
+    "add-module-exports"
 	]
 }
