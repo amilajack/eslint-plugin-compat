@@ -58,9 +58,9 @@ Array [
     "version": "9.1",
   },
   Object {
-    "parsedVersion": 44,
+    "parsedVersion": 45,
     "target": "opera",
-    "version": "44",
+    "version": "45",
   },
   Object {
     "parsedVersion": 11.5,
@@ -93,9 +93,9 @@ Array [
     "version": "52",
   },
   Object {
-    "parsedVersion": 12,
+    "parsedVersion": 13,
     "target": "edge",
-    "version": "12",
+    "version": "13",
   },
   Object {
     "parsedVersion": 49,
@@ -128,9 +128,9 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 55,
+    "parsedVersion": 56,
     "target": "and_ff",
-    "version": "55",
+    "version": "56",
   },
   Object {
     "parsedVersion": 61,
@@ -153,9 +153,9 @@ Array [
     "version": "9.1",
   },
   Object {
-    "parsedVersion": 44,
+    "parsedVersion": 45,
     "target": "opera",
-    "version": "44",
+    "version": "45",
   },
   Object {
     "parsedVersion": 11.5,
@@ -188,9 +188,9 @@ Array [
     "version": "52",
   },
   Object {
-    "parsedVersion": 12,
+    "parsedVersion": 13,
     "target": "edge",
-    "version": "12",
+    "version": "13",
   },
   Object {
     "parsedVersion": 49,
@@ -223,9 +223,9 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 55,
+    "parsedVersion": 56,
     "target": "and_ff",
-    "version": "55",
+    "version": "56",
   },
   Object {
     "parsedVersion": 61,
