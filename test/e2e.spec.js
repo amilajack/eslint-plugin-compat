@@ -12,16 +12,16 @@ ruleTester.run('compat', rule, {
     'document.querySelector()',
     {
       code: 'new ServiceWorker()',
-      settings: { browsers: ['last 2 chrome versions', 'last 2 firefox versions'] }
+      settings: { browsers: ['chrome 57', 'firefox 50'] }
     },
     {
       code: 'document.currentScript()',
       settings: {
         browsers: [
-          'last 2 chrome versions',
-          'last 2 firefox versions',
-          'last 2 safari versions',
-          'last 2 edge versions'
+          'chrome 57',
+          'firefox 50',
+          'safari 10',
+          'edge 14'
         ]
       }
     },
@@ -29,10 +29,10 @@ ruleTester.run('compat', rule, {
       code: "document.currentScript('some')",
       settings: {
         browsers: [
-          'last 2 chrome versions',
-          'last 2 firefox versions',
-          'last 2 safari versions',
-          'last 2 edge versions'
+          'chrome 57',
+          'firefox 50',
+          'safari 10',
+          'edge 14'
         ]
       }
     },
@@ -42,7 +42,7 @@ ruleTester.run('compat', rule, {
     },
     {
       code: 'new IntersectionObserver(() => {}, {});',
-      settings: { browsers: ['last 2 chrome versions'] }
+      settings: { browsers: ['chrome 57'] }
     }
   ],
   invalid: [
@@ -57,49 +57,53 @@ ruleTester.run('compat', rule, {
     // },
     {
       code: 'new ServiceWorker()',
-      settings: { browsers: ['last 2 versions'] },
+      settings: { browsers: ['chrome 31'] },
       errors: [{
-        message: 'ServiceWorker is not supported in Safari 10.1, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Android Browser 4.4.3-4.4.4',
+        message: 'ServiceWorker is not supported in Chrome 31',
         type: 'NewExpression'
       }]
     },
     {
       code: 'new IntersectionObserver(() => {}, {});',
-      settings: { browsers: ['last 2 versions'] },
+      settings: { browsers: ['chrome 49'] },
       errors: [{
-        message: 'IntersectionObserver is not supported in Samsung Browser 4, Safari 10.1, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android Browser 4.4.3-4.4.4, Android UC Browser 11.4, QQ Browser 1.2',
+        message: 'IntersectionObserver is not supported in Chrome 49',
         type: 'NewExpression'
       }]
     },
     {
       code: 'WebAssembly.compile()',
-      settings: { browsers: ['last 2 versions'] },
+      settings: {
+        browsers: [
+          'Samsung 4', 'Safari 10.1', 'Opera 12.1', 'OperaMini all', 'iOS 10.3', 'ExplorerMobile 10', 'IE 10', 'Edge 14', 'Blackberry 7', 'Baidu 7.12', 'UCAndroid 11.4', 'QQAndroid 1.2'
+        ]
+      },
       errors: [{
-        message: 'WebAssembly is not supported in Samsung Browser 4, Safari 10.1, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android Browser 4.4.3-4.4.4, Android UC Browser 11.4, QQ Browser 1.2',
+        message: 'WebAssembly is not supported in Samsung Browser 4, Safari 10.1, Opera 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android UC Browser 11.4, QQ Browser 1.2',
         type: 'MemberExpression'
       }]
     },
     {
       code: 'new PaymentRequest(methodData, details, options)',
-      settings: { browsers: ['last 2 chrome versions'] },
+      settings: { browsers: ['chrome 57'] },
       errors: [{
-        message: 'PaymentRequest is not supported in Chrome 60',
+        message: 'PaymentRequest is not supported in Chrome 57',
         type: 'NewExpression'
       }]
     },
     {
       code: 'navigator.serviceWorker',
-      settings: { browsers: ['last 2 versions'] },
+      settings: { browsers: ['safari 10.1'] },
       errors: [{
-        message: 'navigator.serviceWorker() is not supported in Safari 10.1, Opera Mobile 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Android Browser 4.4.3-4.4.4',
+        message: 'navigator.serviceWorker() is not supported in Safari 10.1',
         type: 'MemberExpression'
       }]
     },
     {
       code: 'fetch("google.com")',
-      settings: { browsers: ['last 2 ie versions'] },
+      settings: { browsers: ['ie 11'] },
       errors: [{
-        message: 'fetch is not supported in IE 10',
+        message: 'fetch is not supported in IE 11',
         type: 'CallExpression'
       }]
     }
