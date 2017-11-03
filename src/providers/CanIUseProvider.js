@@ -84,9 +84,9 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
     return (versionIsRange(version))
       ? Object.keys(targetStats).some((statsVersion: string): bool =>
         ((versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion))
-          ? targetStats[statsVersion].includes('n')
+          ? !targetStats[statsVersion].includes('y')
           : false))
-      : targetStats[version] && targetStats[version].includes('n');
+      : targetStats[version] && !targetStats[version].includes('y');
   })
     .map(formatTargetNames);
 }
@@ -176,6 +176,46 @@ const CanIUseProvider: Array<Node> = [
     id: 'payment-request',
     ASTNodeType: 'NewExpression',
     object: 'PaymentRequest',
+    isValid,
+    getUnsupportedTargets
+  },
+  // Promises
+  {
+    id: 'promises',
+    ASTNodeType: 'NewExpression',
+    object: 'Promise',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'resolve',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'all',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'race',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'reject',
     isValid,
     getUnsupportedTargets
   },

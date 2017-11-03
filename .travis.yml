@@ -2,13 +2,8 @@ sudo: false
 
 language: node_js
 
-os:
-  - linux
-  # - osx
-
 node_js:
   - 8
-  - 7
 
 cache: yarn
 

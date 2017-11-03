@@ -106,6 +106,46 @@ ruleTester.run('compat', rule, {
         message: 'fetch is not supported in IE 11',
         type: 'CallExpression'
       }]
+    },
+    {
+      code: 'new Promise()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise is not supported in IE 10',
+        type: 'NewExpression'
+      }]
+    },
+    {
+      code: 'Promise.resolve()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise.resolve() is not supported in IE 10',
+        type: 'MemberExpression'
+      }]
+    },
+    {
+      code: 'Promise.all()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise.all() is not supported in IE 10',
+        type: 'MemberExpression'
+      }]
+    },
+    {
+      code: 'Promise.race()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise.race() is not supported in IE 10',
+        type: 'MemberExpression'
+      }]
+    },
+    {
+      code: 'Promise.reject()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise.reject() is not supported in IE 10',
+        type: 'MemberExpression'
+      }]
     }
   ]
 });
