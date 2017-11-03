@@ -1,8 +1,12 @@
+## v2.1.0
+
+### Added
+- Promise support
+
 ## v2.0.1
 
 ### Fixed
 - Corrected incorrect babel exports config that prevented plugin from being loaded
-
 
 ## v2.0.0
 
@@ -24,7 +28,6 @@
 
 ### Updated
 - All dependencies to latest semver
-
 
 ## v1.0.2
 
