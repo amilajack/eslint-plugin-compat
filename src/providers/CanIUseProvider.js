@@ -179,7 +179,7 @@ const CanIUseProvider: Array<Node> = [
     isValid,
     getUnsupportedTargets
   },
-  // PaymentRequest
+  // Promises
   {
     id: 'promises',
     ASTNodeType: 'NewExpression',
@@ -192,6 +192,30 @@ const CanIUseProvider: Array<Node> = [
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'resolve',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'all',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'race',
+    isValid,
+    getUnsupportedTargets
+  },
+  {
+    id: 'promises',
+    ASTNodeType: 'MemberExpression',
+    object: 'Promise',
+    property: 'reject',
     isValid,
     getUnsupportedTargets
   },
