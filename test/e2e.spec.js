@@ -106,6 +106,22 @@ ruleTester.run('compat', rule, {
         message: 'fetch is not supported in IE 11',
         type: 'CallExpression'
       }]
+    },
+    {
+      code: 'new Promise()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise is not supported in IE 10',
+        type: 'NewExpression'
+      }]
+    },
+    {
+      code: 'Promise.resolve()',
+      settings: { browsers: ['ie 10'] },
+      errors: [{
+        message: 'Promise.resolve() is not supported in IE 10',
+        type: 'MemberExpression'
+      }]
     }
   ]
 });
