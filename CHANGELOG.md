@@ -1,3 +1,8 @@
+## v2.2.0
+
+### Updated
+- All dependencies to latest semver
+
 ## v2.1.0
 
 ### Added
