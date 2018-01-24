@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.0.1",
+    "babel-eslint": "^8.2.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
@@ -50,19 +50,20 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
-    "cross-env": "^5.1.0",
+    "cross-env": "^5.1.3",
     "download-cli": "^1.0.5",
-    "eslint": "^4.9.0",
-    "eslint-config-bliss": "^1.0.17",
+    "eslint": "^4.16.0",
+    "eslint-config-bliss": "^1.0.20",
     "eslint-formatter-pretty": "^1.3.0",
-    "flow-bin": "^0.57.3",
-    "flow-typed": "^2.2.0",
-    "jest-cli": "^21.2.1"
+    "flow-bin": "^0.63.1",
+    "flow-typed": "^2.2.3",
+    "jest-cli": "^22.1.4"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "browserslist": "^2.5.1",
-    "caniuse-db": "^1.0.30000748",
+    "browserslist": "^2.11.3",
+    "caniuse-db": "^1.0.30000794",
+    "mdn-browser-compat-data": "^0.0.20",
     "requireindex": "^1.1.0"
   },
   "peerDependencies": {
