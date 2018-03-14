@@ -21,7 +21,7 @@ See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for m
 npm install --save-dev eslint-plugin-compat
 ```
 
-Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`
+Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`, then configure the `"compat/compat"` rule.
 
 If you use **typescript**, see [typescript-eslint-parser](https://github.com/eslint/typescript-eslint-parser).
 ```js
@@ -36,6 +36,14 @@ If you use **typescript**, see [typescript-eslint-parser](https://github.com/esl
     // ...
     "compat/compat": "error"
   }
+}
+```
+
+Alternatively, you can use the `recommended` configuration which will do this for you, with the `"compat/compat"` rule reporting errors (as in the snippet above).
+```js
+// .eslintrc
+{
+  "extends": ["plugin:compat/recommended"]
 }
 ```
 
