@@ -235,6 +235,22 @@ const CanIUseProvider: Array<Node> = [
     property: 'currentScript',
     isValid,
     getUnsupportedTargets
+  },
+  // URL
+  {
+    id: 'url',
+    ASTNodeType: 'NewExpression',
+    object: 'URL',
+    isValid,
+    getUnsupportedTargets
+  },
+  // URLSearchParams
+  {
+    id: 'urlsearchparams',
+    ASTNodeType: 'NewExpression',
+    object: 'URLSearchParams',
+    isValid,
+    getUnsupportedTargets
   }
 ];
 
