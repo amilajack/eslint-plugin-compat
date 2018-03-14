@@ -43,6 +43,26 @@ ruleTester.run('compat', rule, {
     {
       code: 'new IntersectionObserver(() => {}, {});',
       settings: { browsers: ['chrome 57'] }
+    },
+    {
+      code: "new URL('http://example')",
+      settings: {
+        browsers: [
+          'chrome 32',
+          'safari 7.1',
+          'firefox 26'
+        ]
+      }
+    },
+    {
+      code: "new URLSearchParams()",
+      settings: {
+        browsers: [
+          'chrome 49',
+          'safari 10.1',
+          'firefox 44'
+        ]
+      }
     }
   ],
   invalid: [
@@ -145,6 +165,34 @@ ruleTester.run('compat', rule, {
       errors: [{
         message: 'Promise.reject() is not supported in IE 10',
         type: 'MemberExpression'
+      }]
+    },
+    {
+      code: "new URL('http://example')",
+      settings: {
+        browsers: [
+          'chrome 31',
+          'safari 7',
+          'firefox 25'
+        ]
+      },
+      errors: [{
+        message: 'URL is not supported in Safari 7, Firefox 25, Chrome 31',
+        type: 'NewExpression'
+      }]
+    },
+    {
+      code: "new URLSearchParams()",
+      settings: {
+        browsers: [
+          'chrome 48',
+          'safari 10',
+          'firefox 28'
+        ]
+      },
+      errors: [{
+        message: 'URLSearchParams is not supported in Safari 10, Firefox 28, Chrome 48',
+        type: 'NewExpression'
       }]
     }
   ]
