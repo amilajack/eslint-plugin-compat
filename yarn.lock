@@ -1133,9 +1133,13 @@ camelcase@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
 
-caniuse-db@^1.0.30000748, caniuse-db@^1.0.30000794:
+caniuse-db@^1.0.30000748:
   version "1.0.30000794"
   resolved "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000794.tgz#bbe71104fa277ce4b362387d54905e8b88e52f35"
+
+caniuse-db@^1.0.30000843:
+  version "1.0.30000843"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000843.tgz#4f7e8501f557dc9bcd37dd33ac85905c765efec2"
 
 caniuse-lite@^1.0.30000792:
   version "1.0.30000792"
