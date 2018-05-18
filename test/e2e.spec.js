@@ -42,7 +42,7 @@ ruleTester.run('compat', rule, {
     },
     {
       code: 'new IntersectionObserver(() => {}, {});',
-      settings: { browsers: ['chrome 57'] }
+      settings: { browsers: ['chrome 58'] }
     },
     {
       code: "new URL('http://example')",
@@ -95,11 +95,11 @@ ruleTester.run('compat', rule, {
       code: 'WebAssembly.compile()',
       settings: {
         browsers: [
-          'Samsung 4', 'Safari 10.1', 'Opera 12.1', 'OperaMini all', 'iOS 10.3', 'ExplorerMobile 10', 'IE 10', 'Edge 14', 'Blackberry 7', 'Baidu 7.12', 'UCAndroid 11.4', 'QQAndroid 1.2'
+          'Samsung 4', 'Safari 10.1', 'Opera 12.1', 'OperaMini all', 'iOS 10.3', 'ExplorerMobile 10', 'IE 10', 'Edge 14', 'Blackberry 7', 'Baidu 7.12', 'UCAndroid 11.8', 'QQAndroid 1.2'
         ]
       },
       errors: [{
-        message: 'WebAssembly is not supported in Samsung Browser 4, Safari 10.1, Opera 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android UC Browser 11.4, QQ Browser 1.2',
+        message: 'WebAssembly is not supported in Samsung Browser 4, Safari 10.1, Opera 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android UC Browser 11.8, QQ Browser 1.2',
         type: 'MemberExpression'
       }]
     },

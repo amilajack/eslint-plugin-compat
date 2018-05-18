@@ -28,14 +28,14 @@ Array [
     "version": "4",
   },
   Object {
-    "parsedVersion": 9.1,
+    "parsedVersion": 10,
     "target": "safari",
-    "version": "9.1",
+    "version": "10",
   },
   Object {
-    "parsedVersion": 46,
+    "parsedVersion": 50,
     "target": "opera",
-    "version": "46",
+    "version": "50",
   },
   Object {
     "parsedVersion": 11.5,
@@ -48,9 +48,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 9.3,
+    "parsedVersion": 10,
     "target": "ios_saf",
-    "version": "9.3",
+    "version": "10.0-10.2",
   },
   Object {
     "parsedVersion": 10,
@@ -68,14 +68,14 @@ Array [
     "version": "52",
   },
   Object {
-    "parsedVersion": 13,
+    "parsedVersion": 14,
     "target": "edge",
-    "version": "13",
+    "version": "14",
   },
   Object {
-    "parsedVersion": 60,
+    "parsedVersion": 63,
     "target": "chrome",
-    "version": "60",
+    "version": "63",
   },
   Object {
     "parsedVersion": 7,
@@ -93,9 +93,9 @@ Array [
     "version": "4.2-4.3",
   },
   Object {
-    "parsedVersion": 11.4,
+    "parsedVersion": 11.8,
     "target": "and_uc",
-    "version": "11.4",
+    "version": "11.8",
   },
   Object {
     "parsedVersion": 1.2,
@@ -103,14 +103,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 57,
+    "parsedVersion": 60,
     "target": "and_ff",
-    "version": "57",
+    "version": "60",
   },
   Object {
-    "parsedVersion": 62,
+    "parsedVersion": 66,
     "target": "and_chr",
-    "version": "62",
+    "version": "66",
   },
 ]
 `;
@@ -123,14 +123,14 @@ Array [
     "version": "4",
   },
   Object {
-    "parsedVersion": 9.1,
+    "parsedVersion": 10,
     "target": "safari",
-    "version": "9.1",
+    "version": "10",
   },
   Object {
-    "parsedVersion": 46,
+    "parsedVersion": 50,
     "target": "opera",
-    "version": "46",
+    "version": "50",
   },
   Object {
     "parsedVersion": 11.5,
@@ -143,9 +143,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 9.3,
+    "parsedVersion": 10,
     "target": "ios_saf",
-    "version": "9.3",
+    "version": "10.0-10.2",
   },
   Object {
     "parsedVersion": 10,
@@ -163,14 +163,14 @@ Array [
     "version": "52",
   },
   Object {
-    "parsedVersion": 13,
+    "parsedVersion": 14,
     "target": "edge",
-    "version": "13",
+    "version": "14",
   },
   Object {
-    "parsedVersion": 54,
+    "parsedVersion": 57,
     "target": "chrome",
-    "version": "54",
+    "version": "57",
   },
   Object {
     "parsedVersion": 7,
@@ -188,9 +188,9 @@ Array [
     "version": "4.2-4.3",
   },
   Object {
-    "parsedVersion": 11.4,
+    "parsedVersion": 11.8,
     "target": "and_uc",
-    "version": "11.4",
+    "version": "11.8",
   },
   Object {
     "parsedVersion": 1.2,
@@ -198,14 +198,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 57,
+    "parsedVersion": 60,
     "target": "and_ff",
-    "version": "57",
+    "version": "60",
   },
   Object {
-    "parsedVersion": 62,
+    "parsedVersion": 66,
     "target": "and_chr",
-    "version": "62",
+    "version": "66",
   },
 ]
 `;
