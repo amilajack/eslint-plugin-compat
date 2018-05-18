@@ -1,5 +1,4 @@
 /**
- * @fileoverview some
  * @author Amila Welihinda
  * @flow
  */
