@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import requireIndex from 'requireindex'; // eslint-disable-line flowtype-errors/show-errors
+import requireIndex from 'requireindex';
 import recommended from './config/recommended';
 
 

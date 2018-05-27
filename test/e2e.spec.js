@@ -55,7 +55,7 @@ ruleTester.run('compat', rule, {
       }
     },
     {
-      code: "new URLSearchParams()",
+      code: 'new URLSearchParams()',
       settings: {
         browsers: [
           'chrome 49',
@@ -182,7 +182,7 @@ ruleTester.run('compat', rule, {
       }]
     },
     {
-      code: "new URLSearchParams()",
+      code: 'new URLSearchParams()',
       settings: {
         browsers: [
           'chrome 48',

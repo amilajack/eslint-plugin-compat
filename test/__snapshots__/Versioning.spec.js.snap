@@ -210,7 +210,7 @@ Array [
 ]
 `;
 
-exports[`Versioning should support single version config in browserslist package.json: [object Object],[object Object],[object Object],[object Object] 1`] = `
+exports[`Versioning should support single version config in browserslist package.json 1`] = `
 Array [
   Object {
     "parsedVersion": 8,
