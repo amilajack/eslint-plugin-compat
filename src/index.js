@@ -17,6 +17,9 @@ export const configs = {
   recommended
 };
 
+// Kept for backwards compatibility
+export const config = configs;
+
 //------------------------------------------------------------------------------
 // Plugin Definition
 //------------------------------------------------------------------------------
