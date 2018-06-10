@@ -12,9 +12,12 @@ import requireIndex from 'requireindex';
 import recommended from './config/recommended';
 
 
-export const config = {
+export const configs = {
   recommended
 };
+
+// Kept for backwards compatibility
+export const config = configs;
 
 //------------------------------------------------------------------------------
 // Plugin Definition
