@@ -1,6 +1,8 @@
 ## v2.4.0
 ### Updated
 - Updated all deps to latest semver
+### Fixed
+- Fixed recommendation config
 
 ## v2.3.0
 ### Updated
