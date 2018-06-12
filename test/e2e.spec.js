@@ -63,6 +63,10 @@ ruleTester.run('compat', rule, {
           'firefox 44'
         ]
       }
+    },
+    {
+      code: 'performance.now()',
+      settings: { browsers: ['ie 10'] },
     }
   ],
   invalid: [
@@ -193,6 +197,14 @@ ruleTester.run('compat', rule, {
       errors: [{
         message: 'URLSearchParams is not supported in Safari 10, Firefox 28, Chrome 48',
         type: 'NewExpression'
+      }]
+    },
+    {
+      code: 'performance.now()',
+      settings: { browsers: ['ie 9'] },
+      errors: [{
+        message: 'performance.now() is not supported in IE 9',
+        type: 'MemberExpression'
       }]
     }
   ]

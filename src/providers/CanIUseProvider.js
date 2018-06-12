@@ -251,7 +251,16 @@ const CanIUseProvider: Array<Node> = [
     object: 'URLSearchParams',
     isValid,
     getUnsupportedTargets
-  }
+  },
+  // performance.now()
+  {
+    id: 'high-resolution-time',
+    ASTNodeType: 'MemberExpression',
+    object: 'performance',
+    property: 'now',
+    isValid,
+    getUnsupportedTargets
+  },
 ];
 
 export default CanIUseProvider;
