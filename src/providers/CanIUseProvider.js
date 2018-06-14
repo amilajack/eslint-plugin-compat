@@ -10,12 +10,14 @@ type TargetMetadata = {
 };
 
 type CanIUseRecord = {
-  data: {
-    [browser: string]: {
-      [version: string]: string
-    }
-  }
+  data: CanIUseStats,
 };
+
+type CanIUseStats = {
+  [browser: string]: {
+    [version: string]: string
+  }
+}
 
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
@@ -70,41 +72,38 @@ function compareRanges(targetVersion: number, statsVersion: string): bool {
   return targetVersion === parseFloat(statsVersion);
 }
 
+/*
+ * Check the CanIUse database to see if targets are supported
+ */
+function canIUseSupported(stats: CanIUseStats, { version, target, parsedVersion }: Target): bool {
+  const targetStats = stats[target];
+  return (versionIsRange(version))
+    ? Object.keys(targetStats).some((statsVersion: string): bool =>
+      ((versionIsRange(statsVersion) && compareRanges(parsedVersion, statsVersion))
+        ? !targetStats[statsVersion].includes('y')
+        : false))
+    : targetStats[version] && !targetStats[version].includes('y');
+}
+
 /**
  * Return an array of all unsupported targets
  */
 export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
-  // Check the CanIUse database to see if targets are supported
   const { stats } = (caniuseRecord: CanIUseRecord).data[node.id];
-
-  return targets.filter((target: Target): bool => {
-    const { version } = target;
-    const targetStats = stats[target.target];
-
-    return (versionIsRange(version))
-      ? Object.keys(targetStats).some((statsVersion: string): bool =>
-        ((versionIsRange(statsVersion) && compareRanges(target.parsedVersion, statsVersion))
-          ? !targetStats[statsVersion].includes('y')
-          : false))
-      : targetStats[version] && !targetStats[version].includes('y');
-  })
+  return targets
+    .filter(target => canIUseSupported(stats, target))
     .map(formatTargetNames);
 }
 
+/**
+ * Check if the node has matching object or properties
+ */
 function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
-  // Filter non-matching objects and properties
   switch (eslintNode.type) {
     case 'CallExpression':
-      if (!eslintNode.callee) return true;
-      if (
-        eslintNode.callee.name !== node.object
-      ) return true;
-      break;
     case 'NewExpression':
       if (!eslintNode.callee) return true;
-      if (
-        eslintNode.callee.name !== node.object
-      ) return true;
+      if (eslintNode.callee.name !== node.object) return true;
       break;
     case 'MemberExpression':
       // Pass tests if non-matching object or property
