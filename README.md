@@ -8,13 +8,9 @@ eslint-plugin-compat
 
 ![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/img/eslint-plugin-compat-demo.gif)
 
-## Goals
- - [x] Allow configuration of target browser/s
- - [x] Use [caniuse](http://caniuse.com) and [@kangax's compat table](http://kangax.github.io/compat-table/es6/) for determining coverage
- - [x] Enable config using `.eslintrc`
- - [x] `browserslist` integration (using `package.json`)
+## Road Map
 
-See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for more details
+See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for the details.
 
 ## Installation
 ```bash
