@@ -49,3 +49,4 @@ lib
 
 # Editor
 .idea
+.vscode/

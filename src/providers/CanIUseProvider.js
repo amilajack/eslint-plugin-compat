@@ -134,16 +134,12 @@ const CanIUseProvider: Array<Node> = [
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
     object: 'ServiceWorker',
-    isValid,
-    getUnsupportedTargets
   },
   {
     id: 'serviceworkers',
     ASTNodeType: 'MemberExpression',
     object: 'navigator',
     property: 'serviceWorker',
-    isValid,
-    getUnsupportedTargets
   },
   // document.querySelector()
   {
@@ -151,80 +147,60 @@ const CanIUseProvider: Array<Node> = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'querySelector',
-    isValid,
-    getUnsupportedTargets
   },
   // WebAssembly
   {
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
     object: 'WebAssembly',
-    isValid,
-    getUnsupportedTargets
   },
   // IntersectionObserver
   {
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
     object: 'IntersectionObserver',
-    isValid,
-    getUnsupportedTargets
   },
   // PaymentRequest
   {
     id: 'payment-request',
     ASTNodeType: 'NewExpression',
     object: 'PaymentRequest',
-    isValid,
-    getUnsupportedTargets
   },
   // Promises
   {
     id: 'promises',
     ASTNodeType: 'NewExpression',
     object: 'Promise',
-    isValid,
-    getUnsupportedTargets
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'resolve',
-    isValid,
-    getUnsupportedTargets
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'all',
-    isValid,
-    getUnsupportedTargets
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'race',
-    isValid,
-    getUnsupportedTargets
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'reject',
-    isValid,
-    getUnsupportedTargets
   },
   // fetch
   {
     id: 'fetch',
     ASTNodeType: 'CallExpression',
     object: 'fetch',
-    isValid,
-    getUnsupportedTargets
   },
   // document.currentScript()
   {
@@ -232,24 +208,18 @@ const CanIUseProvider: Array<Node> = [
     ASTNodeType: 'MemberExpression',
     object: 'document',
     property: 'currentScript',
-    isValid,
-    getUnsupportedTargets
   },
   // URL
   {
     id: 'url',
     ASTNodeType: 'NewExpression',
     object: 'URL',
-    isValid,
-    getUnsupportedTargets
   },
   // URLSearchParams
   {
     id: 'urlsearchparams',
     ASTNodeType: 'NewExpression',
     object: 'URLSearchParams',
-    isValid,
-    getUnsupportedTargets
   },
   // performance.now()
   {
@@ -257,9 +227,12 @@ const CanIUseProvider: Array<Node> = [
     ASTNodeType: 'MemberExpression',
     object: 'performance',
     property: 'now',
-    isValid,
-    getUnsupportedTargets
   },
-];
+].map(rule =>
+  Object.assign({}, rule, {
+    isValid,
+    getUnsupportedTargets,
+  })
+);
 
 export default CanIUseProvider;
