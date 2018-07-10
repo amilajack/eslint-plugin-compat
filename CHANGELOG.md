@@ -1,7 +1,3 @@
-## v2.5.0
-### Updated
-- Updated all deps to latest semver
-
 ## v2.4.0
 ### Updated
 - Updated all deps to latest semver
