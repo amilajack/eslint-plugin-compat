@@ -73,9 +73,9 @@ Array [
     "version": "14",
   },
   Object {
-    "parsedVersion": 63,
+    "parsedVersion": 64,
     "target": "chrome",
-    "version": "63",
+    "version": "64",
   },
   Object {
     "parsedVersion": 7,
@@ -108,9 +108,9 @@ Array [
     "version": "60",
   },
   Object {
-    "parsedVersion": 66,
+    "parsedVersion": 67,
     "target": "and_chr",
-    "version": "66",
+    "version": "67",
   },
 ]
 `;
@@ -168,9 +168,9 @@ Array [
     "version": "14",
   },
   Object {
-    "parsedVersion": 57,
+    "parsedVersion": 58,
     "target": "chrome",
-    "version": "57",
+    "version": "58",
   },
   Object {
     "parsedVersion": 7,
@@ -203,9 +203,9 @@ Array [
     "version": "60",
   },
   Object {
-    "parsedVersion": 66,
+    "parsedVersion": 67,
     "target": "and_chr",
-    "version": "66",
+    "version": "67",
   },
 ]
 `;
