@@ -17,6 +17,10 @@ export default function DetermineTargetsFromConfig(config?: BrowserListConfig): 
     return browserslist(config);
   }
 
+  if (config && typeof config === 'string') {
+    return browserslist(config.split(',').map(item => item.trim()));
+  }
+
   if (config && typeof config === 'object') {
     return browserslist([
       ...(config.production || []),

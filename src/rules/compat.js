@@ -35,14 +35,17 @@ export default {
       recommended: true
     },
     fixable: 'code',
-    schema: []
+    schema: [{
+      'type': 'string'
+    }]
   },
   create(context: Context): ESLint {
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
     const browserslistConfig: BrowserListConfig =
       context.settings.browsers ||
-      context.settings.targets;
+      context.settings.targets ||
+      context.options[0];
 
     const browserslistTargets = Versioning(DetermineTargetsFromConfig(browserslistConfig));
 

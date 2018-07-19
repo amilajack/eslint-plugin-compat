@@ -53,7 +53,7 @@ Alternatively, you can use the `recommended` configuration which will do this fo
 ```
 
 ## Targeting Browsers
-`eslint-plugin-compat` uses the browserslist configuration in `package.json`
+`eslint-plugin-compat` uses the browserslist configuration in `package.json` or from rule option
 
 See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Here's some examples:
 
@@ -62,6 +62,16 @@ See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Her
 {
   // ...
   "browserslist": ["last 1 versions", "not ie <= 8"],
+}
+```
+
+```js
+// Simple configuration (package.json)
+{
+  // ...
+  "rules": [
+    "compat/compat": ["error", "defaults, not ie < 9"],
+  ]
 }
 ```
 
