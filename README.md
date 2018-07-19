@@ -66,7 +66,7 @@ See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Her
 ```
 
 ```js
-// Simple configuration (package.json)
+// CLI configuration (.eslintrc.json)
 {
   // ...
   "rules": [
