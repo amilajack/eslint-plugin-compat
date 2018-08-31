@@ -1,15 +1,14 @@
 {
   "presets": [
-    ["env", {
-      "targets": { "node": 4 },
-      "useBuiltIns": true
-    }],
-    "stage-0"
-  ],
-  "plugins": [
-    "syntax-flow",
-    "transform-flow-strip-types",
-    "transform-runtime",
-    "add-module-exports"
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": 8
+        },
+        "useBuiltIns": "usage"
+      }
+    ],
+    "@babel/preset-flow"
   ]
 }

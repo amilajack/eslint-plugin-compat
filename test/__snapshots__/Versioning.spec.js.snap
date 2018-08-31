@@ -73,9 +73,9 @@ Array [
     "version": "14",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 65,
     "target": "chrome",
-    "version": "64",
+    "version": "65",
   },
   Object {
     "parsedVersion": 7,
@@ -168,9 +168,9 @@ Array [
     "version": "14",
   },
   Object {
-    "parsedVersion": 58,
+    "parsedVersion": 59,
     "target": "chrome",
-    "version": "58",
+    "version": "59",
   },
   Object {
     "parsedVersion": 7,
@@ -211,28 +211,28 @@ Array [
 `;
 
 exports[`Versioning should support single version config in browserslist package.json 1`] = `
-Array [
-  Object {
+Object {
+  "0": Object {
     "parsedVersion": 8,
     "target": "safari",
     "version": "8",
   },
-  Object {
+  "1": Object {
     "parsedVersion": 9,
     "target": "ie",
     "version": "9",
   },
-  Object {
+  "2": Object {
     "parsedVersion": 20,
     "target": "firefox",
     "version": "20",
   },
-  Object {
+  "3": Object {
     "parsedVersion": 32,
     "target": "chrome",
     "version": "32",
   },
-]
+}
 `;
 
 exports[`Versioning should support string config in rule option 1`] = `
