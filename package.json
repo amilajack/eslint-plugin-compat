@@ -22,7 +22,6 @@
     "url": "https://github.com/amilajack/eslint-plugin-compat/issues"
   },
   "files": [
-    "index.js",
     "lib"
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
@@ -40,12 +39,12 @@
     "testEnvironment": "node"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "babel-core": "^7.0.0-0",
     "babel-jest": "^23.4.2",
     "cross-env": "^5.2.0",
     "download-cli": "^1.1.1",
