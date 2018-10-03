@@ -1,3 +1,8 @@
+## v2.6.0
+### Updated
+- Updated all deps to latest semver
+- Upgraded to babel@7
+
 ## v2.4.0
 ### Updated
 - Updated all deps to latest semver
