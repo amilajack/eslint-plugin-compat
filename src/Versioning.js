@@ -2,7 +2,6 @@
 import browserslist from 'browserslist'; // eslint-disable-line
 import type { BrowserListConfig } from './rules/compat';
 
-
 type TargetListItem = {
   target: string,
   parsedVersion: number,

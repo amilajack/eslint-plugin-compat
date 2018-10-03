@@ -3,7 +3,6 @@ import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
 import type { ESLintNode, Node } from '../LintTypes'; // eslint-disable-line
 
-
 type ESLint = {
   [ASTNodeTypeName: string]: (node: ESLintNode) => void
 };
@@ -40,9 +39,8 @@ export default {
   create(context: Context): ESLint {
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
-    const browserslistConfig: BrowserListConfig =
-      context.settings.browsers ||
-      context.settings.targets;
+    const browserslistConfig: BrowserListConfig = context.settings.browsers
+      || context.settings.targets;
 
     const browserslistTargets = Versioning(DetermineTargetsFromConfig(browserslistConfig));
 

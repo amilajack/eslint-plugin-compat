@@ -1,7 +1,13 @@
 // @flow
 import { rules } from './providers/index';
-import type { Node, ESLintNode, Targets, isValidObject } from './LintTypes';
+import type {
+  Node,
+  ESLintNode,
+  Targets,
+  isValidObject
+} from './LintTypes';
 
+console.log(rules);
 
 export function generateErrorName(_node: Node): string {
   if (_node.name) return _node.name;
@@ -22,11 +28,9 @@ export default function Lint(
 ): isValidObject {
   // Find the corresponding rules for a eslintNode by it's ASTNodeType
   const failingRule = rules
-    .filter((rule: Node): bool =>
-      // Validate ASTNodeType
-      rule.ASTNodeType === eslintNode.type &&
+    .filter((rule: Node): bool => rule.ASTNodeType === eslintNode.type
       // Check if polyfill is provided
-      !polyfills.has(rule.id))
+      && !polyfills.has(rule.id))
     // Find the first failing rule
     .find((rule: Node): bool => !rule.isValid(rule, eslintNode, targets));
 
