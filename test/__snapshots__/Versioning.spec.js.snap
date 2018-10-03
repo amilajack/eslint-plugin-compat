@@ -28,14 +28,14 @@ Array [
     "version": "4",
   },
   Object {
-    "parsedVersion": 10,
+    "parsedVersion": 10.1,
     "target": "safari",
-    "version": "10",
+    "version": "10.1",
   },
   Object {
-    "parsedVersion": 50,
+    "parsedVersion": 52,
     "target": "opera",
-    "version": "50",
+    "version": "52",
   },
   Object {
     "parsedVersion": 11.5,
@@ -63,9 +63,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 59,
     "target": "firefox",
-    "version": "52",
+    "version": "59",
   },
   Object {
     "parsedVersion": 14,
@@ -73,9 +73,9 @@ Array [
     "version": "14",
   },
   Object {
-    "parsedVersion": 65,
+    "parsedVersion": 66,
     "target": "chrome",
-    "version": "65",
+    "version": "66",
   },
   Object {
     "parsedVersion": 7,
@@ -103,14 +103,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 60,
+    "parsedVersion": 62,
     "target": "and_ff",
-    "version": "60",
+    "version": "62",
   },
   Object {
-    "parsedVersion": 67,
+    "parsedVersion": 69,
     "target": "and_chr",
-    "version": "67",
+    "version": "69",
   },
 ]
 `;
@@ -123,14 +123,14 @@ Array [
     "version": "4",
   },
   Object {
-    "parsedVersion": 10,
+    "parsedVersion": 10.1,
     "target": "safari",
-    "version": "10",
+    "version": "10.1",
   },
   Object {
-    "parsedVersion": 50,
+    "parsedVersion": 52,
     "target": "opera",
-    "version": "50",
+    "version": "52",
   },
   Object {
     "parsedVersion": 11.5,
@@ -158,9 +158,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 59,
     "target": "firefox",
-    "version": "52",
+    "version": "59",
   },
   Object {
     "parsedVersion": 14,
@@ -168,9 +168,9 @@ Array [
     "version": "14",
   },
   Object {
-    "parsedVersion": 59,
+    "parsedVersion": 60,
     "target": "chrome",
-    "version": "59",
+    "version": "60",
   },
   Object {
     "parsedVersion": 7,
@@ -198,14 +198,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 60,
+    "parsedVersion": 62,
     "target": "and_ff",
-    "version": "60",
+    "version": "62",
   },
   Object {
-    "parsedVersion": 67,
+    "parsedVersion": 69,
     "target": "and_chr",
-    "version": "67",
+    "version": "69",
   },
 ]
 `;
