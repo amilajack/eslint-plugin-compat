@@ -3,14 +3,18 @@
  * @flow
  */
 
-
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-
-import requireIndex from 'requireindex';
 import recommended from './config/recommended';
 
+//------------------------------------------------------------------------------
+// Plugin Definition
+//------------------------------------------------------------------------------
+
+
+// import all rules in lib/rules
+import compat from './rules/compat';
 
 export const configs = {
   recommended
@@ -19,10 +23,6 @@ export const configs = {
 // Kept for backwards compatibility
 export const config = configs;
 
-//------------------------------------------------------------------------------
-// Plugin Definition
-//------------------------------------------------------------------------------
-
-
-// import all rules in lib/rules
-export const rules = requireIndex(`${__dirname}/rules`);
+export const rules = {
+  compat
+};

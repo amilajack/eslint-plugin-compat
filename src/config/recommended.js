@@ -4,6 +4,6 @@ export default {
     browser: true
   },
   rules: {
-    'compat/compat': 2
+    'compat/compat': 'error'
   }
 };

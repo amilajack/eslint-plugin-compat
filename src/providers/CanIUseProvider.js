@@ -1,23 +1,27 @@
 // @flow
 // $FlowFixMe: Flow import error
 import caniuseRecord from 'caniuse-db/fulldata-json/data-2.0.json'; // eslint-disable-line
-import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
-
+import type {
+  Node,
+  ESLintNode,
+  Targets,
+  Target
+} from '../LintTypes';
 
 type TargetMetadata = {
   // The list of targets supported by the provider
   targets: Targets
 };
 
-type CanIUseRecord = {
-  data: CanIUseStats,
-};
-
 type CanIUseStats = {
   [browser: string]: {
     [version: string]: string
   }
-}
+};
+
+type CanIUseRecord = {
+  data: CanIUseStats,
+};
 
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
@@ -78,10 +82,9 @@ function compareRanges(targetVersion: number, statsVersion: string): bool {
 function canIUseSupported(stats: CanIUseStats, { version, target, parsedVersion }: Target): bool {
   const targetStats = stats[target];
   return (versionIsRange(version))
-    ? Object.keys(targetStats).some((statsVersion: string): bool =>
-      ((versionIsRange(statsVersion) && compareRanges(parsedVersion, statsVersion))
-        ? !targetStats[statsVersion].includes('y')
-        : false))
+    ? Object.keys(targetStats).some((statsVersion: string): bool => ((versionIsRange(statsVersion) && compareRanges(parsedVersion, statsVersion))
+      ? !targetStats[statsVersion].includes('y')
+      : false))
     : targetStats[version] && !targetStats[version].includes('y');
 }
 
@@ -133,106 +136,104 @@ const CanIUseProvider: Array<Node> = [
   {
     id: 'serviceworkers',
     ASTNodeType: 'NewExpression',
-    object: 'ServiceWorker',
+    object: 'ServiceWorker'
   },
   {
     id: 'serviceworkers',
     ASTNodeType: 'MemberExpression',
     object: 'navigator',
-    property: 'serviceWorker',
+    property: 'serviceWorker'
   },
   // document.querySelector()
   {
     id: 'queryselector',
     ASTNodeType: 'MemberExpression',
     object: 'document',
-    property: 'querySelector',
+    property: 'querySelector'
   },
   // WebAssembly
   {
     id: 'wasm',
     ASTNodeType: 'MemberExpression',
-    object: 'WebAssembly',
+    object: 'WebAssembly'
   },
   // IntersectionObserver
   {
     id: 'intersectionobserver',
     ASTNodeType: 'NewExpression',
-    object: 'IntersectionObserver',
+    object: 'IntersectionObserver'
   },
   // PaymentRequest
   {
     id: 'payment-request',
     ASTNodeType: 'NewExpression',
-    object: 'PaymentRequest',
+    object: 'PaymentRequest'
   },
   // Promises
   {
     id: 'promises',
     ASTNodeType: 'NewExpression',
-    object: 'Promise',
+    object: 'Promise'
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
-    property: 'resolve',
+    property: 'resolve'
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
-    property: 'all',
+    property: 'all'
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
-    property: 'race',
+    property: 'race'
   },
   {
     id: 'promises',
     ASTNodeType: 'MemberExpression',
     object: 'Promise',
-    property: 'reject',
+    property: 'reject'
   },
   // fetch
   {
     id: 'fetch',
     ASTNodeType: 'CallExpression',
-    object: 'fetch',
+    object: 'fetch'
   },
   // document.currentScript()
   {
     id: 'document-currentscript',
     ASTNodeType: 'MemberExpression',
     object: 'document',
-    property: 'currentScript',
+    property: 'currentScript'
   },
   // URL
   {
     id: 'url',
     ASTNodeType: 'NewExpression',
-    object: 'URL',
+    object: 'URL'
   },
   // URLSearchParams
   {
     id: 'urlsearchparams',
     ASTNodeType: 'NewExpression',
-    object: 'URLSearchParams',
+    object: 'URLSearchParams'
   },
   // performance.now()
   {
     id: 'high-resolution-time',
     ASTNodeType: 'MemberExpression',
     object: 'performance',
-    property: 'now',
-  },
-].map(rule =>
-  Object.assign({}, rule, {
-    isValid,
-    getUnsupportedTargets,
-  })
-);
+    property: 'now'
+  }
+].map(rule => Object.assign({}, rule, {
+  isValid,
+  getUnsupportedTargets
+}));
 
 export default CanIUseProvider;

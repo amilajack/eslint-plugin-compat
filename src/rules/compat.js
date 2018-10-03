@@ -3,7 +3,6 @@ import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
 import type { ESLintNode, Node } from '../LintTypes'; // eslint-disable-line
 
-
 type ESLint = {
   [ASTNodeTypeName: string]: (node: ESLintNode) => void
 };
