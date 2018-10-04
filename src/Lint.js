@@ -7,8 +7,6 @@ import type {
   isValidObject
 } from './LintTypes';
 
-console.log(rules);
-
 export function generateErrorName(_node: Node): string {
   if (_node.name) return _node.name;
   if (_node.property) return `${_node.object}.${_node.property}()`;
