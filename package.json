@@ -71,10 +71,5 @@
   "engines": {
     "node": ">=8.x",
     "npm": ">=6.4.1"
-  },
-  "greenkeeper": {
-    "ignore": [
-      "caniuse-db"
-    ]
   }
 }
