@@ -2389,9 +2389,9 @@ extend@3.0.1:
   resolved "https://registry.npmjs.org/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
   integrity sha1-p1Xqe8Gt/MWjHOfnYtuq3F5jZEQ=
 
-extend@~3.0.2:
+extend@3.0.2, extend@~3.0.2:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
 
 external-editor@^3.0.0:
@@ -4123,12 +4123,12 @@ mdn-browser-compat-data@^0.0.40:
   dependencies:
     extend "3.0.1"
 
-mdn-browser-compat-data@^0.0.52:
-  version "0.0.52"
-  resolved "https://registry.npmjs.org/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.52.tgz#56fbcaea180c502dd9cd79230bb9806516e7f88c"
-  integrity sha512-QLA/GSnl6g/e0mMcoTmyDWbS5txJQVW7Fv9KDbVla/0YsEiY9ZvHLqKW/QqQK7iXVFgqFxWX6VjLE8t6ibA8gg==
+mdn-browser-compat-data@^0.0.53:
+  version "0.0.53"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.53.tgz#ee67cf4f3bd93fddcef285ad9b5cdb0786ccf031"
+  integrity sha512-HQLa/4yE0jNXDgHsFUEuwIobKc+UZvJEFbbmI+w8NsrcrwpxBnS/Jv6+VAxL4Nt1oy8jz97SzAyvZSj1v5fxjQ==
   dependencies:
-    extend "3.0.1"
+    extend "3.0.2"
 
 mem@^1.1.0:
   version "1.1.0"
