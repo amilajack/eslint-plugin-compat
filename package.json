@@ -70,7 +70,7 @@
   },
   "engines": {
     "node": ">=8.x",
-    "npm": ">=1.0.0"
+    "npm": ">=6.4.1"
   },
   "greenkeeper": {
     "ignore": [
