@@ -1,3 +1,7 @@
+## v2.6.2
+### Fixed
+- Bumped deps
+
 ## v2.6.1
 ### Fixed
 - Removed `console.log` statement
