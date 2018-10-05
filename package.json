@@ -45,6 +45,7 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge",
     "babel-jest": "^23.6.0",
     "cross-env": "^5.2.0",
     "download-cli": "^1.1.1",
