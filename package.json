@@ -65,9 +65,6 @@
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0"
   },
-  "resolutions": {
-    "babel-core": "7.0.0-bridge.0"
-  },
   "engines": {
     "node": ">=8.x",
     "npm": ">=6.4.1"
