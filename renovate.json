@@ -6,5 +6,8 @@
   "statusCheckVerify": true,
   "ignoreDeps": [
     "caniuse-db"
-  ]
+  ],
+  "devDependencies": {
+    "enabled": false
+  }
 }
