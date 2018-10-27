@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
-    "browserslist": "^4.2.0",
+    "browserslist": "^4.3.4",
     "caniuse-db": "^1.0.30000889",
     "mdn-browser-compat-data": "^0.0.54"
   },
