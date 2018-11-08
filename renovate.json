@@ -3,10 +3,10 @@
     "config:base"
   ],
   "rangeStrategy": "bump",
-  "statusCheckVerify": true,
-  "ignoreDeps": [
-    "caniuse-db"
-  ],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  },
   "devDependencies": {
     "enabled": false
   }
