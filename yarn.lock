@@ -1470,6 +1470,11 @@ caniuse-db@^1.0.30000889:
   resolved "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000889.tgz#f6177927a0c56bbd56ff70f11e4bb28be3889052"
   integrity sha512-Rf9Sbm2KS7s6Rk8iNeI5zJdquqctXBXAfy/bb1tCCYRds5RAaHNdyt2D4z8TSRToDkYsAwiSBV/bFHR+4IgTiw==
 
+caniuse-db@^1.0.30000907:
+  version "1.0.30000907"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000907.tgz#2b4b8dff95e0b284dae24ef76ac2d96aa42f42d6"
+  integrity sha512-OKtlTmEPR9GgCxnKMlvdHTT2QD6n4eIovcVqEnjoR8iB9l6rk4abKnjsDSyTD36an/ebgigl8T2CSdwSf4JoGw==
+
 caniuse-lite@^1.0.30000888:
   version "1.0.30000889"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000889.tgz#53e266c83e725ad3bd2e4a3ea76d5031a8aa4c3e"
