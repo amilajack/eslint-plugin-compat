@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "enabled": false
-  }
+  },
+  "ignoreDeps": [
+    "caniuse-db"
+  ]
 }
