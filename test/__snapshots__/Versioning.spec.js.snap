@@ -33,9 +33,9 @@ Array [
     "version": "10.1",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 54,
     "target": "opera",
-    "version": "52",
+    "version": "54",
   },
   Object {
     "parsedVersion": 11.5,
@@ -48,9 +48,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10,
+    "parsedVersion": 10.3,
     "target": "ios_saf",
-    "version": "10.0-10.2",
+    "version": "10.3",
   },
   Object {
     "parsedVersion": 10,
@@ -63,19 +63,19 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 59,
+    "parsedVersion": 60,
     "target": "firefox",
-    "version": "59",
+    "version": "60",
   },
   Object {
-    "parsedVersion": 14,
+    "parsedVersion": 15,
     "target": "edge",
-    "version": "14",
+    "version": "15",
   },
   Object {
-    "parsedVersion": 66,
+    "parsedVersion": 67,
     "target": "chrome",
-    "version": "66",
+    "version": "67",
   },
   Object {
     "parsedVersion": 7,
@@ -103,14 +103,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 62,
+    "parsedVersion": 63,
     "target": "and_ff",
-    "version": "62",
+    "version": "63",
   },
   Object {
-    "parsedVersion": 69,
+    "parsedVersion": 70,
     "target": "and_chr",
-    "version": "69",
+    "version": "70",
   },
 ]
 `;
@@ -128,9 +128,9 @@ Array [
     "version": "10.1",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 54,
     "target": "opera",
-    "version": "52",
+    "version": "54",
   },
   Object {
     "parsedVersion": 11.5,
@@ -143,9 +143,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10,
+    "parsedVersion": 10.3,
     "target": "ios_saf",
-    "version": "10.0-10.2",
+    "version": "10.3",
   },
   Object {
     "parsedVersion": 10,
@@ -158,19 +158,19 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 59,
-    "target": "firefox",
-    "version": "59",
-  },
-  Object {
-    "parsedVersion": 14,
-    "target": "edge",
-    "version": "14",
-  },
-  Object {
     "parsedVersion": 60,
-    "target": "chrome",
+    "target": "firefox",
     "version": "60",
+  },
+  Object {
+    "parsedVersion": 15,
+    "target": "edge",
+    "version": "15",
+  },
+  Object {
+    "parsedVersion": 61,
+    "target": "chrome",
+    "version": "61",
   },
   Object {
     "parsedVersion": 7,
@@ -198,14 +198,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 62,
+    "parsedVersion": 63,
     "target": "and_ff",
-    "version": "62",
+    "version": "63",
   },
   Object {
-    "parsedVersion": 69,
+    "parsedVersion": 70,
     "target": "and_chr",
-    "version": "69",
+    "version": "70",
   },
 ]
 `;
@@ -243,14 +243,14 @@ Array [
     "version": "4",
   },
   Object {
-    "parsedVersion": 11,
+    "parsedVersion": 11.1,
     "target": "safari",
-    "version": "11",
+    "version": "11.1",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 56,
     "target": "opera",
-    "version": "52",
+    "version": "56",
   },
   Object {
     "parsedVersion": 46,
@@ -263,9 +263,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10.3,
+    "parsedVersion": 11,
     "target": "ios_saf",
-    "version": "10.3",
+    "version": "11.0-11.2",
   },
   Object {
     "parsedVersion": 11,
@@ -278,14 +278,14 @@ Array [
     "version": "11",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 60,
     "target": "firefox",
-    "version": "52",
+    "version": "60",
   },
   Object {
-    "parsedVersion": 16,
+    "parsedVersion": 17,
     "target": "edge",
-    "version": "16",
+    "version": "17",
   },
   Object {
     "parsedVersion": 49,
@@ -313,14 +313,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 60,
+    "parsedVersion": 63,
     "target": "and_ff",
-    "version": "60",
+    "version": "63",
   },
   Object {
-    "parsedVersion": 67,
+    "parsedVersion": 70,
     "target": "and_chr",
-    "version": "67",
+    "version": "70",
   },
 ]
 `;
