@@ -1,12 +1,7 @@
 // @flow
 // $FlowFixMe: Flow import error
 import caniuseRecord from 'caniuse-db/fulldata-json/data-2.0.json'; // eslint-disable-line
-import type {
-  Node,
-  ESLintNode,
-  Targets,
-  Target
-} from '../LintTypes';
+import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
 
 type TargetMetadata = {
   // The list of targets supported by the provider
@@ -20,15 +15,29 @@ type CanIUseStats = {
 };
 
 type CanIUseRecord = {
-  data: CanIUseStats,
+  data: CanIUseStats
 };
 
 // HACK: modern targets should be determined once at runtime
 export const targetMetadata: TargetMetadata = {
   targets: [
-    'chrome', 'firefox', 'opera', 'safari', 'ie', 'edge', 'ios_saf',
-    'op_mini', 'android', 'bb', 'op_mob', 'and_chr', 'and_ff', 'ie_mob', 'and_uc',
-    'samsung', 'baidu'
+    'chrome',
+    'firefox',
+    'opera',
+    'safari',
+    'ie',
+    'edge',
+    'ios_saf',
+    'op_mini',
+    'android',
+    'bb',
+    'op_mob',
+    'and_chr',
+    'and_ff',
+    'ie_mob',
+    'and_uc',
+    'samsung',
+    'baidu'
   ]
 };
 
@@ -65,33 +74,43 @@ function formatTargetNames(target: Target): string {
  * Check version for the range format.
  * ex. 10.0-10.2
  */
-function versionIsRange(version: string): bool {
+function versionIsRange(version: string): boolean {
   return version.includes('-');
 }
 
 /**
  * Parse version from caniuse and compare with parsed version from browserslist.
  */
-function compareRanges(targetVersion: number, statsVersion: string): bool {
+function compareRanges(targetVersion: number, statsVersion: string): boolean {
   return targetVersion === parseFloat(statsVersion);
 }
 
 /*
  * Check the CanIUse database to see if targets are supported
  */
-function canIUseSupported(stats: CanIUseStats, { version, target, parsedVersion }: Target): bool {
+function canIUseSupported(
+  stats: CanIUseStats,
+  { version, target, parsedVersion }: Target
+): boolean {
   const targetStats = stats[target];
-  return (versionIsRange(version))
-    ? Object.keys(targetStats).some((statsVersion: string): bool => ((versionIsRange(statsVersion) && compareRanges(parsedVersion, statsVersion))
-      ? !targetStats[statsVersion].includes('y')
-      : false))
+  return versionIsRange(version)
+    ? Object.keys(targetStats).some(
+        (statsVersion: string): boolean =>
+          versionIsRange(statsVersion) &&
+          compareRanges(parsedVersion, statsVersion)
+            ? !targetStats[statsVersion].includes('y')
+            : false
+      )
     : targetStats[version] && !targetStats[version].includes('y');
 }
 
 /**
  * Return an array of all unsupported targets
  */
-export function getUnsupportedTargets(node: Node, targets: Targets): Array<string> {
+export function getUnsupportedTargets(
+  node: Node,
+  targets: Targets
+): Array<string> {
   const { stats } = (caniuseRecord: CanIUseRecord).data[node.id];
   return targets
     .filter(target => canIUseSupported(stats, target))
@@ -101,7 +120,11 @@ export function getUnsupportedTargets(node: Node, targets: Targets): Array<strin
 /**
  * Check if the node has matching object or properties
  */
-function isValid(node: Node, eslintNode: ESLintNode, targets: Targets): bool {
+function isValid(
+  node: Node,
+  eslintNode: ESLintNode,
+  targets: Targets
+): boolean {
   switch (eslintNode.type) {
     case 'CallExpression':
     case 'NewExpression':
@@ -231,9 +254,11 @@ const CanIUseProvider: Array<Node> = [
     object: 'performance',
     property: 'now'
   }
-].map(rule => Object.assign({}, rule, {
-  isValid,
-  getUnsupportedTargets
-}));
+].map(rule =>
+  Object.assign({}, rule, {
+    isValid,
+    getUnsupportedTargets
+  })
+);
 
 export default CanIUseProvider;

@@ -3,7 +3,6 @@ import multiEnvPackageJSON from './multi-config.package.json';
 import singleArrayEnvPackageJSON from './single-array-config.package.json';
 import singleVersionEnvPackageJSON from './single-version-config.package.json';
 
-
 describe('Versioning', () => {
   it('should support multi env config in browserslist package.json', () => {
     const config = DetermineTargetsFromConfig(multiEnvPackageJSON.browsers);
@@ -12,13 +11,17 @@ describe('Versioning', () => {
   });
 
   it('should support single array config in browserslist package.json', () => {
-    const config = DetermineTargetsFromConfig(singleArrayEnvPackageJSON.browsers);
+    const config = DetermineTargetsFromConfig(
+      singleArrayEnvPackageJSON.browsers
+    );
     const result = Versioning(config);
     expect(result).toMatchSnapshot();
   });
 
   it('should support single version config in browserslist package.json', () => {
-    const config = DetermineTargetsFromConfig(singleVersionEnvPackageJSON.browsers);
+    const config = DetermineTargetsFromConfig(
+      singleVersionEnvPackageJSON.browsers
+    );
     const result = Versioning(config);
     expect(result).toMatchSnapshot([
       { target: 'safari', version: '8', parsedVersion: 8 },

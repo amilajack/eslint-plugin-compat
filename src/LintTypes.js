@@ -17,12 +17,11 @@ export type ESLintNode = {
   callee?: {
     name?: string,
     type?: string,
-    computed: bool,
+    computed: boolean,
     object?: node,
     property?: node
   }
-}
-& node;
+} & node;
 
 export type Node = {
   ASTNodeType: string,
@@ -30,19 +29,16 @@ export type Node = {
   object: string,
   property?: string,
   name?: string,
-  getUnsupportedTargets: (
-    node: Node,
-    targets: Targets
-  ) => Array<string>,
+  getUnsupportedTargets: (node: Node, targets: Targets) => Array<string>,
   isValid: (
     node: Node,
     eslintNode: ESLintNode,
     targets: Array<string>
-  ) => bool
+  ) => boolean
 };
 
 export type isValidObject = {
   rule: Node,
-  isValid: bool,
+  isValid: boolean,
   unsupportedTargets: Array<string>
 };

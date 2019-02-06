@@ -12,7 +12,6 @@ import recommended from './config/recommended';
 // Plugin Definition
 //------------------------------------------------------------------------------
 
-
 // import all rules in lib/rules
 import compat from './rules/compat';
 

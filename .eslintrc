@@ -3,5 +3,8 @@
   "env": {
     "node": true,
     "jest": true
+  },
+  "rules": {
+    "flowtype-errors/show-errors": "warn"
   }
 }

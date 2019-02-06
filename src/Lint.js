@@ -1,11 +1,6 @@
 // @flow
 import { rules } from './providers/index';
-import type {
-  Node,
-  ESLintNode,
-  Targets,
-  isValidObject
-} from './LintTypes';
+import type { Node, ESLintNode, Targets, isValidObject } from './LintTypes';
 
 export function generateErrorName(_node: Node): string {
   if (_node.name) return _node.name;
@@ -26,21 +21,27 @@ export default function Lint(
 ): isValidObject {
   // Find the corresponding rules for a eslintNode by it's ASTNodeType
   const failingRule = rules
-    .filter((rule: Node): bool => rule.ASTNodeType === eslintNode.type
-      // Check if polyfill is provided
-      && !polyfills.has(rule.id))
+    .filter(
+      (rule: Node): boolean =>
+        rule.ASTNodeType === eslintNode.type &&
+        // Check if polyfill is provided
+        !polyfills.has(rule.id)
+    )
     // Find the first failing rule
-    .find((rule: Node): bool => !rule.isValid(rule, eslintNode, targets));
+    .find((rule: Node): boolean => !rule.isValid(rule, eslintNode, targets));
 
   return failingRule
     ? {
-      rule: failingRule,
-      isValid: false,
-      unsupportedTargets: failingRule.getUnsupportedTargets(failingRule, targets)
-    }
+        rule: failingRule,
+        isValid: false,
+        unsupportedTargets: failingRule.getUnsupportedTargets(
+          failingRule,
+          targets
+        )
+      }
     : {
-      rule: {},
-      unsupportedTargets: [],
-      isValid: true
-    };
+        rule: {},
+        unsupportedTargets: [],
+        isValid: true
+      };
 }
