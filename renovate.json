@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:base"
+    "bliss"
   ],
   "rangeStrategy": "bump",
   "automerge": true,
