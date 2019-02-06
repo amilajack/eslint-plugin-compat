@@ -1,5 +1,4 @@
 {
-  "parser": "babel-eslint",
   "extends": "bliss",
   "env": {
     "node": true,

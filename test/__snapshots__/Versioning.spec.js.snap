@@ -33,9 +33,9 @@ Array [
     "version": "10.1",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 54,
     "target": "opera",
-    "version": "52",
+    "version": "54",
   },
   Object {
     "parsedVersion": 11.5,
@@ -48,9 +48,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10,
+    "parsedVersion": 10.3,
     "target": "ios_saf",
-    "version": "10.0-10.2",
+    "version": "10.3",
   },
   Object {
     "parsedVersion": 10,
@@ -63,19 +63,19 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 59,
+    "parsedVersion": 60,
     "target": "firefox",
-    "version": "59",
+    "version": "60",
   },
   Object {
-    "parsedVersion": 14,
+    "parsedVersion": 15,
     "target": "edge",
-    "version": "14",
+    "version": "15",
   },
   Object {
-    "parsedVersion": 66,
+    "parsedVersion": 58,
     "target": "chrome",
-    "version": "66",
+    "version": "58",
   },
   Object {
     "parsedVersion": 7,
@@ -103,14 +103,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 62,
+    "parsedVersion": 64,
     "target": "and_ff",
-    "version": "62",
+    "version": "64",
   },
   Object {
-    "parsedVersion": 69,
+    "parsedVersion": 71,
     "target": "and_chr",
-    "version": "69",
+    "version": "71",
   },
 ]
 `;
@@ -128,9 +128,9 @@ Array [
     "version": "10.1",
   },
   Object {
-    "parsedVersion": 52,
+    "parsedVersion": 54,
     "target": "opera",
-    "version": "52",
+    "version": "54",
   },
   Object {
     "parsedVersion": 11.5,
@@ -143,9 +143,9 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10,
+    "parsedVersion": 10.3,
     "target": "ios_saf",
-    "version": "10.0-10.2",
+    "version": "10.3",
   },
   Object {
     "parsedVersion": 10,
@@ -158,19 +158,19 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 59,
-    "target": "firefox",
-    "version": "59",
-  },
-  Object {
-    "parsedVersion": 14,
-    "target": "edge",
-    "version": "14",
-  },
-  Object {
     "parsedVersion": 60,
-    "target": "chrome",
+    "target": "firefox",
     "version": "60",
+  },
+  Object {
+    "parsedVersion": 15,
+    "target": "edge",
+    "version": "15",
+  },
+  Object {
+    "parsedVersion": 58,
+    "target": "chrome",
+    "version": "58",
   },
   Object {
     "parsedVersion": 7,
@@ -198,14 +198,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 62,
+    "parsedVersion": 64,
     "target": "and_ff",
-    "version": "62",
+    "version": "64",
   },
   Object {
-    "parsedVersion": 69,
+    "parsedVersion": 71,
     "target": "and_chr",
-    "version": "69",
+    "version": "71",
   },
 ]
 `;
