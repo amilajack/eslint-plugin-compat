@@ -19,7 +19,7 @@ npm install --save-dev eslint-plugin-compat
 
 Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`, then configure the `"compat/compat"` rule.
 
-If you use **typescript**, see [typescript-eslint-parser](https://github.com/eslint/typescript-eslint-parser).
+If you use **typescript**, see [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint).
 ```js
 // .eslintrc
 {
