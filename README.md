@@ -54,7 +54,7 @@ Alternatively, you can use the `recommended` configuration which will do this fo
 ## Targeting Browsers
 `eslint-plugin-compat` uses the browserslist configuration in `package.json`
 
-See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Here's some examples:
+See [browserslist/browserslist](https://github.com/browserslist/browserslist) for configuration. Here's some examples:
 
 ```js
 // Simple configuration (package.json)
@@ -75,7 +75,7 @@ See [ai/browserslist](https://github.com/ai/browserslist) for configuration. Her
 }
 ```
 
-:bulb: You can also define browsers in a [separate browserslist file](https://github.com/ai/browserslist#config-file)
+:bulb: You can also define browsers in a [separate browserslist file](https://github.com/browserslist/browserslist#config-file)
 
 ## Adding Polyfills
 [See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
