@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-compat",
-  "version": "2.6.3",
+  "version": "2.7.0",
   "description": "Lint browser compatibility of API used",
   "main": "lib/index.js",
   "repository": {
