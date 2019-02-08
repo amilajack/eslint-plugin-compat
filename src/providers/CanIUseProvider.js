@@ -253,6 +253,12 @@ const CanIUseProvider: Array<Node> = [
     ASTNodeType: 'MemberExpression',
     object: 'performance',
     property: 'now'
+  },
+  {
+    id: 'object-values',
+    ASTNodeType: 'MemberExpression',
+    object: 'Object',
+    property: 'values'
   }
 ].map(rule =>
   Object.assign({}, rule, {

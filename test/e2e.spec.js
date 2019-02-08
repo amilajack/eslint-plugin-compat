@@ -61,6 +61,16 @@ ruleTester.run('compat', rule, {
     //   }]
     // },
     {
+      code: 'Object.values({})',
+      settings: { browsers: ['safari 9'] },
+      errors: [
+        {
+          message: 'Object.values() is not supported in Safari 9',
+          type: 'MemberExpression'
+        }
+      ]
+    },
+    {
       code: 'new ServiceWorker()',
       settings: { browsers: ['chrome 31'] },
       errors: [
