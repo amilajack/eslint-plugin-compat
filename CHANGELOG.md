@@ -1,6 +1,6 @@
-## v2.6.2
-### Fixed
-- Bumped deps
+## v2.7.0
+### Added
+- `Object.values()` support
 
 ## v2.6.1
 ### Fixed
