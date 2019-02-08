@@ -19,11 +19,11 @@ export default function Lint(
   targets: Targets = ['chrome', 'firefox', 'safari', 'edge'],
   polyfills: Set<string> = new Set()
 ): isValidObject {
-  // Find the corresponding rules for a eslintNode by it's ASTNodeType
+  // Find the corresponding rules for a eslintNode by it's astNodeType
   const failingRule = rules
     .filter(
       (rule: Node): boolean =>
-        rule.ASTNodeType === eslintNode.type &&
+        rule.astNodeType === eslintNode.type &&
         // Check if polyfill is provided
         !polyfills.has(rule.id)
     )

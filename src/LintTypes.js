@@ -1,7 +1,9 @@
 // @flow
 export type node = {
-  type?: string,
-  name?: string
+  type?: 'MemberExpression' | 'NewExpression' | 'CallExpression',
+  name?: string,
+  object: string,
+  property: string | void
 };
 
 export type Target = {
@@ -24,7 +26,7 @@ export type ESLintNode = {
 } & node;
 
 export type Node = {
-  ASTNodeType: string,
+  astNodeType: string,
   id: string,
   object: string,
   property?: string,

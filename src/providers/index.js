@@ -1,8 +1,7 @@
 // @flow
-import Kangax from './KangaxProvider';
 import CanIUse from './CanIUseProvider';
+import Mdn from './MdnProvider';
 import type { Node } from '../LintTypes';
 
-export const rules: Array<Node> = [...Kangax, ...CanIUse];
-
-export default {};
+// eslint-disable-next-line import/prefer-default-export
+export const rules: Array<Node> = [...CanIUse, ...Mdn];

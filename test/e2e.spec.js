@@ -51,15 +51,6 @@ ruleTester.run('compat', rule, {
     }
   ],
   invalid: [
-    // TODO: Atomcis are not yet supported by caniuse
-    //
-    // {
-    //   code: 'Atomics.store()',
-    //   errors: [{
-    //     message: 'Unsupported API being used',
-    //     type: 'MemberExpression'
-    //   }]
-    // },
     {
       code: 'Object.values({})',
       settings: { browsers: ['safari 9'] },

@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe: Flow import error
-import caniuseRecord from 'caniuse-db/fulldata-json/data-2.0.json'; // eslint-disable-line
+import caniuseRecords from 'caniuse-db/fulldata-json/data-2.0.json';
 import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
 
 type TargetMetadata = {
@@ -14,7 +14,7 @@ type CanIUseStats = {
   }
 };
 
-type CanIUseRecord = {
+type CanIUseRecords = {
   data: CanIUseStats
 };
 
@@ -71,7 +71,7 @@ function formatTargetNames(target: Target): string {
 }
 
 /**
- * Check version for the range format.
+ * Check if a browser version is in the range format
  * ex. 10.0-10.2
  */
 function versionIsRange(version: string): boolean {
@@ -88,10 +88,11 @@ function compareRanges(targetVersion: number, statsVersion: string): boolean {
 /*
  * Check the CanIUse database to see if targets are supported
  */
-function canIUseSupported(
-  stats: CanIUseStats,
+function canIUseIsNotSupported(
+  node: Node,
   { version, target, parsedVersion }: Target
 ): boolean {
+  const { stats } = (caniuseRecords: CanIUseRecords).data[node.id];
   const targetStats = stats[target];
   return versionIsRange(version)
     ? Object.keys(targetStats).some(
@@ -111,9 +112,8 @@ export function getUnsupportedTargets(
   node: Node,
   targets: Targets
 ): Array<string> {
-  const { stats } = (caniuseRecord: CanIUseRecord).data[node.id];
   return targets
-    .filter(target => canIUseSupported(stats, target))
+    .filter(target => canIUseIsNotSupported(node, target))
     .map(formatTargetNames);
 }
 
@@ -146,119 +146,108 @@ function isValid(
       return true;
   }
 
-  return getUnsupportedTargets(node, targets).length === 0;
+  return !getUnsupportedTargets(node, targets).length;
 }
-
-//
-// TODO: Migrate to compat-db
-// TODO: Refactor isValid(), remove from rules
-//
 
 const CanIUseProvider: Array<Node> = [
   // new ServiceWorker()
   {
     id: 'serviceworkers',
-    ASTNodeType: 'NewExpression',
+    astNodeType: 'NewExpression',
     object: 'ServiceWorker'
   },
   {
     id: 'serviceworkers',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'navigator',
     property: 'serviceWorker'
   },
   // document.querySelector()
   {
     id: 'queryselector',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'document',
     property: 'querySelector'
   },
   // WebAssembly
   {
     id: 'wasm',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'WebAssembly'
   },
   // IntersectionObserver
   {
     id: 'intersectionobserver',
-    ASTNodeType: 'NewExpression',
+    astNodeType: 'NewExpression',
     object: 'IntersectionObserver'
   },
   // PaymentRequest
   {
     id: 'payment-request',
-    ASTNodeType: 'NewExpression',
+    astNodeType: 'NewExpression',
     object: 'PaymentRequest'
   },
   // Promises
   {
     id: 'promises',
-    ASTNodeType: 'NewExpression',
+    astNodeType: 'NewExpression',
     object: 'Promise'
   },
   {
     id: 'promises',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'resolve'
   },
   {
     id: 'promises',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'all'
   },
   {
     id: 'promises',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'race'
   },
   {
     id: 'promises',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'reject'
   },
   // fetch
   {
     id: 'fetch',
-    ASTNodeType: 'CallExpression',
+    astNodeType: 'CallExpression',
     object: 'fetch'
   },
   // document.currentScript()
   {
     id: 'document-currentscript',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'document',
     property: 'currentScript'
   },
   // URL
   {
     id: 'url',
-    ASTNodeType: 'NewExpression',
+    astNodeType: 'NewExpression',
     object: 'URL'
   },
   // URLSearchParams
   {
     id: 'urlsearchparams',
-    ASTNodeType: 'NewExpression',
+    astNodeType: 'NewExpression',
     object: 'URLSearchParams'
   },
   // performance.now()
   {
     id: 'high-resolution-time',
-    ASTNodeType: 'MemberExpression',
+    astNodeType: 'MemberExpression',
     object: 'performance',
     property: 'now'
-  },
-  {
-    id: 'object-values',
-    ASTNodeType: 'MemberExpression',
-    object: 'Object',
-    property: 'values'
   }
 ].map(rule =>
   Object.assign({}, rule, {
