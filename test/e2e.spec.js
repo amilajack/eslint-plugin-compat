@@ -55,6 +55,18 @@ ruleTester.run('compat', rule, {
   ],
   invalid: [
     {
+      code: 'new MediaRecorder()',
+      settings: {
+        browsers: ['ie 9']
+      },
+      errors: [
+        {
+          message: 'MediaRecorder is not supported in IE 9',
+          type: 'NewExpression'
+        }
+      ]
+    },
+    {
       code: 'new AnimationEvent',
       settings: { browsers: ['chrome 40'] },
       errors: [
