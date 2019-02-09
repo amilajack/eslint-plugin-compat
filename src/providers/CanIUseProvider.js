@@ -169,12 +169,6 @@ const CanIUseProvider: Array<Node> = [
     object: 'document',
     property: 'querySelector'
   },
-  // WebAssembly
-  {
-    id: 'wasm',
-    astNodeType: 'MemberExpression',
-    object: 'WebAssembly'
-  },
   // IntersectionObserver
   {
     id: 'intersectionobserver',

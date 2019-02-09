@@ -69,8 +69,13 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
   const record = mdnRecords.get(node.protoChainId);
   if (!record || !record.compat.support) return true;
   const compatRecord = record.compat.support[target];
-  if (!compatRecord || !('version_added' in compatRecord)) return true;
-  const { version_added: versionAdded } = compatRecord;
+  if (!compatRecord) return true;
+  if (!Array.isArray(compatRecord) && !('version_added' in compatRecord))
+    return true;
+  const { version_added: versionAdded } = Array.isArray(compatRecord)
+    ? compatRecord.find(e => 'version_added' in e)
+    : compatRecord;
+
   // If a version is true then it is supported but version is unsure
   if (typeof versionAdded === 'boolean') return versionAdded;
   // A browser supports an API if its version is greater than or equal
@@ -142,6 +147,7 @@ const MdnProvider: Array<Node> = AstMetadata
       ...metadata,
       name: getMetadataName(metadata),
       id: metadata.protoChainId,
+      protoChainId: metadata.protoChainId,
       astNodeType,
       object: metadata.protoChain[0],
       // @TODO Handle cases where 'prototype' is in protoChain
@@ -151,11 +157,10 @@ const MdnProvider: Array<Node> = AstMetadata
   // Flatten the array of arrays
   .reduce((p, c) => [...p, ...c])
   // Add rule and target support logic for each entry
-  .map(rule =>
-    Object.assign({}, rule, {
-      isValid,
-      getUnsupportedTargets
-    })
-  );
+  .map(rule => ({
+    ...rule,
+    isValid,
+    getUnsupportedTargets
+  }));
 
 export default MdnProvider;

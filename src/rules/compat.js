@@ -49,9 +49,7 @@ export default {
       const { isValid, rule, unsupportedTargets } = Lint(
         node,
         browserslistTargets,
-        context.settings.polyfills
-          ? new Set(context.settings.polyfills)
-          : undefined
+        new Set(context.settings.polyfills || [])
       );
 
       if (!isValid) {

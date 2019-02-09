@@ -27,7 +27,10 @@ ruleTester.run('compat', rule, {
     },
     {
       code: 'WebAssembly.compile()',
-      settings: { polyfills: ['wasm'] }
+      settings: {
+        browsers: ['chrome 40'],
+        polyfills: ['WebAssembly', 'WebAssembly.compile']
+      }
     },
     {
       code: 'new IntersectionObserver(() => {}, {});',
@@ -51,6 +54,16 @@ ruleTester.run('compat', rule, {
     }
   ],
   invalid: [
+    {
+      code: 'new AnimationEvent',
+      settings: { browsers: ['chrome 40'] },
+      errors: [
+        {
+          message: 'AnimationEvent is not supported in Chrome 40',
+          type: 'NewExpression'
+        }
+      ]
+    },
     {
       code: 'Object.values({})',
       settings: { browsers: ['safari 9'] },
@@ -102,7 +115,7 @@ ruleTester.run('compat', rule, {
       errors: [
         {
           message:
-            'WebAssembly is not supported in Samsung Browser 4, Safari 10.1, Opera 12.1, Opera Mini all, iOS Safari 10.3, IE Mobile 10, IE 10, Edge 14, Blackberry Browser 7, Baidu 7.12, Android UC Browser 11.8, QQ Browser 1.2',
+            'WebAssembly is not supported in Safari 10.1, Opera 12.1, IE 10, Edge 14',
           type: 'MemberExpression'
         }
       ]
