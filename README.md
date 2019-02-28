@@ -97,3 +97,8 @@ This project was inspired by a two hour conversation I had with someone on the e
 
 ## Demo
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
+
+## Related
+
+* [ast-metadata-inferer](https://github.com/amilajack/ast-metadata-inferer)
+* [compat-db](https://github.com/amilajack/compat-db)

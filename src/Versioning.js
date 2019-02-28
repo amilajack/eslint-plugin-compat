@@ -1,5 +1,5 @@
 // @flow
-import browserslist from 'browserslist'; // eslint-disable-line
+import browserslist from 'browserslist';
 import type { BrowserListConfig } from './rules/compat';
 
 type TargetListItem = {

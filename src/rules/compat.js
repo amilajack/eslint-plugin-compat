@@ -1,10 +1,10 @@
 // @flow
 import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
-import type { ESLintNode, Node } from '../LintTypes'; // eslint-disable-line
+import type { ESLintNode } from '../LintTypes';
 
 type ESLint = {
-  [ASTNodeTypeName: string]: (node: ESLintNode) => void
+  [astNodeTypeName: string]: (node: ESLintNode) => void
 };
 
 type Context = {
@@ -49,9 +49,7 @@ export default {
       const { isValid, rule, unsupportedTargets } = Lint(
         node,
         browserslistTargets,
-        context.settings.polyfills
-          ? new Set(context.settings.polyfills)
-          : undefined
+        new Set(context.settings.polyfills || [])
       );
 
       if (!isValid) {
