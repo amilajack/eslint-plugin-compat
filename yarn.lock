@@ -856,10 +856,10 @@ assign-symbols@^1.0.0:
   resolved "https://registry.npmjs.org/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
   integrity sha1-WWZ/QfrdTyDMvCu5a41Pf3jsA2c=
 
-ast-metadata-inferer@^0.1.1-3:
-  version "0.1.1-3"
-  resolved "https://registry.npmjs.org/ast-metadata-inferer/-/ast-metadata-inferer-0.1.1-3.tgz#04d4c9ae158c27dca2ef957a93bfe9ba70c26ebb"
-  integrity sha512-z40cBIR8jZ7FL9fWptuDnY5E8DjTeQS2HIzQ4i+Mm3syDm7k57QqPkOcxGEk20Fk3J6jzSCidrsWXps3drmJpQ==
+ast-metadata-inferer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ast-metadata-inferer/-/ast-metadata-inferer-0.1.1.tgz#66e24fae9d30ca961fac4880b7fc466f09b25165"
+  integrity sha512-hc9w8Qrgg9Lf9iFcZVhNjUnhrd2BBpTlyCnegPVvCe6O0yMrF57a6Cmh7k+xUsfUOMh9wajOL5AsGOBNEyTCcw==
 
 astral-regex@^1.0.0:
   version "1.0.0"
