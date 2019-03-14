@@ -92,7 +92,7 @@ function canIUseIsNotSupported(
   node: Node,
   { version, target, parsedVersion }: Target
 ): boolean {
-  const { stats } = (caniuseRecords: CanIUseRecords).data[node.id];
+  const { stats } = (caniuseRecords: CanIUseRecords).data[node.caniuseId];
   const targetStats = stats[target];
   return versionIsRange(version)
     ? Object.keys(targetStats).some(
@@ -152,93 +152,93 @@ function isValid(
 const CanIUseProvider: Array<Node> = [
   // new ServiceWorker()
   {
-    id: 'serviceworkers',
+    caniuseId: 'serviceworkers',
     astNodeType: 'NewExpression',
     object: 'ServiceWorker'
   },
   {
-    id: 'serviceworkers',
+    caniuseId: 'serviceworkers',
     astNodeType: 'MemberExpression',
     object: 'navigator',
     property: 'serviceWorker'
   },
   // document.querySelector()
   {
-    id: 'queryselector',
+    caniuseId: 'queryselector',
     astNodeType: 'MemberExpression',
     object: 'document',
     property: 'querySelector'
   },
   // IntersectionObserver
   {
-    id: 'intersectionobserver',
+    caniuseId: 'intersectionobserver',
     astNodeType: 'NewExpression',
     object: 'IntersectionObserver'
   },
   // PaymentRequest
   {
-    id: 'payment-request',
+    caniuseId: 'payment-request',
     astNodeType: 'NewExpression',
     object: 'PaymentRequest'
   },
   // Promises
   {
-    id: 'promises',
+    caniuseId: 'promises',
     astNodeType: 'NewExpression',
     object: 'Promise'
   },
   {
-    id: 'promises',
+    caniuseId: 'promises',
     astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'resolve'
   },
   {
-    id: 'promises',
+    caniuseId: 'promises',
     astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'all'
   },
   {
-    id: 'promises',
+    caniuseId: 'promises',
     astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'race'
   },
   {
-    id: 'promises',
+    caniuseId: 'promises',
     astNodeType: 'MemberExpression',
     object: 'Promise',
     property: 'reject'
   },
   // fetch
   {
-    id: 'fetch',
+    caniuseId: 'fetch',
     astNodeType: 'CallExpression',
     object: 'fetch'
   },
   // document.currentScript()
   {
-    id: 'document-currentscript',
+    caniuseId: 'document-currentscript',
     astNodeType: 'MemberExpression',
     object: 'document',
     property: 'currentScript'
   },
   // URL
   {
-    id: 'url',
+    caniuseId: 'url',
     astNodeType: 'NewExpression',
     object: 'URL'
   },
   // URLSearchParams
   {
-    id: 'urlsearchparams',
+    caniuseId: 'urlsearchparams',
     astNodeType: 'NewExpression',
     object: 'URLSearchParams'
   },
   // performance.now()
   {
-    id: 'high-resolution-time',
+    caniuseId: 'high-resolution-time',
     astNodeType: 'MemberExpression',
     object: 'performance',
     property: 'now'
@@ -246,7 +246,8 @@ const CanIUseProvider: Array<Node> = [
 ].map(rule =>
   Object.assign({}, rule, {
     isValid,
-    getUnsupportedTargets
+    getUnsupportedTargets,
+    id: rule.property ? `${rule.object}.${rule.property}` : rule.object
   })
 );
 

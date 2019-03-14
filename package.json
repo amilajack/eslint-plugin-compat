@@ -29,7 +29,7 @@
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline",
     "flow": "flow",
     "flow-typed": "flow-typed install --ignoreDeps peer dev",
-    "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
+    "lint": "eslint --cache .",
     "spec": "jest",
     "test": " yarn lint && yarn build && cross-env NODE_ENV=test yarn spec",
     "test-all": "cross-env NODE_ENV=test yarn lint && yarn flow && yarn spec && yarn build",
