@@ -5,6 +5,8 @@ eslint-plugin-compat
 [![Dependency Status](https://img.shields.io/david/amilajack/eslint-plugin-compat.svg)](https://david-dm.org/amilajack/eslint-plugin-compat)
 [![npm](https://img.shields.io/npm/dm/eslint-plugin-compat.svg)](https://npm-stat.com/charts.html?package=eslint-plugin-compat)
 
+Lint the browser compatibility of your code
+
 ![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/img/eslint-plugin-compat-demo.gif)
 
 ## Road Map
@@ -42,25 +44,6 @@ Alternatively, you can use the `recommended` configuration which will do this fo
 }
 ```
 
-## Support
-
-If this project is saving you (or your team) time, please consider supporting it on Patreon 👍 thank you!
-
-<p>
-  <a href="https://www.patreon.com/amilajack">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-  </a>
-</p>
-
-## Idea
-
-**Default**
-```
- 22:  navigator.serviceWorker
-                ^^^^^^^^^^^^^ `ServiceWorker` is not supported in IE 11, Edge 15
-                               and Safari 8 😢
-```
-
 ## Targeting Browsers
 `eslint-plugin-compat` uses the browserslist configuration in `package.json`
 
@@ -90,13 +73,23 @@ See [browserslist/browserslist](https://github.com/browserslist/browserslist) fo
 ## Adding Polyfills
 [See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
 
+## Demo
+For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
+
+## Support
+
+If this project is saving you (or your team) time, please consider supporting it on Patreon 👍 thank you!
+
+<p>
+  <a href="https://www.patreon.com/amilajack">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+  </a>
+</p>
+
 ## Inspiration
 Toolchains for native platforms, like iOS and Android, have had API linting from the start. It's about time that the web had similar tooling.
 
 This project was inspired by a two hour conversation I had with someone on the experience of web development and if it is terrible or not. The premise they argued was that `x` browser doesn't support `y` feature while `z` browser does. Eventually, I agreed with him on this and checked made this plugin to save web developers from having to memorize browser compatibility of specs.
-
-## Demo
-For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
 
 ## Related
 
