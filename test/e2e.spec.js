@@ -8,6 +8,18 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('compat', rule, {
   valid: [
+    {
+      code: 'document.documentElement()',
+      settings: { browsers: ['Safari 11', 'Opera 57', 'Edge 17'] }
+    },
+    {
+      code: 'document.getElementsByTagName()',
+      settings: { browsers: ['Safari 11', 'Opera 57', 'Edge 17'] }
+    },
+    {
+      code: 'history.back()',
+      settings: { browsers: ['Safari 11', 'Opera 57', 'Edge 17'] }
+    },
     'document.querySelector()',
     {
       code: 'new ServiceWorker()',

@@ -1,3 +1,7 @@
+## v3.0.1
+### Fixed
+- Bug when returning unsupported when mdn compat data has null record
+
 ## v3.0.0
 ### Added
 - Support for ~4000 JS API's using [ast-metadata-inferer](https://github.com/amilajack/ast-metadata-inferer)

@@ -78,7 +78,7 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
 
   // If a version is true then it is supported but version is unsure
   if (typeof versionAdded === 'boolean') return versionAdded;
-  if (versionAdded === null) return false;
+  if (versionAdded === null) return true;
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
   return semver.gte(
