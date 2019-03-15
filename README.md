@@ -76,7 +76,7 @@ See [browserslist/browserslist](https://github.com/browserslist/browserslist) fo
 
 #### v3
 
-Add polyfills to the settings section of your eslint config. Append the name of the object and the property (if it exists). No need to include the `prototype` if it is an instance:
+Add polyfills to the settings section of your eslint config. Append the name of the object and the property if one exists. Here are some examples:
 
 ```jsonc
 {
@@ -85,9 +85,10 @@ Add polyfills to the settings section of your eslint config. Append the name of 
     "polyfills": [
       "WebAssembly",
       "WebAssembly.compile",
+      // Example of API with no property
       "fetch",
-      // Example of instance method, no need to add `.prototype.`
-      "Array.push"
+      // Example of instance method, must add `.prototype.`
+      "Array.prototype.push"
     ]
   }
 }
