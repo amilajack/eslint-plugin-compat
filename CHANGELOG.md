@@ -2,6 +2,9 @@
 ### Added
 - Support for ~4000 JS API's using [ast-metadata-inferer](https://github.com/amilajack/ast-metadata-inferer)
 
+### Deprecated
+- Using caniuse id's for polyfills is no longer supported
+
 ## v2.7.0
 ### Added
 - `Object.values()` support
