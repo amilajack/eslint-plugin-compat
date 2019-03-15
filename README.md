@@ -14,6 +14,7 @@ Lint the browser compatibility of your code
 See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for the details.
 
 ## Installation
+
 ```bash
 npm install --save-dev eslint-plugin-compat
 ```
@@ -45,6 +46,7 @@ Alternatively, you can use the `recommended` configuration which will do this fo
 ```
 
 ## Targeting Browsers
+
 `eslint-plugin-compat` uses the browserslist configuration in `package.json`
 
 See [browserslist/browserslist](https://github.com/browserslist/browserslist) for configuration. Here's some examples:
@@ -71,6 +73,29 @@ See [browserslist/browserslist](https://github.com/browserslist/browserslist) fo
 :bulb: You can also define browsers in a [separate browserslist file](https://github.com/browserslist/browserslist#config-file)
 
 ## Adding Polyfills
+
+#### v3
+
+Add polyfills to the settings section of your eslint config. Append the name of the object and the property if one exists. Here are some examples:
+
+```jsonc
+{
+  // ...
+  "settings": {
+    "polyfills": [
+      "WebAssembly",
+      "WebAssembly.compile",
+      // Example of API with no property
+      "fetch",
+      // Example of instance method, must add `.prototype.`
+      "Array.prototype.push"
+    ]
+  }
+}
+```
+
+#### v2
+
 [See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
 
 ## Demo
@@ -87,6 +112,7 @@ If this project is saving you (or your team) time, please consider supporting it
 </p>
 
 ## Inspiration
+
 Toolchains for native platforms, like iOS and Android, have had API linting from the start. It's about time that the web had similar tooling.
 
 This project was inspired by a two hour conversation I had with someone on the experience of web development and if it is terrible or not. The premise they argued was that `x` browser doesn't support `y` feature while `z` browser does. Eventually, I agreed with him on this and checked made this plugin to save web developers from having to memorize browser compatibility of specs.

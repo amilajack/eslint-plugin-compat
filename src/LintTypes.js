@@ -3,7 +3,8 @@ export type node = {
   type?: 'MemberExpression' | 'NewExpression' | 'CallExpression',
   name?: string,
   object: string,
-  property: string | void
+  property: string | void,
+  protoChainId: string
 };
 
 export type Target = {
