@@ -1,3 +1,7 @@
+## v3.0.2
+### Fixed
+- Handle entire API polyfill case (#190)  e784b3d
+
 ## v3.0.1
 ### Fixed
 - Bug when returning unsupported when mdn compat data has null record
