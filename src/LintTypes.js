@@ -4,7 +4,8 @@ export type node = {
   name?: string,
   object: string,
   property: string | void,
-  protoChainId: string
+  protoChainId: string,
+  protoChain: Array<string>
 };
 
 export type Target = {

@@ -247,7 +247,11 @@ const CanIUseProvider: Array<Node> = [
   Object.assign({}, rule, {
     isValid,
     getUnsupportedTargets,
-    id: rule.property ? `${rule.object}.${rule.property}` : rule.object
+    id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
+    protoChainId: rule.property
+      ? `${rule.object}.${rule.property}`
+      : rule.object,
+    protoChain: rule.property ? [rule.object, rule.property] : [rule.object]
   })
 );
 

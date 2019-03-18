@@ -83,9 +83,11 @@ Add polyfills to the settings section of your eslint config. Append the name of 
   // ...
   "settings": {
     "polyfills": [
-      "WebAssembly",
+      // Example of marking entire API and all methods and properties as polyfilled
+      "Promise",
+      // Example of marking specific method of an API as polyfilled
       "WebAssembly.compile",
-      // Example of API with no property
+      // Example of API with no property (i.e. a function)
       "fetch",
       // Example of instance method, must add `.prototype.`
       "Array.prototype.push"

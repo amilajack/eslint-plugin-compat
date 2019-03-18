@@ -27,8 +27,10 @@ export default function Lint(
         // v2 allowed users to select polyfills based off their caniuseId. This is
         // no longer supported. Keeping this here to avoid breaking changes.
         !polyfills.has(rule.id) &&
-        // Check if polyfill is provided
-        !polyfills.has(rule.protoChainId)
+        // Check if polyfill is provided (ex. `Promise.all`)
+        !polyfills.has(rule.protoChainId) &&
+        // Check if entire API is polyfilled (ex. `Promise`)
+        !polyfills.has(rule.protoChain[0])
     )
     // Find the first failing rule
     .find((rule: Node): boolean => !rule.isValid(rule, eslintNode, targets));
