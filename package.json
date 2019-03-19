@@ -66,10 +66,33 @@
     "semver": "^5.6.0"
   },
   "peerDependencies": {
-    "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0"
+    "eslint": "^4.0.0 || ^5.0.0"
   },
   "engines": {
-    "node": ">=8.x",
+    "node": ">=10.x",
     "npm": ">=6.8.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 10
+          }
+        }
+      ],
+      "@babel/preset-flow"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "bliss",
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "rules": {
+      "flowtype-errors/show-errors": "warn"
+    }
   }
 }

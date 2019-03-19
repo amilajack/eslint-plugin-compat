@@ -14,7 +14,7 @@ type Context = {
     polyfills: Array<string>
   },
   getFilename: () => string,
-  report: () => void
+  report: ({ node: ESLintNode, message: string }) => void
 };
 
 export type BrowserListConfig =
