@@ -17,6 +17,10 @@ ruleTester.run('compat', rule, {
       settings: { browsers: ['Safari 11', 'Opera 57', 'Edge 17'] }
     },
     {
+      code: 'Promise.resolve("foo")',
+      settings: { polyfills: ['Promise'], browsers: ['ie 8'] }
+    },
+    {
       code: 'history.back()',
       settings: { browsers: ['Safari 11', 'Opera 57', 'Edge 17'] }
     },
