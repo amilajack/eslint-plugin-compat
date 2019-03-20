@@ -12,12 +12,8 @@ type TargetListItem = {
  * Determine the targets based on the browserslist config object
  */
 export default function DetermineTargetsFromConfig(config?: BrowserListConfig): Array<string> {
-  if (Array.isArray(config)) {
+  if (Array.isArray(config) || typeof config === 'string') {
     return browserslist(config);
-  }
-
-  if (config && typeof config === 'string') {
-    return browserslist(config.split(',').map(item => item.trim()));
   }
 
   if (config && typeof config === 'object') {
