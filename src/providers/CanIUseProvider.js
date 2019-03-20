@@ -242,6 +242,56 @@ const CanIUseProvider: Array<Node> = [
     astNodeType: 'MemberExpression',
     object: 'performance',
     property: 'now'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'TypedArray'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Int8Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Uint8Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Uint8ClampedArray'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Int16Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Uint16Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Int32Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Uint32Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Float32Array'
+  },
+  {
+    caniuseId: 'typedarrays',
+    astNodeType: 'NewExpression',
+    object: 'Float64Array'
   }
 ].map(rule =>
   Object.assign({}, rule, {

@@ -71,6 +71,26 @@ ruleTester.run('compat', rule, {
   ],
   invalid: [
     {
+      code: 'new TypedArray()',
+      settings: { browsers: ['ie 9'] },
+      errors: [
+        {
+          message: 'TypedArray is not supported in IE 9',
+          type: 'NewExpression'
+        }
+      ]
+    },
+    {
+      code: 'new Int8Array()',
+      settings: { browsers: ['ie 9'] },
+      errors: [
+        {
+          message: 'Int8Array is not supported in IE 9',
+          type: 'NewExpression'
+        }
+      ]
+    },
+    {
       code: 'new AnimationEvent',
       settings: { browsers: ['chrome 40'] },
       errors: [
