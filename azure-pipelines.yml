@@ -16,4 +16,4 @@ steps:
     versionSpec: '10.x'
 
 - script: |
-    yarn && yarn test
+    yarn && yarn ci

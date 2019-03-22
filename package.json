@@ -27,12 +27,12 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline",
+    "ci": "yarn build && yarn spec",
     "flow": "flow",
     "flow-typed": "flow-typed install --ignoreDeps peer dev",
-    "lint": "eslint --cache .",
+    "lint": "eslint --ignore-path .gitignore .",
     "spec": "jest",
-    "test": " yarn lint && yarn build && cross-env NODE_ENV=test yarn spec",
-    "test-all": "cross-env NODE_ENV=test yarn lint && yarn flow && yarn spec && yarn build",
+    "test": "yarn lint && yarn build && yarn spec",
     "version": "yarn build"
   },
   "jest": {
