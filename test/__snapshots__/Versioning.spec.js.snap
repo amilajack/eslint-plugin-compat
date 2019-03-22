@@ -234,3 +234,93 @@ Object {
   },
 }
 `;
+
+exports[`Versioning should support string config in rule option 1`] = `
+Array [
+  Object {
+    "parsedVersion": 4,
+    "target": "samsung",
+    "version": "4",
+  },
+  Object {
+    "parsedVersion": 11.1,
+    "target": "safari",
+    "version": "11.1",
+  },
+  Object {
+    "parsedVersion": 57,
+    "target": "opera",
+    "version": "57",
+  },
+  Object {
+    "parsedVersion": 46,
+    "target": "op_mob",
+    "version": "46",
+  },
+  Object {
+    "parsedVersion": 0,
+    "target": "op_mini",
+    "version": "all",
+  },
+  Object {
+    "parsedVersion": 11.3,
+    "target": "ios_saf",
+    "version": "11.3-11.4",
+  },
+  Object {
+    "parsedVersion": 11,
+    "target": "ie_mob",
+    "version": "11",
+  },
+  Object {
+    "parsedVersion": 11,
+    "target": "ie",
+    "version": "11",
+  },
+  Object {
+    "parsedVersion": 60,
+    "target": "firefox",
+    "version": "60",
+  },
+  Object {
+    "parsedVersion": 17,
+    "target": "edge",
+    "version": "17",
+  },
+  Object {
+    "parsedVersion": 71,
+    "target": "chrome",
+    "version": "71",
+  },
+  Object {
+    "parsedVersion": 7.12,
+    "target": "baidu",
+    "version": "7.12",
+  },
+  Object {
+    "parsedVersion": 4.4,
+    "target": "android",
+    "version": "4.4.3-4.4.4",
+  },
+  Object {
+    "parsedVersion": 11.8,
+    "target": "and_uc",
+    "version": "11.8",
+  },
+  Object {
+    "parsedVersion": 1.2,
+    "target": "and_qq",
+    "version": "1.2",
+  },
+  Object {
+    "parsedVersion": 64,
+    "target": "and_ff",
+    "version": "64",
+  },
+  Object {
+    "parsedVersion": 71,
+    "target": "and_chr",
+    "version": "71",
+  },
+]
+`;

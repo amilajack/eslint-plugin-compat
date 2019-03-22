@@ -41,4 +41,10 @@ describe('Versioning', () => {
     ];
     expect(Versioning(versions)).toMatchSnapshot();
   });
+
+  it('should support string config in rule option', () => {
+    const config = DetermineTargetsFromConfig('defaults, not ie < 9');
+    const result = Versioning(config);
+    expect(result).toMatchSnapshot();
+  });
 });

@@ -47,7 +47,7 @@ Alternatively, you can use the `recommended` configuration which will do this fo
 
 ## Targeting Browsers
 
-`eslint-plugin-compat` uses the browserslist configuration in `package.json`. If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `> 0.5%, last 2 versions, Firefox ESR, not dead`.
+`eslint-plugin-compat` uses the browserslist configuration in `package.json` or the rule configuration in `.eslintrc.*`. If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
 See [browserslist/browserslist](https://github.com/browserslist/browserslist) for configuration. Here's some examples:
 
@@ -58,6 +58,15 @@ See [browserslist/browserslist](https://github.com/browserslist/browserslist) fo
   "browserslist": ["last 1 versions", "not ie <= 8"],
 }
 ```
+
+```js
+// Rule configuration (.eslintrc.json)
+{
+  // ...
+  "rules": [
+    "compat/compat": ["error", "defaults, not ie < 9"],
+  ]
+}
 
 ```js
 // Use development and production configurations (package.json)
