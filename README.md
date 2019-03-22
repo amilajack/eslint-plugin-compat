@@ -19,11 +19,10 @@ See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for t
 npm install --save-dev eslint-plugin-compat
 ```
 
-Add `"compat"` to `.eslintrc` `"plugins"` section, add `"browser": true` to `"env"`, then configure the `"compat/compat"` rule.
+Add `"compat"` to `.eslintrc.*` `"plugins"` section, add `"browser": true` to `"env"`, then configure the `"compat/compat"` rule:
 
-If you use **typescript**, see [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint).
-```js
-// .eslintrc
+```jsonc
+// .eslintrc.json
 {
   // ...
   "env": {
@@ -38,8 +37,8 @@ If you use **typescript**, see [typescript-eslint](https://github.com/typescript
 ```
 
 Alternatively, you can use the `recommended` configuration which will do this for you, with the `"compat/compat"` rule reporting errors (as in the snippet above).
-```js
-// .eslintrc
+```jsonc
+// .eslintrc.json
 {
   "extends": ["plugin:compat/recommended"]
 }
@@ -51,25 +50,27 @@ Alternatively, you can use the `recommended` configuration which will do this fo
 
 See [browserslist/browserslist](https://github.com/browserslist/browserslist) for configuration. Here's some examples:
 
-```js
-// Simple configuration (package.json)
+Simple configuration in `package.json`
+
+```jsonc
 {
   // ...
   "browserslist": ["last 1 versions", "not ie <= 8"],
 }
 ```
 
-```js
-// Rule configuration (.eslintrc.json)
+Rule configuration in `.eslintrc.json`
+```jsonc
 {
   // ...
   "rules": [
     "compat/compat": ["error", "defaults, not ie < 9"],
   ]
 }
+```
 
-```js
-// Use development and production configurations (package.json)
+Use development and production configurations in `package.json`
+```jsonc
 {
   // ...
   "browserslist": {
