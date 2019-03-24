@@ -3,11 +3,98 @@ import { RuleTester } from 'eslint';
 import rule from '../src/rules/compat';
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaVersion: 2015 }
+  parserOptions: { ecmaVersion: 2015, sourceType: 'module' }
 });
 
 ruleTester.run('compat', rule, {
   valid: [
+    {
+      code: `
+        import { Set } from 'immutable';
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const { Set } = require('immutable');
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const Set = require('immutable').Set;
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const { Set } = require('immutable');
+        (() => {
+          new Set();
+        })();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        import Set from 'immutable';
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        function Set() {}
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const Set = () => {};
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const bar = () => {
+          const Set = () => {};
+          new Set();
+        }
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const bar = () => {
+          class Set {}
+          new Set()
+        }
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const bar = () => {
+          const Set = {}
+          new Set()
+        }
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const bar = () => {
+          function Set() {}
+          new Set()
+        }
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
     {
       code: 'document.documentElement()',
       settings: { browsers: ['Safari 11', 'Opera 57', 'Edge 17'] }
@@ -70,6 +157,29 @@ ruleTester.run('compat', rule, {
     }
   ],
   invalid: [
+    {
+      code: `
+        import { Map } from 'immutable';
+        new Set()
+      `,
+      settings: { browsers: ['ie 9'] },
+      errors: [
+        {
+          message: 'Set is not supported in IE 9',
+          type: 'NewExpression'
+        }
+      ]
+    },
+    {
+      code: 'new Set()',
+      settings: { browsers: ['ie 9'] },
+      errors: [
+        {
+          message: 'Set is not supported in IE 9',
+          type: 'NewExpression'
+        }
+      ]
+    },
     {
       code: 'new TypedArray()',
       settings: { browsers: ['ie 9'] },

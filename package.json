@@ -71,5 +71,10 @@
   "engines": {
     "node": ">=8.x",
     "npm": ">=6.8.0"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/eslint-plugin-compat",
+    "logo": "https://opencollective.com/opencollective/logo.txt"
   }
 }

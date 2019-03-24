@@ -17,6 +17,22 @@ type Context = {
   report: () => void
 };
 
+function getName(node) {
+  switch (node.type) {
+    case 'NewExpression': {
+      return node.callee.name;
+    }
+    case 'MemberExpression': {
+      return node.object.name;
+    }
+    case 'CallExpression': {
+      return node.callee.name;
+    }
+    default:
+      throw new Error('not found');
+  }
+}
+
 export type BrowserListConfig =
   | Array<string>
   | {
@@ -47,6 +63,8 @@ export default {
       DetermineTargetsFromConfig(browserslistConfig)
     );
 
+    const errors = [];
+
     function lint(node: ESLintNode) {
       const { isValid, rule, unsupportedTargets } = Lint(
         node,
@@ -55,7 +73,7 @@ export default {
       );
 
       if (!isValid) {
-        context.report({
+        errors.push({
           node,
           message: [
             generateErrorName(rule),
@@ -66,14 +84,43 @@ export default {
       }
     }
 
+    const identifiers = new Set();
+
     return {
-      // HACK: Ideally, rules will be generated at runtime. Each rule will have
-      //       have the ability to register itself to run on specific AST
-      //       nodes. For now, we're using the `CallExpression` node since
-      //       its what most rules will run on
       CallExpression: lint,
       MemberExpression: lint,
-      NewExpression: lint
+      NewExpression: lint,
+      // Keep track of all the defined variables. Do not report errors for nodes that are not defined
+      Identifier(node) {
+        if (node.parent) {
+          const { type } = node.parent;
+          if (
+            // ex. const { Set } = require('immutable');
+            type === 'Property' ||
+            // ex. function Set() {}
+            type === 'FunctionDeclaration' ||
+            // ex. const Set = () => {}
+            type === 'VariableDeclarator' ||
+            // ex. class Set {}
+            type === 'ClassDeclaration' ||
+            // ex. import Set from 'set';
+            type === 'ImportDefaultSpecifier' ||
+            // ex. import {Set} from 'set';
+            type === 'ImportSpecifier' ||
+            // ex. import {Set} from 'set';
+            type === 'ImportDeclaration'
+          ) {
+            identifiers.add(node.name);
+          }
+        }
+      },
+      'Program:exit': () => {
+        // Get a map of all the variables defined in the root scope (not the global scope)
+        // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
+        errors
+          .filter(error => !identifiers.has(getName(error.node)))
+          .forEach(node => context.report(node));
+      }
     };
   }
 };
