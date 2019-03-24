@@ -17,7 +17,7 @@ type Context = {
   report: () => void
 };
 
-function getName(node) {
+function getName(node): string {
   switch (node.type) {
     case 'NewExpression': {
       return node.callee.name;

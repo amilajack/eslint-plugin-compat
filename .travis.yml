@@ -10,6 +10,10 @@ node_js:
 
 cache: yarn
 
-matrix:
-  allow_failures:
-    - os: windows
+script:
+  - |
+    if [ "$TRAVIS_OS_NAME" == "windows" ]; then
+      yarn build && yarn spec
+    else
+      yarn test
+    fi
