@@ -1,0 +1,18 @@
+jobs:
+  - job: Linux
+    pool:
+      vmImage: ubuntu-16.04
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+      - script: yarn && yarn test
+
+  - job: Windows
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+      - script: yarn && yarn build && yarn spec
