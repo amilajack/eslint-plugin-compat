@@ -95,11 +95,19 @@ export default {
         if (node.parent) {
           const { type } = node.parent;
           if (
+            // ex. const { Set } = require('immutable');
+            type === 'Property' ||
+            // ex. function Set() {}
             type === 'FunctionDeclaration' ||
+            // ex. const Set = () => {}
             type === 'VariableDeclarator' ||
+            // ex. class Set {}
             type === 'ClassDeclaration' ||
+            // ex. import Set from 'set';
             type === 'ImportDefaultSpecifier' ||
+            // ex. import {Set} from 'set';
             type === 'ImportSpecifier' ||
+            // ex. import {Set} from 'set';
             type === 'ImportDeclaration'
           ) {
             identifiers.add(node.name);

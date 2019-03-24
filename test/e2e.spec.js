@@ -17,6 +17,29 @@ ruleTester.run('compat', rule, {
     },
     {
       code: `
+        const { Set } = require('immutable');
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const Set = require('immutable').Set;
+        new Set();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
+        const { Set } = require('immutable');
+        (() => {
+          new Set();
+        })();
+      `,
+      settings: { browsers: ['ie 9'] }
+    },
+    {
+      code: `
         import Set from 'immutable';
         new Set();
       `,
