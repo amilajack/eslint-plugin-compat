@@ -1,19 +1,18 @@
-strategy:
-  matrix:
-    linux:
-      imageName: 'ubuntu-16.04'
-    mac:
-      imageName: 'macos-10.13'
-    windows:
-      imageName: 'vs2017-win2016'
+jobs:
+  - job: Linux
+    pool:
+      vmImage: ubuntu-16.04
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+      - script: yarn && yarn test
 
-pool:
-  vmImage: $(imageName)
-
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-
-- script: |
-    yarn && yarn ci
+  - job: Windows
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+      - script: yarn && yarn build && yarn spec
