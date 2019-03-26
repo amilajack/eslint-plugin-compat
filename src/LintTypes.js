@@ -27,22 +27,34 @@ export type ESLintNode = {
   }
 } & node;
 
+export type TargetListItem = {
+  target: string,
+  parsedVersion: number,
+  version: string | 'all'
+};
+
 export type Node = {
   astNodeType: string,
   id: string,
+  caniuseId: string,
+  protoChain: string[],
+  protoChainId: string,
   object: string,
   property?: string,
   name?: string,
-  getUnsupportedTargets: (node: Node, targets: Targets) => Array<string>,
-  isValid: (
+  getUnsupportedTargets: (
+    node: Node,
+    targets: Array<TargetListItem>
+  ) => Array<string>,
+  recordMatchesNode: (
     node: Node,
     eslintNode: ESLintNode,
-    targets: Array<string>
+    targets: Array<TargetListItem>
   ) => boolean
 };
 
-export type isValidObject = {
+export type RecordMatchesNode = {
   rule: Node,
-  isValid: boolean,
+  recordMatchesNode: boolean,
   unsupportedTargets: Array<string>
 };

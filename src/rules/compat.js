@@ -1,7 +1,7 @@
 // @flow
 import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
-import type { ESLintNode } from '../LintTypes';
+import type { ESLintNode, Node } from '../LintTypes';
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void
@@ -10,14 +10,31 @@ type ESLint = {
 type Context = {
   node: ESLintNode,
   settings: {
-    browsers: Array<string>,
-    polyfills: Array<string>
+    browsers?: Array<string>,
+    targets?: Array<string>,
+    polyfills?: Array<string>,
+    records?: Array<Node>
   },
+  options: Array<string>,
   getFilename: () => string,
-  report: () => void
+  report: (x: Node) => void
 };
 
-function getName(node) {
+type AstNodeType =
+  | {
+      type: string,
+      callee: {
+        name: string
+      }
+    }
+  | {
+      type: string,
+      object?: {
+        name: string
+      }
+    };
+
+function getName(node: AstNodeType): string {
   switch (node.type) {
     case 'NewExpression': {
       return node.callee.name;
@@ -59,20 +76,23 @@ export default {
       context.settings.targets ||
       context.options[0];
 
+    const { records = [] } = context.settings;
+
     const browserslistTargets = Versioning(
       DetermineTargetsFromConfig(browserslistConfig)
     );
 
-    const errors = [];
+    const errors: Array<Node> = [];
 
-    function lint(node: ESLintNode) {
-      const { isValid, rule, unsupportedTargets } = Lint(
+    const collectErrors = (node: ESLintNode) => {
+      const { recordMatchesNode, rule, unsupportedTargets } = Lint(
         node,
         browserslistTargets,
-        new Set(context.settings.polyfills || [])
+        new Set(context.settings.polyfills || []),
+        records
       );
 
-      if (!isValid) {
+      if (!recordMatchesNode) {
         errors.push({
           node,
           message: [
@@ -82,16 +102,16 @@ export default {
           ].join(' ')
         });
       }
-    }
+    };
 
     const identifiers = new Set();
 
     return {
-      CallExpression: lint,
-      MemberExpression: lint,
-      NewExpression: lint,
+      CallExpression: collectErrors,
+      MemberExpression: collectErrors,
+      NewExpression: collectErrors,
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
-      Identifier(node) {
+      Identifier(node: { name: string, parent?: { type: string } }): void {
         if (node.parent) {
           const { type } = node.parent;
           if (

@@ -158,6 +158,34 @@ ruleTester.run('compat', rule, {
   ],
   invalid: [
     {
+      code: 'foo.bar()',
+      settings: {
+        browsers: ['ie 10'],
+        records: [
+          {
+            name: 'foo.bar',
+            id: 'foo.bar',
+            astNodeType: 'MemberExpression',
+            protoChain: ['foo', 'bar'],
+            protoChainId: 'foo.bar',
+            object: 'foo',
+            property: 'bar',
+            recordMatchesNode() {
+              return false;
+            },
+            getUnsupportedTargets() {
+              return ['IE 10'];
+            }
+          }
+        ]
+      },
+      errors: [
+        {
+          message: 'foo.bar is not supported in IE 10'
+        }
+      ]
+    },
+    {
       code: 'location.origin',
       settings: { browsers: ['ie 10'] },
       errors: [

@@ -1,7 +1,7 @@
 // @flow
 // $FlowFixMe: Flow import error
 import caniuseRecords from 'caniuse-db/fulldata-json/data-2.0.json';
-import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
+import type { Node, ESLintNode, TargetListItem, Targets } from '../LintTypes';
 
 type TargetMetadata = {
   // The list of targets supported by the provider
@@ -66,7 +66,7 @@ const targetNameMappings = {
  * Take a target's id and return it's full name by using `targetNameMappings`
  * ex. {target: and_ff, version: 40} => 'Android FireFox 40'
  */
-function formatTargetNames(target: Target): string {
+function formatTargetNames(target: TargetListItem): string {
   return `${targetNameMappings[target.target]} ${target.version}`;
 }
 
@@ -90,7 +90,7 @@ function compareRanges(targetVersion: number, statsVersion: string): boolean {
  */
 function canIUseIsNotSupported(
   node: Node,
-  { version, target, parsedVersion }: Target
+  { version, target, parsedVersion }: TargetListItem
 ): boolean {
   const { stats } = (caniuseRecords: CanIUseRecords).data[node.caniuseId];
   const targetStats = stats[target];
@@ -110,7 +110,7 @@ function canIUseIsNotSupported(
  */
 export function getUnsupportedTargets(
   node: Node,
-  targets: Targets
+  targets: Array<TargetListItem>
 ): Array<string> {
   return targets
     .filter(target => canIUseIsNotSupported(node, target))
@@ -120,7 +120,7 @@ export function getUnsupportedTargets(
 /**
  * Check if the node has matching object or properties
  */
-function isValid(
+function recordMatchesNode(
   node: Node,
   eslintNode: ESLintNode,
   targets: Targets
@@ -146,6 +146,8 @@ function isValid(
       return true;
   }
 
+  // Return true if no unsupported targets exist, meaning all targets are
+  // supported
   return !getUnsupportedTargets(node, targets).length;
 }
 
@@ -295,7 +297,7 @@ const CanIUseProvider: Array<Node> = [
   }
 ].map(rule =>
   Object.assign({}, rule, {
-    isValid,
+    recordMatchesNode,
     getUnsupportedTargets,
     id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
     protoChainId: rule.property

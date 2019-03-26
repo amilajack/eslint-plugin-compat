@@ -1,12 +1,7 @@
 // @flow
 import browserslist from 'browserslist';
 import type { BrowserListConfig } from './rules/compat';
-
-type TargetListItem = {
-  target: string,
-  parsedVersion: number,
-  version: string | 'all'
-};
+import type { TargetListItem } from './LintTypes';
 
 /**
  * Determine the targets based on the browserslist config object

@@ -102,7 +102,7 @@ export function getUnsupportedTargets(
 /**
  * Check if the node has matching object or properties
  */
-function isValid(
+function recordMatchesNode(
   node: Node,
   eslintNode: ESLintNode,
   targets: Targets
@@ -128,6 +128,8 @@ function isValid(
       return true;
   }
 
+  // Return true if no unsupported targets exist, meaning all targets are
+  // supported
   return !getUnsupportedTargets(node, targets).length;
 }
 
@@ -160,7 +162,7 @@ const MdnProvider: Array<Node> = AstMetadata
   // Add rule and target support logic for each entry
   .map(rule => ({
     ...rule,
-    isValid,
+    recordMatchesNode,
     getUnsupportedTargets
   }));
 

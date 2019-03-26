@@ -1,12 +1,18 @@
 // @flow
-import { rules } from './providers';
-import type { Node, ESLintNode, Targets, isValidObject } from './LintTypes';
+import builtInRecords from './providers';
+import type { Node, ESLintNode, TargetListItem } from './LintTypes';
 
 export function generateErrorName(_node: Node): string {
   if (_node.name) return _node.name;
   if (_node.property) return `${_node.object}.${_node.property}()`;
   return _node.object;
 }
+
+type RuleResult = {
+  rule: Object,
+  recordMatchesNode: boolean,
+  unsupportedTargets: Array<string>
+};
 
 /**
  * Return false if a if a rule fails
@@ -16,11 +22,12 @@ export function generateErrorName(_node: Node): string {
  */
 export default function Lint(
   eslintNode: ESLintNode,
-  targets: Targets = ['chrome', 'firefox', 'safari', 'edge'],
-  polyfills: Set<string>
-): isValidObject {
+  targets: Array<TargetListItem>,
+  polyfills: Set<string>,
+  customUserRecords: Array<Node>
+): RuleResult {
   // Find the corresponding rules for a eslintNode by it's astNodeType
-  const failingRule = rules
+  const failingRule = ([...builtInRecords, ...customUserRecords]: Array<Node>)
     .filter(
       (rule: Node): boolean =>
         rule.astNodeType === eslintNode.type &&
@@ -33,12 +40,15 @@ export default function Lint(
         !polyfills.has(rule.protoChain[0])
     )
     // Find the first failing rule
-    .find((rule: Node): boolean => !rule.isValid(rule, eslintNode, targets));
+    .find(
+      (node: Node): boolean =>
+        !node.recordMatchesNode(node, eslintNode, targets)
+    );
 
   return failingRule
     ? {
         rule: failingRule,
-        isValid: false,
+        recordMatchesNode: false,
         unsupportedTargets: failingRule.getUnsupportedTargets(
           failingRule,
           targets
@@ -47,6 +57,6 @@ export default function Lint(
     : {
         rule: {},
         unsupportedTargets: [],
-        isValid: true
+        recordMatchesNode: true
       };
 }
