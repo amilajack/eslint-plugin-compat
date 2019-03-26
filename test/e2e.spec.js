@@ -158,6 +158,15 @@ ruleTester.run('compat', rule, {
   ],
   invalid: [
     {
+      code: 'location.origin',
+      settings: { browsers: ['ie 10'] },
+      errors: [
+        {
+          message: 'location.origin() is not supported in IE 10'
+        }
+      ]
+    },
+    {
       code: `
         import { Map } from 'immutable';
         new Set()

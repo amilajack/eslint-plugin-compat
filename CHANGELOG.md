@@ -1,3 +1,7 @@
+## v3.1.0
+### Added
+- Support detecting locally defined polyfills (#207)  bb3be6e
+
 ## v3.0.2
 ### Fixed
 - Handle entire API polyfill case (#190)  e784b3d
