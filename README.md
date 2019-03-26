@@ -114,6 +114,9 @@ Add polyfills to the settings section of your eslint config. Append the name of 
 ## Demo
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
 
+## Advanced
+* [Allowing Custom Records](https://github.com/amilajack/eslint-plugin-compat/wiki/Custom-Compatibility-Records)
+
 ## Support
 
 If this project is saving you (or your team) time, please consider supporting it on Patreon 👍 thank you!
