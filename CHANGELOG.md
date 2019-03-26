@@ -1,3 +1,7 @@
+## v3.2.0
+### Added
+- Support adding custom compatibility records
+
 ## v3.1.0
 ### Added
 - Support detecting locally defined polyfills (#207)  bb3be6e

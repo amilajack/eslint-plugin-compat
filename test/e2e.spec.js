@@ -9,6 +9,30 @@ const ruleTester = new RuleTester({
 ruleTester.run('compat', rule, {
   valid: [
     {
+      code: 'foo.bar()',
+      settings: {
+        polyfills: ['foo.bar'],
+        browsers: ['ie 10'],
+        records: [
+          {
+            name: 'foo.bar',
+            id: 'foo.bar',
+            astNodeType: 'MemberExpression',
+            protoChain: ['foo', 'bar'],
+            protoChainId: 'foo.bar',
+            object: 'foo',
+            property: 'bar',
+            recordMatchesNode() {
+              return false;
+            },
+            getUnsupportedTargets() {
+              return ['IE 10'];
+            }
+          }
+        ]
+      }
+    },
+    {
       code: `
         import { Set } from 'immutable';
         new Set();
