@@ -68,7 +68,7 @@
   },
   "engines": {
     "node": ">=8.x",
-    "npm": ">=6.8.0"
+    "npm": ">=6.9.0"
   },
   "collective": {
     "type": "opencollective",
