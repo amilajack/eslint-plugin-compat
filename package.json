@@ -61,7 +61,7 @@
     "browserslist": "^4.5.2",
     "caniuse-db": "^1.0.30000951",
     "mdn-browser-compat-data": "^0.0.73",
-    "semver": "^5.6.0"
+    "semver": "^5.7.0"
   },
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0"
