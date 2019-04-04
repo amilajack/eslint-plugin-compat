@@ -64,9 +64,9 @@ Rule configuration in `.eslintrc.json`
 ```jsonc
 {
   // ...
-  "rules": [
-    "compat/compat": ["error", "defaults, not ie < 9"],
-  ]
+  "rules": {
+    "compat/compat": ["error", "defaults, not ie < 9"]
+  }
 }
 ```
 
