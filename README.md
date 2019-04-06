@@ -10,9 +10,7 @@ Lint the browser compatibility of your code
 
 ![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/img/eslint-plugin-compat-demo.gif)
 
-## Road Map
-
-See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for the details.
+## Setup
 
 1. Installation
 
@@ -106,6 +104,10 @@ If this project is saving you (or your team) time, please consider supporting it
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
   </a>
 </p>
+
+## Road Map
+
+See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for the details.
 
 ## Inspiration
 
