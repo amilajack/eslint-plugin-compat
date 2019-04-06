@@ -1,3 +1,4 @@
+import path from 'path';
 import DetermineTargetsFromConfig, { Versioning } from '../src/Versioning';
 import multiEnvPackageJSON from './multi-config.package.json';
 import singleArrayEnvPackageJSON from './single-array-config.package.json';
@@ -11,6 +12,22 @@ describe('Versioning', () => {
     );
     const result = Versioning(config);
     expect(result).toMatchSnapshot();
+  });
+
+  it('should support resolving browserslist config in subdirectory', () => {
+    // This should resolve the ./test/.browserslistrc config
+    const relativeConfig = DetermineTargetsFromConfig(
+      path.join(__dirname, '.browserslistrc')
+    );
+    const rootConfig = DetermineTargetsFromConfig(
+      require.resolve('../package.json')
+    );
+    const relativeConfigVersions = Versioning(relativeConfig);
+    expect(relativeConfigVersions).toMatchSnapshot();
+    const rootConfigVersions = Versioning(rootConfig);
+    expect(rootConfigVersions).toMatchSnapshot();
+
+    expect(relativeConfigVersions).not.toEqual(rootConfigVersions);
   });
 
   it('should support single array config in browserslist package.json', () => {
