@@ -12,13 +12,13 @@ Lint the browser compatibility of your code
 
 ## Setup
 
-1. Installation
+### 1. Install
 
 ```bash
 npm install --save-dev eslint-plugin-compat
 ```
 
-2. Update ESLint Config
+### 2. Update ESLint Config
 
 ```jsonc
 // .eslintrc.json
@@ -31,33 +31,20 @@ npm install --save-dev eslint-plugin-compat
 }
 ```
 
-3. Configure Target Browsers
+### 3. Configure Target Browsers
 
-Browser targets are configured using [browserslist](https://github.com/browserslist/browserslist).
-
-Here's some examples of browerslist configs:
+Browser targets are configured using [browserslist](https://github.com/browserslist/browserslist). You can configure browser targets in your `package.json`:
 
 #### `package.json`
 
 ```jsonc
 {
   // ...
-  "browserslist": ["last 1 versions", "not ie <= 8"],
+  "browserslist": ["chrome 70", "last 1 versions", "not ie <= 8"]
 }
 ```
 
-#### `.eslintrc.json`
-
-```jsonc
-{
-  // ...
-  "rules": {
-    "compat/compat": ["error", "defaults, not ie < 9"]
-  }
-}
-```
-
-If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `> 0.5%, last 2 versions, Firefox ESR, not dead`.
+If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `"> 0.5%, last 2 versions, Firefox ESR, not dead"`.
 
 See [browserslist/browserslist](https://github.com/browserslist/browserslist) for more details.
 
