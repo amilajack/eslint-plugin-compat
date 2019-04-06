@@ -73,9 +73,9 @@ Array [
     "version": "15",
   },
   Object {
-    "parsedVersion": 69,
+    "parsedVersion": 70,
     "target": "chrome",
-    "version": "69",
+    "version": "70",
   },
   Object {
     "parsedVersion": 7,
@@ -91,6 +91,111 @@ Array [
     "parsedVersion": 4.2,
     "target": "android",
     "version": "4.2-4.3",
+  },
+  Object {
+    "parsedVersion": 11.8,
+    "target": "and_uc",
+    "version": "11.8",
+  },
+  Object {
+    "parsedVersion": 1.2,
+    "target": "and_qq",
+    "version": "1.2",
+  },
+  Object {
+    "parsedVersion": 64,
+    "target": "and_ff",
+    "version": "64",
+  },
+  Object {
+    "parsedVersion": 71,
+    "target": "and_chr",
+    "version": "71",
+  },
+]
+`;
+
+exports[`Versioning should support resolving browserslist config in subdirectory 1`] = `
+Array [
+  Object {
+    "parsedVersion": 70,
+    "target": "chrome",
+    "version": "70",
+  },
+]
+`;
+
+exports[`Versioning should support resolving browserslist config in subdirectory 2`] = `
+Array [
+  Object {
+    "parsedVersion": 8.2,
+    "target": "samsung",
+    "version": "8.2",
+  },
+  Object {
+    "parsedVersion": 12,
+    "target": "safari",
+    "version": "12",
+  },
+  Object {
+    "parsedVersion": 58,
+    "target": "opera",
+    "version": "58",
+  },
+  Object {
+    "parsedVersion": 46,
+    "target": "op_mob",
+    "version": "46",
+  },
+  Object {
+    "parsedVersion": 0,
+    "target": "op_mini",
+    "version": "all",
+  },
+  Object {
+    "parsedVersion": 12,
+    "target": "ios_saf",
+    "version": "12.0-12.1",
+  },
+  Object {
+    "parsedVersion": 11,
+    "target": "ie_mob",
+    "version": "11",
+  },
+  Object {
+    "parsedVersion": 11,
+    "target": "ie",
+    "version": "11",
+  },
+  Object {
+    "parsedVersion": 66,
+    "target": "firefox",
+    "version": "66",
+  },
+  Object {
+    "parsedVersion": 18,
+    "target": "edge",
+    "version": "18",
+  },
+  Object {
+    "parsedVersion": 73,
+    "target": "chrome",
+    "version": "73",
+  },
+  Object {
+    "parsedVersion": 10,
+    "target": "bb",
+    "version": "10",
+  },
+  Object {
+    "parsedVersion": 7.12,
+    "target": "baidu",
+    "version": "7.12",
+  },
+  Object {
+    "parsedVersion": 67,
+    "target": "android",
+    "version": "67",
   },
   Object {
     "parsedVersion": 11.8,
@@ -168,9 +273,9 @@ Array [
     "version": "15",
   },
   Object {
-    "parsedVersion": 63,
+    "parsedVersion": 64,
     "target": "chrome",
-    "version": "63",
+    "version": "64",
   },
   Object {
     "parsedVersion": 7,

@@ -38,30 +38,30 @@
     "testEnvironment": "node"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.4.0",
-    "@babel/polyfill": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/polyfill": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
     "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.4.0",
     "babel-core": "^7.0.0-bridge",
-    "babel-jest": "^24.5.0",
+    "babel-jest": "^24.7.1",
     "cross-env": "^5.2.0",
     "download-cli": "^1.1.1",
-    "eslint": "^5.13.0",
+    "eslint": "^5.16.0",
     "eslint-config-bliss": "^3.2.0",
     "eslint-plugin-flowtype-errors": "^4.1.0",
-    "flow-bin": "^0.95.1",
+    "flow-bin": "^0.96.0",
     "flow-typed": "^2.5.1",
-    "jest-cli": "^24.5.0"
+    "jest-cli": "^24.7.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.2",
+    "@babel/runtime": "^7.4.3",
     "ast-metadata-inferer": "^0.1.1",
-    "browserslist": "^4.5.2",
-    "caniuse-db": "^1.0.30000951",
-    "mdn-browser-compat-data": "^0.0.72",
-    "semver": "^5.6.0"
+    "browserslist": "^4.5.4",
+    "caniuse-db": "^1.0.30000957",
+    "mdn-browser-compat-data": "^0.0.74",
+    "semver": "^6.0.0"
   },
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0"
@@ -74,5 +74,47 @@
     "type": "opencollective",
     "url": "https://opencollective.com/eslint-plugin-compat",
     "logo": "https://opencollective.com/opencollective/logo.txt"
+  },
+  "browserslist": [
+    "last 1 version"
+  ],
+  "eslintConfig": {
+    "extends": "bliss",
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "rules": {
+      "flowtype-errors/show-errors": "warn",
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "endOfLine": "auto"
+        }
+      ]
+    }
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 8
+          }
+        }
+      ],
+      "@babel/preset-flow"
+    ]
+  },
+  "renovate": {
+    "extends": [
+      "bliss"
+    ],
+    "ignoreDeps": [
+      "caniuse-db",
+      "mdn-browser-compat-data"
+    ]
   }
 }
