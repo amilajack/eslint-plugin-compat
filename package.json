@@ -77,5 +77,44 @@
   },
   "browserslist": [
     "last 1 version"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": "bliss",
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "rules": {
+      "flowtype-errors/show-errors": "warn",
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "endOfLine": "auto"
+        }
+      ]
+    }
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 8
+          }
+        }
+      ],
+      "@babel/preset-flow"
+    ]
+  },
+  "renovate": {
+    "extends": [
+      "bliss"
+    ],
+    "ignoreDeps": [
+      "caniuse-db",
+      "mdn-browser-compat-data"
+    ]
+  }
 }
