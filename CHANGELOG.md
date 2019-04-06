@@ -1,3 +1,7 @@
+## v3.1.1
+### Fixed
+- Resolving browserslist config correctly despite being called from a cwd that is not the root of the project. (#217)
+
 ## v3.1.0
 ### Added
 - Support detecting locally defined polyfills (#207)  bb3be6e
