@@ -14,44 +14,32 @@ Lint the browser compatibility of your code
 
 See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for the details.
 
-## Installation
+1. Installation
 
 ```bash
 npm install --save-dev eslint-plugin-compat
 ```
 
-Add `"compat"` to `.eslintrc.*` `"plugins"` section, add `"browser": true` to `"env"`, then configure the `"compat/compat"` rule:
+2. Update ESLint Config
 
 ```jsonc
 // .eslintrc.json
 {
-  // ...
+  "extends": ["plugin:compat/recommended"],
   "env": {
     "browser": true
   },
-  "plugins": ["compat"],
-  "rules": {
-    // ...
-    "compat/compat": "error"
-  }
+  // ...
 }
 ```
 
-Alternatively, you can use the `recommended` configuration which will do this for you, with the `"compat/compat"` rule reporting errors (as in the snippet above).
-```jsonc
-// .eslintrc.json
-{
-  "extends": ["plugin:compat/recommended"]
-}
-```
+3. Configure Target Browsers
 
-## Targeting Browsers
+Browser targets are configured using [browserslist](https://github.com/browserslist/browserslist).
 
-`eslint-plugin-compat` uses the browserslist configuration in `package.json` or the rule configuration in `.eslintrc.*`. If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `> 0.5%, last 2 versions, Firefox ESR, not dead`.
+Here's some examples of browerslist configs:
 
-See [browserslist/browserslist](https://github.com/browserslist/browserslist) for configuration. Here's some examples:
-
-Simple configuration in `package.json`
+#### `package.json`
 
 ```jsonc
 {
@@ -60,7 +48,8 @@ Simple configuration in `package.json`
 }
 ```
 
-Rule configuration in `.eslintrc.json`
+#### `.eslintrc.json`
+
 ```jsonc
 {
   // ...
@@ -70,18 +59,9 @@ Rule configuration in `.eslintrc.json`
 }
 ```
 
-Use development and production configurations in `package.json`
-```jsonc
-{
-  // ...
-  "browserslist": {
-    "development": ["last 2 versions"],
-    "production": ["last 4 versions"]
-  }
-}
-```
+If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
-:bulb: You can also define browsers in a [separate browserslist file](https://github.com/browserslist/browserslist#config-file)
+See [browserslist/browserslist](https://github.com/browserslist/browserslist) for more details.
 
 ## Adding Polyfills
 
