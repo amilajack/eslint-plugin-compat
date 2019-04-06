@@ -60,7 +60,7 @@ export default {
       context.options[0];
 
     const browserslistTargets = Versioning(
-      DetermineTargetsFromConfig(browserslistConfig)
+      DetermineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
     const errors = [];

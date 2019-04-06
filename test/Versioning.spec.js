@@ -5,13 +5,17 @@ import singleVersionEnvPackageJSON from './single-version-config.package.json';
 
 describe('Versioning', () => {
   it('should support multi env config in browserslist package.json', () => {
-    const config = DetermineTargetsFromConfig(multiEnvPackageJSON.browsers);
+    const config = DetermineTargetsFromConfig(
+      '.',
+      multiEnvPackageJSON.browsers
+    );
     const result = Versioning(config);
     expect(result).toMatchSnapshot();
   });
 
   it('should support single array config in browserslist package.json', () => {
     const config = DetermineTargetsFromConfig(
+      '.',
       singleArrayEnvPackageJSON.browsers
     );
     const result = Versioning(config);
@@ -20,6 +24,7 @@ describe('Versioning', () => {
 
   it('should support single version config in browserslist package.json', () => {
     const config = DetermineTargetsFromConfig(
+      '.',
       singleVersionEnvPackageJSON.browsers
     );
     const result = Versioning(config);
@@ -43,7 +48,7 @@ describe('Versioning', () => {
   });
 
   it('should support string config in rule option', () => {
-    const config = DetermineTargetsFromConfig('defaults, not ie < 9');
+    const config = DetermineTargetsFromConfig('.', 'defaults, not ie < 9');
     const result = Versioning(config);
     expect(result).toMatchSnapshot();
   });

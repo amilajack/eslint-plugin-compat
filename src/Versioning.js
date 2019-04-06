@@ -10,22 +10,27 @@ type TargetListItem = {
 
 /**
  * Determine the targets based on the browserslist config object
+ *
+ * @param configPath - The file or a directory path to look for the browserslist config file
  */
 export default function DetermineTargetsFromConfig(
+  configPath: string,
   config?: BrowserListConfig
 ): Array<string> {
+  const browserslistOpts = { path: configPath };
+
   if (Array.isArray(config) || typeof config === 'string') {
-    return browserslist(config);
+    return browserslist(config, browserslistOpts);
   }
 
   if (config && typeof config === 'object') {
-    return browserslist([
-      ...(config.production || []),
-      ...(config.development || [])
-    ]);
+    return browserslist(
+      [...(config.production || []), ...(config.development || [])],
+      browserslistOpts
+    );
   }
 
-  return browserslist();
+  return browserslist(undefined, browserslistOpts);
 }
 
 /**
