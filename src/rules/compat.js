@@ -46,6 +46,7 @@ export default {
     docs: {
       description: 'Ensure cross-browser API compatibility',
       category: 'Compatibility',
+      url: 'https://github.com/amilajack/eslint-plugin-compat/blob/master/README.md',
       recommended: true
     },
     fixable: 'code',
