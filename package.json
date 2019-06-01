@@ -52,7 +52,7 @@
     "eslint-config-bliss": "^3.4.0",
     "eslint-plugin-flowtype-errors": "^4.1.0",
     "flow-bin": "^0.98.0",
-    "flow-typed": "^2.5.1",
+    "flow-typed": "^2.5.2",
     "jest-cli": "^24.7.1"
   },
   "dependencies": {
