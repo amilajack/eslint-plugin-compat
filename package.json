@@ -45,7 +45,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.4.4",
     "babel-core": "^7.0.0-bridge",
-    "babel-jest": "^24.7.1",
+    "babel-jest": "^24.8.0",
     "cross-env": "^5.2.0",
     "download-cli": "^1.1.1",
     "eslint": "^5.16.0",
@@ -53,7 +53,7 @@
     "eslint-plugin-flowtype-errors": "^4.1.0",
     "flow-bin": "^0.98.0",
     "flow-typed": "^2.5.2",
-    "jest-cli": "^24.7.1"
+    "jest-cli": "^24.8.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.5",
