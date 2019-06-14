@@ -1,3 +1,7 @@
+## v3.1.2
+### Fixed
+- Remove npm restriction from engines
+
 ## v3.1.1
 ### Fixed
 - Resolving browserslist config correctly despite being called from a cwd that is not the root of the project. (#217)
