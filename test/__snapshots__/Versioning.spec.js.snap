@@ -23,14 +23,14 @@ Array [
 exports[`Versioning should support multi env config in browserslist package.json 1`] = `
 Array [
   Object {
-    "parsedVersion": 5,
+    "parsedVersion": 6.2,
     "target": "samsung",
-    "version": "5.0-5.4",
+    "version": "6.2-6.4",
   },
   Object {
-    "parsedVersion": 10.1,
+    "parsedVersion": 11,
     "target": "safari",
-    "version": "10.1",
+    "version": "11",
   },
   Object {
     "parsedVersion": 55,
@@ -48,9 +48,14 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10.3,
+    "parsedVersion": 2.5,
+    "target": "kaios",
+    "version": "2.5",
+  },
+  Object {
+    "parsedVersion": 11,
     "target": "ios_saf",
-    "version": "10.3",
+    "version": "11.0-11.2",
   },
   Object {
     "parsedVersion": 10,
@@ -73,9 +78,9 @@ Array [
     "version": "15",
   },
   Object {
-    "parsedVersion": 70,
+    "parsedVersion": 72,
     "target": "chrome",
-    "version": "70",
+    "version": "72",
   },
   Object {
     "parsedVersion": 7,
@@ -88,9 +93,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 4.2,
+    "parsedVersion": 67,
     "target": "android",
-    "version": "4.2-4.3",
+    "version": "67",
   },
   Object {
     "parsedVersion": 11.8,
@@ -103,14 +108,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 66,
     "target": "and_ff",
-    "version": "64",
+    "version": "66",
   },
   Object {
-    "parsedVersion": 71,
+    "parsedVersion": 74,
     "target": "and_chr",
-    "version": "71",
+    "version": "74",
   },
 ]
 `;
@@ -128,14 +133,14 @@ Array [
 exports[`Versioning should support resolving browserslist config in subdirectory 2`] = `
 Array [
   Object {
-    "parsedVersion": 8.2,
+    "parsedVersion": 9.2,
     "target": "samsung",
-    "version": "8.2",
+    "version": "9.2",
   },
   Object {
-    "parsedVersion": 12,
+    "parsedVersion": 12.1,
     "target": "safari",
-    "version": "12",
+    "version": "12.1",
   },
   Object {
     "parsedVersion": 58,
@@ -153,9 +158,14 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 12,
+    "parsedVersion": 2.5,
+    "target": "kaios",
+    "version": "2.5",
+  },
+  Object {
+    "parsedVersion": 12.2,
     "target": "ios_saf",
-    "version": "12.0-12.1",
+    "version": "12.2",
   },
   Object {
     "parsedVersion": 11,
@@ -168,9 +178,9 @@ Array [
     "version": "11",
   },
   Object {
-    "parsedVersion": 66,
+    "parsedVersion": 67,
     "target": "firefox",
-    "version": "66",
+    "version": "67",
   },
   Object {
     "parsedVersion": 18,
@@ -178,9 +188,9 @@ Array [
     "version": "18",
   },
   Object {
-    "parsedVersion": 73,
+    "parsedVersion": 75,
     "target": "chrome",
-    "version": "73",
+    "version": "75",
   },
   Object {
     "parsedVersion": 10,
@@ -208,14 +218,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 66,
     "target": "and_ff",
-    "version": "64",
+    "version": "66",
   },
   Object {
-    "parsedVersion": 71,
+    "parsedVersion": 74,
     "target": "and_chr",
-    "version": "71",
+    "version": "74",
   },
 ]
 `;
@@ -223,14 +233,14 @@ Array [
 exports[`Versioning should support single array config in browserslist package.json 1`] = `
 Array [
   Object {
-    "parsedVersion": 5,
+    "parsedVersion": 6.2,
     "target": "samsung",
-    "version": "5.0-5.4",
+    "version": "6.2-6.4",
   },
   Object {
-    "parsedVersion": 10.1,
+    "parsedVersion": 11,
     "target": "safari",
-    "version": "10.1",
+    "version": "11",
   },
   Object {
     "parsedVersion": 55,
@@ -248,9 +258,14 @@ Array [
     "version": "all",
   },
   Object {
-    "parsedVersion": 10.3,
+    "parsedVersion": 2.5,
+    "target": "kaios",
+    "version": "2.5",
+  },
+  Object {
+    "parsedVersion": 11,
     "target": "ios_saf",
-    "version": "10.3",
+    "version": "11.0-11.2",
   },
   Object {
     "parsedVersion": 10,
@@ -273,9 +288,9 @@ Array [
     "version": "15",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 66,
     "target": "chrome",
-    "version": "64",
+    "version": "66",
   },
   Object {
     "parsedVersion": 7,
@@ -288,9 +303,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 4.2,
+    "parsedVersion": 67,
     "target": "android",
-    "version": "4.2-4.3",
+    "version": "67",
   },
   Object {
     "parsedVersion": 11.8,
@@ -303,14 +318,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 66,
     "target": "and_ff",
-    "version": "64",
+    "version": "66",
   },
   Object {
-    "parsedVersion": 71,
+    "parsedVersion": 74,
     "target": "and_chr",
-    "version": "71",
+    "version": "74",
   },
 ]
 `;
@@ -348,9 +363,9 @@ Array [
     "version": "4",
   },
   Object {
-    "parsedVersion": 11.1,
+    "parsedVersion": 5.1,
     "target": "safari",
-    "version": "11.1",
+    "version": "5.1",
   },
   Object {
     "parsedVersion": 57,
@@ -366,6 +381,11 @@ Array [
     "parsedVersion": 0,
     "target": "op_mini",
     "version": "all",
+  },
+  Object {
+    "parsedVersion": 2.5,
+    "target": "kaios",
+    "version": "2.5",
   },
   Object {
     "parsedVersion": 11.3,
@@ -393,9 +413,9 @@ Array [
     "version": "17",
   },
   Object {
-    "parsedVersion": 71,
+    "parsedVersion": 72,
     "target": "chrome",
-    "version": "71",
+    "version": "72",
   },
   Object {
     "parsedVersion": 7.12,
@@ -403,9 +423,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 4.4,
+    "parsedVersion": 67,
     "target": "android",
-    "version": "4.4.3-4.4.4",
+    "version": "67",
   },
   Object {
     "parsedVersion": 11.8,
@@ -418,14 +438,14 @@ Array [
     "version": "1.2",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 66,
     "target": "and_ff",
-    "version": "64",
+    "version": "66",
   },
   Object {
-    "parsedVersion": 71,
+    "parsedVersion": 74,
     "target": "and_chr",
-    "version": "71",
+    "version": "74",
   },
 ]
 `;
