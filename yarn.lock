@@ -2032,10 +2032,10 @@ eslint-config-airbnb-base@^13.1.0:
     object.assign "^4.1.0"
     object.entries "^1.0.4"
 
-eslint-config-bliss@^4.0.0-0:
-  version "4.0.0-0"
-  resolved "https://registry.yarnpkg.com/eslint-config-bliss/-/eslint-config-bliss-4.0.0-0.tgz#754fadcaf97180b8a64dddbab8c0f3372b026ae7"
-  integrity sha512-fs4ul7jlk82IT+MwbCIf19xIooOHYprQksTDgYVyWPHIE9IoFpS/STKA53/XuHpLukIBqWRsOs0gSWqLlpuI3A==
+eslint-config-bliss@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-bliss/-/eslint-config-bliss-4.0.0.tgz#bf90f9eaddf73490afc2e21490f7499d3f8935da"
+  integrity sha512-0lmTwSutBafwvLBVJ4DGMhA8sGh9O+1BIgtZ+EfyRlVF2VqXz7eUScuvRrFRmxnAMczrRQl8VhIfx3LvFVwiKA==
   dependencies:
     babel-eslint "^10.0.2"
     eslint-config-airbnb-base "^13.1.0"

@@ -1,3 +1,7 @@
+## v3.2.0
+### Added
+- Support for `eslint@6`
+
 ## v3.1.2
 ### Fixed
 - Remove npm restriction from engines
