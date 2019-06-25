@@ -1,7 +1,7 @@
 // @flow
 import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
-import type { ESLintNode } from '../LintTypes';
+import type { ESLintNode, BrowserListConfig } from '../LintTypes';
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void
@@ -32,14 +32,6 @@ function getName(node) {
       throw new Error('not found');
   }
 }
-
-export type BrowserListConfig =
-  | Array<string>
-  | {
-      production?: Array<string>,
-      development?: Array<string>
-    }
-  | null;
 
 export default {
   meta: {

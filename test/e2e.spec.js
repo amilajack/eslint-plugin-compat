@@ -1,4 +1,3 @@
-/* eslint flowtype/require-valid-file-annotation: 0 */
 import { RuleTester } from 'eslint';
 import rule from '../src/rules/compat';
 

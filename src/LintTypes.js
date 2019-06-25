@@ -1,4 +1,12 @@
 // @flow
+export type BrowserListConfig =
+  | Array<string>
+  | {
+      production?: Array<string>,
+      development?: Array<string>
+    }
+  | null;
+
 export type node = {
   type?: 'MemberExpression' | 'NewExpression' | 'CallExpression',
   name?: string,

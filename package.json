@@ -48,8 +48,8 @@
     "babel-jest": "^24.8.0",
     "cross-env": "^5.2.0",
     "download-cli": "^1.1.1",
-    "eslint": "^6.0.0",
-    "eslint-config-bliss": "^3.4.0",
+    "eslint": "^6.0.1",
+    "eslint-config-bliss": "^4.0.0-0",
     "eslint-plugin-flowtype-errors": "^4.1.0",
     "flow-bin": "^0.101.1",
     "flow-typed": "^2.5.2",
@@ -59,9 +59,9 @@
     "@babel/runtime": "^7.4.5",
     "ast-metadata-inferer": "^0.1.1",
     "browserslist": "^4.6.3",
-    "caniuse-db": "^1.0.30000976",
+    "caniuse-db": "^1.0.30000977",
     "mdn-browser-compat-data": "^0.0.84",
-    "semver": "^6.1.1"
+    "semver": "^6.1.2"
   },
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
@@ -84,7 +84,7 @@
       "jest": true
     },
     "rules": {
-      "flowtype-errors/show-errors": "warn",
+      "flowtype-errors/show-errors": "off",
       "prettier/prettier": [
         "error",
         {
