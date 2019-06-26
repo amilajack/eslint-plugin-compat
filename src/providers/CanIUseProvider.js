@@ -95,12 +95,11 @@ function canIUseIsNotSupported(
   const { stats } = (caniuseRecords: CanIUseRecords).data[node.caniuseId];
   const targetStats = stats[target];
   return versionIsRange(version)
-    ? Object.keys(targetStats).some(
-        (statsVersion: string): boolean =>
-          versionIsRange(statsVersion) &&
-          compareRanges(parsedVersion, statsVersion)
-            ? !targetStats[statsVersion].includes('y')
-            : false
+    ? Object.keys(targetStats).some((statsVersion: string): boolean =>
+        versionIsRange(statsVersion) &&
+        compareRanges(parsedVersion, statsVersion)
+          ? !targetStats[statsVersion].includes('y')
+          : false
       )
     : targetStats[version] && !targetStats[version].includes('y');
 }
