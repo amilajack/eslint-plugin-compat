@@ -60,22 +60,23 @@ export default {
     const errors = [];
 
     function lint(node: ESLintNode) {
-      const { isValid, rule, unsupportedTargets } = Lint(
+      const lintResult = Lint(
         node,
         browserslistTargets,
         new Set(context.settings.polyfills || [])
       );
 
-      if (!isValid) {
-        errors.push({
-          node,
-          message: [
-            generateErrorName(rule),
-            'is not supported in',
-            unsupportedTargets.join(', ')
-          ].join(' ')
-        });
-      }
+      if (lintResult == null) return;
+
+      const { rule, unsupportedTargets } = lintResult;
+      errors.push({
+        node,
+        message: [
+          generateErrorName(rule),
+          'is not supported in',
+          unsupportedTargets.join(', ')
+        ].join(' ')
+      });
     }
 
     const identifiers = new Set();
