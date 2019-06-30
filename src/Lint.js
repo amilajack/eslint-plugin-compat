@@ -20,20 +20,19 @@ export default function Lint(
   polyfills: Set<string>
 ): ?lintResultObject {
   // Find the corresponding rules for a eslintNode by it's astNodeType
-  const failingRule = rules
-    .filter(
-      (rule: Node): boolean =>
-        rule.astNodeType === eslintNode.type &&
-        // v2 allowed users to select polyfills based off their caniuseId. This is
-        // no longer supported. Keeping this here to avoid breaking changes.
-        !polyfills.has(rule.id) &&
-        // Check if polyfill is provided (ex. `Promise.all`)
-        !polyfills.has(rule.protoChainId) &&
-        // Check if entire API is polyfilled (ex. `Promise`)
-        !polyfills.has(rule.protoChain[0])
-    )
-    // Find the first failing rule
-    .find((rule: Node): boolean => !rule.isValid(rule, eslintNode, targets));
+  const failingRule = rules.find(
+    (rule: Node): boolean =>
+      rule.astNodeType === eslintNode.type &&
+      // Check that the rule fails for this node (unless there's a polyfill)
+      !rule.isValid(rule, eslintNode, targets) &&
+      // v2 allowed users to select polyfills based off their caniuseId. This is
+      // no longer supported. Keeping this here to avoid breaking changes.
+      !polyfills.has(rule.id) &&
+      // Check if polyfill is provided (ex. `Promise.all`)
+      !polyfills.has(rule.protoChainId) &&
+      // Check if entire API is polyfilled (ex. `Promise`)
+      !polyfills.has(rule.protoChain[0])
+  );
 
   return failingRule
     ? {
