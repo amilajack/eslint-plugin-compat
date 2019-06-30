@@ -1,3 +1,7 @@
+## v3.3.0
+### Performance
+- Optimize core loop to run ~50% faster ([https://github.com/amilajack/eslint-plugin-compat/pull/245](https://github.com/amilajack/eslint-plugin-compat/pull/245))
+
 ## v3.2.0
 ### Added
 - Support for `eslint@6`
