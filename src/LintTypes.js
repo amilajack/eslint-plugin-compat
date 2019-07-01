@@ -25,6 +25,7 @@ export type Targets = Array<string>;
 
 export type ESLintNode = {
   object?: node,
+  parent?: ESLintNode,
   property?: node,
   callee?: {
     name?: string,

@@ -35,8 +35,25 @@ function getName(node) {
   }
 }
 
-let x;
-const getTargetedRules = memoize(targetsJSON =>
+const getPolyfillSet = memoize(
+  (polyfillArray: string) => new Set(JSON.parse(polyfillArray))
+);
+
+function isPolyfilled(context, rule) {
+  if (!context.settings.polyfills) return false;
+  const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
+  return (
+    // v2 allowed users to select polyfills based off their caniuseId. This is
+    // no longer supported. Keeping this here to avoid breaking changes.
+    polyfills.has(rule.id) ||
+    // Check if polyfill is provided (ex. `Promise.all`)
+    polyfills.has(rule.protoChainId) ||
+    // Check if entire API is polyfilled (ex. `Promise`)
+    polyfills.has(rule.protoChain[0])
+  );
+}
+
+const getTargetedRules = memoize((targetsJSON: string) =>
   rules.filter(
     rule => rule.getUnsupportedTargets(rule, JSON.parse(targetsJSON)).length > 0
   )
@@ -71,6 +88,18 @@ export default {
 
     const errors = [];
 
+    function handleFailingRule(node: ESLintNode, rule: Node) {
+      if (isPolyfilled(context, rule)) return;
+      errors.push({
+        node,
+        message: [
+          generateErrorName(rule),
+          'is not supported in',
+          rule.getUnsupportedTargets(rule, browserslistTargets).join(', ')
+        ].join(' ')
+      });
+    }
+
     function lint(node: ESLintNode) {
       const failingRule = Lint(
         node,
@@ -78,18 +107,7 @@ export default {
         new Set(context.settings.polyfills || [])
       );
 
-      if (failingRule == null) return;
-
-      errors.push({
-        node,
-        message: [
-          generateErrorName(failingRule),
-          'is not supported in',
-          failingRule
-            .getUnsupportedTargets(failingRule, browserslistTargets)
-            .join(', ')
-        ].join(' ')
-      });
+      if (failingRule != null) handleFailingRule(node, failingRule);
     }
 
     const identifiers = new Set();
@@ -99,7 +117,7 @@ export default {
       MemberExpression: lint,
       NewExpression: lint,
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
-      Identifier(node) {
+      Identifier(node: ESLintNode) {
         if (node.parent) {
           const { type } = node.parent;
           if (
