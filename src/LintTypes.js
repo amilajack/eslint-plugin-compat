@@ -49,8 +49,7 @@ export type Node = {
   ) => boolean
 };
 
-export type isValidObject = {
+export type lintResultObject = {
   rule: Node,
-  isValid: boolean,
   unsupportedTargets: Array<string>
 };
