@@ -1,8 +1,8 @@
 // @flow
 import memoize from 'lodash.memoize';
-import Lint, { generateErrorName } from '../Lint';
+import { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
-import type { ESLintNode, BrowserListConfig } from '../LintTypes';
+import type { ESLintNode, Node, BrowserListConfig } from '../LintTypes';
 import { rules } from '../providers';
 
 type ESLint = {
@@ -53,11 +53,19 @@ function isPolyfilled(context, rule) {
   );
 }
 
-const getTargetedRules = memoize((targetsJSON: string) =>
-  rules.filter(
-    rule => rule.getUnsupportedTargets(rule, JSON.parse(targetsJSON)).length > 0
-  )
-);
+const getRulesForTargets = memoize((targetsJSON: string) => {
+  const result = {
+    CallExpression: [],
+    NewExpression: [],
+    MemberExpression: []
+  };
+  const targets = JSON.parse(targetsJSON);
+  rules.forEach(rule => {
+    if (rule.getUnsupportedTargets(rule, targets).length === 0) return;
+    result[rule.astNodeType].push(rule);
+  });
+  return result;
+});
 
 export default {
   meta: {
@@ -84,7 +92,9 @@ export default {
     );
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
-    const targetedRules = getTargetedRules(JSON.stringify(browserslistTargets));
+    const targetedRules = getRulesForTargets(
+      JSON.stringify(browserslistTargets)
+    );
 
     const errors = [];
 
@@ -100,22 +110,42 @@ export default {
       });
     }
 
-    function lint(node: ESLintNode) {
-      const failingRule = Lint(
-        node,
-        targetedRules,
-        new Set(context.settings.polyfills || [])
+    function lintCallExpression(node: ESLintNode) {
+      if (!node.callee) return;
+      const calleeName = node.callee.name;
+      const failingRule = targetedRules.CallExpression.find(
+        rule => rule.object === calleeName
       );
+      if (failingRule != null) handleFailingRule(node, failingRule);
+    }
 
+    function lintNewExpression(node: ESLintNode) {
+      if (!node.callee) return;
+      const calleeName = node.callee.name;
+      const failingRule = targetedRules.NewExpression.find(
+        rule => rule.object === calleeName
+      );
+      if (failingRule != null) handleFailingRule(node, failingRule);
+    }
+
+    function lintMemberExpression(node: ESLintNode) {
+      if (!node.object || !node.property) return;
+      const objectName = node.object.name;
+      const propertyName = node.property.name;
+      const failingRule = targetedRules.MemberExpression.find(
+        rule =>
+          rule.object === objectName &&
+          (rule.property == null || rule.property === propertyName)
+      );
       if (failingRule != null) handleFailingRule(node, failingRule);
     }
 
     const identifiers = new Set();
 
     return {
-      CallExpression: lint,
-      MemberExpression: lint,
-      NewExpression: lint,
+      CallExpression: lintCallExpression,
+      NewExpression: lintNewExpression,
+      MemberExpression: lintMemberExpression,
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
       Identifier(node: ESLintNode) {
         if (node.parent) {
