@@ -1283,7 +1283,7 @@ browser-resolve@^1.11.3:
   dependencies:
     resolve "1.1.7"
 
-browserslist@^4.5.4, browserslist@^4.6.0, browserslist@^4.6.2, browserslist@^4.6.3:
+browserslist@^4.6.0, browserslist@^4.6.2, browserslist@^4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.6.3.tgz#0530cbc6ab0c1f3fc8c819c72377ba55cf647f05"
   integrity sha512-CNBqTCq22RKM8wKJNowcqihHJ4SkI8CGeK7KOR9tPboXUuS5Zk5lQgzzTbs4oxD8x+6HUshZUa2OyNI9lR93bQ==
@@ -1401,7 +1401,7 @@ camelcase@^5.0.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
-caniuse-db@^1.0.30000957, caniuse-db@^1.0.30000977:
+caniuse-db@^1.0.30000977:
   version "1.0.30000977"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000977.tgz#8ee0141e26443941ae02e06826357bf4ee847541"
   integrity sha512-V+FisJLGKnEZg7Dmc1QxKEM62LJKOYIF8xEFCg9N98nCdac1gBZioxtYOXcscZtKwsoLcwyA+YFrgIMZ43ENfA==
@@ -2032,27 +2032,27 @@ eslint-config-airbnb-base@^13.1.0:
     object.assign "^4.1.0"
     object.entries "^1.0.4"
 
-eslint-config-bliss@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-bliss/-/eslint-config-bliss-4.0.0.tgz#bf90f9eaddf73490afc2e21490f7499d3f8935da"
-  integrity sha512-0lmTwSutBafwvLBVJ4DGMhA8sGh9O+1BIgtZ+EfyRlVF2VqXz7eUScuvRrFRmxnAMczrRQl8VhIfx3LvFVwiKA==
+eslint-config-bliss@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-bliss/-/eslint-config-bliss-4.1.0.tgz#693d5fa793f9b4e6599abd963333921d2c136858"
+  integrity sha512-2BU+WuvYsnA4pGDupBZmU2saG1wRdzgukacN4TUj8J1EFPuZoNkvCnGtBt1Vwp35/JSO4GX/YFIBXKcHITGvWQ==
   dependencies:
     babel-eslint "^10.0.2"
     eslint-config-airbnb-base "^13.1.0"
-    eslint-config-prettier "^5.1.0"
-    eslint-plugin-compat "^3.1.2"
+    eslint-config-prettier "^6.0.0"
+    eslint-plugin-compat "^3.3.0-0"
     eslint-plugin-flowtype-errors "^4.1.0"
     eslint-plugin-import "^2.18.0"
     eslint-plugin-jest "^22.7.1"
     eslint-plugin-prettier "^3.1.0"
-    eslint-plugin-promise "^4.0.1"
-    flow-bin "^0.101.1"
+    eslint-plugin-promise "^4.2.1"
+    flow-bin "^0.102.0"
     prettier "^1.18.2"
 
-eslint-config-prettier@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-5.1.0.tgz#bf29442e7c818236a77acfe2241ec991299f9bf1"
-  integrity sha512-+tpiaLm3wl6fPW5nq0dDyVowQM0FT61lAdWZ+sDWgk6kKzgbOnCDwlcbwI38cyCBhq+Z3ret5Iofp6/gZpO0zw==
+eslint-config-prettier@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.0.0.tgz#f429a53bde9fc7660e6353910fd996d6284d3c25"
+  integrity sha512-vDrcCFE3+2ixNT5H83g28bO/uYAwibJxerXPj+E7op4qzBCsAV36QfvdAyVOoNxKAH2Os/e01T/2x++V0LPukA==
   dependencies:
     get-stdin "^6.0.0"
 
@@ -2072,17 +2072,17 @@ eslint-module-utils@^2.4.0:
     debug "^2.6.8"
     pkg-dir "^2.0.0"
 
-eslint-plugin-compat@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-compat/-/eslint-plugin-compat-3.1.2.tgz#965de2f3e6d7947616e927ff4de2392084d8777a"
-  integrity sha512-10XuVdl1RG53EvXNep6VwVsIbXsJM/g+M2fCvMTuw5CSVeITAw108HjC79+NPwrBbYFpdOfeIR08CviBDZQDKg==
+eslint-plugin-compat@^3.3.0-0:
+  version "3.3.0-0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-compat/-/eslint-plugin-compat-3.3.0-0.tgz#25cdc0c0978978387b2df8968aac5c961e7b6b67"
+  integrity sha512-yMbxwZ2FeHPGpqjEluUim2KhQVIZSHzJNKGr6bnaOV6fRBSQlYVi4r0Yug+VsBc8cU+zrqGlMC9oFB2129SZ+Q==
   dependencies:
     "@babel/runtime" "^7.4.5"
     ast-metadata-inferer "^0.1.1"
-    browserslist "^4.5.4"
-    caniuse-db "^1.0.30000957"
-    mdn-browser-compat-data "^0.0.74"
-    semver "^6.1.1"
+    browserslist "^4.6.3"
+    caniuse-db "^1.0.30000977"
+    mdn-browser-compat-data "^0.0.84"
+    semver "^6.1.2"
 
 eslint-plugin-flowtype-errors@^4.1.0:
   version "4.1.0"
@@ -2122,10 +2122,10 @@ eslint-plugin-prettier@^3.1.0:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-promise@^4.0.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.1.1.tgz#1e08cb68b5b2cd8839f8d5864c796f56d82746db"
-  integrity sha512-faAHw7uzlNPy7b45J1guyjazw28M+7gJokKUjC5JSFoYfUEyy6Gw/i7YQvmv2Yk00sUjWcmzXQLpU1Ki/C2IZQ==
+eslint-plugin-promise@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.2.1.tgz#845fd8b2260ad8f82564c1222fce44ad71d9418a"
+  integrity sha512-VoM09vT7bfA7D+upt+FjeBO5eHIJQBUWki1aPvB+vbNiHS3+oGIJGIeyBtKQTME6UPXXy3vV07OL1tHd3ANuDw==
 
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
@@ -2490,11 +2490,6 @@ flatted@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.1.tgz#69e57caa8f0eacbc281d2e2cb458d46fdb449e08"
   integrity sha512-a1hQMktqW9Nmqr5aktAux3JMNqaucxGcjtjWnZLHX7yyPCmlSV3M54nGYbqT8K+0GhF3NBgmJCc3ma+WOgX8Jg==
-
-flow-bin@^0.101.1:
-  version "0.101.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.101.1.tgz#6175eb4a2e510949decf4750cb573f83ddf303f2"
-  integrity sha512-+HVuoMgWNK8vIM662Rt6OzlJNTnC+BWChdeYjkPpl70TKiRMt//j6/5x6PH8HVZ/vytOfPZw2b/JrlBHdlGCkQ==
 
 flow-bin@^0.102.0:
   version "0.102.0"
@@ -3969,13 +3964,6 @@ md5@^2.2.1:
     charenc "~0.0.1"
     crypt "~0.0.1"
     is-buffer "~1.1.1"
-
-mdn-browser-compat-data@^0.0.74:
-  version "0.0.74"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.74.tgz#999a07ae810c6daefbf03c82ae209c8596c469fd"
-  integrity sha512-d/pTMwk3tMxdBb5ziOr3wHLFJRfYqSgGMt5aKLpCDBFYu6gk/uLGibkikv/HmMJyU3GEb9R1VvkVkCw75hVMvg==
-  dependencies:
-    extend "3.0.2"
 
 mdn-browser-compat-data@^0.0.84:
   version "0.0.84"
