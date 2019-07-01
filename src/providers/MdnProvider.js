@@ -102,11 +102,7 @@ export function getUnsupportedTargets(
 /**
  * Check if the node has matching object or properties
  */
-function isValid(
-  node: Node,
-  eslintNode: ESLintNode,
-  targets: Targets
-): boolean {
+function isValid(node: Node, eslintNode: ESLintNode): boolean {
   switch (eslintNode.type) {
     case 'CallExpression':
     case 'NewExpression':
@@ -128,7 +124,7 @@ function isValid(
       return true;
   }
 
-  return !getUnsupportedTargets(node, targets).length;
+  return false;
 }
 
 function getMetadataName(metadata: Node) {

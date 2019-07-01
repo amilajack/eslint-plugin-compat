@@ -1,6 +1,5 @@
 // @flow
-import { rules } from './providers';
-import type { Node, ESLintNode, Targets, lintResultObject } from './LintTypes';
+import type { Node, ESLintNode, lintResultObject } from './LintTypes';
 
 export function generateErrorName(_node: Node): string {
   if (_node.name) return _node.name;
@@ -16,15 +15,15 @@ export function generateErrorName(_node: Node): string {
  */
 export default function Lint(
   eslintNode: ESLintNode,
-  targets: Targets = ['chrome', 'firefox', 'safari', 'edge'],
+  rulesForCurrentTargets,
   polyfills: Set<string>
 ): ?lintResultObject {
   // Find the corresponding rules for a eslintNode by it's astNodeType
-  const failingRule = rules.find(
+  const failingRule = rulesForCurrentTargets.find(
     (rule: Node): boolean =>
       rule.astNodeType === eslintNode.type &&
       // Check that the rule fails for this node (unless there's a polyfill)
-      !rule.isValid(rule, eslintNode, targets) &&
+      !rule.isValid(rule, eslintNode) &&
       // v2 allowed users to select polyfills based off their caniuseId. This is
       // no longer supported. Keeping this here to avoid breaking changes.
       !polyfills.has(rule.id) &&
@@ -34,13 +33,5 @@ export default function Lint(
       !polyfills.has(rule.protoChain[0])
   );
 
-  return failingRule
-    ? {
-        rule: failingRule,
-        unsupportedTargets: failingRule.getUnsupportedTargets(
-          failingRule,
-          targets
-        )
-      }
-    : null;
+  return failingRule;
 }

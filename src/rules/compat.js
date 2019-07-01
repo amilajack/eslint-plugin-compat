@@ -1,7 +1,9 @@
 // @flow
+import memoize from 'lodash.memoize';
 import Lint, { generateErrorName } from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
 import type { ESLintNode, BrowserListConfig } from '../LintTypes';
+import { rules } from '../providers';
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void
@@ -33,6 +35,13 @@ function getName(node) {
   }
 }
 
+let x;
+const getTargetedRules = memoize(targetsJSON =>
+  rules.filter(
+    rule => rule.getUnsupportedTargets(rule, JSON.parse(targetsJSON)).length > 0
+  )
+);
+
 export default {
   meta: {
     docs: {
@@ -57,24 +66,28 @@ export default {
       DetermineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
+    // Stringify to support memoization; browserslistConfig is always an array of new objects.
+    const targetedRules = getTargetedRules(JSON.stringify(browserslistTargets));
+
     const errors = [];
 
     function lint(node: ESLintNode) {
-      const lintResult = Lint(
+      const failingRule = Lint(
         node,
-        browserslistTargets,
+        targetedRules,
         new Set(context.settings.polyfills || [])
       );
 
-      if (lintResult == null) return;
+      if (failingRule == null) return;
 
-      const { rule, unsupportedTargets } = lintResult;
       errors.push({
         node,
         message: [
-          generateErrorName(rule),
+          generateErrorName(failingRule),
           'is not supported in',
-          unsupportedTargets.join(', ')
+          failingRule
+            .getUnsupportedTargets(failingRule, browserslistTargets)
+            .join(', ')
         ].join(' ')
       });
     }
