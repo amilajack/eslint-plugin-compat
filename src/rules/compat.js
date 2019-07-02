@@ -1,6 +1,10 @@
 // @flow
 import memoize from 'lodash.memoize';
-import { generateErrorName } from '../Lint';
+import {
+  lintCallExpression,
+  lintMemberExpression,
+  lintNewExpression
+} from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
 import type { ESLintNode, Node, BrowserListConfig } from '../LintTypes';
 import { rules } from '../providers';
@@ -11,6 +15,7 @@ type ESLint = {
 
 type Context = {
   node: ESLintNode,
+  options: Array<string>,
   settings: {
     browsers: Array<string>,
     polyfills: Array<string>
@@ -19,7 +24,7 @@ type Context = {
   report: () => void
 };
 
-function getName(node) {
+function getName(node: ESLintNode): string {
   switch (node.type) {
     case 'NewExpression': {
       return node.callee.name;
@@ -35,11 +40,18 @@ function getName(node) {
   }
 }
 
+function generateErrorName(rule: Node): string {
+  if (rule.name) return rule.name;
+  if (rule.property) return `${rule.object}.${rule.property}()`;
+  return rule.object;
+}
+
 const getPolyfillSet = memoize(
-  (polyfillArray: string) => new Set(JSON.parse(polyfillArray))
+  (polyfillArrayJSON: string): Set<String> =>
+    new Set(JSON.parse(polyfillArrayJSON))
 );
 
-function isPolyfilled(context, rule) {
+function isPolyfilled(context: Context, rule: Node): boolean {
   if (!context.settings.polyfills) return false;
   const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
   return (
@@ -53,13 +65,13 @@ function isPolyfilled(context, rule) {
   );
 }
 
-const getRulesForTargets = memoize((targetsJSON: string) => {
+const getRulesForTargets = memoize((targetsJSON: string): Object => {
+  const targets = JSON.parse(targetsJSON);
   const result = {
     CallExpression: [],
     NewExpression: [],
     MemberExpression: []
   };
-  const targets = JSON.parse(targetsJSON);
   rules.forEach(rule => {
     if (rule.getUnsupportedTargets(rule, targets).length === 0) return;
     result[rule.astNodeType].push(rule);
@@ -98,7 +110,7 @@ export default {
 
     const errors = [];
 
-    function handleFailingRule(node: ESLintNode, rule: Node) {
+    function handleFailingRule(rule: Node, node: ESLintNode) {
       if (isPolyfilled(context, rule)) return;
       errors.push({
         node,
@@ -110,42 +122,24 @@ export default {
       });
     }
 
-    function lintCallExpression(node: ESLintNode) {
-      if (!node.callee) return;
-      const calleeName = node.callee.name;
-      const failingRule = targetedRules.CallExpression.find(
-        rule => rule.object === calleeName
-      );
-      if (failingRule != null) handleFailingRule(node, failingRule);
-    }
-
-    function lintNewExpression(node: ESLintNode) {
-      if (!node.callee) return;
-      const calleeName = node.callee.name;
-      const failingRule = targetedRules.NewExpression.find(
-        rule => rule.object === calleeName
-      );
-      if (failingRule != null) handleFailingRule(node, failingRule);
-    }
-
-    function lintMemberExpression(node: ESLintNode) {
-      if (!node.object || !node.property) return;
-      const objectName = node.object.name;
-      const propertyName = node.property.name;
-      const failingRule = targetedRules.MemberExpression.find(
-        rule =>
-          rule.object === objectName &&
-          (rule.property == null || rule.property === propertyName)
-      );
-      if (failingRule != null) handleFailingRule(node, failingRule);
-    }
-
     const identifiers = new Set();
 
     return {
-      CallExpression: lintCallExpression,
-      NewExpression: lintNewExpression,
-      MemberExpression: lintMemberExpression,
+      CallExpression: lintCallExpression.bind(
+        null,
+        handleFailingRule,
+        targetedRules.CallExpression
+      ),
+      NewExpression: lintNewExpression.bind(
+        null,
+        handleFailingRule,
+        targetedRules.NewExpression
+      ),
+      MemberExpression: lintMemberExpression.bind(
+        null,
+        handleFailingRule,
+        targetedRules.MemberExpression
+      ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
       Identifier(node: ESLintNode) {
         if (node.parent) {

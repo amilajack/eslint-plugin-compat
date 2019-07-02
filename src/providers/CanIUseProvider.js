@@ -1,7 +1,7 @@
 // @flow
 // $FlowFixMe: Flow import error
 import caniuseRecords from 'caniuse-db/fulldata-json/data-2.0.json';
-import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
+import type { Node, Targets, Target } from '../LintTypes';
 
 type TargetMetadata = {
   // The list of targets supported by the provider
@@ -114,34 +114,6 @@ export function getUnsupportedTargets(
   return targets
     .filter(target => canIUseIsNotSupported(node, target))
     .map(formatTargetNames);
-}
-
-/**
- * Check if the node has matching object or properties
- */
-function isValid(node: Node, eslintNode: ESLintNode): boolean {
-  switch (eslintNode.type) {
-    case 'CallExpression':
-    case 'NewExpression':
-      if (!eslintNode.callee) return true;
-      if (eslintNode.callee.name !== node.object) return true;
-      break;
-    case 'MemberExpression':
-      // Pass tests if non-matching object or property
-      if (!eslintNode.object || !eslintNode.property) return true;
-      if (eslintNode.object.name !== node.object) return true;
-
-      // If the property is missing from the rule, it means that only the
-      // object is required to determine compatibility
-      if (!node.property) break;
-
-      if (eslintNode.property.name !== node.property) return true;
-      break;
-    default:
-      return true;
-  }
-
-  return false;
 }
 
 const CanIUseProvider: Array<Node> = [
@@ -290,7 +262,6 @@ const CanIUseProvider: Array<Node> = [
   }
 ].map(rule =>
   Object.assign({}, rule, {
-    isValid,
     getUnsupportedTargets,
     id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
     protoChainId: rule.property

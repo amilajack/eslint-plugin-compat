@@ -1,6 +1,6 @@
 import AstMetadata from 'ast-metadata-inferer';
 import semver from 'semver';
-import type { Node, ESLintNode, Targets, Target } from '../LintTypes';
+import type { Node, Targets, Target } from '../LintTypes';
 
 type AstMetadataRecordType = {
   apiType: 'js-api' | 'css-api',
@@ -99,34 +99,6 @@ export function getUnsupportedTargets(
     .map(formatTargetNames);
 }
 
-/**
- * Check if the node has matching object or properties
- */
-function isValid(node: Node, eslintNode: ESLintNode): boolean {
-  switch (eslintNode.type) {
-    case 'CallExpression':
-    case 'NewExpression':
-      if (!eslintNode.callee) return true;
-      if (eslintNode.callee.name !== node.object) return true;
-      break;
-    case 'MemberExpression':
-      // Pass tests if non-matching object or property
-      if (!eslintNode.object || !eslintNode.property) return true;
-      if (eslintNode.object.name !== node.object) return true;
-
-      // If the property is missing from the rule, it means that only the
-      // object is required to determine compatibility
-      if (!node.property) break;
-
-      if (eslintNode.property.name !== node.property) return true;
-      break;
-    default:
-      return true;
-  }
-
-  return false;
-}
-
 function getMetadataName(metadata: Node) {
   switch (metadata.protoChain.length) {
     case 1: {
@@ -156,7 +128,6 @@ const MdnProvider: Array<Node> = AstMetadata
   // Add rule and target support logic for each entry
   .map(rule => ({
     ...rule,
-    isValid,
     getUnsupportedTargets
   }));
 
