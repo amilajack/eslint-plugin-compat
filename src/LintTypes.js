@@ -25,6 +25,7 @@ export type Targets = Array<string>;
 
 export type ESLintNode = {
   object?: node,
+  parent?: ESLintNode,
   property?: node,
   callee?: {
     name?: string,
@@ -41,15 +42,7 @@ export type Node = {
   object: string,
   property?: string,
   name?: string,
-  getUnsupportedTargets: (node: Node, targets: Targets) => Array<string>,
-  isValid: (
-    node: Node,
-    eslintNode: ESLintNode,
-    targets: Array<string>
-  ) => boolean
-};
-
-export type lintResultObject = {
-  rule: Node,
-  unsupportedTargets: Array<string>
+  protoChainId: string,
+  protoChain: Array<string>,
+  getUnsupportedTargets: (node: Node, targets: Targets) => Array<string>
 };

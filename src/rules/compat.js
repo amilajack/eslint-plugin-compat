@@ -1,7 +1,13 @@
 // @flow
-import Lint, { generateErrorName } from '../Lint';
+import memoize from 'lodash.memoize';
+import {
+  lintCallExpression,
+  lintMemberExpression,
+  lintNewExpression
+} from '../Lint';
 import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
-import type { ESLintNode, BrowserListConfig } from '../LintTypes';
+import type { ESLintNode, Node, BrowserListConfig } from '../LintTypes';
+import { rules } from '../providers';
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void
@@ -9,6 +15,7 @@ type ESLint = {
 
 type Context = {
   node: ESLintNode,
+  options: Array<string>,
   settings: {
     browsers: Array<string>,
     polyfills: Array<string>
@@ -17,7 +24,7 @@ type Context = {
   report: () => void
 };
 
-function getName(node) {
+function getName(node: ESLintNode): string {
   switch (node.type) {
     case 'NewExpression': {
       return node.callee.name;
@@ -32,6 +39,45 @@ function getName(node) {
       throw new Error('not found');
   }
 }
+
+function generateErrorName(rule: Node): string {
+  if (rule.name) return rule.name;
+  if (rule.property) return `${rule.object}.${rule.property}()`;
+  return rule.object;
+}
+
+const getPolyfillSet = memoize(
+  (polyfillArrayJSON: string): Set<String> =>
+    new Set(JSON.parse(polyfillArrayJSON))
+);
+
+function isPolyfilled(context: Context, rule: Node): boolean {
+  if (!context.settings.polyfills) return false;
+  const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
+  return (
+    // v2 allowed users to select polyfills based off their caniuseId. This is
+    // no longer supported. Keeping this here to avoid breaking changes.
+    polyfills.has(rule.id) ||
+    // Check if polyfill is provided (ex. `Promise.all`)
+    polyfills.has(rule.protoChainId) ||
+    // Check if entire API is polyfilled (ex. `Promise`)
+    polyfills.has(rule.protoChain[0])
+  );
+}
+
+const getRulesForTargets = memoize((targetsJSON: string): Object => {
+  const targets = JSON.parse(targetsJSON);
+  const result = {
+    CallExpression: [],
+    NewExpression: [],
+    MemberExpression: []
+  };
+  rules.forEach(rule => {
+    if (rule.getUnsupportedTargets(rule, targets).length === 0) return;
+    result[rule.astNodeType].push(rule);
+  });
+  return result;
+});
 
 export default {
   meta: {
@@ -57,24 +103,21 @@ export default {
       DetermineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
+    // Stringify to support memoization; browserslistConfig is always an array of new objects.
+    const targetedRules = getRulesForTargets(
+      JSON.stringify(browserslistTargets)
+    );
+
     const errors = [];
 
-    function lint(node: ESLintNode) {
-      const lintResult = Lint(
-        node,
-        browserslistTargets,
-        new Set(context.settings.polyfills || [])
-      );
-
-      if (lintResult == null) return;
-
-      const { rule, unsupportedTargets } = lintResult;
+    function handleFailingRule(rule: Node, node: ESLintNode) {
+      if (isPolyfilled(context, rule)) return;
       errors.push({
         node,
         message: [
           generateErrorName(rule),
           'is not supported in',
-          unsupportedTargets.join(', ')
+          rule.getUnsupportedTargets(rule, browserslistTargets).join(', ')
         ].join(' ')
       });
     }
@@ -82,11 +125,23 @@ export default {
     const identifiers = new Set();
 
     return {
-      CallExpression: lint,
-      MemberExpression: lint,
-      NewExpression: lint,
+      CallExpression: lintCallExpression.bind(
+        null,
+        handleFailingRule,
+        targetedRules.CallExpression
+      ),
+      NewExpression: lintNewExpression.bind(
+        null,
+        handleFailingRule,
+        targetedRules.NewExpression
+      ),
+      MemberExpression: lintMemberExpression.bind(
+        null,
+        handleFailingRule,
+        targetedRules.MemberExpression
+      ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
-      Identifier(node) {
+      Identifier(node: ESLintNode) {
         if (node.parent) {
           const { type } = node.parent;
           if (

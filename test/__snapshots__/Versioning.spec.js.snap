@@ -113,9 +113,9 @@ Array [
     "version": "67",
   },
   Object {
-    "parsedVersion": 74,
+    "parsedVersion": 75,
     "target": "and_chr",
-    "version": "74",
+    "version": "75",
   },
 ]
 `;
@@ -223,9 +223,9 @@ Array [
     "version": "67",
   },
   Object {
-    "parsedVersion": 74,
+    "parsedVersion": 75,
     "target": "and_chr",
-    "version": "74",
+    "version": "75",
   },
 ]
 `;
@@ -323,9 +323,9 @@ Array [
     "version": "67",
   },
   Object {
-    "parsedVersion": 74,
+    "parsedVersion": 75,
     "target": "and_chr",
-    "version": "74",
+    "version": "75",
   },
 ]
 `;
@@ -443,9 +443,9 @@ Array [
     "version": "67",
   },
   Object {
-    "parsedVersion": 74,
+    "parsedVersion": 75,
     "target": "and_chr",
-    "version": "74",
+    "version": "75",
   },
 ]
 `;
