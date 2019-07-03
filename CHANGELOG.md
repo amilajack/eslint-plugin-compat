@@ -1,5 +1,6 @@
 ## v3.3.0
 ### Performance
+- Filter and sort rules before node traversal ([https://github.com/amilajack/eslint-plugin-compat/pull/246](https://github.com/amilajack/eslint-plugin-compat/pull/246))
 - Optimize core loop to run ~50% faster ([https://github.com/amilajack/eslint-plugin-compat/pull/245](https://github.com/amilajack/eslint-plugin-compat/pull/245))
 
 ## v3.2.0
