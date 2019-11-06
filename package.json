@@ -49,7 +49,7 @@
     "cross-env": "^5.2.1",
     "download-cli": "^1.1.1",
     "eslint": "^6.5.1",
-    "eslint-config-bliss": "^4.2.0",
+    "eslint-config-bliss": "^4.4.0",
     "eslint-plugin-flowtype-errors": "^4.1.0",
     "flow-bin": "^0.108.0",
     "flow-typed": "^2.6.1",
