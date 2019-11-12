@@ -69,7 +69,8 @@ const targetNameMappings = {
  * ex. {target: and_ff, version: 40} => 'Android FireFox 40'
  */
 function formatTargetNames(target: Target): string {
-  return `${targetNameMappings[target.target] || target.target} ${target.version}`;
+  const name = targetNameMappings[target.target] || target.target;
+  return `${name} ${target.version}`;
 }
 
 /**
