@@ -260,15 +260,12 @@ const CanIUseProvider: Array<Node> = [
     astNodeType: 'NewExpression',
     object: 'Float64Array'
   }
-].map(rule =>
-  Object.assign({}, rule, {
-    getUnsupportedTargets,
-    id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
-    protoChainId: rule.property
-      ? `${rule.object}.${rule.property}`
-      : rule.object,
-    protoChain: rule.property ? [rule.object, rule.property] : [rule.object]
-  })
-);
+].map(rule => ({
+  ...rule,
+  getUnsupportedTargets,
+  id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
+  protoChainId: rule.property ? `${rule.object}.${rule.property}` : rule.object,
+  protoChain: rule.property ? [rule.object, rule.property] : [rule.object]
+}));
 
 export default CanIUseProvider;
