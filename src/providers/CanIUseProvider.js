@@ -142,6 +142,12 @@ const CanIUseProvider: Array<Node> = [
     astNodeType: 'NewExpression',
     object: 'IntersectionObserver'
   },
+  // ResizeObserver
+  {
+    caniuseId: 'resizeobserver',
+    astNodeType: 'NewExpression',
+    object: 'ResizeObserver'
+  },
   // PaymentRequest
   {
     caniuseId: 'payment-request',
