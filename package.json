@@ -58,7 +58,7 @@
   "dependencies": {
     "@babel/runtime": "^7.6.2",
     "ast-metadata-inferer": "^0.1.1",
-    "browserslist": "^4.6.3",
+    "browserslist": "^4.7.3",
     "caniuse-db": "^1.0.30000977",
     "lodash.memoize": "4.1.2",
     "mdn-browser-compat-data": "^0.0.84",
