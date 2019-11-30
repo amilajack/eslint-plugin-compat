@@ -1,3 +1,8 @@
+## v3.4.0
+### Added
+- Add schema to support browserlist as a second paramenter in eslintrc ([#265](https://github.com/amilajack/eslint-plugin-compat/pull/265))
+- Bumped all dependencies to latest semver
+
 ## v3.3.0
 ### Performance
 - Filter and sort rules before node traversal ([https://github.com/amilajack/eslint-plugin-compat/pull/246](https://github.com/amilajack/eslint-plugin-compat/pull/246))
