@@ -89,7 +89,7 @@ export default {
       recommended: true
     },
     fixable: 'code',
-    schema: []
+    schema: [{ type: 'string' }]
   },
   create(context: Context): ESLint {
     // Determine lowest targets from browserslist config, which reads user's
