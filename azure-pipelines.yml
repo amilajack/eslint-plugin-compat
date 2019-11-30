@@ -1,18 +1,40 @@
-jobs:
-  - job: Linux
-    pool:
-      vmImage: ubuntu-16.04
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.x'
-      - script: yarn && yarn test
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
-  - job: Windows
-    pool:
-      vmImage: vs2017-win2016
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.x'
-      - script: yarn && yarn build && yarn spec
+strategy:
+  matrix:
+    linux_node_stable:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '12.x'
+    linux_node_current:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '13.x'
+    mac_node_stable:
+      imageName: 'macos-10.13'
+      nodeVersion: '12.x'
+    mac_node_current:
+      imageName: 'macos-10.13'
+      nodeVersion: '13.x'
+    windows_node_stable:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '12.x'
+    windows_node_current:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '13.x'
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(nodeVersion)
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+        yarn
+      path: $(YARN_CACHE_FOLDER)
+    displayName: Cache Yarn packages
+  - script: yarn --frozen-lockfile && yarn test
