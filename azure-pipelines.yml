@@ -1,18 +1,30 @@
-jobs:
-  - job: Linux
-    pool:
-      vmImage: ubuntu-16.04
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.x'
-      - script: yarn && yarn test
+strategy:
+  matrix:
+    linux_node_stable:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '12.x'
+    linux_node_current:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '13.x'
+    mac_node_stable:
+      imageName: 'macos-10.13'
+      nodeVersion: '12.x'
+    mac_node_current:
+      imageName: 'macos-10.13'
+      nodeVersion: '13.x'
+    windows_node_stable:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '12.x'
+    windows_node_current:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '13.x'
 
-  - job: Windows
-    pool:
-      vmImage: vs2017-win2016
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.x'
-      - script: yarn && yarn build && yarn spec
+pool:
+  vmImage: $(imageName)
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: $(nodeVersion)
+
+- script: yarn && yarn test
