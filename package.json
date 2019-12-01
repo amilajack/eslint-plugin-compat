@@ -48,7 +48,7 @@
     "babel-jest": "^24.9.0",
     "cross-env": "^6.0.3",
     "download-cli": "^1.1.1",
-    "eslint": "^6.7.1",
+    "eslint": "^6.7.2",
     "eslint-config-bliss": "^4.4.0",
     "eslint-plugin-flowtype-errors": "^4.1.0",
     "flow-bin": "^0.112.0",
