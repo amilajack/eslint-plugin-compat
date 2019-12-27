@@ -88,20 +88,28 @@ function compareRanges(targetVersion: number, statsVersion: string): boolean {
 /*
  * Check the CanIUse database to see if targets are supported
  */
-function canIUseIsNotSupported(
+function checkCaniuseSupport(
   node: Node,
   { version, target, parsedVersion }: Target
 ): boolean {
   const { stats } = (caniuseRecords: CanIUseRecords).data[node.caniuseId];
+
+  if (!(target in stats)) return false;
   const targetStats = stats[target];
-  return versionIsRange(version)
-    ? Object.keys(targetStats).some((statsVersion: string): boolean =>
-        versionIsRange(statsVersion) &&
-        compareRanges(parsedVersion, statsVersion)
-          ? !targetStats[statsVersion].includes('y')
-          : false
-      )
-    : targetStats[version] && !targetStats[version].includes('y');
+
+  if (versionIsRange(version)) {
+    return Object.keys(targetStats).some((statsVersion: string): boolean =>
+      versionIsRange(statsVersion) && compareRanges(parsedVersion, statsVersion)
+        ? !targetStats[statsVersion].includes('y')
+        : false
+    );
+  }
+
+  return (
+    version in targetStats &&
+    targetStats[version] &&
+    !targetStats[version].includes('y')
+  );
 }
 
 /**
@@ -112,7 +120,7 @@ export function getUnsupportedTargets(
   targets: Targets
 ): Array<string> {
   return targets
-    .filter(target => canIUseIsNotSupported(node, target))
+    .filter(target => checkCaniuseSupport(node, target))
     .map(formatTargetNames);
 }
 
