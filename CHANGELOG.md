@@ -1,3 +1,7 @@
+## v3.4.1
+### Fixed
+- Allow targets not caniuse db ([#280](https://github.com/amilajack/eslint-plugin-compat/pull/280)
+
 ## v3.4.0
 ### Added
 - Add schema to support browserlist as a second paramenter in eslintrc ([#265](https://github.com/amilajack/eslint-plugin-compat/pull/265))
