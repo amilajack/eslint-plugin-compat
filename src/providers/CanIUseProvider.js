@@ -88,13 +88,13 @@ function compareRanges(targetVersion: number, statsVersion: string): boolean {
 /*
  * Check the CanIUse database to see if targets are supported
  */
-function checkCaniuseSupport(
+function isNotSupportedByCaniuse(
   node: Node,
   { version, target, parsedVersion }: Target
 ): boolean {
   const { stats } = (caniuseRecords: CanIUseRecords).data[node.caniuseId];
 
-  if (!(target in stats)) return false;
+  if (!(target in stats)) return true;
   const targetStats = stats[target];
 
   if (versionIsRange(version)) {
@@ -105,11 +105,12 @@ function checkCaniuseSupport(
     );
   }
 
-  return (
-    version in targetStats &&
-    targetStats[version] &&
-    !targetStats[version].includes('y')
-  );
+  // @TODO: This assumes that all versions are included in the cainuse db. If this is incorrect,
+  //        this will return false negatives To properly do this, we have to to range comparisons.
+  //        Ex. given query for 50 and only version 40 exists in db records, return true
+  if (!(version in targetStats)) return true;
+
+  return targetStats[version] && !targetStats[version].includes('y');
 }
 
 /**
@@ -120,7 +121,7 @@ export function getUnsupportedTargets(
   targets: Targets
 ): Array<string> {
   return targets
-    .filter(target => checkCaniuseSupport(node, target))
+    .filter(target => isNotSupportedByCaniuse(node, target))
     .map(formatTargetNames);
 }
 

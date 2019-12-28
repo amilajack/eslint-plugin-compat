@@ -30,6 +30,13 @@ ruleTester.run('compat', rule, {
     },
     {
       code: `
+        const { Set } = require('immutable');
+        new Set();
+      `,
+      settings: { browsers: ['ie 9', 'current node'] }
+    },
+    {
+      code: `
         const Set = require('immutable').Set;
         new Set();
       `,
