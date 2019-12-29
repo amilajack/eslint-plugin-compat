@@ -68,9 +68,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 67,
+    "parsedVersion": 68,
     "target": "firefox",
-    "version": "67",
+    "version": "68",
   },
   Object {
     "parsedVersion": 15,
@@ -178,9 +178,9 @@ Array [
     "version": "11",
   },
   Object {
-    "parsedVersion": 70,
+    "parsedVersion": 71,
     "target": "firefox",
-    "version": "70",
+    "version": "71",
   },
   Object {
     "parsedVersion": 18,
@@ -278,9 +278,9 @@ Array [
     "version": "9",
   },
   Object {
-    "parsedVersion": 67,
+    "parsedVersion": 68,
     "target": "firefox",
-    "version": "67",
+    "version": "68",
   },
   Object {
     "parsedVersion": 15,
@@ -413,9 +413,9 @@ Array [
     "version": "17",
   },
   Object {
-    "parsedVersion": 49,
+    "parsedVersion": 77,
     "target": "chrome",
-    "version": "49",
+    "version": "77",
   },
   Object {
     "parsedVersion": 7.12,
