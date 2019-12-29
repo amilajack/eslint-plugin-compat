@@ -37,7 +37,8 @@ export const targetMetadata: TargetMetadata = {
     'ie_mob',
     'and_uc',
     'samsung',
-    'baidu'
+    'baidu',
+    'kaios'
   ]
 };
 
@@ -59,7 +60,8 @@ const targetNameMappings = {
   and_ff: 'Android Firefox',
   ie_mob: 'IE Mobile',
   and_uc: 'Android UC Browser',
-  samsung: 'Samsung Browser'
+  samsung: 'Samsung Browser',
+  kaios: 'KaiOS'
 };
 
 /**
@@ -67,7 +69,8 @@ const targetNameMappings = {
  * ex. {target: and_ff, version: 40} => 'Android FireFox 40'
  */
 function formatTargetNames(target: Target): string {
-  return `${targetNameMappings[target.target]} ${target.version}`;
+  const name = targetNameMappings[target.target] || target.target;
+  return `${name} ${target.version}`;
 }
 
 /**
