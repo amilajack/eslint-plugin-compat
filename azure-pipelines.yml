@@ -5,19 +5,19 @@ strategy:
   matrix:
     linux_node_stable:
       imageName: 'ubuntu-16.04'
-      nodeVersion: '12.x'
+      nodeVersion: '8.x'
     linux_node_current:
       imageName: 'ubuntu-16.04'
       nodeVersion: '13.x'
     mac_node_stable:
       imageName: 'macos-10.13'
-      nodeVersion: '12.x'
+      nodeVersion: '8.x'
     mac_node_current:
       imageName: 'macos-10.13'
       nodeVersion: '13.x'
     windows_node_stable:
       imageName: 'vs2017-win2016'
-      nodeVersion: '12.x'
+      nodeVersion: '8.x'
     windows_node_current:
       imageName: 'vs2017-win2016'
       nodeVersion: '13.x'
