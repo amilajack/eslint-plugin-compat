@@ -63,7 +63,7 @@
     "caniuse-db": "^1.0.30001017",
     "lodash.memoize": "4.1.2",
     "mdn-browser-compat-data": "^1.0.3",
-    "semver": "^7.1.1"
+    "semver": "^6.3.0"
   },
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
