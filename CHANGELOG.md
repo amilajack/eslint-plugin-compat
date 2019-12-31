@@ -2,6 +2,7 @@
 ### Fixed
 - Allow targets not caniuse db ([#280](https://github.com/amilajack/eslint-plugin-compat/pull/280)
 - Added missing browser mapping and default fallback ([#272](https://github.com/amilajack/eslint-plugin-compat/pull/272))
+- Support Node >=8 ([#281](https://github.com/amilajack/eslint-plugin-compat/pull/281))
 
 ### Added
 - Bump all deps to latest semver
