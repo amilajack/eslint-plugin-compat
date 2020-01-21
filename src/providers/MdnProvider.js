@@ -79,12 +79,35 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
   // If a version is true then it is supported but version is unsure
   if (typeof versionAdded === 'boolean') return versionAdded;
   if (versionAdded === null) return true;
+
+  // Special case for Safari TP: TP is always gte than any other releases
+  if (target === 'safari') {
+    if (version === 'TP') return true;
+    if (versionAdded === 'TP') return false;
+  }
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
-  return semver.gte(
-    semver.coerce(customCoerce(version)),
-    semver.coerce(customCoerce(versionAdded))
-  );
+  const semverCurrent = semver.coerce(customCoerce(version));
+  const semverAdded = semver.coerce(customCoerce(versionAdded));
+
+  // semver.coerce() might be null for non-semvers (other than Safari TP)
+  // Just warn and treat features as supported here for now to avoid lint from
+  // crashing
+  if (!semverCurrent) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `eslint-plugin-compat: A non-semver target "${target} ${version}" matched for the feature ${node.protoChainId}, skipping. You're welcome to submit this log to https://github.com/amilajack/eslint-plugin-compat/issues for analysis.`
+    );
+    return true;
+  }
+  if (!versionAdded) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `eslint-plugin-compat: The feature ${node.protoChainId} is supported since a non-semver target "${target} ${versionAdded}", skipping. You're welcome to submit this log to https://github.com/amilajack/eslint-plugin-compat/issues for analysis.`
+    );
+    return true;
+  }
+  return semver.gte(semverCurrent, semverAdded);
 }
 
 /**
