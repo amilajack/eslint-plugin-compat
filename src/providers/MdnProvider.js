@@ -87,10 +87,14 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
   }
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
-  return semver.gte(
-    semver.coerce(customCoerce(version)),
-    semver.coerce(customCoerce(versionAdded))
-  );
+  const semverCurrent = semver.coerce(customCoerce(version));
+  const semverAdded = semver.coerce(customCoerce(versionAdded));
+
+  // semver.coerce() might be null for non-semvers (other than Safari TP)
+  // Just treat features as supported here for now to avoid lint from crashing
+  if (!semverCurrent || !semverAdded) return true;
+
+  return semver.gte(semverCurrent, semverAdded);
 }
 
 /**
