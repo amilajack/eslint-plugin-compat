@@ -1,3 +1,7 @@
+## v3.5.1
+### Fix
+- Support Safari TP as a target ([#285](https://github.com/amilajack/eslint-plugin-compat/pull/285))
+
 ## v3.5.0
 ### Fixed
 - Allow targets not caniuse db ([#280](https://github.com/amilajack/eslint-plugin-compat/pull/280)
