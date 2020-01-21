@@ -7,6 +7,6 @@ describe('MdnProvider', () => {
     const config = DetermineTargetsFromConfig('.', ['safari tp']);
     const targets = Versioning(config);
     const result = getUnsupportedTargets(node, targets);
-    expect(result).toBeTruthy();
+    expect(result).toEqual([]);
   });
 });
