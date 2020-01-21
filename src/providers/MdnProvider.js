@@ -91,9 +91,22 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
   const semverAdded = semver.coerce(customCoerce(versionAdded));
 
   // semver.coerce() might be null for non-semvers (other than Safari TP)
-  // Just treat features as supported here for now to avoid lint from crashing
-  if (!semverCurrent || !semverAdded) return true;
-
+  // Just warn and treat features as supported here for now to avoid lint from
+  // crashing
+  if (!semverCurrent) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `eslint-plugin-compat: A non-semver target "${target} ${version}" matched for the feature ${node.protoChainId}, skipping`
+    );
+    return true;
+  }
+  if (!versionAdded) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `eslint-plugin-compat: The feature ${node.protoChainId} is supported since a non-semver target "${target} ${versionAdded}", skipping`
+    );
+    return true;
+  }
   return semver.gte(semverCurrent, semverAdded);
 }
 
