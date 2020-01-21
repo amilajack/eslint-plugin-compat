@@ -79,6 +79,12 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
   // If a version is true then it is supported but version is unsure
   if (typeof versionAdded === 'boolean') return versionAdded;
   if (versionAdded === null) return true;
+
+  // Special case for Safari TP: TP is always gte than any other releases
+  if (target === 'safari') {
+    if (version === 'TP') return true;
+    if (versionAdded === 'TP') return false;
+  }
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
   return semver.gte(
