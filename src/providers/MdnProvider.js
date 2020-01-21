@@ -96,14 +96,14 @@ export function mdnSupported(node: Node, { version, target }: Target): boolean {
   if (!semverCurrent) {
     // eslint-disable-next-line no-console
     console.warn(
-      `eslint-plugin-compat: A non-semver target "${target} ${version}" matched for the feature ${node.protoChainId}, skipping`
+      `eslint-plugin-compat: A non-semver target "${target} ${version}" matched for the feature ${node.protoChainId}, skipping. You're welcome to submit this log to https://github.com/amilajack/eslint-plugin-compat/issues for analysis.`
     );
     return true;
   }
   if (!versionAdded) {
     // eslint-disable-next-line no-console
     console.warn(
-      `eslint-plugin-compat: The feature ${node.protoChainId} is supported since a non-semver target "${target} ${versionAdded}", skipping`
+      `eslint-plugin-compat: The feature ${node.protoChainId} is supported since a non-semver target "${target} ${versionAdded}", skipping. You're welcome to submit this log to https://github.com/amilajack/eslint-plugin-compat/issues for analysis.`
     );
     return true;
   }
