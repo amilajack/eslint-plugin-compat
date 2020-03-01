@@ -2465,16 +2465,15 @@ eslint-config-airbnb-base@^14.0.0:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
-eslint-config-bliss@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-bliss/-/eslint-config-bliss-4.6.0.tgz#e0ae6a69b6ecb7628e228ce434b5551eaaf59fdc"
-  integrity sha512-ALixCOJismFySf8mlUI19wAyPNDKjMRF59MOVXB/DuD1VJ2aqBX0Q6kNp5sTsFrOJiogPrdgdVi3Wenmqsl50g==
+eslint-config-bliss@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-bliss/-/eslint-config-bliss-4.7.0.tgz#1c706c905d6375d0cd98eabcec47f5135af88bb5"
+  integrity sha512-gFXXKauq1Nm2LQGqa3e1EfmW1C87B5/Ys5mwcaDRqsKmlJGFjjxT+v4lOv63+IZZQwiMJYM01amngdz/UDZ2Hg==
   dependencies:
     babel-eslint "^10.0.3"
     eslint-config-airbnb-base "^14.0.0"
     eslint-config-prettier "^6.9.0"
     eslint-plugin-compat "^3.5.0-0"
-    eslint-plugin-flowtype-errors "^4.1.0"
     eslint-plugin-import "^2.19.1"
     eslint-plugin-jest "^23.2.0"
     eslint-plugin-prettier "^3.1.2"
