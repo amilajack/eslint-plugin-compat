@@ -46,7 +46,7 @@
     "@babel/register": "^7.8.6",
     "babel-core": "^7.0.0-bridge",
     "babel-jest": "^24.9.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "download-cli": "^1.1.1",
     "eslint": "^6.8.0",
     "eslint-config-bliss": "^4.7.0",
