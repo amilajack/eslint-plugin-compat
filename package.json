@@ -53,7 +53,7 @@
     "eslint-plugin-flowtype-errors": "^4.1.0",
     "eslint-plugin-prettier": "^3.1.2",
     "flow-bin": "^0.119.1",
-    "flow-typed": "^2.6.2",
+    "flow-typed": "^3.1.0",
     "jest-cli": "^24.9.0"
   },
   "dependencies": {
