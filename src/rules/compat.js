@@ -88,7 +88,7 @@ export default {
         'https://github.com/amilajack/eslint-plugin-compat/blob/master/docs/rules/compat.md',
       recommended: true
     },
-    fixable: 'code',
+    type: 'problem',
     schema: [{ type: 'string' }]
   },
   create(context: Context): ESLint {
