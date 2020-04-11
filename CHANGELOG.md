@@ -1,5 +1,10 @@
+## v3.6.0
+### Fixed
+- Update dependencies
+- Remove `fixable` and add `meta.type` ([305](https://github.com/amilajack/eslint-plugin-compat/pull/305))
+
 ## v3.5.1
-### Fix
+### Fixed
 - Support Safari TP as a target ([#285](https://github.com/amilajack/eslint-plugin-compat/pull/285))
 
 ## v3.5.0

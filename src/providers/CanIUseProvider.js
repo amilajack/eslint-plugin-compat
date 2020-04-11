@@ -1,12 +1,8 @@
 // @flow
 // $FlowFixMe: Flow import error
-import caniuseRecords from 'caniuse-db/fulldata-json/data-2.0.json';
+import canIUseRecords from 'caniuse-db/fulldata-json/data-2.0.json';
+import { STANDARD_TARGET_NAME_MAPPING } from '../Versioning';
 import type { Node, Targets, Target } from '../LintTypes';
-
-type TargetMetadata = {
-  // The list of targets supported by the provider
-  targets: Targets
-};
 
 type CanIUseStats = {
   [browser: string]: {
@@ -18,58 +14,12 @@ type CanIUseRecords = {
   data: CanIUseStats
 };
 
-// HACK: modern targets should be determined once at runtime
-export const targetMetadata: TargetMetadata = {
-  targets: [
-    'chrome',
-    'firefox',
-    'opera',
-    'safari',
-    'ie',
-    'edge',
-    'ios_saf',
-    'op_mini',
-    'android',
-    'bb',
-    'op_mob',
-    'and_chr',
-    'and_ff',
-    'ie_mob',
-    'and_uc',
-    'samsung',
-    'baidu',
-    'kaios'
-  ]
-};
-
-const targetNameMappings = {
-  chrome: 'Chrome',
-  firefox: 'Firefox',
-  opera: 'Opera',
-  baidu: 'Baidu',
-  and_qq: 'QQ Browser',
-  safari: 'Safari',
-  android: 'Android Browser',
-  ie: 'IE',
-  edge: 'Edge',
-  ios_saf: 'iOS Safari',
-  op_mini: 'Opera Mini',
-  bb: 'Blackberry Browser',
-  op_mob: 'Opera Mobile',
-  and_chr: 'Android Chrome',
-  and_ff: 'Android Firefox',
-  ie_mob: 'IE Mobile',
-  and_uc: 'Android UC Browser',
-  samsung: 'Samsung Browser',
-  kaios: 'KaiOS'
-};
-
 /**
  * Take a target's id and return it's full name by using `targetNameMappings`
  * ex. {target: and_ff, version: 40} => 'Android FireFox 40'
  */
 function formatTargetNames(target: Target): string {
-  const name = targetNameMappings[target.target] || target.target;
+  const name = STANDARD_TARGET_NAME_MAPPING[target.target] || target.target;
   return `${name} ${target.version}`;
 }
 
@@ -84,36 +34,47 @@ function versionIsRange(version: string): boolean {
 /**
  * Parse version from caniuse and compare with parsed version from browserslist.
  */
-function compareRanges(targetVersion: number, statsVersion: string): boolean {
+function areVersionsEqual(
+  targetVersion: number,
+  statsVersion: string
+): boolean {
   return targetVersion === parseFloat(statsVersion);
 }
 
 /*
  * Check the CanIUse database to see if targets are supported
+ *
+ * If no record could be found, return true. Rules might not
+ * be found because they could belong to another provider
  */
-function isNotSupportedByCaniuse(
+function isSupportedByCanIUse(
   node: Node,
   { version, target, parsedVersion }: Target
 ): boolean {
-  const { stats } = (caniuseRecords: CanIUseRecords).data[node.caniuseId];
+  const data = (canIUseRecords: CanIUseRecords).data[node.caniuseId];
 
+  if (!data) return true;
+  const { stats } = data;
   if (!(target in stats)) return true;
+
   const targetStats = stats[target];
 
   if (versionIsRange(version)) {
     return Object.keys(targetStats).some((statsVersion: string): boolean =>
-      versionIsRange(statsVersion) && compareRanges(parsedVersion, statsVersion)
+      versionIsRange(statsVersion) &&
+      areVersionsEqual(parsedVersion, statsVersion)
         ? !targetStats[statsVersion].includes('y')
-        : false
+        : true
     );
   }
 
   // @TODO: This assumes that all versions are included in the cainuse db. If this is incorrect,
-  //        this will return false negatives To properly do this, we have to to range comparisons.
+  //        this will return false negatives. To properly do this, we have to to range comparisons.
   //        Ex. given query for 50 and only version 40 exists in db records, return true
   if (!(version in targetStats)) return true;
+  if (!targetStats[version]) return true;
 
-  return targetStats[version] && !targetStats[version].includes('y');
+  return targetStats[version].includes('y');
 }
 
 /**
@@ -124,7 +85,7 @@ export function getUnsupportedTargets(
   targets: Targets
 ): Array<string> {
   return targets
-    .filter(target => isNotSupportedByCaniuse(node, target))
+    .filter(target => !isSupportedByCanIUse(node, target))
     .map(formatTargetNames);
 }
 

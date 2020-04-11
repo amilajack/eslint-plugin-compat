@@ -44,6 +44,12 @@ ruleTester.run('compat', rule, {
     },
     {
       code: `
+        Promise.resolve()
+      `,
+      settings: { browsers: ['node 10'] }
+    },
+    {
+      code: `
         const { Set } = require('immutable');
         (() => {
           new Set();
@@ -283,7 +289,7 @@ ruleTester.run('compat', rule, {
       errors: [
         {
           message:
-            'WebAssembly is not supported in Safari 10.1, Opera 12.1, IE 10, Edge 14',
+            'WebAssembly is not supported in Safari 10.1, Opera 12.1, iOS Safari 10.3, IE 10, Edge 14',
           type: 'MemberExpression'
         }
       ]
