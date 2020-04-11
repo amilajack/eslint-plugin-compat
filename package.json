@@ -45,6 +45,7 @@
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-bliss": "^4.8.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "flow-bin": "^0.122.0",
     "flow-typed": "^3.1.0",
     "jest": "^25.3.0"
@@ -76,16 +77,6 @@
     "env": {
       "node": true,
       "jest": true
-    },
-    "rules": {
-      "flowtype-errors/show-errors": "off",
-      "prettier/prettier": [
-        "error",
-        {
-          "singleQuote": true,
-          "endOfLine": "auto"
-        }
-      ]
     }
   },
   "babel": {
