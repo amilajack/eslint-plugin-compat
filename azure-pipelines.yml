@@ -10,10 +10,10 @@ strategy:
       imageName: 'ubuntu-16.04'
       nodeVersion: '13.x'
     mac_node_stable:
-      imageName: 'macos-10.13'
+      imageName: 'macos-10.14'
       nodeVersion: '8.x'
     mac_node_current:
-      imageName: 'macos-10.13'
+      imageName: 'macos-10.14'
       nodeVersion: '13.x'
     windows_node_stable:
       imageName: 'vs2017-win2016'

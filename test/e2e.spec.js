@@ -44,6 +44,12 @@ ruleTester.run('compat', rule, {
     },
     {
       code: `
+        Promise.resolve()
+      `,
+      settings: { browsers: ['node 10'] }
+    },
+    {
+      code: `
         const { Set } = require('immutable');
         (() => {
           new Set();

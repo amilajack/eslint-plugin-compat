@@ -39,31 +39,31 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.6",
-    "@babel/polyfill": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/preset-flow": "^7.8.3",
-    "@babel/register": "^7.8.6",
+    "@babel/core": "^7.9.0",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-flow": "^7.9.0",
+    "@babel/register": "^7.9.0",
     "babel-core": "^7.0.0-bridge",
-    "babel-jest": "^24.9.0",
-    "cross-env": "^6.0.3",
+    "babel-jest": "^25.3.0",
+    "cross-env": "^7.0.2",
     "download-cli": "^1.1.1",
     "eslint": "^6.8.0",
-    "eslint-config-bliss": "^4.7.0",
-    "eslint-plugin-flowtype-errors": "^4.1.0",
+    "eslint-config-bliss": "^4.8.1",
+    "eslint-plugin-flowtype-errors": "^4.2.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "flow-bin": "^0.119.1",
-    "flow-typed": "^2.6.2",
-    "jest-cli": "^24.9.0"
+    "flow-bin": "^0.122.0",
+    "flow-typed": "^3.1.0",
+    "jest-cli": "^25.3.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.4",
+    "@babel/runtime": "^7.9.2",
     "ast-metadata-inferer": "^0.1.1",
-    "browserslist": "^4.8.2",
-    "caniuse-db": "^1.0.30001017",
+    "browserslist": "^4.11.1",
+    "caniuse-db": "^1.0.30001040",
     "lodash.memoize": "4.1.2",
-    "mdn-browser-compat-data": "^1.0.3",
-    "semver": "^6.3.0"
+    "mdn-browser-compat-data": "^1.0.17",
+    "semver": "^7.2.2"
   },
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"

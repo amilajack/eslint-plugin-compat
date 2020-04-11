@@ -172,12 +172,12 @@ const CanIUseProvider: Array<Node> = [
     astNodeType: 'NewExpression',
     object: 'Promise'
   },
-  {
-    caniuseId: 'promises',
-    astNodeType: 'MemberExpression',
-    object: 'Promise',
-    property: 'resolve'
-  },
+  // {
+  //   caniuseId: 'promises',
+  //   astNodeType: 'MemberExpression',
+  //   object: 'Promise',
+  //   property: 'resolve'
+  // },
   {
     caniuseId: 'promises',
     astNodeType: 'MemberExpression',

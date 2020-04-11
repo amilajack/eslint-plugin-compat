@@ -41,7 +41,7 @@ const targetNameMappings = {
   firefox_android: 'Android Firefox',
   webview_android: 'WebView Android',
   samsunginternet_android: 'Samsung Browser',
-  nodes: 'Node.js'
+  nodejs: 'Node.js'
 };
 
 /**

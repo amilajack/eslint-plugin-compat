@@ -23,9 +23,9 @@ Array [
 exports[`Versioning should support multi env config in browserslist package.json 1`] = `
 Array [
   Object {
-    "parsedVersion": 7.2,
+    "parsedVersion": 8.2,
     "target": "samsung",
-    "version": "7.2-7.4",
+    "version": "8.2",
   },
   Object {
     "parsedVersion": 11.1,
@@ -33,9 +33,9 @@ Array [
     "version": "11.1",
   },
   Object {
-    "parsedVersion": 60,
+    "parsedVersion": 63,
     "target": "opera",
-    "version": "60",
+    "version": "63",
   },
   Object {
     "parsedVersion": 11.5,
@@ -53,9 +53,9 @@ Array [
     "version": "2.5",
   },
   Object {
-    "parsedVersion": 12,
+    "parsedVersion": 12.2,
     "target": "ios_saf",
-    "version": "12.0-12.1",
+    "version": "12.2-12.4",
   },
   Object {
     "parsedVersion": 10,
@@ -73,14 +73,14 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 15,
+    "parsedVersion": 17,
     "target": "edge",
-    "version": "15",
+    "version": "17",
   },
   Object {
-    "parsedVersion": 75,
+    "parsedVersion": 78,
     "target": "chrome",
-    "version": "75",
+    "version": "78",
   },
   Object {
     "parsedVersion": 7,
@@ -93,9 +93,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 80,
     "target": "android",
-    "version": "76",
+    "version": "80",
   },
   Object {
     "parsedVersion": 12.12,
@@ -113,9 +113,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 78,
+    "parsedVersion": 80,
     "target": "and_chr",
-    "version": "78",
+    "version": "80",
   },
 ]
 `;
@@ -133,9 +133,9 @@ Array [
 exports[`Versioning should support resolving browserslist config in subdirectory 2`] = `
 Array [
   Object {
-    "parsedVersion": 10.1,
+    "parsedVersion": 11.1,
     "target": "samsung",
-    "version": "10.1",
+    "version": "11.1",
   },
   Object {
     "parsedVersion": 13,
@@ -143,9 +143,9 @@ Array [
     "version": "13",
   },
   Object {
-    "parsedVersion": 64,
+    "parsedVersion": 66,
     "target": "opera",
-    "version": "64",
+    "version": "66",
   },
   Object {
     "parsedVersion": 46,
@@ -163,9 +163,9 @@ Array [
     "version": "2.5",
   },
   Object {
-    "parsedVersion": 13.2,
+    "parsedVersion": 13.3,
     "target": "ios_saf",
-    "version": "13.2",
+    "version": "13.3",
   },
   Object {
     "parsedVersion": 11,
@@ -178,19 +178,19 @@ Array [
     "version": "11",
   },
   Object {
-    "parsedVersion": 71,
+    "parsedVersion": 75,
     "target": "firefox",
-    "version": "71",
+    "version": "75",
   },
   Object {
-    "parsedVersion": 18,
+    "parsedVersion": 80,
     "target": "edge",
-    "version": "18",
+    "version": "80",
   },
   Object {
-    "parsedVersion": 78,
+    "parsedVersion": 81,
     "target": "chrome",
-    "version": "78",
+    "version": "81",
   },
   Object {
     "parsedVersion": 10,
@@ -203,9 +203,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 80,
     "target": "android",
-    "version": "76",
+    "version": "80",
   },
   Object {
     "parsedVersion": 12.12,
@@ -223,9 +223,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 78,
+    "parsedVersion": 80,
     "target": "and_chr",
-    "version": "78",
+    "version": "80",
   },
 ]
 `;
@@ -233,9 +233,9 @@ Array [
 exports[`Versioning should support single array config in browserslist package.json 1`] = `
 Array [
   Object {
-    "parsedVersion": 7.2,
+    "parsedVersion": 8.2,
     "target": "samsung",
-    "version": "7.2-7.4",
+    "version": "8.2",
   },
   Object {
     "parsedVersion": 11.1,
@@ -243,9 +243,9 @@ Array [
     "version": "11.1",
   },
   Object {
-    "parsedVersion": 60,
+    "parsedVersion": 63,
     "target": "opera",
-    "version": "60",
+    "version": "63",
   },
   Object {
     "parsedVersion": 11.5,
@@ -263,9 +263,9 @@ Array [
     "version": "2.5",
   },
   Object {
-    "parsedVersion": 12,
+    "parsedVersion": 12.2,
     "target": "ios_saf",
-    "version": "12.0-12.1",
+    "version": "12.2-12.4",
   },
   Object {
     "parsedVersion": 10,
@@ -283,14 +283,14 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 15,
+    "parsedVersion": 17,
     "target": "edge",
-    "version": "15",
+    "version": "17",
   },
   Object {
-    "parsedVersion": 69,
+    "parsedVersion": 72,
     "target": "chrome",
-    "version": "69",
+    "version": "72",
   },
   Object {
     "parsedVersion": 7,
@@ -303,9 +303,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 80,
     "target": "android",
-    "version": "76",
+    "version": "80",
   },
   Object {
     "parsedVersion": 12.12,
@@ -323,9 +323,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 78,
+    "parsedVersion": 80,
     "target": "and_chr",
-    "version": "78",
+    "version": "80",
   },
 ]
 `;
@@ -358,19 +358,19 @@ Object {
 exports[`Versioning should support string config in rule option 1`] = `
 Array [
   Object {
-    "parsedVersion": 9.2,
+    "parsedVersion": 10.1,
     "target": "samsung",
-    "version": "9.2",
+    "version": "10.1",
   },
   Object {
-    "parsedVersion": 5.1,
+    "parsedVersion": 12.1,
     "target": "safari",
-    "version": "5.1",
+    "version": "12.1",
   },
   Object {
-    "parsedVersion": 63,
+    "parsedVersion": 65,
     "target": "opera",
-    "version": "63",
+    "version": "65",
   },
   Object {
     "parsedVersion": 46,
@@ -394,11 +394,6 @@ Array [
   },
   Object {
     "parsedVersion": 11,
-    "target": "ie_mob",
-    "version": "11",
-  },
-  Object {
-    "parsedVersion": 11,
     "target": "ie",
     "version": "11",
   },
@@ -408,14 +403,14 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 17,
+    "parsedVersion": 18,
     "target": "edge",
-    "version": "17",
+    "version": "18",
   },
   Object {
-    "parsedVersion": 77,
+    "parsedVersion": 79,
     "target": "chrome",
-    "version": "77",
+    "version": "79",
   },
   Object {
     "parsedVersion": 7.12,
@@ -423,9 +418,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 80,
     "target": "android",
-    "version": "76",
+    "version": "80",
   },
   Object {
     "parsedVersion": 12.12,
@@ -443,9 +438,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 78,
+    "parsedVersion": 80,
     "target": "and_chr",
-    "version": "78",
+    "version": "80",
   },
 ]
 `;

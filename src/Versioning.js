@@ -2,6 +2,23 @@
 import browserslist from 'browserslist';
 import type { BrowserListConfig } from './LintTypes';
 
+export const ID_TO_NAME_MAPPING = {
+  chrome: 'Chrome',
+  firefox: 'Firefox',
+  opera: 'Opera',
+  safari: 'Safari',
+  ie: 'IE',
+  edge: 'Edge',
+  safari_ios: 'iOS Safari',
+  opera_android: 'Opera Mobile',
+  chrome_android: 'Android Chrome',
+  edge_mobile: 'Edge Mobile',
+  firefox_android: 'Android Firefox',
+  webview_android: 'WebView Android',
+  samsunginternet_android: 'Samsung Browser',
+  nodejs: 'Node.js'
+};
+
 type TargetListItem = {
   target: string,
   parsedVersion: number,
