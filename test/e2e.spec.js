@@ -289,7 +289,7 @@ ruleTester.run('compat', rule, {
       errors: [
         {
           message:
-            'WebAssembly is not supported in Safari 10.1, Opera 12.1, IE 10, Edge 14',
+            'WebAssembly is not supported in Safari 10.1, Opera 12.1, iOS Safari 10.3, IE 10, Edge 14',
           type: 'MemberExpression'
         }
       ]

@@ -1,5 +1,9 @@
 import AstMetadata from 'ast-metadata-inferer';
 import semver from 'semver';
+import {
+  STANDARD_TARGET_NAME_MAPPING,
+  reverseTargetMappings
+} from '../Versioning';
 import type { Node, Targets, Target } from '../LintTypes';
 
 type AstMetadataRecordType = {
@@ -27,29 +31,31 @@ const mdnRecords: Map<string, AstMetadataRecordType> = new Map(
 /**
  * Map ids of mdn targets to their "common/friendly" name
  */
-const targetNameMappings = {
-  chrome: 'Chrome',
-  firefox: 'Firefox',
-  opera: 'Opera',
-  safari: 'Safari',
-  ie: 'IE',
-  edge: 'Edge',
-  safari_ios: 'iOS Safari',
-  opera_android: 'Opera Mobile',
-  chrome_android: 'Android Chrome',
-  edge_mobile: 'Edge Mobile',
-  firefox_android: 'Android Firefox',
-  webview_android: 'WebView Android',
-  samsunginternet_android: 'Samsung Browser',
-  nodejs: 'Node.js'
+const targetIdMappings = {
+  chrome: 'chrome',
+  firefox: 'firefox',
+  opera: 'opera',
+  safari: 'safari',
+  safari_ios: 'ios_saf',
+  ie: 'ie',
+  edge_mobile: 'ie_mob',
+  edge: 'edge',
+  opera_android: 'and_opera',
+  chrome_android: 'and_chrome',
+  firefox_android: 'and_firefox',
+  webview_android: 'and_webview',
+  samsunginternet_android: 'and_samsung',
+  nodejs: 'node'
 };
+
+const reversedTargetMappings = reverseTargetMappings(targetIdMappings);
 
 /**
  * Take a target's id and return it's full name by using `targetNameMappings`
  * ex. {target: and_ff, version: 40} => 'Android FireFox 40'
  */
 function formatTargetNames(target: Target): string {
-  return `${targetNameMappings[target.target]} ${target.version}`;
+  return `${STANDARD_TARGET_NAME_MAPPING[target.target]} ${target.version}`;
 }
 
 /**
@@ -62,8 +68,12 @@ function customCoerce(version: string): string {
 /*
  * Return if MDN supports the API or not
  */
-export function mdnSupported(node: Node, { version, target }: Target): boolean {
-  // If no record could be found, return false. Rules might not
+export function isSupportedByMDN(
+  node: Node,
+  { version, target: mdnTarget }: Target
+): boolean {
+  const target = reversedTargetMappings[mdnTarget];
+  // If no record could be found, return true. Rules might not
   // be found because they could belong to another provider
   if (!mdnRecords.has(node.protoChainId)) return true;
   const record = mdnRecords.get(node.protoChainId);
@@ -118,7 +128,7 @@ export function getUnsupportedTargets(
   targets: Targets
 ): Array<string> {
   return targets
-    .filter(target => !mdnSupported(node, target))
+    .filter(target => !isSupportedByMDN(node, target))
     .map(formatTargetNames);
 }
 

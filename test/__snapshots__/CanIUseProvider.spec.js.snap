@@ -1,7 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CanIUseProvider should return unsupported ios targets with range value for Fetch API 1`] = `
-Array [
-  "iOS Safari 10.0-10.2",
-]
-`;
+exports[`CanIUseProvider should return unsupported iOS targets with range value for Fetch API 1`] = `Array []`;
