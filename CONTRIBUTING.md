@@ -2,8 +2,20 @@
 
 Here's a list of tips and tricks that will help you get started.
 
-### Editor Configuration
-For properly configuring your editor, see [this section](https://github.com/chentsulin/electron-react-boilerplate#editor-configuration)
+## Ramping Up!
 
-### Committing
-* When installing dependencies, make sure to use yarn. Installing with yarn will update the `yarn.lock`file. Make sure to add the differences
+#### Important Concepts
+
+* Static Analysis
+* ASTs
+* Polyfills
+* TypeScript
+* WebIDL
+
+#### Related Projects
+
+`eslint-plugin-compat` relies on other projects to provide information about web APIs so that it can properly analyze your code. It is recommended that you go [through related projects](https://github.com/amilajack/eslint-plugin-compat#related) and understand each one at a high level.
+
+## Editor Configuration
+
+See [these docs](https://electron-react-boilerplate.js.org/docs/editor-configuration) to make sure your text editor is properly configured.
