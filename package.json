@@ -27,8 +27,6 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline",
-    "flow": "flow",
-    "flow-typed": "flow-typed install --ignoreDeps peer dev",
     "lint": "eslint --ignore-path .gitignore .",
     "spec": "jest",
     "test": "yarn lint && yarn build && yarn spec",
@@ -41,7 +39,6 @@
     "@babel/cli": "^7.10.0",
     "@babel/core": "^7.10.0",
     "@babel/preset-env": "^7.10.0",
-    "@babel/preset-flow": "^7.9.0",
     "cross-env": "^7.0.2",
     "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0",
     "eslint-config-bliss": "^5.0.0",
@@ -89,8 +86,7 @@
             "node": 10
           }
         }
-      ],
-      "@babel/preset-flow"
+      ]
     ]
   },
   "renovate": {
