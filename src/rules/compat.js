@@ -1,13 +1,13 @@
 // @flow
-import memoize from 'lodash.memoize';
+import memoize from "lodash.memoize";
 import {
   lintCallExpression,
   lintMemberExpression,
   lintNewExpression
-} from '../Lint';
-import DetermineTargetsFromConfig, { Versioning } from '../Versioning';
-import type { ESLintNode, Node, BrowserListConfig } from '../LintTypes';
-import { rules } from '../providers';
+} from "../Lint";
+import determineTargetsFromConfig, { Versioning } from "../Versioning";
+import type { ESLintNode, Node, BrowserListConfig } from "../LintTypes";
+import { nodes } from "../providers";
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void
@@ -26,17 +26,17 @@ type Context = {
 
 function getName(node: ESLintNode): string {
   switch (node.type) {
-    case 'NewExpression': {
+    case "NewExpression": {
       return node.callee.name;
     }
-    case 'MemberExpression': {
+    case "MemberExpression": {
       return node.object.name;
     }
-    case 'CallExpression': {
+    case "CallExpression": {
       return node.callee.name;
     }
     default:
-      throw new Error('not found');
+      throw new Error("not found");
   }
 }
 
@@ -66,15 +66,15 @@ function isPolyfilled(context: Context, rule: Node): boolean {
 }
 
 const getRulesForTargets = memoize((targetsJSON: string): Object => {
-  const targets = JSON.parse(targetsJSON);
   const result = {
     CallExpression: [],
     NewExpression: [],
     MemberExpression: []
   };
-  rules.forEach(rule => {
-    if (rule.getUnsupportedTargets(rule, targets).length === 0) return;
-    result[rule.astNodeType].push(rule);
+  const targets = JSON.parse(targetsJSON);
+  nodes.forEach(node => {
+    if (node.getUnsupportedTargets(node, targets).length === 0) return;
+    result[node.astNodeType].push(node);
   });
   return result;
 });
@@ -82,14 +82,14 @@ const getRulesForTargets = memoize((targetsJSON: string): Object => {
 export default {
   meta: {
     docs: {
-      description: 'Ensure cross-browser API compatibility',
-      category: 'Compatibility',
+      description: "Ensure cross-browser API compatibility",
+      category: "Compatibility",
       url:
-        'https://github.com/amilajack/eslint-plugin-compat/blob/master/docs/rules/compat.md',
+        "https://github.com/amilajack/eslint-plugin-compat/blob/master/docs/rules/compat.md",
       recommended: true
     },
-    type: 'problem',
-    schema: [{ type: 'string' }]
+    type: "problem",
+    schema: [{ type: "string" }]
   },
   create(context: Context): ESLint {
     // Determine lowest targets from browserslist config, which reads user's
@@ -100,7 +100,7 @@ export default {
       context.options[0];
 
     const browserslistTargets = Versioning(
-      DetermineTargetsFromConfig(context.getFilename(), browserslistConfig)
+      determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
@@ -110,15 +110,15 @@ export default {
 
     const errors = [];
 
-    function handleFailingRule(rule: Node, node: ESLintNode) {
-      if (isPolyfilled(context, rule)) return;
+    function handleFailingRule(node: Node, eslintNode: ESLintNode) {
+      if (isPolyfilled(context, node)) return;
       errors.push({
-        node,
+        node: eslintNode,
         message: [
-          generateErrorName(rule),
-          'is not supported in',
-          rule.getUnsupportedTargets(rule, browserslistTargets).join(', ')
-        ].join(' ')
+          generateErrorName(node),
+          "is not supported in",
+          node.getUnsupportedTargets(node, browserslistTargets).join(", ")
+        ].join(" ")
       });
     }
 
@@ -146,25 +146,25 @@ export default {
           const { type } = node.parent;
           if (
             // ex. const { Set } = require('immutable');
-            type === 'Property' ||
+            type === "Property" ||
             // ex. function Set() {}
-            type === 'FunctionDeclaration' ||
+            type === "FunctionDeclaration" ||
             // ex. const Set = () => {}
-            type === 'VariableDeclarator' ||
+            type === "VariableDeclarator" ||
             // ex. class Set {}
-            type === 'ClassDeclaration' ||
+            type === "ClassDeclaration" ||
             // ex. import Set from 'set';
-            type === 'ImportDefaultSpecifier' ||
+            type === "ImportDefaultSpecifier" ||
             // ex. import {Set} from 'set';
-            type === 'ImportSpecifier' ||
+            type === "ImportSpecifier" ||
             // ex. import {Set} from 'set';
-            type === 'ImportDeclaration'
+            type === "ImportDeclaration"
           ) {
             identifiers.add(node.name);
           }
         }
       },
-      'Program:exit': () => {
+      "Program:exit": () => {
         // Get a map of all the variables defined in the root scope (not the global scope)
         // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
         errors

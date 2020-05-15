@@ -1,14 +1,15 @@
-import AstMetadata from 'ast-metadata-inferer';
-import semver from 'semver';
+import AstMetadata from "ast-metadata-inferer";
+import semver from "semver";
 import {
   STANDARD_TARGET_NAME_MAPPING,
   reverseTargetMappings
-} from '../Versioning';
-import type { Node, Targets, Target } from '../LintTypes';
+} from "../Versioning";
+import type { Node, Targets, Target } from "../LintTypes";
 
+// @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
 type AstMetadataRecordType = {
-  apiType: 'js-api' | 'css-api',
-  type: 'js-api' | 'css-api',
+  apiType: "js-api" | "css-api",
+  type: "js-api" | "css-api",
   protoChain: Array<string>,
   protoChainId: string,
   astNodeTypes: Array<string>,
@@ -32,20 +33,20 @@ const mdnRecords: Map<string, AstMetadataRecordType> = new Map(
  * Map ids of mdn targets to their "common/friendly" name
  */
 const targetIdMappings = {
-  chrome: 'chrome',
-  firefox: 'firefox',
-  opera: 'opera',
-  safari: 'safari',
-  safari_ios: 'ios_saf',
-  ie: 'ie',
-  edge_mobile: 'ie_mob',
-  edge: 'edge',
-  opera_android: 'and_opera',
-  chrome_android: 'and_chrome',
-  firefox_android: 'and_firefox',
-  webview_android: 'and_webview',
-  samsunginternet_android: 'and_samsung',
-  nodejs: 'node'
+  chrome: "chrome",
+  firefox: "firefox",
+  opera: "opera",
+  safari: "safari",
+  safari_ios: "ios_saf",
+  ie: "ie",
+  edge_mobile: "ie_mob",
+  edge: "edge",
+  opera_android: "and_opera",
+  chrome_android: "and_chrome",
+  firefox_android: "and_firefox",
+  webview_android: "and_webview",
+  samsunginternet_android: "and_samsung",
+  nodejs: "node"
 };
 
 const reversedTargetMappings = reverseTargetMappings(targetIdMappings);
@@ -62,7 +63,7 @@ function formatTargetNames(target: Target): string {
  * Convert '9' => '9.0.0'
  */
 function customCoerce(version: string): string {
-  return version.length === 1 ? [version, 0, 0].join('.') : version;
+  return version.length === 1 ? [version, 0, 0].join(".") : version;
 }
 
 /*
@@ -80,20 +81,20 @@ export function isSupportedByMDN(
   if (!record || !record.compat.support) return true;
   const compatRecord = record.compat.support[target];
   if (!compatRecord) return true;
-  if (!Array.isArray(compatRecord) && !('version_added' in compatRecord))
+  if (!Array.isArray(compatRecord) && !("version_added" in compatRecord))
     return true;
   const { version_added: versionAdded } = Array.isArray(compatRecord)
-    ? compatRecord.find(e => 'version_added' in e)
+    ? compatRecord.find(e => "version_added" in e)
     : compatRecord;
 
   // If a version is true then it is supported but version is unsure
-  if (typeof versionAdded === 'boolean') return versionAdded;
+  if (typeof versionAdded === "boolean") return versionAdded;
   if (versionAdded === null) return true;
 
   // Special case for Safari TP: TP is always gte than any other releases
-  if (target === 'safari') {
-    if (version === 'TP') return true;
-    if (versionAdded === 'TP') return false;
+  if (target === "safari") {
+    if (version === "TP") return true;
+    if (versionAdded === "TP") return false;
   }
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
@@ -138,7 +139,7 @@ function getMetadataName(metadata: Node) {
       return metadata.protoChain[0];
     }
     default:
-      return `${metadata.protoChain.join('.')}()`;
+      return `${metadata.protoChain.join(".")}()`;
   }
 }
 
@@ -157,7 +158,7 @@ const MdnProvider: Array<Node> = AstMetadata
     }))
   )
   // Flatten the array of arrays
-  .reduce((p, c) => [...p, ...c])
+  .flat()
   // Add rule and target support logic for each entry
   .map(rule => ({
     ...rule,

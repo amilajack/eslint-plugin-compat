@@ -43,21 +43,21 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-flow": "^7.9.0",
     "cross-env": "^7.0.2",
-    "eslint": "^6.8.0",
-    "eslint-config-bliss": "^4.8.1",
+    "eslint": "^7.0.0",
+    "eslint-config-bliss": "^5.0.0",
     "eslint-plugin-prettier": "^3.1.3",
-    "flow-bin": "^0.123.0",
+    "flow-bin": "^0.124.0",
     "flow-typed": "^3.1.0",
-    "jest": "^25.5.3"
+    "jest": "^26.0.1"
   },
   "dependencies": {
-    "ast-metadata-inferer": "^0.1.1",
-    "browserslist": "^4.11.1",
-    "caniuse-db": "^1.0.30001040",
+    "ast-metadata-inferer": "^0.2.0-0",
+    "browserslist": "^4.12.0",
+    "caniuse-db": "^1.0.30001059",
     "core-js": "^3.6.5",
     "lodash.memoize": "4.1.2",
-    "mdn-browser-compat-data": "^1.0.17",
-    "semver": "7.2.2"
+    "mdn-browser-compat-data": "^1.0.21",
+    "semver": "7.3.2"
   },
   "peerDependencies": {
     "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
@@ -98,10 +98,6 @@
   "renovate": {
     "extends": [
       "bliss"
-    ],
-    "ignoreDeps": [
-      "caniuse-db",
-      "mdn-browser-compat-data"
     ]
   }
 }

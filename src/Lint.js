@@ -1,5 +1,5 @@
 // @flow
-import type { Node, ESLintNode } from './LintTypes';
+import type { Node, ESLintNode } from "./LintTypes";
 
 export function lintCallExpression(
   reporter: Function,

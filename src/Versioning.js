@@ -1,30 +1,31 @@
+/* eslint no-nested-ternary: off */
 // @flow
-import browserslist from 'browserslist';
-import type { BrowserListConfig } from './LintTypes';
+import browserslist from "browserslist";
+import type { BrowserListConfig } from "./LintTypes";
 
 export const STANDARD_TARGET_NAME_MAPPING = {
-  chrome: 'Chrome',
-  firefox: 'Firefox',
-  safari: 'Safari',
-  ios_saf: 'iOS Safari',
-  ie: 'IE',
-  ie_mob: 'IE Mobile',
-  edge: 'Edge',
-  baidu: 'Baidu',
-  electron: 'Electron',
-  blackberry_browser: 'Blackberry Browser',
-  edge_mobile: 'Edge Mobile',
-  and_uc: 'Android UC Browser',
-  and_chrome: 'Android Chrome',
-  and_firefox: 'Android Firefox',
-  and_webview: 'Android Webview',
-  and_samsung: 'Samsung Browser',
-  and_opera: 'Opera Android',
-  opera: 'Opera',
-  opera_mini: 'Opera Mini',
-  opera_mobile: 'Opera Mobile',
-  node: 'Node.js',
-  kaios: 'KaiOS'
+  chrome: "Chrome",
+  firefox: "Firefox",
+  safari: "Safari",
+  ios_saf: "iOS Safari",
+  ie: "IE",
+  ie_mob: "IE Mobile",
+  edge: "Edge",
+  baidu: "Baidu",
+  electron: "Electron",
+  blackberry_browser: "Blackberry Browser",
+  edge_mobile: "Edge Mobile",
+  and_uc: "Android UC Browser",
+  and_chrome: "Android Chrome",
+  and_firefox: "Android Firefox",
+  and_webview: "Android Webview",
+  and_samsung: "Samsung Browser",
+  and_opera: "Opera Android",
+  opera: "Opera",
+  opera_mini: "Opera Mini",
+  opera_mobile: "Opera Mobile",
+  node: "Node.js",
+  kaios: "KaiOS"
 };
 
 export function reverseTargetMappings(targetMappings) {
@@ -37,7 +38,7 @@ export function reverseTargetMappings(targetMappings) {
 type TargetListItem = {
   target: string,
   parsedVersion: number,
-  version: string | 'all'
+  version: string | "all"
 };
 
 /**
@@ -51,11 +52,11 @@ export default function DetermineTargetsFromConfig(
 ): Array<string> {
   const browserslistOpts = { path: configPath };
 
-  if (Array.isArray(config) || typeof config === 'string') {
+  if (Array.isArray(config) || typeof config === "string") {
     return browserslist(config, browserslistOpts);
   }
 
-  if (config && typeof config === 'object') {
+  if (config && typeof config === "object") {
     return browserslist(
       [...(config.production || []), ...(config.development || [])],
       browserslistOpts
@@ -74,15 +75,15 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
     targetslist
       // Sort the targets by target name and then version number in ascending order
       .map((e: string): TargetListItem => {
-        const [target, version] = e.split(' ');
+        const [target, version] = e.split(" ");
         return {
           target,
           version,
           parsedVersion:
-            version === 'all'
+            version === "all"
               ? 0
-              : version.includes('-')
-              ? parseFloat(version.split('-')[0])
+              : version.includes("-")
+              ? parseFloat(version.split("-")[0])
               : parseFloat(version)
         };
       })
@@ -92,8 +93,8 @@ export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
         if (b.target === a.target) {
           // If any version === 'all', return 0. The only version of op_mini is 'all'
           // Otherwise, compare the versions
-          return typeof b.parsedVersion === 'string' ||
-            typeof a.parsedVersion === 'string'
+          return typeof b.parsedVersion === "string" ||
+            typeof a.parsedVersion === "string"
             ? 0
             : b.parsedVersion - a.parsedVersion;
         }
