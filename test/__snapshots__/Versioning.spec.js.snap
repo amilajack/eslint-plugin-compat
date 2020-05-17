@@ -28,14 +28,14 @@ Array [
     "version": "8.2",
   },
   Object {
-    "parsedVersion": 11.1,
+    "parsedVersion": 12,
     "target": "safari",
-    "version": "11.1",
+    "version": "12",
   },
   Object {
-    "parsedVersion": 63,
+    "parsedVersion": 65,
     "target": "opera",
-    "version": "63",
+    "version": "65",
   },
   Object {
     "parsedVersion": 11.5,
@@ -73,9 +73,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 17,
+    "parsedVersion": 18,
     "target": "edge",
-    "version": "17",
+    "version": "18",
   },
   Object {
     "parsedVersion": 78,
@@ -93,9 +93,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "android",
-    "version": "80",
+    "version": "81",
   },
   Object {
     "parsedVersion": 12.12,
@@ -113,9 +113,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "and_chr",
-    "version": "80",
+    "version": "81",
   },
 ]
 `;
@@ -138,14 +138,14 @@ Array [
     "version": "11.1",
   },
   Object {
-    "parsedVersion": 13,
+    "parsedVersion": 13.1,
     "target": "safari",
-    "version": "13",
+    "version": "13.1",
   },
   Object {
-    "parsedVersion": 66,
+    "parsedVersion": 68,
     "target": "opera",
-    "version": "66",
+    "version": "68",
   },
   Object {
     "parsedVersion": 46,
@@ -163,9 +163,9 @@ Array [
     "version": "2.5",
   },
   Object {
-    "parsedVersion": 13.3,
+    "parsedVersion": 13.4,
     "target": "ios_saf",
-    "version": "13.3",
+    "version": "13.4",
   },
   Object {
     "parsedVersion": 11,
@@ -178,14 +178,14 @@ Array [
     "version": "11",
   },
   Object {
-    "parsedVersion": 75,
+    "parsedVersion": 76,
     "target": "firefox",
-    "version": "75",
+    "version": "76",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "edge",
-    "version": "80",
+    "version": "81",
   },
   Object {
     "parsedVersion": 81,
@@ -203,9 +203,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "android",
-    "version": "80",
+    "version": "81",
   },
   Object {
     "parsedVersion": 12.12,
@@ -223,9 +223,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "and_chr",
-    "version": "80",
+    "version": "81",
   },
 ]
 `;
@@ -238,14 +238,14 @@ Array [
     "version": "8.2",
   },
   Object {
-    "parsedVersion": 11.1,
+    "parsedVersion": 12,
     "target": "safari",
-    "version": "11.1",
+    "version": "12",
   },
   Object {
-    "parsedVersion": 63,
+    "parsedVersion": 65,
     "target": "opera",
-    "version": "63",
+    "version": "65",
   },
   Object {
     "parsedVersion": 11.5,
@@ -283,9 +283,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 17,
+    "parsedVersion": 18,
     "target": "edge",
-    "version": "17",
+    "version": "18",
   },
   Object {
     "parsedVersion": 72,
@@ -303,9 +303,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "android",
-    "version": "80",
+    "version": "81",
   },
   Object {
     "parsedVersion": 12.12,
@@ -323,9 +323,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "and_chr",
-    "version": "80",
+    "version": "81",
   },
 ]
 `;
@@ -363,14 +363,14 @@ Array [
     "version": "10.1",
   },
   Object {
-    "parsedVersion": 12.1,
+    "parsedVersion": 13,
     "target": "safari",
-    "version": "12.1",
+    "version": "13",
   },
   Object {
-    "parsedVersion": 65,
+    "parsedVersion": 67,
     "target": "opera",
-    "version": "65",
+    "version": "67",
   },
   Object {
     "parsedVersion": 46,
@@ -408,9 +408,9 @@ Array [
     "version": "18",
   },
   Object {
-    "parsedVersion": 79,
+    "parsedVersion": 80,
     "target": "chrome",
-    "version": "79",
+    "version": "80",
   },
   Object {
     "parsedVersion": 7.12,
@@ -418,9 +418,9 @@ Array [
     "version": "7.12",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "android",
-    "version": "80",
+    "version": "81",
   },
   Object {
     "parsedVersion": 12.12,
@@ -438,9 +438,9 @@ Array [
     "version": "68",
   },
   Object {
-    "parsedVersion": 80,
+    "parsedVersion": 81,
     "target": "and_chr",
-    "version": "80",
+    "version": "81",
   },
 ]
 `;

@@ -8,7 +8,7 @@ export type BrowserListConfig =
   | null;
 
 export type node = {
-  type?: 'MemberExpression' | 'NewExpression' | 'CallExpression',
+  type?: "MemberExpression" | "NewExpression" | "CallExpression",
   name?: string,
   object: string,
   property: string | void,
@@ -18,7 +18,7 @@ export type node = {
 
 export type Target = {
   target: string,
-  version: number | string | 'all'
+  version: number | string | "all"
 };
 
 export type Targets = Array<string>;

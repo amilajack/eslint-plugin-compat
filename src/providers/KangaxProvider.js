@@ -1,5 +1,5 @@
 // @flow
-import type { Node } from '../LintTypes';
+import type { Node } from "../LintTypes";
 
 // TODO: not implemented yet.
 const KangaxProvider: Array<Node> = [];
