@@ -1,4 +1,8 @@
-## v3.6.0
+### v3.7.0
+### Fixed
+- Fixed many bugs reporting incorrect linter errors
+
+# v3.6.0
 ### Fixed
 - Update dependencies
 - Remove `fixable` and add `meta.type` ([305](https://github.com/amilajack/eslint-plugin-compat/pull/305))
