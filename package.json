@@ -68,13 +68,6 @@
     "url": "https://opencollective.com/eslint-plugin-compat",
     "logo": "https://opencollective.com/opencollective/logo.txt"
   },
-  "eslintConfig": {
-    "extends": "bliss",
-    "env": {
-      "node": true,
-      "jest": true
-    }
-  },
   "babel": {
     "presets": [
       [
