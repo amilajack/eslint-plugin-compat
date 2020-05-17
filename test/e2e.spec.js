@@ -203,6 +203,23 @@ ruleTester.run("compat", rule, {
   ],
   invalid: [
     {
+      code: "Promise.allSettled()",
+      settings: {
+        browsers: [
+          "Chrome >= 72",
+          "Firefox >= 72",
+          "Safari >= 12",
+          "Edge >= 79"
+        ]
+      },
+      errors: [
+        {
+          message:
+            "Promise.allSettled() is not supported in Safari 12, Chrome 72"
+        }
+      ]
+    },
+    {
       code: "location.origin",
       settings: { browsers: ["ie 10"] },
       errors: [
@@ -432,6 +449,31 @@ ruleTester.run("compat", rule, {
         {
           message: "performance.now() is not supported in IE 9",
           type: "MemberExpression"
+        }
+      ]
+    },
+    {
+      code: "new ResizeObserver()",
+      settings: {
+        browsers: ["ie 11", "safari 12"]
+      },
+      errors: [
+        {
+          message: "ResizeObserver is not supported in Safari 12, IE 11"
+        }
+      ]
+    },
+    {
+      code: "Object.entries({}), Object.values({})",
+      settings: {
+        browsers: ["Android >= 4", "iOS >= 7"]
+      },
+      errors: [
+        {
+          message: "Object.entries() is not supported in iOS Safari 7.0-7.1"
+        },
+        {
+          message: "Object.values() is not supported in iOS Safari 7.0-7.1"
         }
       ]
     }

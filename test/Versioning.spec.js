@@ -69,4 +69,10 @@ describe("Versioning", () => {
     const result = Versioning(config);
     expect(result).toMatchSnapshot();
   });
+
+  it("should fail on incorrect browserslist target version", () => {
+    expect(() => {
+      DetermineTargetsFromConfig(".", "edge 100");
+    }).toThrow("Unknown version 100 of edge");
+  });
 });
