@@ -1,4 +1,3 @@
-// @flow
 import canIUseNodes from "./CanIUseProvider";
 import mdnNodes from "./MdnProvider";
 import type { Node } from "../LintTypes";

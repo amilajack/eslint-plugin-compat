@@ -1,8 +1,7 @@
-// @flow
-import type { Node, ESLintNode } from "./LintTypes";
+import { Node, ESLintNode } from "./LintTypes";
 
 function isInsideIfStatement(context) {
-  return context.getAncestors().some(ancestor => {
+  return context.getAncestors().some((ancestor) => {
     return ancestor.type === "IfStatement";
   });
 }
@@ -26,7 +25,7 @@ export function lintCallExpression(
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
-  const failingRule = rules.find(rule => rule.object === calleeName);
+  const failingRule = rules.find((rule) => rule.object === calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
 }
@@ -39,7 +38,7 @@ export function lintNewExpression(
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
-  const failingRule = rules.find(rule => rule.object === calleeName);
+  const failingRule = rules.find((rule) => rule.object === calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
 }
@@ -51,7 +50,9 @@ export function lintExpressionStatement(
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
-  const failingRule = rules.find(rule => rule.object === node.expression.name);
+  const failingRule = rules.find(
+    (rule) => rule.object === node.expression.name
+  );
   if (failingRule)
     checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
 }
@@ -89,7 +90,9 @@ export function lintMemberExpression(
         ? rawProtoChain.slice(1)
         : rawProtoChain;
     const protoChainId = protoChain.join(".");
-    const failingRule = rules.find(rule => rule.protoChainId === protoChainId);
+    const failingRule = rules.find(
+      (rule) => rule.protoChainId === protoChainId
+    );
     if (failingRule) {
       checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
     }
@@ -97,7 +100,7 @@ export function lintMemberExpression(
     const objectName = node.object.name;
     const propertyName = node.property.name;
     const failingRule = rules.find(
-      rule =>
+      (rule) =>
         rule.object === objectName &&
         (rule.property == null || rule.property === propertyName)
     );

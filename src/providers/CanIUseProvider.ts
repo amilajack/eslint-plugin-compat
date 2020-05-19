@@ -1,17 +1,15 @@
-// @flow
-// $FlowFixMe: Flow import error
 import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
 import { STANDARD_TARGET_NAME_MAPPING } from "../Versioning";
-import type { Node, Targets, Target } from "../LintTypes";
+import { Node, Targets, Target } from "../LintTypes";
 
 type CanIUseStats = {
   [browser: string]: {
-    [version: string]: string
-  }
+    [version: string]: string;
+  };
 };
 
 type CanIUseRecords = {
-  data: CanIUseStats
+  data: CanIUseStats;
 };
 
 /**
@@ -51,7 +49,7 @@ function isSupportedByCanIUse(
   node: Node,
   { version, target, parsedVersion }: Target
 ): boolean {
-  const data = (canIUseRecords: CanIUseRecords).data[node.caniuseId];
+  const data = (canIUseRecords as CanIUseRecords).data[node.caniuseId];
 
   if (!data) return true;
   const { stats } = data;
@@ -85,7 +83,7 @@ export function getUnsupportedTargets(
   targets: Targets
 ): Array<string> {
   return targets
-    .filter(target => !isSupportedByCanIUse(node, target))
+    .filter((target) => !isSupportedByCanIUse(node, target))
     .map(formatTargetNames);
 }
 
@@ -94,157 +92,157 @@ const CanIUseProvider: Array<Node> = [
   {
     caniuseId: "serviceworkers",
     astNodeType: "NewExpression",
-    object: "ServiceWorker"
+    object: "ServiceWorker",
   },
   {
     caniuseId: "serviceworkers",
     astNodeType: "MemberExpression",
     object: "navigator",
-    property: "serviceWorker"
+    property: "serviceWorker",
   },
   // document.querySelector()
   {
     caniuseId: "queryselector",
     astNodeType: "MemberExpression",
     object: "document",
-    property: "querySelector"
+    property: "querySelector",
   },
   // IntersectionObserver
   {
     caniuseId: "intersectionobserver",
     astNodeType: "NewExpression",
-    object: "IntersectionObserver"
+    object: "IntersectionObserver",
   },
   // ResizeObserver
   {
     caniuseId: "resizeobserver",
     astNodeType: "NewExpression",
-    object: "ResizeObserver"
+    object: "ResizeObserver",
   },
   // PaymentRequest
   {
     caniuseId: "payment-request",
     astNodeType: "NewExpression",
-    object: "PaymentRequest"
+    object: "PaymentRequest",
   },
   // Promises
   {
     caniuseId: "promises",
     astNodeType: "NewExpression",
-    object: "Promise"
+    object: "Promise",
   },
   {
     caniuseId: "promises",
     astNodeType: "MemberExpression",
     object: "Promise",
-    property: "resolve"
+    property: "resolve",
   },
   {
     caniuseId: "promises",
     astNodeType: "MemberExpression",
     object: "Promise",
-    property: "all"
+    property: "all",
   },
   {
     caniuseId: "promises",
     astNodeType: "MemberExpression",
     object: "Promise",
-    property: "race"
+    property: "race",
   },
   {
     caniuseId: "promises",
     astNodeType: "MemberExpression",
     object: "Promise",
-    property: "reject"
+    property: "reject",
   },
   // fetch
   {
     caniuseId: "fetch",
     astNodeType: "CallExpression",
-    object: "fetch"
+    object: "fetch",
   },
   // document.currentScript()
   {
     caniuseId: "document-currentscript",
     astNodeType: "MemberExpression",
     object: "document",
-    property: "currentScript"
+    property: "currentScript",
   },
   // URL
   {
     caniuseId: "url",
     astNodeType: "NewExpression",
-    object: "URL"
+    object: "URL",
   },
   // URLSearchParams
   {
     caniuseId: "urlsearchparams",
     astNodeType: "NewExpression",
-    object: "URLSearchParams"
+    object: "URLSearchParams",
   },
   // performance.now()
   {
     caniuseId: "high-resolution-time",
     astNodeType: "MemberExpression",
     object: "performance",
-    property: "now"
+    property: "now",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "TypedArray"
+    object: "TypedArray",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Int8Array"
+    object: "Int8Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Uint8Array"
+    object: "Uint8Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Uint8ClampedArray"
+    object: "Uint8ClampedArray",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Int16Array"
+    object: "Int16Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Uint16Array"
+    object: "Uint16Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Int32Array"
+    object: "Int32Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Uint32Array"
+    object: "Uint32Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Float32Array"
+    object: "Float32Array",
   },
   {
     caniuseId: "typedarrays",
     astNodeType: "NewExpression",
-    object: "Float64Array"
-  }
-].map(rule => ({
+    object: "Float64Array",
+  },
+].map((rule) => ({
   ...rule,
   getUnsupportedTargets,
   id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
   protoChainId: rule.property ? `${rule.object}.${rule.property}` : rule.object,
-  protoChain: rule.property ? [rule.object, rule.property] : [rule.object]
+  protoChain: rule.property ? [rule.object, rule.property] : [rule.object],
 }));
 
 export default CanIUseProvider;

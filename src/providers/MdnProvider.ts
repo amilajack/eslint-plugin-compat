@@ -3,13 +3,13 @@ import semver from "semver";
 import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import {
   STANDARD_TARGET_NAME_MAPPING,
-  reverseTargetMappings
+  reverseTargetMappings,
 } from "../Versioning";
-import type { Node, Targets, Target } from "../LintTypes";
+import { Node, Targets, Target } from "../LintTypes";
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
 const mdnRecords: Map<string, ApiMetadata> = new Map(
-  apiMetadata.map(e => [e.protoChainId, e])
+  apiMetadata.map((e) => [e.protoChainId, e])
 );
 
 /**
@@ -29,7 +29,7 @@ const targetIdMappings = {
   firefox_android: "and_firefox",
   webview_android: "and_webview",
   samsunginternet_android: "and_samsung",
-  nodejs: "node"
+  nodejs: "node",
 };
 
 const reversedTargetMappings = reverseTargetMappings(targetIdMappings);
@@ -67,7 +67,7 @@ export function isSupportedByMDN(
   if (!Array.isArray(compatRecord) && !("version_added" in compatRecord))
     return true;
   const { version_added: versionAdded } = Array.isArray(compatRecord)
-    ? compatRecord.find(e => "version_added" in e)
+    ? compatRecord.find((e) => "version_added" in e)
     : compatRecord;
 
   // If a version is true then it is supported but version is unsure
@@ -112,7 +112,7 @@ export function getUnsupportedTargets(
   targets: Targets
 ): Array<string> {
   return targets
-    .filter(target => !isSupportedByMDN(node, target))
+    .filter((target) => !isSupportedByMDN(node, target))
     .map(formatTargetNames);
 }
 
@@ -128,8 +128,8 @@ function getMetadataName(metadata: Node) {
 
 const MdnProvider: Array<Node> = apiMetadata
   // Create entries for each ast node type
-  .map(metadata =>
-    metadata.astNodeTypes.map(astNodeType => ({
+  .map((metadata) =>
+    metadata.astNodeTypes.map((astNodeType) => ({
       ...metadata,
       name: getMetadataName(metadata),
       id: metadata.protoChainId,
@@ -137,15 +137,15 @@ const MdnProvider: Array<Node> = apiMetadata
       astNodeType,
       object: metadata.protoChain[0],
       // @TODO Handle cases where 'prototype' is in protoChain
-      property: metadata.protoChain[1]
+      property: metadata.protoChain[1],
     }))
   )
   // Flatten the array of arrays
   .flat()
   // Add rule and target support logic for each entry
-  .map(rule => ({
+  .map((rule) => ({
     ...rule,
-    getUnsupportedTargets
+    getUnsupportedTargets,
   }));
 
 export default MdnProvider;
