@@ -29,7 +29,7 @@
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
     "lint": "eslint --ignore-path .gitignore .",
     "spec": "jest",
-    "test": "yarn lint && yarn tsc && yarn build && yarn spec",
+    "test": "yarn lint && yarn build && yarn spec",
     "tsc": "tsc",
     "version": "yarn build"
   },
