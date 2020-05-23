@@ -3,24 +3,78 @@ variables:
 
 strategy:
   matrix:
-    linux_node_stable:
+    linux_node_stable_eslint5:
       imageName: 'ubuntu-16.04'
       nodeVersion: '10.x'
-    linux_node_current:
+      eslintVersion: 'eslint@^5'
+    linux_node_stable_eslint6:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '10.x'
+      eslintVersion: 'eslint@^6'
+    linux_node_stable_eslint7:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '10.x'
+      eslintVersion: 'eslint@^7'
+    linux_node_current_eslint5:
       imageName: 'ubuntu-16.04'
       nodeVersion: '13.x'
-    mac_node_stable:
+      eslintVersion: 'eslint@^5'
+    linux_node_current_eslint6:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '13.x'
+      eslintVersion: 'eslint@^6'
+    linux_node_current_eslint7:
+      imageName: 'ubuntu-16.04'
+      nodeVersion: '13.x'
+      eslintVersion: 'eslint@^7'
+    mac_node_stable_eslint5:
       imageName: 'macos-10.14'
       nodeVersion: '10.x'
-    mac_node_current:
+      eslintVersion: 'eslint@^5'
+    mac_node_stable_eslint6:
+      imageName: 'macos-10.14'
+      nodeVersion: '10.x'
+      eslintVersion: 'eslint@^6'
+    mac_node_stable_eslint7:
+      imageName: 'macos-10.14'
+      nodeVersion: '10.x'
+      eslintVersion: 'eslint@^7'
+    mac_node_current_eslint5:
       imageName: 'macos-10.14'
       nodeVersion: '13.x'
-    windows_node_stable:
+      eslintVersion: 'eslint@^5'
+    mac_node_current_eslint6:
+      imageName: 'macos-10.14'
+      nodeVersion: '13.x'
+      eslintVersion: 'eslint@^6'
+    mac_node_current_eslint7:
+      imageName: 'macos-10.14'
+      nodeVersion: '13.x'
+      eslintVersion: 'eslint@^7'
+    windows_node_stable_eslint5:
       imageName: 'vs2017-win2016'
       nodeVersion: '10.x'
-    windows_node_current:
+      eslintVersion: 'eslint@^5'
+    windows_node_stable_eslint6:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '10.x'
+      eslintVersion: 'eslint@^6'
+    windows_node_stable_eslint7:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '10.x'
+      eslintVersion: 'eslint@^7'
+    windows_node_current_eslint5:
       imageName: 'vs2017-win2016'
       nodeVersion: '13.x'
+      eslintVersion: 'eslint@^5'
+    windows_node_current_eslint6:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '13.x'
+      eslintVersion: 'eslint@^6'
+    windows_node_current_eslint7:
+      imageName: 'vs2017-win2016'
+      nodeVersion: '13.x'
+      eslintVersion: 'eslint@^7'
 
 pool:
   vmImage: $(imageName)
@@ -37,4 +91,4 @@ steps:
         yarn
       path: $(YARN_CACHE_FOLDER)
     displayName: Cache Yarn packages
-  - script: yarn --frozen-lockfile && yarn test
+  - script: yarn --frozen-lockfile && yarn add --dev $(eslintVersion) && yarn test
