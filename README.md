@@ -38,10 +38,15 @@ Browser targets are configured using [browserslist](https://github.com/browsersl
 #### `package.json`
 
 ```diff
-   {
-     // ...
-+    "browserslist": ["chrome 70", "last 1 versions", "not ie <= 8"]
-   }
+  {
+    // ...
++   "browserslist": [
++     "defaults",
++      "not IE 11",
++      "not IE_Mob 11",
++      "maintained node versions"
+    ]
+  }
 ```
 
 If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `"> 0.5%, last 2 versions, Firefox ESR, not dead"`.
