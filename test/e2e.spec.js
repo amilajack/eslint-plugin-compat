@@ -7,6 +7,47 @@ const ruleTester = new RuleTester({
 
 ruleTester.run("compat", rule, {
   valid: [
+    // Conditional Cases
+    {
+      code: `
+        if (fetch) {
+          fetch()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] }
+    },
+    {
+      code: `
+        if (Array.prototype.flat) {
+          new Array.flat()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] }
+    },
+    {
+      code: `
+        if (fetch && otherConditions) {
+          fetch()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] }
+    },
+    {
+      code: `
+        if (window.fetch) {
+          fetch()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] }
+    },
+    {
+      code: `
+        if ('fetch' in window) {
+          fetch()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] }
+    },
     {
       code: "window",
       settings: { browsers: ["ExplorerMobile 10"] }
@@ -15,6 +56,7 @@ ruleTester.run("compat", rule, {
       code: "document.fonts()",
       settings: { browsers: ["edge 79"] }
     },
+    // Import cases
     {
       code: `
         import { Set } from 'immutable';
@@ -195,13 +237,20 @@ ruleTester.run("compat", rule, {
       settings: {
         browsers: ["chrome 49", "safari 10.1", "firefox 44"]
       }
-    },
-    {
-      code: "performance.now()",
-      settings: { browsers: ["ie 10"] }
     }
   ],
   invalid: [
+    {
+      code: "Array.from()",
+      settings: {
+        browsers: ["ie 8"]
+      },
+      errors: [
+        {
+          message: "Array.from() is not supported in IE 8"
+        }
+      ]
+    },
     {
       code: "Promise.allSettled()",
       settings: {
@@ -358,22 +407,70 @@ ruleTester.run("compat", rule, {
       ]
     },
     {
-      code: 'fetch("google.com")',
+      code: "window.document.fonts()",
+      settings: { browsers: ["ie 8"] },
+      errors: [
+        {
+          message: "document.fonts() is not supported in IE 8",
+          type: "MemberExpression"
+        }
+      ]
+    },
+    {
+      code: "new Map().size",
+      settings: { browsers: ["ie 8"] },
+      errors: [
+        {
+          message: "Map.size() is not supported in IE 8",
+          type: "MemberExpression"
+        },
+        {
+          message: "Map is not supported in IE 8",
+          type: "NewExpression"
+        }
+      ]
+    },
+    {
+      code: "new window.Map().size",
+      settings: { browsers: ["ie 8"] },
+      errors: [
+        {
+          message: "Map.size() is not supported in IE 8",
+          type: "MemberExpression"
+        },
+        {
+          message: "Map is not supported in IE 8",
+          type: "MemberExpression"
+        }
+      ]
+    },
+    {
+      code: "new Array().flat",
+      settings: { browsers: ["ie 8"] },
+      errors: [
+        {
+          message: "Array.flat() is not supported in IE 8",
+          type: "MemberExpression"
+        }
+      ]
+    },
+    {
+      code: "globalThis.fetch()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "fetch is not supported in IE 11",
+          type: "MemberExpression"
+        }
+      ]
+    },
+    {
+      code: "fetch()",
       settings: { browsers: ["ie 11"] },
       errors: [
         {
           message: "fetch is not supported in IE 11",
           type: "CallExpression"
-        }
-      ]
-    },
-    {
-      code: "new Promise()",
-      settings: { browsers: ["ie 10"] },
-      errors: [
-        {
-          message: "Promise is not supported in IE 10",
-          type: "NewExpression"
         }
       ]
     },

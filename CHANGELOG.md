@@ -1,3 +1,8 @@
+### v3.8.0
+
+### Added
+- Support for feature detection of APIs ([#327](https://github.com/amilajack/eslint-plugin-compat/pull/327))
+
 ### v3.7.0
 
 ### Updates
