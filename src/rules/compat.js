@@ -3,7 +3,8 @@ import memoize from "lodash.memoize";
 import {
   lintCallExpression,
   lintMemberExpression,
-  lintNewExpression
+  lintNewExpression,
+  lintExpressionStatement
 } from "../Lint";
 import determineTargetsFromConfig, { Versioning } from "../Versioning";
 import type { ESLintNode, Node, BrowserListConfig } from "../LintTypes";
@@ -31,6 +32,9 @@ function getName(node: ESLintNode): string {
     }
     case "MemberExpression": {
       return node.object.name;
+    }
+    case "ExpressionStatement": {
+      return node.expression.name;
     }
     case "CallExpression": {
       return node.callee.name;
@@ -69,11 +73,12 @@ const getRulesForTargets = memoize((targetsJSON: string): Object => {
   const result = {
     CallExpression: [],
     NewExpression: [],
-    MemberExpression: []
+    MemberExpression: [],
+    ExpressionStatement: []
   };
   const targets = JSON.parse(targetsJSON);
   nodes.forEach(node => {
-    if (node.getUnsupportedTargets(node, targets).length === 0) return;
+    if (!node.getUnsupportedTargets(node, targets).length) return;
     result[node.astNodeType].push(node);
   });
   return result;
@@ -127,18 +132,31 @@ export default {
     return {
       CallExpression: lintCallExpression.bind(
         null,
+        context,
         handleFailingRule,
         targetedRules.CallExpression
       ),
       NewExpression: lintNewExpression.bind(
         null,
+        context,
         handleFailingRule,
         targetedRules.NewExpression
       ),
+      ExpressionStatement: lintExpressionStatement.bind(
+        null,
+        context,
+        handleFailingRule,
+        [...targetedRules.MemberExpression, ...targetedRules.CallExpression]
+      ),
       MemberExpression: lintMemberExpression.bind(
         null,
+        context,
         handleFailingRule,
-        targetedRules.MemberExpression
+        [
+          ...targetedRules.MemberExpression,
+          ...targetedRules.CallExpression,
+          ...targetedRules.NewExpression
+        ]
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
       Identifier(node: ESLintNode) {
