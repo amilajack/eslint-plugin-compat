@@ -20,15 +20,15 @@ npm install --save-dev eslint-plugin-compat
 
 ### 2. Update ESLint Config
 
-```jsonc
+```diff
 // .eslintrc.json
-{
-  "extends": ["plugin:compat/recommended"],
-  "env": {
-    "browser": true
-  },
-  // ...
-}
+   {
++    "extends": ["plugin:compat/recommended"],
++    "env": {
++      "browser": true
++    },
+     // ...
+   }
 ```
 
 ### 3. Configure Target Browsers
@@ -37,11 +37,11 @@ Browser targets are configured using [browserslist](https://github.com/browsersl
 
 #### `package.json`
 
-```jsonc
-{
-  // ...
-  "browserslist": ["chrome 70", "last 1 versions", "not ie <= 8"]
-}
+```diff
+   {
+     // ...
++    "browserslist": ["chrome 70", "last 1 versions", "not ie <= 8"]
+   }
 ```
 
 If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `"> 0.5%, last 2 versions, Firefox ESR, not dead"`.
@@ -49,8 +49,6 @@ If no configuration is found, browserslist [defaults to](https://github.com/brow
 See [browserslist/browserslist](https://github.com/browserslist/browserslist) for more details.
 
 ## Adding Polyfills
-
-#### v3
 
 Add polyfills to the settings section of your eslint config. Append the name of the object and the property if one exists. Here are some examples:
 
@@ -71,10 +69,6 @@ Add polyfills to the settings section of your eslint config. Append the name of 
   }
 }
 ```
-
-#### v2
-
-[See wiki polyfills section](https://github.com/amilajack/eslint-plugin-compat/wiki/Adding-polyfills)
 
 ## Demo
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
