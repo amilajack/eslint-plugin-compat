@@ -41,7 +41,7 @@ Browser targets are configured using [browserslist](https://github.com/browsersl
   {
     // ...
 +   "browserslist": [
-+     "defaults",
++      "defaults",
 +      "not IE 11",
 +      "not IE_Mob 11",
 +      "maintained node versions"
