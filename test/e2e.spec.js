@@ -2,12 +2,22 @@ import { RuleTester } from "eslint";
 import rule from "../src/rules/compat";
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+  parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+  settings: {
+    forceAllEsApis: true
+  }
 });
 
 ruleTester.run("compat", rule, {
   valid: [
-    // Conditional Cases
+    // Ignore ES APIs if config detected
+    {
+      code: `
+        Array.from()
+      `,
+      settings: { browsers: ["ExplorerMobile 10"], forceAllEsApis: false }
+    },
+    // Feature detection Cases
     {
       code: `
         if (fetch) {

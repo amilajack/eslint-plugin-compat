@@ -51,10 +51,11 @@
     "jest": "^26.0.1"
   },
   "dependencies": {
-    "ast-metadata-inferer": "^0.2.0-0",
+    "ast-metadata-inferer": "^0.2.0",
     "browserslist": "^4.12.0",
     "caniuse-db": "^1.0.30001059",
     "core-js": "^3.6.5",
+    "find-up": "^4.1.0",
     "lodash.memoize": "4.1.2",
     "mdn-browser-compat-data": "^1.0.21",
     "semver": "7.3.2"

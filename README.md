@@ -20,8 +20,9 @@ npm install --save-dev eslint-plugin-compat
 
 ### 2. Update ESLint Config
 
+#### `.eslintrc.json`
+
 ```diff
-// .eslintrc.json
    {
 +    "extends": ["plugin:compat/recommended"],
 +    "env": {
@@ -38,9 +39,9 @@ Browser targets are configured using [browserslist](https://github.com/browsersl
 #### `package.json`
 
 ```diff
-  {
-    // ...
-+   "browserslist": [
+   {
+     // ...
++    "browserslist": [
 +      "defaults",
 +      "not IE 11",
 +      "not IE_Mob 11",

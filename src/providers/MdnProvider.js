@@ -1,5 +1,6 @@
-import AstMetadata from "ast-metadata-inferer";
+import apiMetadata from "ast-metadata-inferer";
 import semver from "semver";
+import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import {
   STANDARD_TARGET_NAME_MAPPING,
   reverseTargetMappings
@@ -7,26 +8,8 @@ import {
 import type { Node, Targets, Target } from "../LintTypes";
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
-type AstMetadataRecordType = {
-  apiType: "js-api" | "css-api",
-  type: "js-api" | "css-api",
-  protoChain: Array<string>,
-  protoChainId: string,
-  astNodeTypes: Array<string>,
-  isStatic: boolean,
-  compat: {
-    support: {
-      [browserName: string]: {
-        // If a version is true then it is supported but version is unsure
-        version_added: string | boolean
-      }
-    },
-    [x: string]: any
-  }
-};
-
-const mdnRecords: Map<string, AstMetadataRecordType> = new Map(
-  AstMetadata.map(e => [e.protoChainId, e])
+const mdnRecords: Map<string, ApiMetadata> = new Map(
+  apiMetadata.map(e => [e.protoChainId, e])
 );
 
 /**
@@ -143,7 +126,7 @@ function getMetadataName(metadata: Node) {
   }
 }
 
-const MdnProvider: Array<Node> = AstMetadata
+const MdnProvider: Array<Node> = apiMetadata
   // Create entries for each ast node type
   .map(metadata =>
     metadata.astNodeTypes.map(astNodeType => ({
