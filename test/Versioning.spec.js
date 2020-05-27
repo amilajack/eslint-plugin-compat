@@ -1,50 +1,50 @@
 import path from "path";
-import DetermineTargetsFromConfig, { Versioning } from "../src/Versioning";
+import determineTargetsFromConfig, { versioning } from "../src/Versioning";
 import multiEnvPackageJSON from "./multi-config.package.json";
 import singleArrayEnvPackageJSON from "./single-array-config.package.json";
 import singleVersionEnvPackageJSON from "./single-version-config.package.json";
 
 describe("Versioning", () => {
   it("should support multi env config in browserslist package.json", () => {
-    const config = DetermineTargetsFromConfig(
+    const config = determineTargetsFromConfig(
       ".",
       multiEnvPackageJSON.browsers
     );
-    const result = Versioning(config);
+    const result = versioning(config);
     expect(result).toMatchSnapshot();
   });
 
   it("should support resolving browserslist config in subdirectory", () => {
     // This should resolve the ./test/.browserslistrc config
-    const relativeConfig = DetermineTargetsFromConfig(
+    const relativeConfig = determineTargetsFromConfig(
       path.join(__dirname, ".browserslistrc")
     );
-    const rootConfig = DetermineTargetsFromConfig(
+    const rootConfig = determineTargetsFromConfig(
       require.resolve("../package.json")
     );
-    const relativeConfigVersions = Versioning(relativeConfig);
+    const relativeConfigVersions = versioning(relativeConfig);
     expect(relativeConfigVersions).toMatchSnapshot();
-    const rootConfigVersions = Versioning(rootConfig);
+    const rootConfigVersions = versioning(rootConfig);
     expect(rootConfigVersions).toMatchSnapshot();
 
     expect(relativeConfigVersions).not.toEqual(rootConfigVersions);
   });
 
   it("should support single array config in browserslist package.json", () => {
-    const config = DetermineTargetsFromConfig(
+    const config = determineTargetsFromConfig(
       ".",
       singleArrayEnvPackageJSON.browsers
     );
-    const result = Versioning(config);
+    const result = versioning(config);
     expect(result).toMatchSnapshot();
   });
 
   it("should support single version config in browserslist package.json", () => {
-    const config = DetermineTargetsFromConfig(
+    const config = determineTargetsFromConfig(
       ".",
       singleVersionEnvPackageJSON.browsers
     );
-    const result = Versioning(config);
+    const result = versioning(config);
     expect(result).toMatchSnapshot([
       { target: "safari", version: "8", parsedVersion: 8 },
       { target: "ie", version: "9", parsedVersion: 9 },
@@ -61,18 +61,18 @@ describe("Versioning", () => {
       "chrome 30.5",
       "firefox 50.5"
     ];
-    expect(Versioning(versions)).toMatchSnapshot();
+    expect(versioning(versions)).toMatchSnapshot();
   });
 
   it("should support string config in rule option", () => {
-    const config = DetermineTargetsFromConfig(".", "defaults, not ie < 9");
-    const result = Versioning(config);
+    const config = determineTargetsFromConfig(".", "defaults, not ie < 9");
+    const result = versioning(config);
     expect(result).toMatchSnapshot();
   });
 
   it("should fail on incorrect browserslist target version", () => {
     expect(() => {
-      DetermineTargetsFromConfig(".", "edge 100");
+      determineTargetsFromConfig(".", "edge 100");
     }).toThrow("Unknown version 100 of edge");
   });
 });

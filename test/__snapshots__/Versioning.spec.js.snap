@@ -133,19 +133,19 @@ Array [
 exports[`Versioning should support resolving browserslist config in subdirectory 2`] = `
 Array [
   Object {
-    "parsedVersion": 11.1,
+    "parsedVersion": 10.1,
     "target": "samsung",
-    "version": "11.1",
+    "version": "10.1",
   },
   Object {
-    "parsedVersion": 13.1,
+    "parsedVersion": 13,
     "target": "safari",
-    "version": "13.1",
+    "version": "13",
   },
   Object {
-    "parsedVersion": 68,
+    "parsedVersion": 67,
     "target": "opera",
-    "version": "68",
+    "version": "67",
   },
   Object {
     "parsedVersion": 46,
@@ -163,14 +163,9 @@ Array [
     "version": "2.5",
   },
   Object {
-    "parsedVersion": 13.4,
+    "parsedVersion": 12.2,
     "target": "ios_saf",
-    "version": "13.4",
-  },
-  Object {
-    "parsedVersion": 11,
-    "target": "ie_mob",
-    "version": "11",
+    "version": "12.2-12.4",
   },
   Object {
     "parsedVersion": 11,
@@ -178,24 +173,19 @@ Array [
     "version": "11",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 68,
     "target": "firefox",
-    "version": "76",
+    "version": "68",
   },
   Object {
-    "parsedVersion": 81,
+    "parsedVersion": 18,
     "target": "edge",
-    "version": "81",
+    "version": "18",
   },
   Object {
-    "parsedVersion": 81,
+    "parsedVersion": 80,
     "target": "chrome",
-    "version": "81",
-  },
-  Object {
-    "parsedVersion": 10,
-    "target": "bb",
-    "version": "10",
+    "version": "80",
   },
   Object {
     "parsedVersion": 7.12,

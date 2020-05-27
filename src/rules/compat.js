@@ -7,7 +7,7 @@ import {
   lintNewExpression,
   lintExpressionStatement
 } from "../Lint";
-import determineTargetsFromConfig, { Versioning } from "../Versioning";
+import determineTargetsFromConfig, { versioning } from "../Versioning";
 import type { ESLintNode, Node, BrowserListConfig } from "../LintTypes";
 import { nodes } from "../providers";
 
@@ -118,7 +118,7 @@ export default {
       context.settings?.polyfills?.includes("es:all") ||
       hasTranspiledConfigs(context.getFilename());
 
-    const browserslistTargets = Versioning(
+    const browserslistTargets = versioning(
       determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
