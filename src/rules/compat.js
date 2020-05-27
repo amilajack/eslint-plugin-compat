@@ -1,4 +1,5 @@
 // @flow
+import findUp from "find-up";
 import memoize from "lodash.memoize";
 import {
   lintCallExpression,
@@ -69,20 +70,27 @@ function isPolyfilled(context: Context, rule: Node): boolean {
   );
 }
 
-const getRulesForTargets = memoize((targetsJSON: string): Object => {
-  const result = {
-    CallExpression: [],
-    NewExpression: [],
-    MemberExpression: [],
-    ExpressionStatement: []
-  };
-  const targets = JSON.parse(targetsJSON);
-  nodes.forEach(node => {
-    if (!node.getUnsupportedTargets(node, targets).length) return;
-    result[node.astNodeType].push(node);
+const items = [
+  // Babel configs
+  "babel.config.json",
+  "babel.config.js",
+  ".babelrc",
+  ".babelrc.json",
+  ".babelrc.js",
+  // TS configs
+  "tsconfig.json"
+];
+
+function hasTranspiledConfigs(dir: string): void {
+  const configPath = findUp.sync.exists(items, {
+    cwd: dir
   });
-  return result;
-});
+  if (configPath) return true;
+  const { babel } = findUp.sync.exists("package.json", {
+    cwd: dir
+  });
+  return !!babel;
+}
 
 export default {
   meta: {
@@ -104,9 +112,36 @@ export default {
       context.settings.targets ||
       context.options[0];
 
+    const ignoreAllEsApis: boolean =
+      (context.settings.forceAllEsApis !== true &&
+        !!context.parserOptions?.tsconfigRootDir) ||
+      context.settings?.polyfills?.includes("es:all") ||
+      hasTranspiledConfigs(context.getFilename());
+
     const browserslistTargets = Versioning(
       determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
+
+    const getRulesForTargets = memoize((targetsJSON: string): Object => {
+      const result = {
+        CallExpression: [],
+        NewExpression: [],
+        MemberExpression: [],
+        ExpressionStatement: []
+      };
+      const targets = JSON.parse(targetsJSON);
+
+      nodes
+        .filter(node => {
+          return ignoreAllEsApis ? node.kind !== "es" : true;
+        })
+        .forEach(node => {
+          if (!node.getUnsupportedTargets(node, targets).length) return;
+          result[node.astNodeType].push(node);
+        });
+
+      return result;
+    });
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
     const targetedRules = getRulesForTargets(
