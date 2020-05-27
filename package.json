@@ -27,7 +27,7 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
-    "lint": "eslint --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest",
     "test": "yarn lint && yarn build && yarn spec",
     "tsc": "tsc",
