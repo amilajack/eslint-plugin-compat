@@ -43,15 +43,17 @@ type TargetListItem = {
 
 /**
  * Determine the targets based on the browserslist config object
+ * Get the targets from the eslint config and merge them with targets in browserslist config
  *
  * @param configPath - The file or a directory path to look for the browserslist config file
  */
-export default function DetermineTargetsFromConfig(
+export default function determineTargetsFromConfig(
   configPath: string,
   config?: BrowserListConfig
 ): Array<string> {
   const browserslistOpts = { path: configPath };
 
+  // Get targets from eslint settings
   if (Array.isArray(config) || typeof config === "string") {
     return browserslist(config, browserslistOpts);
   }
@@ -63,6 +65,7 @@ export default function DetermineTargetsFromConfig(
     );
   }
 
+  // Get targets fron browserslist configs
   return browserslist(undefined, browserslistOpts);
 }
 
@@ -70,7 +73,7 @@ export default function DetermineTargetsFromConfig(
  * Take a list of targets returned from browserslist api, return the lowest version
  * version of each target
  */
-export function Versioning(targetslist: Array<string>): Array<TargetListItem> {
+export function versioning(targetslist: Array<string>): Array<TargetListItem> {
   return (
     targetslist
       // Sort the targets by target name and then version number in ascending order

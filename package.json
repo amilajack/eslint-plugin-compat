@@ -71,9 +71,6 @@
     "url": "https://opencollective.com/eslint-plugin-compat",
     "logo": "https://opencollective.com/opencollective/logo.txt"
   },
-  "browserslist": [
-    "last 1 version"
-  ],
   "eslintConfig": {
     "extends": "bliss",
     "env": {
