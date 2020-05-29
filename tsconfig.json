@@ -22,7 +22,8 @@
     "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "**/src/**/*.ts", 
-    "**/test/**/*.ts",
+    "src/**/*.ts", 
+    "test/**/*.ts",
+    ".eslintrc.js"
   ]
 }
