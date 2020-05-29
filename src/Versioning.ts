@@ -70,8 +70,9 @@ export default function determineTargetsFromConfig(
 }
 
 /**
- * Take a list of targets returned from browserslist api, return the lowest version
- * version of each target
+ * @param targetslist - List of targest from browserslist api
+ * @returns  - The lowest version version of each target
+ *
  */
 export function versioning(targetslist: Array<string>): Array<TargetListItem> {
   return (
@@ -104,12 +105,9 @@ export function versioning(targetslist: Array<string>): Array<TargetListItem> {
         return b.target > a.target ? 1 : -1;
       }) // First last target always has the latest version
       .filter(
-        (
-          e: TargetListItem,
-          i: number,
-          items: Array<TargetListItem>
-        ): boolean => // Check if the current target is the last of its kind. If it is, then it
-          // is most recent version
+        (e: TargetListItem, i: number, items: Array<TargetListItem>): boolean =>
+          // Check if the current target is the last of its kind.
+          // If it is, then it's the most recent version.
           i + 1 === items.length || e.target !== items[i + 1].target
       )
   );

@@ -60,10 +60,9 @@ function isPolyfilled(context: Context, rule: Node): boolean {
   const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
   return (
     // v2 allowed users to select polyfills based off their caniuseId. This is
-    // no longer supported. Keeping this here to avoid breaking changes.
-    polyfills.has(rule.id) || // Check if polyfill is provided (ex. `Promise.all`)
-    polyfills.has(rule.protoChainId) || // Check if entire API is polyfilled (ex. `Promise`)
-    polyfills.has(rule.protoChain[0])
+    polyfills.has(rule.id) || // no longer supported. Keeping this here to avoid breaking changes.
+    polyfills.has(rule.protoChainId) || // Check if polyfill is provided (ex. `Promise.all`)
+    polyfills.has(rule.protoChain[0]) // Check if entire API is polyfilled (ex. `Promise`)
   );
 }
 
@@ -197,14 +196,13 @@ export default {
         if (node.parent) {
           const { type } = node.parent;
           if (
-            // ex. const { Set } = require('immutable');
-            type === "Property" || // ex. function Set() {}
-            type === "FunctionDeclaration" || // ex. const Set = () => {}
-            type === "VariableDeclarator" || // ex. class Set {}
-            type === "ClassDeclaration" || // ex. import Set from 'set';
-            type === "ImportDefaultSpecifier" || // ex. import {Set} from 'set';
+            type === "Property" || // ex. const { Set } = require('immutable');
+            type === "FunctionDeclaration" || // ex. function Set() {}
+            type === "VariableDeclarator" || // ex. const Set = () => {}
+            type === "ClassDeclaration" || // ex. class Set {}
+            type === "ImportDefaultSpecifier" || // ex. import Set from 'set';
             type === "ImportSpecifier" || // ex. import {Set} from 'set';
-            type === "ImportDeclaration"
+            type === "ImportDeclaration" // ex. import {Set} from 'set';
           ) {
             identifiers.add(node.name);
           }
