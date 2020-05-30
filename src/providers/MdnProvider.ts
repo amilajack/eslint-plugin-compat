@@ -5,7 +5,7 @@ import {
   STANDARD_TARGET_NAME_MAPPING,
   reverseTargetMappings,
 } from "../Versioning";
-import { Node, Targets, Target } from "../LintTypes";
+import { Node, Targets, Target } from "../types";
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
 const mdnRecords: Map<string, ApiMetadata> = new Map(

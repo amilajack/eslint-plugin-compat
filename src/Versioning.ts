@@ -1,7 +1,7 @@
 /* eslint no-nested-ternary: off */
 
 import browserslist from "browserslist";
-import { BrowserListConfig } from "./LintTypes";
+import { BrowserListConfig } from "./types";
 
 export const STANDARD_TARGET_NAME_MAPPING = {
   chrome: "Chrome",

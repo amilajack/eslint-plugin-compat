@@ -7,7 +7,7 @@ import {
   lintExpressionStatement,
 } from "../Lint";
 import determineTargetsFromConfig, { versioning } from "../Versioning";
-import type { ESLintNode, Node, BrowserListConfig } from "../LintTypes";
+import type { ESLintNode, Node, BrowserListConfig } from "../types";
 import { nodes } from "../providers";
 
 type ESLint = {

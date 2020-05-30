@@ -1,6 +1,6 @@
 import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
 import { STANDARD_TARGET_NAME_MAPPING } from "../Versioning";
-import { Node, Targets, Target } from "../LintTypes";
+import { Node, Targets, Target } from "../types";
 
 type CanIUseStats = {
   [browser: string]: {

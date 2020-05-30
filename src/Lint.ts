@@ -1,4 +1,4 @@
-import { Node, ESLintNode } from "./LintTypes";
+import { Node, ESLintNode } from "./types";
 
 function isInsideIfStatement(context) {
   return context.getAncestors().some((ancestor) => {
