@@ -1,29 +1,28 @@
-// @flow
 import findUp from "find-up";
 import memoize from "lodash.memoize";
 import {
   lintCallExpression,
   lintMemberExpression,
   lintNewExpression,
-  lintExpressionStatement
-} from "../Lint";
-import determineTargetsFromConfig, { versioning } from "../Versioning";
-import type { ESLintNode, Node, BrowserListConfig } from "../LintTypes";
+  lintExpressionStatement,
+} from "../lint";
+import determineTargetsFromConfig, { versioning } from "../versioning";
+import type { ESLintNode, Node, BrowserListConfig } from "../types";
 import { nodes } from "../providers";
 
 type ESLint = {
-  [astNodeTypeName: string]: (node: ESLintNode) => void
+  [astNodeTypeName: string]: (node: ESLintNode) => void;
 };
 
 type Context = {
-  node: ESLintNode,
-  options: Array<string>,
+  node: ESLintNode;
+  options: Array<string>;
   settings: {
-    browsers: Array<string>,
-    polyfills: Array<string>
-  },
-  getFilename: () => string,
-  report: () => void
+    browsers: Array<string>;
+    polyfills: Array<string>;
+  };
+  getFilename: () => string;
+  report: () => void;
 };
 
 function getName(node: ESLintNode): string {
@@ -61,12 +60,9 @@ function isPolyfilled(context: Context, rule: Node): boolean {
   const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
   return (
     // v2 allowed users to select polyfills based off their caniuseId. This is
-    // no longer supported. Keeping this here to avoid breaking changes.
-    polyfills.has(rule.id) ||
-    // Check if polyfill is provided (ex. `Promise.all`)
-    polyfills.has(rule.protoChainId) ||
-    // Check if entire API is polyfilled (ex. `Promise`)
-    polyfills.has(rule.protoChain[0])
+    polyfills.has(rule.id) || // no longer supported. Keeping this here to avoid breaking changes.
+    polyfills.has(rule.protoChainId) || // Check if polyfill is provided (ex. `Promise.all`)
+    polyfills.has(rule.protoChain[0]) // Check if entire API is polyfilled (ex. `Promise`)
   );
 }
 
@@ -78,16 +74,16 @@ const items = [
   ".babelrc.json",
   ".babelrc.js",
   // TS configs
-  "tsconfig.json"
+  "tsconfig.json",
 ];
 
 function hasTranspiledConfigs(dir: string): void {
   const configPath = findUp.sync.exists(items, {
-    cwd: dir
+    cwd: dir,
   });
   if (configPath) return true;
   const { babel } = findUp.sync.exists("package.json", {
-    cwd: dir
+    cwd: dir,
   });
   return !!babel;
 }
@@ -99,10 +95,10 @@ export default {
       category: "Compatibility",
       url:
         "https://github.com/amilajack/eslint-plugin-compat/blob/master/docs/rules/compat.md",
-      recommended: true
+      recommended: true,
     },
     type: "problem",
-    schema: [{ type: "string" }]
+    schema: [{ type: "string" }],
   },
   create(context: Context): ESLint {
     // Determine lowest targets from browserslist config, which reads user's
@@ -122,26 +118,28 @@ export default {
       determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
-    const getRulesForTargets = memoize((targetsJSON: string): Object => {
-      const result = {
-        CallExpression: [],
-        NewExpression: [],
-        MemberExpression: [],
-        ExpressionStatement: []
-      };
-      const targets = JSON.parse(targetsJSON);
+    const getRulesForTargets = memoize(
+      (targetsJSON: string): Object => {
+        const result = {
+          CallExpression: [],
+          NewExpression: [],
+          MemberExpression: [],
+          ExpressionStatement: [],
+        };
+        const targets = JSON.parse(targetsJSON);
 
-      nodes
-        .filter(node => {
-          return ignoreAllEsApis ? node.kind !== "es" : true;
-        })
-        .forEach(node => {
-          if (!node.getUnsupportedTargets(node, targets).length) return;
-          result[node.astNodeType].push(node);
-        });
+        nodes
+          .filter((node) => {
+            return ignoreAllEsApis ? node.kind !== "es" : true;
+          })
+          .forEach((node) => {
+            if (!node.getUnsupportedTargets(node, targets).length) return;
+            result[node.astNodeType].push(node);
+          });
 
-      return result;
-    });
+        return result;
+      }
+    );
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
     const targetedRules = getRulesForTargets(
@@ -157,8 +155,8 @@ export default {
         message: [
           generateErrorName(node),
           "is not supported in",
-          node.getUnsupportedTargets(node, browserslistTargets).join(", ")
-        ].join(" ")
+          node.getUnsupportedTargets(node, browserslistTargets).join(", "),
+        ].join(" "),
       });
     }
 
@@ -190,7 +188,7 @@ export default {
         [
           ...targetedRules.MemberExpression,
           ...targetedRules.CallExpression,
-          ...targetedRules.NewExpression
+          ...targetedRules.NewExpression,
         ]
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
@@ -198,20 +196,13 @@ export default {
         if (node.parent) {
           const { type } = node.parent;
           if (
-            // ex. const { Set } = require('immutable');
-            type === "Property" ||
-            // ex. function Set() {}
-            type === "FunctionDeclaration" ||
-            // ex. const Set = () => {}
-            type === "VariableDeclarator" ||
-            // ex. class Set {}
-            type === "ClassDeclaration" ||
-            // ex. import Set from 'set';
-            type === "ImportDefaultSpecifier" ||
-            // ex. import {Set} from 'set';
-            type === "ImportSpecifier" ||
-            // ex. import {Set} from 'set';
-            type === "ImportDeclaration"
+            type === "Property" || // ex. const { Set } = require('immutable');
+            type === "FunctionDeclaration" || // ex. function Set() {}
+            type === "VariableDeclarator" || // ex. const Set = () => {}
+            type === "ClassDeclaration" || // ex. class Set {}
+            type === "ImportDefaultSpecifier" || // ex. import Set from 'set';
+            type === "ImportSpecifier" || // ex. import {Set} from 'set';
+            type === "ImportDeclaration" // ex. import {Set} from 'set';
           ) {
             identifiers.add(node.name);
           }
@@ -221,9 +212,9 @@ export default {
         // Get a map of all the variables defined in the root scope (not the global scope)
         // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
         errors
-          .filter(error => !identifiers.has(getName(error.node)))
-          .forEach(node => context.report(node));
-      }
+          .filter((error) => !identifiers.has(getName(error.node)))
+          .forEach((node) => context.report(node));
+      },
     };
-  }
+  },
 };

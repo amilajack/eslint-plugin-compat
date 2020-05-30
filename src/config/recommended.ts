@@ -1,9 +1,9 @@
 export default {
   plugins: ["compat"],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
-    "compat/compat": "error"
-  }
+    "compat/compat": "error",
+  },
 };

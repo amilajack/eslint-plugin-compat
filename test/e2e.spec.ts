@@ -4,8 +4,8 @@ import rule from "../src/rules/compat";
 const ruleTester = new RuleTester({
   parserOptions: { ecmaVersion: 2015, sourceType: "module" },
   settings: {
-    forceAllEsApis: true
-  }
+    forceAllEsApis: true,
+  },
 });
 
 ruleTester.run("compat", rule, {
@@ -15,7 +15,7 @@ ruleTester.run("compat", rule, {
       code: `
         Array.from()
       `,
-      settings: { browsers: ["ExplorerMobile 10"], forceAllEsApis: false }
+      settings: { browsers: ["ExplorerMobile 10"], forceAllEsApis: false },
     },
     // Feature detection Cases
     {
@@ -24,7 +24,7 @@ ruleTester.run("compat", rule, {
           fetch()
         }
       `,
-      settings: { browsers: ["ExplorerMobile 10"] }
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
       code: `
@@ -32,7 +32,7 @@ ruleTester.run("compat", rule, {
           new Array.flat()
         }
       `,
-      settings: { browsers: ["ExplorerMobile 10"] }
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
       code: `
@@ -40,7 +40,7 @@ ruleTester.run("compat", rule, {
           fetch()
         }
       `,
-      settings: { browsers: ["ExplorerMobile 10"] }
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
       code: `
@@ -48,7 +48,7 @@ ruleTester.run("compat", rule, {
           fetch()
         }
       `,
-      settings: { browsers: ["ExplorerMobile 10"] }
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
       code: `
@@ -56,15 +56,15 @@ ruleTester.run("compat", rule, {
           fetch()
         }
       `,
-      settings: { browsers: ["ExplorerMobile 10"] }
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
       code: "window",
-      settings: { browsers: ["ExplorerMobile 10"] }
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
       code: "document.fonts()",
-      settings: { browsers: ["edge 79"] }
+      settings: { browsers: ["edge 79"] },
     },
     // Import cases
     {
@@ -72,41 +72,41 @@ ruleTester.run("compat", rule, {
         import { Set } from 'immutable';
         new Set();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
         const { Set } = require('immutable');
         new Set();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
         const { Set } = require('immutable');
         new Set();
       `,
-      settings: { browsers: ["current node"] }
+      settings: { browsers: ["current node"] },
     },
     {
       code: `
         const { Set } = require('immutable');
         new Set();
       `,
-      settings: { browsers: ["ie 9", "current node"] }
+      settings: { browsers: ["ie 9", "current node"] },
     },
     {
       code: `
         const Set = require('immutable').Set;
         new Set();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
         Promise.resolve()
       `,
-      settings: { browsers: ["node 10"] }
+      settings: { browsers: ["node 10"] },
     },
     {
       code: `
@@ -115,28 +115,28 @@ ruleTester.run("compat", rule, {
           new Set();
         })();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
         import Set from 'immutable';
         new Set();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
         function Set() {}
         new Set();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
         const Set = () => {};
         new Set();
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
@@ -145,7 +145,7 @@ ruleTester.run("compat", rule, {
           new Set();
         }
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
@@ -154,7 +154,7 @@ ruleTester.run("compat", rule, {
           new Set()
         }
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
@@ -163,7 +163,7 @@ ruleTester.run("compat", rule, {
           new Set()
         }
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
@@ -172,94 +172,94 @@ ruleTester.run("compat", rule, {
           new Set()
         }
       `,
-      settings: { browsers: ["ie 9"] }
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: "document.documentElement()",
-      settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] }
+      settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] },
     },
     {
       code: "document.getElementsByTagName()",
-      settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] }
+      settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] },
     },
     {
       code: 'Promise.resolve("foo")',
-      settings: { polyfills: ["Promise"], browsers: ["ie 8"] }
+      settings: { polyfills: ["Promise"], browsers: ["ie 8"] },
     },
     {
       code: "history.back()",
-      settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] }
+      settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] },
     },
     "document.querySelector()",
     {
       code: "new ServiceWorker()",
-      settings: { browsers: ["chrome 57", "firefox 50"] }
+      settings: { browsers: ["chrome 57", "firefox 50"] },
     },
     {
       code: "document.currentScript()",
       settings: {
-        browsers: ["chrome 57", "firefox 50", "safari 10", "edge 14"]
-      }
+        browsers: ["chrome 57", "firefox 50", "safari 10", "edge 14"],
+      },
     },
     {
       code: "document.querySelector()",
       settings: {
-        browsers: ["ChromeAndroid 80"]
-      }
+        browsers: ["ChromeAndroid 80"],
+      },
     },
     {
       code: "document.hasFocus()",
       settings: {
-        browsers: ["Chrome 27"]
-      }
+        browsers: ["Chrome 27"],
+      },
     },
     {
       code: "new URL()",
       settings: {
-        browsers: ["ChromeAndroid 78", "ios 11"]
-      }
+        browsers: ["ChromeAndroid 78", "ios 11"],
+      },
     },
     {
       code: "document.currentScript('some')",
       settings: {
-        browsers: ["chrome 57", "firefox 50", "safari 10", "edge 14"]
-      }
+        browsers: ["chrome 57", "firefox 50", "safari 10", "edge 14"],
+      },
     },
     {
       code: "WebAssembly.compile()",
       settings: {
         browsers: ["chrome 40"],
-        polyfills: ["WebAssembly", "WebAssembly.compile"]
-      }
+        polyfills: ["WebAssembly", "WebAssembly.compile"],
+      },
     },
     {
       code: "new IntersectionObserver(() => {}, {});",
-      settings: { browsers: ["chrome 58"] }
+      settings: { browsers: ["chrome 58"] },
     },
     {
       code: "new URL('http://example')",
       settings: {
-        browsers: ["chrome 32", "safari 7.1", "firefox 26"]
-      }
+        browsers: ["chrome 32", "safari 7.1", "firefox 26"],
+      },
     },
     {
       code: "new URLSearchParams()",
       settings: {
-        browsers: ["chrome 49", "safari 10.1", "firefox 44"]
-      }
-    }
+        browsers: ["chrome 49", "safari 10.1", "firefox 44"],
+      },
+    },
   ],
   invalid: [
     {
       code: "Array.from()",
       settings: {
-        browsers: ["ie 8"]
+        browsers: ["ie 8"],
       },
       errors: [
         {
-          message: "Array.from() is not supported in IE 8"
-        }
-      ]
+          message: "Array.from() is not supported in IE 8",
+        },
+      ],
     },
     {
       code: "Promise.allSettled()",
@@ -268,24 +268,24 @@ ruleTester.run("compat", rule, {
           "Chrome >= 72",
           "Firefox >= 72",
           "Safari >= 12",
-          "Edge >= 79"
-        ]
+          "Edge >= 79",
+        ],
       },
       errors: [
         {
           message:
-            "Promise.allSettled() is not supported in Safari 12, Chrome 72"
-        }
-      ]
+            "Promise.allSettled() is not supported in Safari 12, Chrome 72",
+        },
+      ],
     },
     {
       code: "location.origin",
       settings: { browsers: ["ie 10"] },
       errors: [
         {
-          message: "location.origin() is not supported in IE 10"
-        }
-      ]
+          message: "location.origin() is not supported in IE 10",
+        },
+      ],
     },
     {
       code: `
@@ -296,9 +296,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Set is not supported in IE 9",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new Set()",
@@ -306,9 +306,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Set is not supported in IE 9",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new TypedArray()",
@@ -316,9 +316,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "TypedArray is not supported in IE 9",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new Int8Array()",
@@ -326,9 +326,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Int8Array is not supported in IE 9",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new AnimationEvent",
@@ -336,9 +336,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "AnimationEvent is not supported in Chrome 40",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "Object.values({})",
@@ -346,9 +346,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Object.values() is not supported in Safari 9",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "new ServiceWorker()",
@@ -356,9 +356,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "ServiceWorker is not supported in Chrome 31",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new IntersectionObserver(() => {}, {});",
@@ -366,9 +366,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "IntersectionObserver is not supported in Chrome 49",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "WebAssembly.compile()",
@@ -385,16 +385,16 @@ ruleTester.run("compat", rule, {
           "Blackberry 7",
           "Baidu 7.12",
           "UCAndroid 11.8",
-          "QQAndroid 1.2"
-        ]
+          "QQAndroid 1.2",
+        ],
       },
       errors: [
         {
           message:
             "WebAssembly is not supported in Safari 10.1, Opera 12.1, iOS Safari 10.3, IE 10, Edge 14",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "new PaymentRequest(methodData, details, options)",
@@ -402,9 +402,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "PaymentRequest is not supported in Chrome 57",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "navigator.serviceWorker",
@@ -412,9 +412,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "navigator.serviceWorker() is not supported in Safari 10.1",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "window.document.fonts()",
@@ -422,9 +422,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "document.fonts() is not supported in IE 8",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "new Map().size",
@@ -432,13 +432,13 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Map.size() is not supported in IE 8",
-          type: "MemberExpression"
+          type: "MemberExpression",
         },
         {
           message: "Map is not supported in IE 8",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new window.Map().size",
@@ -446,13 +446,13 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Map.size() is not supported in IE 8",
-          type: "MemberExpression"
+          type: "MemberExpression",
         },
         {
           message: "Map is not supported in IE 8",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "new Array().flat",
@@ -460,9 +460,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Array.flat() is not supported in IE 8",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "globalThis.fetch()",
@@ -470,9 +470,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "fetch is not supported in IE 11",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "fetch()",
@@ -480,9 +480,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "fetch is not supported in IE 11",
-          type: "CallExpression"
-        }
-      ]
+          type: "CallExpression",
+        },
+      ],
     },
     {
       code: "Promise.resolve()",
@@ -490,9 +490,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Promise.resolve() is not supported in IE 10",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "Promise.all()",
@@ -500,9 +500,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Promise.all() is not supported in IE 10",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "Promise.race()",
@@ -510,9 +510,9 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Promise.race() is not supported in IE 10",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "Promise.reject()",
@@ -520,34 +520,34 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Promise.reject() is not supported in IE 10",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "new URL('http://example')",
       settings: {
-        browsers: ["chrome 31", "safari 7", "firefox 25"]
+        browsers: ["chrome 31", "safari 7", "firefox 25"],
       },
       errors: [
         {
           message: "URL is not supported in Safari 7, Firefox 25, Chrome 31",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "new URLSearchParams()",
       settings: {
-        browsers: ["chrome 48", "safari 10", "firefox 28"]
+        browsers: ["chrome 48", "safari 10", "firefox 28"],
       },
       errors: [
         {
           message:
             "URLSearchParams is not supported in Safari 10, Firefox 28, Chrome 48",
-          type: "NewExpression"
-        }
-      ]
+          type: "NewExpression",
+        },
+      ],
     },
     {
       code: "performance.now()",
@@ -555,34 +555,34 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "performance.now() is not supported in IE 9",
-          type: "MemberExpression"
-        }
-      ]
+          type: "MemberExpression",
+        },
+      ],
     },
     {
       code: "new ResizeObserver()",
       settings: {
-        browsers: ["ie 11", "safari 12"]
+        browsers: ["ie 11", "safari 12"],
       },
       errors: [
         {
-          message: "ResizeObserver is not supported in Safari 12, IE 11"
-        }
-      ]
+          message: "ResizeObserver is not supported in Safari 12, IE 11",
+        },
+      ],
     },
     {
       code: "Object.entries({}), Object.values({})",
       settings: {
-        browsers: ["Android >= 4", "iOS >= 7"]
+        browsers: ["Android >= 4", "iOS >= 7"],
       },
       errors: [
         {
-          message: "Object.entries() is not supported in iOS Safari 7.0-7.1"
+          message: "Object.entries() is not supported in iOS Safari 7.0-7.1",
         },
         {
-          message: "Object.values() is not supported in iOS Safari 7.0-7.1"
-        }
-      ]
-    }
-  ]
+          message: "Object.values() is not supported in iOS Safari 7.0-7.1",
+        },
+      ],
+    },
+  ],
 });

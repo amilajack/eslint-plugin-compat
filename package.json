@@ -26,12 +26,11 @@
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
-    "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline",
-    "flow": "flow",
-    "flow-typed": "flow-typed install --ignoreDeps peer dev",
-    "lint": "eslint --ignore-path .gitignore .",
+    "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest",
     "test": "yarn lint && yarn build && yarn spec",
+    "tsc": "tsc",
     "version": "yarn build"
   },
   "jest": {
@@ -41,14 +40,23 @@
     "@babel/cli": "^7.10.0",
     "@babel/core": "^7.10.0",
     "@babel/preset-env": "^7.10.0",
-    "@babel/preset-flow": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/browserslist": "^4.8.0",
+    "@types/eslint": "^6.8.1",
+    "@types/jest": "^25.2.3",
+    "@types/lodash.memoize": "^4.1.6",
+    "@types/semver": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
     "cross-env": "^7.0.2",
     "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0",
+    "eslint-config-airbnb-typescript": "^7.2.1",
     "eslint-config-bliss": "^5.0.0",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
-    "flow-bin": "^0.125.1",
-    "flow-typed": "^3.1.0",
-    "jest": "^26.0.1"
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.2"
   },
   "dependencies": {
     "ast-metadata-inferer": "^0.2.0",
@@ -71,13 +79,6 @@
     "url": "https://opencollective.com/eslint-plugin-compat",
     "logo": "https://opencollective.com/opencollective/logo.txt"
   },
-  "eslintConfig": {
-    "extends": "bliss",
-    "env": {
-      "node": true,
-      "jest": true
-    }
-  },
   "babel": {
     "presets": [
       [
@@ -90,7 +91,7 @@
           }
         }
       ],
-      "@babel/preset-flow"
+      "@babel/preset-typescript"
     ]
   },
   "renovate": {

@@ -1,5 +1,5 @@
 import path from "path";
-import determineTargetsFromConfig, { versioning } from "../src/Versioning";
+import determineTargetsFromConfig, { versioning } from "../src/versioning";
 import multiEnvPackageJSON from "./multi-config.package.json";
 import singleArrayEnvPackageJSON from "./single-array-config.package.json";
 import singleVersionEnvPackageJSON from "./single-version-config.package.json";
@@ -49,7 +49,7 @@ describe("Versioning", () => {
       { target: "safari", version: "8", parsedVersion: 8 },
       { target: "ie", version: "9", parsedVersion: 9 },
       { target: "firefox", version: "20", parsedVersion: 20 },
-      { target: "chrome", version: "32", parsedVersion: 32 }
+      { target: "chrome", version: "32", parsedVersion: 32 },
     ]);
   });
 
@@ -59,7 +59,7 @@ describe("Versioning", () => {
       "chrome 30",
       "node 7",
       "chrome 30.5",
-      "firefox 50.5"
+      "firefox 50.5",
     ];
     expect(versioning(versions)).toMatchSnapshot();
   });

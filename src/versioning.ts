@@ -1,7 +1,7 @@
 /* eslint no-nested-ternary: off */
-// @flow
+
 import browserslist from "browserslist";
-import type { BrowserListConfig } from "./LintTypes";
+import { BrowserListConfig } from "./types";
 
 export const STANDARD_TARGET_NAME_MAPPING = {
   chrome: "Chrome",
@@ -25,20 +25,20 @@ export const STANDARD_TARGET_NAME_MAPPING = {
   opera_mini: "Opera Mini",
   opera_mobile: "Opera Mobile",
   node: "Node.js",
-  kaios: "KaiOS"
+  kaios: "KaiOS",
 };
 
 export function reverseTargetMappings(targetMappings) {
-  const reversedEntries = Object.entries(targetMappings).map(entry =>
+  const reversedEntries = Object.entries(targetMappings).map((entry) =>
     entry.reverse()
   );
   return Object.fromEntries(reversedEntries);
 }
 
 type TargetListItem = {
-  target: string,
-  parsedVersion: number,
-  version: string | "all"
+  target: string;
+  parsedVersion: number;
+  version: string | "all";
 };
 
 /**
@@ -82,27 +82,29 @@ export default function determineTargetsFromConfig(
 }
 
 /**
- * Take a list of targets returned from browserslist api, return the lowest version
- * version of each target
+ * @param targetslist - List of targest from browserslist api
+ * @returns  - The lowest version version of each target
+ *
  */
 export function versioning(targetslist: Array<string>): Array<TargetListItem> {
   return (
+    // Sort the targets by target name and then version number in ascending order
     targetslist
-      // Sort the targets by target name and then version number in ascending order
-      .map((e: string): TargetListItem => {
-        const [target, version] = e.split(" ");
-        return {
-          target,
-          version,
-          parsedVersion:
-            version === "all"
-              ? 0
-              : version.includes("-")
-              ? parseFloat(version.split("-")[0])
-              : parseFloat(version)
-        };
-      })
-      // Sort the targets by target name and then version number in descending order
+      .map(
+        (e: string): TargetListItem => {
+          const [target, version] = e.split(" ");
+          return {
+            target,
+            version,
+            parsedVersion:
+              version === "all"
+                ? 0
+                : version.includes("-")
+                ? parseFloat(version.split("-")[0])
+                : parseFloat(version),
+          };
+        }
+      ) // Sort the targets by target name and then version number in descending order
       // ex. [a@3, b@3, a@1] => [a@3, a@1, b@3]
       .sort((a: TargetListItem, b: TargetListItem): number => {
         if (b.target === a.target) {
@@ -114,12 +116,11 @@ export function versioning(targetslist: Array<string>): Array<TargetListItem> {
             : b.parsedVersion - a.parsedVersion;
         }
         return b.target > a.target ? 1 : -1;
-      })
-      // First last target always has the latest version
+      }) // First last target always has the latest version
       .filter(
         (e: TargetListItem, i: number, items: Array<TargetListItem>): boolean =>
-          // Check if the current target is the last of its kind. If it is, then it
-          // is most recent version
+          // Check if the current target is the last of its kind.
+          // If it is, then it's the most recent version.
           i + 1 === items.length || e.target !== items[i + 1].target
       )
   );
