@@ -53,16 +53,28 @@ export default function determineTargetsFromConfig(
 ): Array<string> {
   const browserslistOpts = { path: configPath };
 
-  // Get targets from eslint settings
-  if (Array.isArray(config) || typeof config === "string") {
-    return browserslist(config, browserslistOpts);
-  }
+  const eslintTargets = (() => {
+    // Get targets from eslint settings
+    if (Array.isArray(config) || typeof config === "string") {
+      return browserslist(config, browserslistOpts);
+    }
+    if (config && typeof config === "object") {
+      return browserslist(
+        [...(config.production || []), ...(config.development || [])],
+        browserslistOpts
+      );
+    }
+    return [];
+  })();
 
-  if (config && typeof config === "object") {
-    return browserslist(
-      [...(config.production || []), ...(config.development || [])],
-      browserslistOpts
-    );
+  if (browserslist.findConfig(configPath)) {
+    // If targets are defined in ESLint and browerslist configs, merge the targets together
+    if (eslintTargets.length) {
+      const browserslistTargets = browserslist(undefined, browserslistOpts);
+      return Array.from(new Set(eslintTargets.concat(browserslistTargets)));
+    }
+  } else if (eslintTargets.length) {
+    return eslintTargets;
   }
 
   // Get targets fron browserslist configs

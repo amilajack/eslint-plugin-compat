@@ -2,6 +2,7 @@
 
 ### Added
 - Support for feature detection of APIs ([#327](https://github.com/amilajack/eslint-plugin-compat/pull/327))
+- Implement expected behavior when defining targets in `eslintrc` and `browserslist` (this might be deprecated in the future)
 
 ### v3.7.0
 
