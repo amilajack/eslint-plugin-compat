@@ -88,7 +88,8 @@ export default function determineTargetsFromConfig(
  */
 export function versioning(targetslist: Array<string>): Array<TargetListItem> {
   return (
-    targetslist // Sort the targets by target name and then version number in ascending order
+    // Sort the targets by target name and then version number in ascending order
+    targetslist
       .map(
         (e: string): TargetListItem => {
           const [target, version] = e.split(" ");
