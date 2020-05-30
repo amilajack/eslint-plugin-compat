@@ -5,8 +5,8 @@ import {
   lintMemberExpression,
   lintNewExpression,
   lintExpressionStatement,
-} from "../Lint";
-import determineTargetsFromConfig, { versioning } from "../Versioning";
+} from "../lint";
+import determineTargetsFromConfig, { versioning } from "../versioning";
 import type { ESLintNode, Node, BrowserListConfig } from "../types";
 import { nodes } from "../providers";
 

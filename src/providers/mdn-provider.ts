@@ -4,7 +4,7 @@ import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import {
   STANDARD_TARGET_NAME_MAPPING,
   reverseTargetMappings,
-} from "../Versioning";
+} from "../versioning";
 import { Node, Targets, Target } from "../types";
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript

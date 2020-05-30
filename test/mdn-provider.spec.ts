@@ -1,5 +1,5 @@
-import determineTargetsFromConfig, { versioning } from "../src/Versioning";
-import { getUnsupportedTargets } from "../src/providers/MdnProvider";
+import determineTargetsFromConfig, { versioning } from "../src/versioning";
+import { getUnsupportedTargets } from "../src/providers/mdn-provider";
 
 describe("MdnProvider", () => {
   it("should support Safari TP", () => {

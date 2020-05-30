@@ -1,5 +1,5 @@
 import path from "path";
-import determineTargetsFromConfig, { versioning } from "../src/Versioning";
+import determineTargetsFromConfig, { versioning } from "../src/versioning";
 import multiEnvPackageJSON from "./multi-config.package.json";
 import singleArrayEnvPackageJSON from "./single-array-config.package.json";
 import singleVersionEnvPackageJSON from "./single-version-config.package.json";

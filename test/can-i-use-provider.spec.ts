@@ -1,5 +1,5 @@
-import determineTargetsFromConfig, { versioning } from "../src/Versioning";
-import { getUnsupportedTargets } from "../src/providers/CanIUseProvider";
+import determineTargetsFromConfig, { versioning } from "../src/versioning";
+import { getUnsupportedTargets } from "../src/providers/can-i-use-provider";
 import expectRangeResultJSON from "./expect-range-result-config.json";
 
 describe("CanIUseProvider", () => {
