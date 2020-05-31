@@ -252,6 +252,24 @@ ruleTester.run("compat", rule, {
   invalid: [
     {
       settings: {
+        browsers: ["ie 9"],
+      },
+      code: `
+        navigator.hardwareConcurrency;
+        navigator.serviceWorker;
+        new SharedWorker();
+      `,
+      errors: [
+        {
+          message: "navigator.serviceWorker() is not supported in IE 9",
+        },
+        {
+          message: "SharedWorker is not supported in IE 9",
+        },
+      ],
+    },
+    {
+      settings: {
         browsers: ["ie 8"],
       },
       code: `
