@@ -251,6 +251,25 @@ ruleTester.run("compat", rule, {
   ],
   invalid: [
     {
+      settings: {
+        browsers: ["ie 8"],
+      },
+      code: `
+        // it should throw an error here, but it doesn't
+        const event = new CustomEvent("cat", {
+          detail: {
+            hazcheeseburger: true
+          }
+        });
+        window.dispatchEvent(event);
+      `,
+      errors: [
+        {
+          message: "CustomEvent is not supported in IE 8",
+        },
+      ],
+    },
+    {
       code: "Array.from()",
       settings: {
         browsers: ["ie 8"],
