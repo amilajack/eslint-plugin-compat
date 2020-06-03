@@ -58,7 +58,7 @@ export function lintExpressionStatement(
 }
 
 function protoChainFromMemberExpression(node: ESLintNode): string {
-  if (node.type === "Identifier") return [node.name];
+  if (!node.object) return [node.name];
   const protoChain = (() => {
     switch (node.object.type) {
       case "NewExpression":
