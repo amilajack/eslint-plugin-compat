@@ -189,7 +189,6 @@ export function determineTargetsFromConfig(
  * ```
  * @param targetslist - List of targest from browserslist api
  * @returns - The lowest version version of each target
- *
  */
 export function parseBrowsersListVersion(
   targetslist: Array<string>
