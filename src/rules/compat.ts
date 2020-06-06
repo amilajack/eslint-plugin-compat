@@ -1,13 +1,22 @@
+/*
+2) logic that handles traversing AST 
+
+- does not handle looking up the API
+- handles checking what kinds of eslint nodes should be linted
+  - tells eslint to lint certain nodes  (lintCallExpression, lintMemberExpression, lintNewExpression)
+  - gets protochain for the ESLint nodes we're interested in
+, */
 import findUp from "find-up";
 import memoize from "lodash.memoize";
 import {
+  determineTargetsFromConfig,
   lintCallExpression,
   lintMemberExpression,
   lintNewExpression,
   lintExpressionStatement,
-} from "../lint";
-import determineTargetsFromConfig, { versioning } from "../versioning";
-import type { ESLintNode, Node, BrowserListConfig } from "../types";
+  parseBrowsersListVersion,
+} from "../helpers"; // will be deprecated and introduced to this file
+import { ESLintNode, Node, BrowserListConfig } from "../types";
 import { nodes } from "../providers";
 
 type ESLint = {
@@ -114,7 +123,7 @@ export default {
       context.settings?.polyfills?.includes("es:all") ||
       hasTranspiledConfigs(context.getFilename());
 
-    const browserslistTargets = versioning(
+    const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 

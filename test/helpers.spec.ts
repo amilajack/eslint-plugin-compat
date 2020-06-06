@@ -1,5 +1,8 @@
 import path from "path";
-import determineTargetsFromConfig, { versioning } from "../src/versioning";
+import {
+  determineTargetsFromConfig,
+  parseBrowsersListVersion,
+} from "../src/helpers";
 import multiEnvPackageJSON from "./multi-config.package.json";
 import singleArrayEnvPackageJSON from "./single-array-config.package.json";
 import singleVersionEnvPackageJSON from "./single-version-config.package.json";
@@ -10,7 +13,7 @@ describe("Versioning", () => {
       ".",
       multiEnvPackageJSON.browsers
     );
-    const result = versioning(config);
+    const result = parseBrowsersListVersion(config);
     expect(result).toMatchSnapshot();
   });
 
@@ -22,9 +25,9 @@ describe("Versioning", () => {
     const rootConfig = determineTargetsFromConfig(
       require.resolve("../package.json")
     );
-    const relativeConfigVersions = versioning(relativeConfig);
+    const relativeConfigVersions = parseBrowsersListVersion(relativeConfig);
     expect(relativeConfigVersions).toMatchSnapshot();
-    const rootConfigVersions = versioning(rootConfig);
+    const rootConfigVersions = parseBrowsersListVersion(rootConfig);
     expect(rootConfigVersions).toMatchSnapshot();
 
     expect(relativeConfigVersions).not.toEqual(rootConfigVersions);
@@ -35,7 +38,7 @@ describe("Versioning", () => {
       ".",
       singleArrayEnvPackageJSON.browsers
     );
-    const result = versioning(config);
+    const result = parseBrowsersListVersion(config);
     expect(result).toMatchSnapshot();
   });
 
@@ -44,7 +47,7 @@ describe("Versioning", () => {
       ".",
       singleVersionEnvPackageJSON.browsers
     );
-    const result = versioning(config);
+    const result = parseBrowsersListVersion(config);
     expect(result).toMatchSnapshot([
       { target: "safari", version: "8", parsedVersion: 8 },
       { target: "ie", version: "9", parsedVersion: 9 },
@@ -61,12 +64,12 @@ describe("Versioning", () => {
       "chrome 30.5",
       "firefox 50.5",
     ];
-    expect(versioning(versions)).toMatchSnapshot();
+    expect(parseBrowsersListVersion(versions)).toMatchSnapshot();
   });
 
   it("should support string config in rule option", () => {
     const config = determineTargetsFromConfig(".", "defaults, not ie < 9");
-    const result = versioning(config);
+    const result = parseBrowsersListVersion(config);
     expect(result).toMatchSnapshot();
   });
 

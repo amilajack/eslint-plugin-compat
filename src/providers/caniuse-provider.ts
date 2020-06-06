@@ -1,5 +1,5 @@
 import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
-import { STANDARD_TARGET_NAME_MAPPING } from "../versioning";
+import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { Node, Targets, Target } from "../types";
 
 type CanIUseStats = {

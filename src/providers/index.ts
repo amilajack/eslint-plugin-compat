@@ -1,4 +1,4 @@
-import canIUseNodes from "./can-i-use-provider";
+import canIUseNodes from "./caniuse-provider";
 import mdnNodes from "./mdn-provider";
 import type { Node } from "../types";
 
