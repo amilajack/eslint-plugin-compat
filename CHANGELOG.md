@@ -12,7 +12,7 @@
 
 ### Updates
 
-* Upgrade ESLint `peerDependency` to `7.0.0`
+- Allow ESLint `peerDependency` version `7.0.0`
 
 ### Fixed
 - Fixed many bugs reporting incorrect linter errors
