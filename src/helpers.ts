@@ -1,7 +1,14 @@
-import browserslist from "browserslist";
-import { Node, ESLintNode, BrowserListConfig } from "./types";
-
 /* eslint no-nested-ternary: off */
+import browserslist from "browserslist";
+import {
+  AstMetadataApiWithUnsupportedTargets,
+  ESLintNode,
+  BrowserListConfig,
+  Target,
+  HandleFailingRule,
+  Context,
+} from "./types";
+import { TargetNameMappings } from "./constants";
 
 /*
 3) Figures out which browsers user is targeting
@@ -12,53 +19,63 @@ import { Node, ESLintNode, BrowserListConfig } from "./types";
   - All of the rules have compatibility info attached to them
 - Each API is given to versioning.ts with compatibility info
 */
-function isInsideIfStatement(context) {
+function isInsideIfStatement(context: Context) {
   return context.getAncestors().some((ancestor) => {
     return ancestor.type === "IfStatement";
   });
 }
 
 function checkNotInsideIfStatementAndReport(
-  context,
-  reporter,
-  failingRule,
-  node
+  context: Context,
+  handleFailingRule: HandleFailingRule,
+  failingRule: AstMetadataApiWithUnsupportedTargets,
+  node: ESLintNode
 ) {
   if (!isInsideIfStatement(context)) {
-    reporter(failingRule, node);
+    handleFailingRule(failingRule, node);
   }
 }
 
 export function lintCallExpression(
-  context,
-  reporter: Function,
-  rules: Array<Node>,
+  context: Context,
+  handleFailingRule: HandleFailingRule,
+  rules: AstMetadataApiWithUnsupportedTargets[],
   node: ESLintNode
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
   const failingRule = rules.find((rule) => rule.object === calleeName);
   if (failingRule)
-    checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
+    checkNotInsideIfStatementAndReport(
+      context,
+      handleFailingRule,
+      failingRule,
+      node
+    );
 }
 
 export function lintNewExpression(
-  context,
-  reporter: Function,
-  rules: Array<Node>,
+  context: Context,
+  handleFailingRule: HandleFailingRule,
+  rules: Array<AstMetadataApiWithUnsupportedTargets>,
   node: ESLintNode
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
   const failingRule = rules.find((rule) => rule.object === calleeName);
   if (failingRule)
-    checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
+    checkNotInsideIfStatementAndReport(
+      context,
+      handleFailingRule,
+      failingRule,
+      node
+    );
 }
 
 export function lintExpressionStatement(
-  context,
-  reporter: Function,
-  rules: Node[],
+  context: Context,
+  handleFailingRule: HandleFailingRule,
+  rules: AstMetadataApiWithUnsupportedTargets[],
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
@@ -66,10 +83,15 @@ export function lintExpressionStatement(
     (rule) => rule.object === node.expression.name
   );
   if (failingRule)
-    checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
+    checkNotInsideIfStatementAndReport(
+      context,
+      handleFailingRule,
+      failingRule,
+      node
+    );
 }
 
-function protoChainFromMemberExpression(node: ESLintNode): string {
+function protoChainFromMemberExpression(node: ESLintNode): string[] {
   if (!node.object) return [node.name];
   const protoChain = (() => {
     switch (node.object.type) {
@@ -84,9 +106,9 @@ function protoChainFromMemberExpression(node: ESLintNode): string {
 }
 
 export function lintMemberExpression(
-  context,
-  reporter: Function,
-  rules: Array<Node>,
+  context: Context,
+  handleFailingRule: HandleFailingRule,
+  rules: Array<AstMetadataApiWithUnsupportedTargets>,
   node: ESLintNode
 ) {
   if (!node.object || !node.property) return;
@@ -106,7 +128,12 @@ export function lintMemberExpression(
       (rule) => rule.protoChainId === protoChainId
     );
     if (failingRule) {
-      checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
+      checkNotInsideIfStatementAndReport(
+        context,
+        handleFailingRule,
+        failingRule,
+        node
+      );
     }
   } else {
     const objectName = node.object.name;
@@ -117,22 +144,21 @@ export function lintMemberExpression(
         (rule.property == null || rule.property === propertyName)
     );
     if (failingRule)
-      checkNotInsideIfStatementAndReport(context, reporter, failingRule, node);
+      checkNotInsideIfStatementAndReport(
+        context,
+        handleFailingRule,
+        failingRule,
+        node
+      );
   }
 }
 
-export function reverseTargetMappings(targetMappings) {
+export function reverseTargetMappings(targetMappings: Record<string, string>) {
   const reversedEntries = Object.entries(targetMappings).map((entry) =>
     entry.reverse()
   );
   return Object.fromEntries(reversedEntries);
 }
-
-type TargetListItem = {
-  target: string;
-  parsedVersion: number;
-  version: string | "all";
-};
 
 /**
  * Determine the targets based on the browserslist config object
@@ -192,27 +218,34 @@ export function determineTargetsFromConfig(
  */
 export function parseBrowsersListVersion(
   targetslist: Array<string>
-): Array<TargetListItem> {
+): Array<Target> {
   return (
     // Sort the targets by target name and then version number in ascending order
     targetslist
       .map(
-        (e: string): TargetListItem => {
-          const [target, version] = e.split(" ");
+        (e: string): Target => {
+          const [target, version] = e.split(" ") as [
+            keyof TargetNameMappings,
+            number | string
+          ];
+
+          const parsedVersion: number = (() => {
+            if (typeof version === "number") return version;
+            if (version === "all") return 0;
+            return version.includes("-")
+              ? parseFloat(version.split("-")[0])
+              : parseFloat(version);
+          })();
+
           return {
             target,
             version,
-            parsedVersion:
-              version === "all"
-                ? 0
-                : version.includes("-")
-                ? parseFloat(version.split("-")[0])
-                : parseFloat(version),
+            parsedVersion,
           };
         }
       ) // Sort the targets by target name and then version number in descending order
       // ex. [a@3, b@3, a@1] => [a@3, a@1, b@3]
-      .sort((a: TargetListItem, b: TargetListItem): number => {
+      .sort((a: Target, b: Target): number => {
         if (b.target === a.target) {
           // If any version === 'all', return 0. The only version of op_mini is 'all'
           // Otherwise, compare the versions
@@ -224,7 +257,7 @@ export function parseBrowsersListVersion(
         return b.target > a.target ? 1 : -1;
       }) // First last target always has the latest version
       .filter(
-        (e: TargetListItem, i: number, items: Array<TargetListItem>): boolean =>
+        (e: Target, i: number, items: Array<Target>): boolean =>
           // Check if the current target is the last of its kind.
           // If it is, then it's the most recent version.
           i + 1 === items.length || e.target !== items[i + 1].target

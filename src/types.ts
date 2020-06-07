@@ -1,4 +1,8 @@
+import { Rule } from "eslint";
+import { TargetNameMappings } from "./constants";
+
 export type BrowserListConfig =
+  | string
   | Array<string>
   | {
       production?: Array<string>;
@@ -6,8 +10,10 @@ export type BrowserListConfig =
     }
   | null;
 
-export type node = {
-  type?: "MemberExpression" | "NewExpression" | "CallExpression";
+// @TODO Replace with types from ast-metadata-inferer
+// Types from ast-metadata-inferer
+type AstMetadataApi = {
+  type?: string;
   name?: string;
   object: string;
   property?: string;
@@ -15,33 +21,44 @@ export type node = {
   protoChain: Array<string>;
 };
 
-export type Target = {
-  target: string;
+export interface Target {
+  target: keyof TargetNameMappings;
+  parsedVersion: number;
   version: number | string | "all";
-};
+}
 
-export type Targets = Array<string>;
+export type HandleFailingRule = (
+  node: AstMetadataApiWithUnsupportedTargets,
+  eslintNode: ESLintNode
+) => void;
+
+export type TargetNames = Array<string>;
 
 export type ESLintNode = {
-  object?: node;
+  object?: AstMetadataApi;
   parent?: ESLintNode;
-  property?: node;
+  property?: AstMetadataApi;
   callee?: {
     name?: string;
     type?: string;
     computed: boolean;
-    object?: node;
-    property?: node;
+    object?: AstMetadataApi;
+    property?: AstMetadataApi;
   };
-} & node;
+} & AstMetadataApi;
 
-export type Node = {
-  astNodeType: string;
-  id: string;
-  object: string;
-  property?: string;
-  name?: string;
-  protoChainId: string;
-  protoChain: Array<string>;
-  getUnsupportedTargets: (node: Node, targets: Targets) => Array<string>;
-};
+export interface AstMetadataApiWithUnsupportedTargets extends AstMetadataApi {
+  getUnsupportedTargets: (
+    node: AstMetadataApiWithUnsupportedTargets,
+    targets: Target[]
+  ) => Array<string>;
+}
+
+export interface Context extends Rule.RuleContext {
+  settings?: {
+    targets?: string[];
+    browsers?: Array<string>;
+    polyfills?: Array<string>;
+    lintAllEsApis?: boolean;
+  };
+}

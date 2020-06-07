@@ -1,6 +1,6 @@
 import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
 import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
-import { Node, Targets, Target } from "../types";
+import { AstMetadataApiWithUnsupportedTargets, Target } from "../types";
 
 type CanIUseStats = {
   [browser: string]: {
@@ -46,7 +46,7 @@ function areVersionsEqual(
  * be found because they could belong to another provider
  */
 function isSupportedByCanIUse(
-  node: Node,
+  node: AstMetadataApiWithUnsupportedTargets,
   { version, target, parsedVersion }: Target
 ): boolean {
   const data = (canIUseRecords as CanIUseRecords).data[node.caniuseId];
@@ -57,7 +57,7 @@ function isSupportedByCanIUse(
 
   const targetStats = stats[target];
 
-  if (versionIsRange(version)) {
+  if (typeof version === "string" && versionIsRange(version)) {
     return Object.keys(targetStats).some((statsVersion: string): boolean =>
       versionIsRange(statsVersion) &&
       areVersionsEqual(parsedVersion, statsVersion)
@@ -79,15 +79,15 @@ function isSupportedByCanIUse(
  * Return an array of all unsupported targets
  */
 export function getUnsupportedTargets(
-  node: Node,
-  targets: Targets
-): Array<string> {
+  node: AstMetadataApiWithUnsupportedTargets,
+  targets: Target[]
+): string[] {
   return targets
     .filter((target) => !isSupportedByCanIUse(node, target))
     .map(formatTargetNames);
 }
 
-const CanIUseProvider: Array<Node> = [
+const CanIUseProvider: Array<AstMetadataApiWithUnsupportedTargets> = [
   // new ServiceWorker()
   {
     caniuseId: "serviceworkers",
