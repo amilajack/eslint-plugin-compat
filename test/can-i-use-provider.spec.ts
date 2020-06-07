@@ -1,5 +1,8 @@
-import determineTargetsFromConfig, { versioning } from "../src/versioning";
-import { getUnsupportedTargets } from "../src/providers/can-i-use-provider";
+import {
+  determineTargetsFromConfig,
+  parseBrowsersListVersion,
+} from "../src/helpers";
+import { getUnsupportedTargets } from "../src/providers/caniuse-provider";
 import expectRangeResultJSON from "./expect-range-result-config.json";
 
 describe("CanIUseProvider", () => {
@@ -9,7 +12,7 @@ describe("CanIUseProvider", () => {
       ".",
       expectRangeResultJSON.browsers
     );
-    const targets = versioning(config);
+    const targets = parseBrowsersListVersion(config);
     const result = getUnsupportedTargets(node, targets);
     expect(result).toMatchSnapshot();
   });

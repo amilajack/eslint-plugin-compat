@@ -1,4 +1,5 @@
 /**
+ * Step 1) Entry point of plugin. Exports itself for eslint to use
  * @author Amila Welihinda
  */
 

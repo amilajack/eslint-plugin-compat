@@ -1,10 +1,8 @@
 import apiMetadata from "ast-metadata-inferer";
 import semver from "semver";
 import { ApiMetadata } from "ast-metadata-inferer/lib/types";
-import {
-  STANDARD_TARGET_NAME_MAPPING,
-  reverseTargetMappings,
-} from "../versioning";
+import { reverseTargetMappings } from "../helpers";
+import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { Node, Targets, Target } from "../types";
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
