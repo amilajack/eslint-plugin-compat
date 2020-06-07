@@ -1,20 +1,19 @@
 /*
-2) logic that handles traversing AST 
-
-- does not handle looking up the API
-- handles checking what kinds of eslint nodes should be linted
-  - tells eslint to lint certain nodes  (lintCallExpression, lintMemberExpression, lintNewExpression)
-  - gets protochain for the ESLint nodes we're interested in
-, */
+ * Step 2) Logic that handles AST traversal
+ * Does not handle looking up the API
+ * Handles checking what kinds of eslint nodes should be linted
+ *   Tells eslint to lint certain nodes  (lintCallExpression, lintMemberExpression, lintNewExpression)
+ *   Gets protochain for the ESLint nodes the plugin is interested in
+ */
 import findUp from "find-up";
 import memoize from "lodash.memoize";
 import {
-  determineTargetsFromConfig,
   lintCallExpression,
   lintMemberExpression,
   lintNewExpression,
   lintExpressionStatement,
   parseBrowsersListVersion,
+  determineTargetsFromConfig,
 } from "../helpers"; // will be deprecated and introduced to this file
 import { ESLintNode, Node, BrowserListConfig } from "../types";
 import { nodes } from "../providers";

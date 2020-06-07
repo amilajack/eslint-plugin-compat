@@ -1,5 +1,5 @@
-// 1. Exports plugin for eslint to use
 /**
+ * Step 1) Entry point of plugin. Exports itself for eslint to use
  * @author Amila Welihinda
  */
 

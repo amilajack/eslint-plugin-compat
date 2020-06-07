@@ -1,4 +1,4 @@
-// reconmmended configs for this plugin
+// Reconmmended configs for this plugin
 export default {
   plugins: ["compat"],
   env: {
