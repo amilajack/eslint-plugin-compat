@@ -4,7 +4,7 @@ import rule from "../src/rules/compat";
 const ruleTester = new RuleTester({
   parserOptions: { ecmaVersion: 2015, sourceType: "module" },
   settings: {
-    forceAllEsApis: true,
+    lintAllEsApis: true,
   },
 });
 
@@ -15,7 +15,7 @@ ruleTester.run("compat", rule, {
       code: `
         Array.from()
       `,
-      settings: { browsers: ["ExplorerMobile 10"], forceAllEsApis: false },
+      settings: { browsers: ["ExplorerMobile 10"] },
     },
     // Feature detection Cases
     {

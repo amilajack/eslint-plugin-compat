@@ -5,6 +5,7 @@
  *   Tells eslint to lint certain nodes  (lintCallExpression, lintMemberExpression, lintNewExpression)
  *   Gets protochain for the ESLint nodes the plugin is interested in
  */
+import fs from "fs";
 import findUp from "find-up";
 import memoize from "lodash.memoize";
 import {
@@ -15,22 +16,17 @@ import {
   parseBrowsersListVersion,
   determineTargetsFromConfig,
 } from "../helpers"; // will be deprecated and introduced to this file
-import { ESLintNode, Node, BrowserListConfig } from "../types";
+import {
+  ESLintNode,
+  AstMetadataApiWithUnsupportedTargets,
+  BrowserListConfig,
+  HandleFailingRule,
+  Context,
+} from "../types";
 import { nodes } from "../providers";
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void;
-};
-
-type Context = {
-  node: ESLintNode;
-  options: Array<string>;
-  settings: {
-    browsers: Array<string>;
-    polyfills: Array<string>;
-  };
-  getFilename: () => string;
-  report: () => void;
 };
 
 function getName(node: ESLintNode): string {
@@ -52,7 +48,7 @@ function getName(node: ESLintNode): string {
   }
 }
 
-function generateErrorName(rule: Node): string {
+function generateErrorName(rule: AstMetadataApiWithUnsupportedTargets): string {
   if (rule.name) return rule.name;
   if (rule.property) return `${rule.object}.${rule.property}()`;
   return rule.object;
@@ -63,8 +59,11 @@ const getPolyfillSet = memoize(
     new Set(JSON.parse(polyfillArrayJSON))
 );
 
-function isPolyfilled(context: Context, rule: Node): boolean {
-  if (!context.settings.polyfills) return false;
+function isPolyfilled(
+  context: Context,
+  rule: AstMetadataApiWithUnsupportedTargets
+): boolean {
+  if (!context.settings?.polyfills) return false;
   const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
   return (
     // v2 allowed users to select polyfills based off their caniuseId. This is
@@ -85,15 +84,29 @@ const items = [
   "tsconfig.json",
 ];
 
-function hasTranspiledConfigs(dir: string): void {
-  const configPath = findUp.sync.exists(items, {
+/**
+ * Determine if a user has a TS or babel config. This is used to infer if a user is transpiling their code.
+ * If transpiling code, do not lint ES APIs. We assume that all transpiled code is polyfilled.
+ * @TODO Use @babel/core to find config. See https://github.com/babel/babel/discussions/11602
+ * @param dir @
+ */
+function isUsingTranspiler(context: Context): boolean {
+  // If tsconfig config exists in parser options, assume transpilation
+  if (context.parserOptions?.tsconfigRootDir === true) return true;
+  const dir = context.getFilename();
+  const configPath = findUp.sync(items, {
     cwd: dir,
   });
   if (configPath) return true;
-  const { babel } = findUp.sync.exists("package.json", {
+  const pkgPath = findUp.sync("package.json", {
     cwd: dir,
   });
-  return !!babel;
+  // Check if babel property exists
+  if (pkgPath) {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
+    return !!pkg.babel;
+  }
+  return false;
 }
 
 export default {
@@ -112,22 +125,33 @@ export default {
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
     const browserslistConfig: BrowserListConfig =
-      context.settings.browsers ||
-      context.settings.targets ||
+      context.settings?.browsers ||
+      context.settings?.targets ||
       context.options[0];
 
-    const ignoreAllEsApis: boolean =
-      (context.settings.forceAllEsApis !== true &&
-        !!context.parserOptions?.tsconfigRootDir) ||
-      context.settings?.polyfills?.includes("es:all") ||
-      hasTranspiledConfigs(context.getFilename());
-
+    const lintAllEsApis: boolean =
+      context.settings?.lintAllEsApis === true ||
+      // Attempt to infer polyfilling of ES APIs from ts or babel config
+      (!context.settings?.polyfills?.includes("es:all") &&
+        !isUsingTranspiler(context));
     const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
+    type RulesFilteredByTargets = {
+      CallExpression: AstMetadataApiWithUnsupportedTargets[];
+      NewExpression: AstMetadataApiWithUnsupportedTargets[];
+      MemberExpression: AstMetadataApiWithUnsupportedTargets[];
+      ExpressionStatement: AstMetadataApiWithUnsupportedTargets[];
+    };
+
+    /**
+     * A small optimization that only lints APIs that are not supported by targeted browsers.
+     * For example, if the user is targeting chrome 50, which supports the fetch API, it is
+     * wasteful to lint calls to fetch.
+     */
     const getRulesForTargets = memoize(
-      (targetsJSON: string): Object => {
+      (targetsJSON: string): RulesFilteredByTargets => {
         const result = {
           CallExpression: [],
           NewExpression: [],
@@ -138,11 +162,11 @@ export default {
 
         nodes
           .filter((node) => {
-            return ignoreAllEsApis ? node.kind !== "es" : true;
+            return lintAllEsApis ? true : node.kind !== "es";
           })
           .forEach((node) => {
             if (!node.getUnsupportedTargets(node, targets).length) return;
-            result[node.astNodeType].push(node);
+            result[node.astNodeType as keyof RulesFilteredByTargets].push(node);
           });
 
         return result;
@@ -154,9 +178,17 @@ export default {
       JSON.stringify(browserslistTargets)
     );
 
-    const errors = [];
+    type Error = {
+      message: string;
+      node: ESLintNode;
+    };
 
-    function handleFailingRule(node: Node, eslintNode: ESLintNode) {
+    const errors: Error[] = [];
+
+    const handleFailingRule: HandleFailingRule = (
+      node: AstMetadataApiWithUnsupportedTargets,
+      eslintNode: ESLintNode
+    ) => {
       if (isPolyfilled(context, node)) return;
       errors.push({
         node: eslintNode,
@@ -166,7 +198,7 @@ export default {
           node.getUnsupportedTargets(node, browserslistTargets).join(", "),
         ].join(" "),
       });
-    }
+    };
 
     const identifiers = new Set();
 

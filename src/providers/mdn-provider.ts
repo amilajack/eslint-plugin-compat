@@ -3,17 +3,34 @@ import semver from "semver";
 import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import { reverseTargetMappings } from "../helpers";
 import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
-import { Node, Targets, Target } from "../types";
+import { AstMetadataApiWithUnsupportedTargets, Target } from "../types";
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
 const mdnRecords: Map<string, ApiMetadata> = new Map(
   apiMetadata.map((e) => [e.protoChainId, e])
 );
 
+interface TargetIdMappings {
+  chrome: "chrome";
+  firefox: "firefox";
+  opera: "opera";
+  safari: "safari";
+  safari_ios: "ios_saf";
+  ie: "ie";
+  edge_mobile: "ie_mob";
+  edge: "edge";
+  opera_android: "and_opera";
+  chrome_android: "and_chrome";
+  firefox_android: "and_firefox";
+  webview_android: "and_webview";
+  samsunginternet_android: "and_samsung";
+  nodejs: "node";
+}
+
 /**
  * Map ids of mdn targets to their "common/friendly" name
  */
-const targetIdMappings = {
+const targetIdMappings: Readonly<TargetIdMappings> = {
   chrome: "chrome",
   firefox: "firefox",
   opera: "opera",
@@ -51,7 +68,7 @@ function customCoerce(version: string): string {
  * Return if MDN supports the API or not
  */
 export function isSupportedByMDN(
-  node: Node,
+  node: AstMetadataApiWithUnsupportedTargets,
   { version, target: mdnTarget }: Target
 ): boolean {
   const target = reversedTargetMappings[mdnTarget];
@@ -106,15 +123,15 @@ export function isSupportedByMDN(
  * Return an array of all unsupported targets
  */
 export function getUnsupportedTargets(
-  node: Node,
-  targets: Targets
-): Array<string> {
+  node: AstMetadataApiWithUnsupportedTargets,
+  targets: Target[]
+): string[] {
   return targets
     .filter((target) => !isSupportedByMDN(node, target))
     .map(formatTargetNames);
 }
 
-function getMetadataName(metadata: Node) {
+function getMetadataName(metadata: AstMetadataApiWithUnsupportedTargets) {
   switch (metadata.protoChain.length) {
     case 1: {
       return metadata.protoChain[0];
@@ -124,7 +141,7 @@ function getMetadataName(metadata: Node) {
   }
 }
 
-const MdnProvider: Array<Node> = apiMetadata
+const MdnProvider: Array<AstMetadataApiWithUnsupportedTargets> = apiMetadata
   // Create entries for each ast node type
   .map((metadata) =>
     metadata.astNodeTypes.map((astNodeType) => ({
