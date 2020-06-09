@@ -37,6 +37,7 @@ export type TargetNames = Array<string>;
 export type ESLintNode = {
   object?: AstMetadataApi;
   parent?: ESLintNode;
+  expression?: ESLintNode;
   property?: AstMetadataApi;
   callee?: {
     name?: string;
