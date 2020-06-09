@@ -16,6 +16,7 @@ type AstMetadataApi = {
   type?: string;
   name?: string;
   object: string;
+  astNodeType: string; // "MemberExpression" | "CallExpression" | "NewExpression"
   property?: string;
   protoChainId: string;
   protoChain: Array<string>;
