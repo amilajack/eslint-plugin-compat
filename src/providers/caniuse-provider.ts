@@ -2,14 +2,20 @@ import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
 import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { AstMetadataApiWithUnsupportedTargets, Target } from "../types";
 
+type CanIUseRecords = {
+  data: CanIUseData;
+};
+
+type CanIUseData = {
+  [api: string]: {
+    stats: CanIUseStats;
+  };
+};
+
 type CanIUseStats = {
   [browser: string]: {
     [version: string]: string;
   };
-};
-
-type CanIUseRecords = {
-  data: CanIUseStats;
 };
 
 /**
