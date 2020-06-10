@@ -16,6 +16,7 @@ type AstMetadataApi = {
   type?: string;
   name?: string;
   object: string;
+  astNodeType: "MemberExpression" | "CallExpression" | "NewExpression";
   property?: string;
   protoChainId: string;
   protoChain: Array<string>;
@@ -37,6 +38,7 @@ export type TargetNames = Array<string>;
 export type ESLintNode = {
   object?: AstMetadataApi;
   parent?: ESLintNode;
+  expression?: ESLintNode;
   property?: AstMetadataApi;
   callee?: {
     name?: string;
