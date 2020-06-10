@@ -18,7 +18,7 @@ import {
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
   ESLintNode,
-  AstMetadataApiWithUnsupportedTargets,
+  AstMetadataApiWithTargetsResolver,
   BrowserListConfig,
   HandleFailingRule,
   Context,
@@ -48,7 +48,7 @@ function getName(node: ESLintNode): string {
   }
 }
 
-function generateErrorName(rule: AstMetadataApiWithUnsupportedTargets): string {
+function generateErrorName(rule: AstMetadataApiWithTargetsResolver): string {
   if (rule.name) return rule.name;
   if (rule.property) return `${rule.object}.${rule.property}()`;
   return rule.object;
@@ -61,7 +61,7 @@ const getPolyfillSet = memoize(
 
 function isPolyfilled(
   context: Context,
-  rule: AstMetadataApiWithUnsupportedTargets
+  rule: AstMetadataApiWithTargetsResolver
 ): boolean {
   if (!context.settings?.polyfills) return false;
   const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
@@ -139,10 +139,10 @@ export default {
     );
 
     type RulesFilteredByTargets = {
-      CallExpression: AstMetadataApiWithUnsupportedTargets[];
-      NewExpression: AstMetadataApiWithUnsupportedTargets[];
-      MemberExpression: AstMetadataApiWithUnsupportedTargets[];
-      ExpressionStatement: AstMetadataApiWithUnsupportedTargets[];
+      CallExpression: AstMetadataApiWithTargetsResolver[];
+      NewExpression: AstMetadataApiWithTargetsResolver[];
+      MemberExpression: AstMetadataApiWithTargetsResolver[];
+      ExpressionStatement: AstMetadataApiWithTargetsResolver[];
     };
 
     /**
@@ -186,7 +186,7 @@ export default {
     const errors: Error[] = [];
 
     const handleFailingRule: HandleFailingRule = (
-      node: AstMetadataApiWithUnsupportedTargets,
+      node: AstMetadataApiWithTargetsResolver,
       eslintNode: ESLintNode
     ) => {
       if (isPolyfilled(context, node)) return;
