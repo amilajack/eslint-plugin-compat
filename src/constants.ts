@@ -52,14 +52,8 @@ export const STANDARD_TARGET_NAME_MAPPING: Readonly<TargetNameMappings> = {
   kaios: "KaiOS",
 };
 
-export interface AstNodeTypes {
-  member_expression: "MemberExpression";
-  call_expression: "CallExpression";
-  new_expression: "NewExpression";
+export enum AstNodeTypes {
+  MemberExpression = "MemberExpression",
+  CallExpression = "CallExpression",
+  NewExpression = "NewExpression",
 }
-
-export const AST_NODE_TYPES: Readonly<AstNodeTypes> = {
-  member_expression: "MemberExpression",
-  call_expression: "CallExpression",
-  new_expression: "NewExpression",
-};
