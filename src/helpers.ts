@@ -1,7 +1,7 @@
 /* eslint no-nested-ternary: off */
 import browserslist from "browserslist";
 import {
-  AstMetadataApiWithUnsupportedTargets,
+  AstMetadataApiWithTargetsResolver,
   ESLintNode,
   BrowserListConfig,
   Target,
@@ -28,7 +28,7 @@ function isInsideIfStatement(context: Context) {
 function checkNotInsideIfStatementAndReport(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  failingRule: AstMetadataApiWithUnsupportedTargets,
+  failingRule: AstMetadataApiWithTargetsResolver,
   node: ESLintNode
 ) {
   if (!isInsideIfStatement(context)) {
@@ -39,7 +39,7 @@ function checkNotInsideIfStatementAndReport(
 export function lintCallExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithUnsupportedTargets[],
+  rules: AstMetadataApiWithTargetsResolver[],
   node: ESLintNode
 ) {
   if (!node.callee) return;
@@ -57,7 +57,7 @@ export function lintCallExpression(
 export function lintNewExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithUnsupportedTargets>,
+  rules: Array<AstMetadataApiWithTargetsResolver>,
   node: ESLintNode
 ) {
   if (!node.callee) return;
@@ -75,7 +75,7 @@ export function lintNewExpression(
 export function lintExpressionStatement(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithUnsupportedTargets[],
+  rules: AstMetadataApiWithTargetsResolver[],
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
@@ -108,7 +108,7 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithUnsupportedTargets>,
+  rules: Array<AstMetadataApiWithTargetsResolver>,
   node: ESLintNode
 ) {
   if (!node.object || !node.property) return;

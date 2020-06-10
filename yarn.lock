@@ -1653,10 +1653,10 @@ ast-metadata-inferer@^0.1.1:
   resolved "https://registry.yarnpkg.com/ast-metadata-inferer/-/ast-metadata-inferer-0.1.1.tgz#66e24fae9d30ca961fac4880b7fc466f09b25165"
   integrity sha512-hc9w8Qrgg9Lf9iFcZVhNjUnhrd2BBpTlyCnegPVvCe6O0yMrF57a6Cmh7k+xUsfUOMh9wajOL5AsGOBNEyTCcw==
 
-ast-metadata-inferer@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ast-metadata-inferer/-/ast-metadata-inferer-0.2.0.tgz#a470e5d1d7402b18c6f7a1f3d6900723cfa07392"
-  integrity sha512-6yPph2NeCHNxoI/ZmjklYaLOSZDAx+0L0+wsXnF56FxmjxvUlYZSWcj1KXtXO8IufruQTzVFOjg1+IzdDazSPg==
+ast-metadata-inferer@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ast-metadata-inferer/-/ast-metadata-inferer-0.3.0.tgz#fbadea5285651c23e51bd0e05db89464e537b2df"
+  integrity sha512-Xri6yN1Ypjpb2cfcbwEppeHPgvmhyDImhqEFc3yFuo4K2GqL14EMfn3AB8DFjNt9nT4/06c2Y1utJf55zBUJ+g==
 
 astral-regex@^1.0.0:
   version "1.0.0"

@@ -28,7 +28,7 @@ export interface Target {
 }
 
 export type HandleFailingRule = (
-  node: AstMetadataApiWithUnsupportedTargets,
+  node: AstMetadataApiWithTargetsResolver,
   eslintNode: ESLintNode
 ) => void;
 
@@ -47,9 +47,9 @@ export type ESLintNode = {
   };
 } & AstMetadataApi;
 
-export interface AstMetadataApiWithUnsupportedTargets extends AstMetadataApi {
+export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
   getUnsupportedTargets: (
-    node: AstMetadataApiWithUnsupportedTargets,
+    node: AstMetadataApiWithTargetsResolver,
     targets: Target[]
   ) => Array<string>;
 }

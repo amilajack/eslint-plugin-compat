@@ -3,10 +3,10 @@
  */
 import canIUseNodes from "./caniuse-provider";
 import mdnNodes from "./mdn-provider";
-import type { AstMetadataApiWithUnsupportedTargets } from "../types";
+import type { AstMetadataApiWithTargetsResolver } from "../types";
 
 // eslint-disable-next-line import/prefer-default-export
-export const nodes: Array<AstMetadataApiWithUnsupportedTargets> = [
+export const nodes: Array<AstMetadataApiWithTargetsResolver> = [
   ...canIUseNodes,
   ...mdnNodes,
 ];

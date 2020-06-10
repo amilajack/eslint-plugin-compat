@@ -3,11 +3,13 @@ import semver from "semver";
 import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import { reverseTargetMappings } from "../helpers";
 import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
-import { AstMetadataApiWithUnsupportedTargets, Target } from "../types";
+import { AstMetadataApiWithTargetsResolver, Target } from "../types";
+
+const apis = apiMetadata as ApiMetadata[];
 
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
 const mdnRecords: Map<string, ApiMetadata> = new Map(
-  apiMetadata.map((e) => [e.protoChainId, e])
+  apis.map((e) => [e.protoChainId, e])
 );
 
 interface TargetIdMappings {
@@ -68,7 +70,7 @@ function customCoerce(version: string): string {
  * Return if MDN supports the API or not
  */
 export function isSupportedByMDN(
-  node: AstMetadataApiWithUnsupportedTargets,
+  node: AstMetadataApiWithTargetsResolver,
   { version, target: mdnTarget }: Target
 ): boolean {
   const target = reversedTargetMappings[mdnTarget];
@@ -123,7 +125,7 @@ export function isSupportedByMDN(
  * Return an array of all unsupported targets
  */
 export function getUnsupportedTargets(
-  node: AstMetadataApiWithUnsupportedTargets,
+  node: AstMetadataApiWithTargetsResolver,
   targets: Target[]
 ): string[] {
   return targets
@@ -131,7 +133,7 @@ export function getUnsupportedTargets(
     .map(formatTargetNames);
 }
 
-function getMetadataName(metadata: AstMetadataApiWithUnsupportedTargets) {
+function getMetadataName(metadata: ApiMetadata) {
   switch (metadata.protoChain.length) {
     case 1: {
       return metadata.protoChain[0];
@@ -141,7 +143,7 @@ function getMetadataName(metadata: AstMetadataApiWithUnsupportedTargets) {
   }
 }
 
-const MdnProvider: Array<AstMetadataApiWithUnsupportedTargets> = apiMetadata
+const MdnProvider: Array<AstMetadataApiWithTargetsResolver> = apis
   // Create entries for each ast node type
   .map((metadata) =>
     metadata.astNodeTypes.map((astNodeType) => ({
