@@ -1,15 +1,21 @@
 import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
-import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
+import { STANDARD_TARGET_NAME_MAPPING, AstNodeTypes } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
+
+type CanIUseRecords = {
+  data: CanIUseData;
+};
+
+type CanIUseData = {
+  [api: string]: {
+    stats: CanIUseStats;
+  };
+};
 
 type CanIUseStats = {
   [browser: string]: {
     [version: string]: string;
   };
-};
-
-type CanIUseRecords = {
-  data: CanIUseStats;
 };
 
 /**
@@ -91,150 +97,150 @@ const CanIUseProvider: Array<AstMetadataApiWithTargetsResolver> = [
   // new ServiceWorker()
   {
     caniuseId: "serviceworkers",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "ServiceWorker",
   },
   {
     caniuseId: "serviceworkers",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "navigator",
     property: "serviceWorker",
   },
   // document.querySelector()
   {
     caniuseId: "queryselector",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "document",
     property: "querySelector",
   },
   // IntersectionObserver
   {
     caniuseId: "intersectionobserver",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "IntersectionObserver",
   },
   // ResizeObserver
   {
     caniuseId: "resizeobserver",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "ResizeObserver",
   },
   // PaymentRequest
   {
     caniuseId: "payment-request",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "PaymentRequest",
   },
   // Promises
   {
     caniuseId: "promises",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Promise",
   },
   {
     caniuseId: "promises",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "Promise",
     property: "resolve",
   },
   {
     caniuseId: "promises",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "Promise",
     property: "all",
   },
   {
     caniuseId: "promises",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "Promise",
     property: "race",
   },
   {
     caniuseId: "promises",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "Promise",
     property: "reject",
   },
   // fetch
   {
     caniuseId: "fetch",
-    astNodeType: "CallExpression",
+    astNodeType: AstNodeTypes.CallExpression,
     object: "fetch",
   },
   // document.currentScript()
   {
     caniuseId: "document-currentscript",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "document",
     property: "currentScript",
   },
   // URL
   {
     caniuseId: "url",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "URL",
   },
   // URLSearchParams
   {
     caniuseId: "urlsearchparams",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "URLSearchParams",
   },
   // performance.now()
   {
     caniuseId: "high-resolution-time",
-    astNodeType: "MemberExpression",
+    astNodeType: AstNodeTypes.MemberExpression,
     object: "performance",
     property: "now",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "TypedArray",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Int8Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Uint8Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Uint8ClampedArray",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Int16Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Uint16Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Int32Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Uint32Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Float32Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: "NewExpression",
+    astNodeType: AstNodeTypes.NewExpression,
     object: "Float64Array",
   },
 ].map((rule) => ({

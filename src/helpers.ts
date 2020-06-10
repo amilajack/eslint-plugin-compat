@@ -80,7 +80,7 @@ export function lintExpressionStatement(
 ) {
   if (!node?.expression?.name) return;
   const failingRule = rules.find(
-    (rule) => rule.object === node.expression.name
+    (rule) => rule.object === node?.expression?.name
   );
   if (failingRule)
     checkNotInsideIfStatementAndReport(

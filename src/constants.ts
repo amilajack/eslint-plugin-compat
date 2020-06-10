@@ -51,3 +51,9 @@ export const STANDARD_TARGET_NAME_MAPPING: Readonly<TargetNameMappings> = {
   node: "Node.js",
   kaios: "KaiOS",
 };
+
+export enum AstNodeTypes {
+  MemberExpression = "MemberExpression",
+  CallExpression = "CallExpression",
+  NewExpression = "NewExpression",
+}
