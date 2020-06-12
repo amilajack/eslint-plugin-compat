@@ -26,7 +26,7 @@
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
-    "benchmarks": "babel test/benchmarks.ts --out-dir benchmarks-tmp/ --source-maps inline --extensions '.ts' && node -r source-map-support/register benchmarks-tmp/benchmarks.js",
+    "benchmarks": "cross-env NODE_ENV=production babel test/benchmarks.ts --out-dir benchmarks-tmp --source-maps inline --extensions '.ts' && node -r source-map-support/register benchmarks-tmp/benchmarks.js",
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest",
