@@ -92,6 +92,7 @@ steps:
       path: $(YARN_CACHE_FOLDER)
     displayName: Cache Yarn packages
   - script: yarn --frozen-lockfile && yarn add --dev $(eslintVersion) && yarn test
+  - script: yarn benchmarks
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
   - task: PublishCodeCoverageResults@1
