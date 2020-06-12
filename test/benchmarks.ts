@@ -66,39 +66,50 @@ async function getRepo({ remoteLink, location }: RepoInfo) {
     });
 }
 
+async function editBrowserslistrc(path: string, val: Array<string>) {
+  const file = await fs.readFile(path);
+  const json = JSON.parse(file.toString());
+  json.browserslist = val;
+  await fs.writeFile(path, JSON.stringify(json));
+}
+
 async function getBenchmark(repoInfo: RepoInfo) {
-  console.log(`Benchmarking ${repoInfo.remoteLink}`);
+  const { name, remoteLink, targetGitRef, eslintOptions, location } = repoInfo;
+  console.log(`Retrieving ${remoteLink}`);
   const repo = await getRepo(repoInfo);
-  const ref = await repo.getReference(repoInfo.targetGitRef);
-  const eslint = new ESLint(repoInfo.eslintOptions);
-  console.log(`Checking out ${repoInfo.name} ${repoInfo.targetGitRef}`);
+  const ref = await repo.getReference(targetGitRef);
+  const eslint = new ESLint(eslintOptions);
+  console.log(`Checking out ${name} ${targetGitRef}`);
   await repo.checkoutRef(ref);
-  console.log(`Running ESLint on ${repoInfo.name}`);
+  if (repoInfo.browserslist) {
+    const packageJsonPath = `${location}/package.json`;
+    console.log(`Editing browserslistrc in ${packageJsonPath}`);
+    await editBrowserslistrc(packageJsonPath, repoInfo.browserslist);
+  }
 
   const benchmark = new Benchmark(
-    repoInfo.name,
+    name,
     (deferred: { resolve: Function }) => {
       eslint
-        .lintFiles(repoInfo.location)
-        .then(() => deferred.resolve())
+        .lintFiles(location)
+        .then(() => {
+          return deferred.resolve();
+        })
         .catch((e) => console.error(e));
     },
     {
       onStart: () => {
-        console.log(`Starting benchmark ${repoInfo.name}`);
+        console.log(`Starting ${name} ${targetGitRef} ESLint benchmark`);
       },
       onComplete: () => {
-        console.log(`Completed benchmark ${repoInfo.name}`);
-      },
-      onCycle: () => {
-        console.log("In between cycle");
+        console.log(`Completed benchmark ${name}`);
       },
       onError: () => {
-        console.error("wrong");
         console.error(benchmark.error);
       },
       async: true,
       defer: true,
+      maxTime: 30,
     }
   );
   return benchmark;
@@ -110,15 +121,18 @@ async function getBenchmark(repoInfo: RepoInfo) {
   });
 
   const resolvedBenchmarks = await Promise.all(benchmarks);
-  const res = Benchmark.invoke(resolvedBenchmarks, {
+  const completedBenchmarks = Benchmark.invoke(resolvedBenchmarks, {
     name: "run",
-    queued: true,
+    async: true,
     onStart: () => console.log(`Starting benchmark suite`),
-    onCycle: () => console.log(`Benchmarking ${res[0]}`),
-
     onComplete: () => {
       console.log("Finished benchmark suite");
-      console.log(res);
+      const reports = completedBenchmarks.map((e) => ({
+        name: e.name,
+        stats: e.stats,
+        sample: e.stats.sample,
+      }));
+      console.log(reports);
     },
   });
 })().catch((e) => {
