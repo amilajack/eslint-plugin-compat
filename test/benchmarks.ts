@@ -11,6 +11,7 @@ type RepoInfo = {
   remoteLink: string;
   targetGitRef: string;
   filePatterns: Array<string>;
+  browserslist?: Array<string>;
   eslintOptions: ESLint.Options;
 };
 
@@ -29,6 +30,23 @@ const repos: Array<RepoInfo> = [
       baseConfig: {
         extends: ["plugin:compat/recommended"],
         parser: "babel-eslint",
+      },
+    },
+  },
+  {
+    name: "electron-react-boilerplate",
+    location: `${projectRoot}/benchmarks-tmp/electron-react-boilerplate`,
+    remoteLink:
+      "https://github.com/electron-react-boilerplate/electron-react-boilerplate.git",
+    targetGitRef: "v1.1.0",
+    filePatterns: ["."],
+    browserslist: ["electron 7.1.13"],
+    eslintOptions: {
+      cwd: `${projectRoot}/benchmarks-tmp/electron-react-boilerplate`,
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
       },
     },
   },
