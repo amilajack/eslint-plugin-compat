@@ -3,6 +3,7 @@ import { constants as fsConstants, promises as fs } from "fs";
 import { cwd } from "process";
 import { Repository, Clone } from "nodegit";
 import { ESLint } from "eslint";
+import Benchmark from "benchmark";
 
 type RepoInfo = {
   name: string;
@@ -47,7 +48,7 @@ async function getRepo({ remoteLink, location }: RepoInfo) {
     });
 }
 
-async function benchmark(repoInfo: RepoInfo) {
+async function getBenchmark(repoInfo: RepoInfo) {
   console.log(`Benchmarking ${repoInfo.remoteLink}`);
   const repo = await getRepo(repoInfo);
   const ref = await repo.getReference(repoInfo.targetGitRef);
@@ -55,14 +56,53 @@ async function benchmark(repoInfo: RepoInfo) {
   console.log(`Checking out ${repoInfo.name} ${repoInfo.targetGitRef}`);
   await repo.checkoutRef(ref);
   console.log(`Running ESLint on ${repoInfo.name}`);
-  const lintResults = await eslint.lintFiles(repoInfo.location);
-  lintResults.forEach((res) => {
-    console.log(res);
-  });
+
+  const benchmark = new Benchmark(
+    repoInfo.name,
+    (deferred: { resolve: Function }) => {
+      eslint
+        .lintFiles(repoInfo.location)
+        .then(() => deferred.resolve())
+        .catch((e) => console.error(e));
+    },
+    {
+      onStart: () => {
+        console.log(`Starting benchmark ${repoInfo.name}`);
+      },
+      onComplete: () => {
+        console.log(`Completed benchmark ${repoInfo.name}`);
+      },
+      onCycle: () => {
+        console.log("In between cycle");
+      },
+      onError: () => {
+        console.error("wrong");
+        console.error(benchmark.error);
+      },
+      async: true,
+      defer: true,
+    }
+  );
+  return benchmark;
 }
 
 (async function main() {
-  repos.forEach((repo) => benchmark(repo));
+  const benchmarks = repos.map((repo) => {
+    return getBenchmark(repo);
+  });
+
+  const resolvedBenchmarks = await Promise.all(benchmarks);
+  const res = Benchmark.invoke(resolvedBenchmarks, {
+    name: "run",
+    queued: true,
+    onStart: () => console.log(`Starting benchmark suite`),
+    onCycle: () => console.log(`Benchmarking ${res[0]}`),
+
+    onComplete: () => {
+      console.log("Finished benchmark suite");
+      console.log(res);
+    },
+  });
 })().catch((e) => {
   console.error(e);
 });
