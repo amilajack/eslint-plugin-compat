@@ -35,7 +35,8 @@
     "version": "yarn build"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": ["/node_modules/", "/benchmarks-tmp/"]
   },
   "devDependencies": {
     "@babel/cli": "^7.10.0",
