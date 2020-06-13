@@ -102,7 +102,7 @@ steps:
     displayName: Cache Yarn packages
   - script: yarn --frozen-lockfile && yarn add --dev $(eslintVersion) && yarn test
   - script: yarn benchmarks
-    condition: and(ge(variables['eslintVersion'], 'eslint@^7'))
+    condition: ge(variables['eslintVersion'], 'eslint@^7')
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
   - task: PublishCodeCoverageResults@1
