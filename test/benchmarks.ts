@@ -1,5 +1,6 @@
 /* eslint no-console: "off" */
 import { constants as fsConstants, promises as fs } from "fs";
+import path from "path";
 import { cwd } from "process";
 import { Repository, Clone } from "nodegit";
 import { ESLint } from "eslint";
@@ -20,12 +21,12 @@ const projectRoot = cwd();
 const repos: Array<RepoInfo> = [
   {
     name: "bootstrap",
-    location: `${projectRoot}/benchmarks-tmp/bootstrap`,
+    location: path.join(projectRoot, "benchmarks-tmp", "bootstrap"),
     remoteLink: "https://github.com/twbs/bootstrap.git",
     targetGitRef: "v4.5.0",
-    filePatterns: ["js/src", "js/tests", "build/"],
+    filePatterns: [path.join("js", "src"), path.join("js", "tests"), "build"],
     eslintOptions: {
-      cwd: `${projectRoot}/benchmarks-tmp/bootstrap`,
+      cwd: path.join(projectRoot, "benchmarks-tmp", "bootstrap"),
       useEslintrc: false,
       baseConfig: {
         extends: ["plugin:compat/recommended"],
@@ -35,14 +36,22 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "electron-react-boilerplate",
-    location: `${projectRoot}/benchmarks-tmp/electron-react-boilerplate`,
+    location: path.join(
+      projectRoot,
+      "benchmarks-tmp",
+      "electron-react-boilerplate"
+    ),
     remoteLink:
       "https://github.com/electron-react-boilerplate/electron-react-boilerplate.git",
     targetGitRef: "v1.1.0",
     filePatterns: ["."],
     browserslist: ["electron 7.1.13"],
     eslintOptions: {
-      cwd: `${projectRoot}/benchmarks-tmp/electron-react-boilerplate`,
+      cwd: path.join(
+        projectRoot,
+        "benchmarks-tmp",
+        "electron-react-boilerplate"
+      ),
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       useEslintrc: false,
       baseConfig: {
@@ -55,7 +64,7 @@ const repos: Array<RepoInfo> = [
 async function getRepo({ remoteLink, location }: RepoInfo) {
   // Clone if necessary, else use existing repo
   return fs
-    .access(`${location}/.git`, fsConstants.R_OK)
+    .access(path.join(location, ".git"), fsConstants.R_OK)
     .then(() => {
       console.log(`Using existing ${location}`);
       return Repository.open(location);
@@ -66,11 +75,11 @@ async function getRepo({ remoteLink, location }: RepoInfo) {
     });
 }
 
-async function editBrowserslistrc(path: string, val: Array<string>) {
-  const file = await fs.readFile(path);
+async function editBrowserslistrc(filePath: string, val: Array<string>) {
+  const file = await fs.readFile(filePath);
   const json = JSON.parse(file.toString());
   json.browserslist = val;
-  await fs.writeFile(path, JSON.stringify(json));
+  await fs.writeFile(filePath, JSON.stringify(json));
 }
 
 async function getBenchmark(repoInfo: RepoInfo) {
@@ -82,7 +91,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
   console.log(`Checking out ${name} ${targetGitRef}`);
   await repo.checkoutRef(ref);
   if (repoInfo.browserslist) {
-    const packageJsonPath = `${location}/package.json`;
+    const packageJsonPath = path.join(location, "package.json");
     console.log(`Editing browserslistrc in ${packageJsonPath}`);
     await editBrowserslistrc(packageJsonPath, repoInfo.browserslist);
   }
