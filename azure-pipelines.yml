@@ -85,6 +85,13 @@ steps:
   - task: NodeTool@0
     inputs:
       versionSpec: $(nodeVersion)
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: sudo apt-get install -y libkrb5-dev
+      condition: and(eq( variables['Agent.OS'], 'Linux'), ge($(variables['nodeVersion']), variables['currentNodeVersion'])))
+      # >= 13.x doesn't come with pre-built binaries, need krb5 to build it during CI
+      # https://github.com/nodegit/nodegit/issues/1753 https://github.com/nodegit/nodegit/issues/1134
   - task: Cache@2
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
