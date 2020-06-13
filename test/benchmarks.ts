@@ -12,13 +12,13 @@ process.on("unhandledRejection", (err) => {
 });
 
 type RepoInfo = {
-  name: string;
-  location: string;
-  remoteLink: string;
-  targetGitRef: string;
-  filePatterns: Array<string>;
-  browserslist?: Array<string>;
-  eslintOptions: ESLint.Options;
+  name: string; // name of repo
+  location: string; // location to store repo within project
+  remoteLink: string; // where to clone repo from
+  targetGitRef: string; // what target should
+  filePatterns: Array<string>; // file patterns to lint in repo
+  browserslist?: Array<string>; // what browsers the repo should target
+  eslintOptions: ESLint.Options; // used in new ESLint(options)
 };
 
 const projectRoot = cwd();
