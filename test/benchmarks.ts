@@ -6,6 +6,11 @@ import { Repository, Clone } from "nodegit";
 import { ESLint } from "eslint";
 import Benchmark from "benchmark";
 
+// Explicitly exit with non-zero when there is some error
+process.on("unhandledRejection", (err) => {
+  throw err;
+});
+
 type RepoInfo = {
   name: string;
   location: string;
@@ -145,6 +150,4 @@ async function getBenchmark(repoInfo: RepoInfo) {
       console.log(reports);
     },
   });
-})().catch((e) => {
-  console.error(e);
-});
+})();
