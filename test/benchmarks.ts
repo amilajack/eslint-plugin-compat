@@ -121,16 +121,17 @@ async function getBenchmark(repoInfo: RepoInfo) {
   });
 
   const resolvedBenchmarks = await Promise.all(benchmarks);
-  const completedBenchmarks = Benchmark.invoke(resolvedBenchmarks, {
+  Benchmark.invoke(resolvedBenchmarks, {
     name: "run",
     async: true,
     onStart: () => console.log(`Starting benchmark suite`),
-    onComplete: () => {
+    onComplete: (e) => {
       console.log("Finished benchmark suite");
-      const reports = completedBenchmarks.map((e) => ({
-        name: e.name,
-        stats: e.stats,
-        sample: e.stats.sample,
+      const reports = e.currentTarget.map((benchmark) => ({
+        name: benchmark.name,
+        stats: benchmark.stats,
+        sample: benchmark.stats.sample,
+        sampleCount: benchmark.stats.sample.length,
       }));
       console.log(reports);
     },
