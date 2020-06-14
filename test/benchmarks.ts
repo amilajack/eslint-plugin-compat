@@ -137,9 +137,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
 }
 
 (async function main() {
-  const benchmarks = repos.map((repo) => {
-    return getBenchmark(repo);
-  });
+  const benchmarks = repos.map(getBenchmark);
 
   const resolvedBenchmarks = await Promise.all(benchmarks);
   Benchmark.invoke(resolvedBenchmarks, {
