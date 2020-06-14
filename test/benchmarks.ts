@@ -129,7 +129,6 @@ async function getBenchmark(repoInfo: RepoInfo) {
         console.error(benchmark.error);
       },
       async: true,
-      // wtf does defer do?
       defer: true,
       maxTime: 30,
     }
@@ -159,21 +158,3 @@ async function getBenchmark(repoInfo: RepoInfo) {
     },
   });
 })();
-
-/*
-- Invoke eslint on root directory with a given config
-- https://eslint.org/docs/developer-guide/nodejs-api#cliengine
-- ignore all other plugins, only care about compat performance
-
-
-- test when folder exists DONE
-- test when folder doesn't exist DONE
-- consistent eslint version outputs (e.g. linux on eslint7)
-- record/upload benchmark results
-
-Promise pro
-- stack trace
-
-Async/await pro
-- simpler
-*/
