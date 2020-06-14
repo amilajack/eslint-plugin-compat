@@ -14,7 +14,7 @@ Here's a list of tips and tricks that will help you get started.
 
 ### Benchmarking
 
-Benchmarking helps prevent performance regression. 
+Benchmarking (`yarn benchmarks`) helps prevent performance regression.
 
 #### Related Projects
 

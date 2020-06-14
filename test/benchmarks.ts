@@ -12,19 +12,19 @@ process.on("unhandledRejection", (err) => {
 });
 
 type RepoInfo = {
-  /** name of repo */
+  // name of repo
   name: string;
-  /** location to store repo within project */
+  // location to store repo within project
   location: string;
-  /** where to clone repo from */
+  // where to clone repo from
   remoteLink: string;
-  /** what target should */
+  // what target should
   targetGitRef: string;
-  /** file patterns to lint in repo */
+  // file patterns to lint in repo
   filePatterns: Array<string>;
-  /** what browsers the repo should target */
+  // what browsers the repo should target
   browserslist?: Array<string>;
-  /** used in new ESLint(options) */
+  // used in new ESLint(options)
   eslintOptions: ESLint.Options;
 };
 
