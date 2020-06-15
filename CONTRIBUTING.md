@@ -12,6 +12,10 @@ Here's a list of tips and tricks that will help you get started.
 * TypeScript
 * WebIDL
 
+### Benchmarking
+
+Benchmarking (`yarn benchmarks`) helps prevent performance regression.
+
 #### Related Projects
 
 `eslint-plugin-compat` relies on other projects to provide information about web APIs so that it can properly analyze your code. It is recommended that you go [through related projects](https://github.com/amilajack/eslint-plugin-compat#related) and understand each one at a high level.

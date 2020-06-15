@@ -26,6 +26,7 @@
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
+    "benchmarks": "cross-env NODE_ENV=production babel test/benchmarks.ts --out-dir benchmarks-tmp --source-maps inline --extensions '.ts' && node -r source-map-support/register benchmarks-tmp/benchmarks.js",
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest",
@@ -34,20 +35,24 @@
     "version": "yarn build"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": ["/node_modules/", "/benchmarks-tmp/"]
   },
   "devDependencies": {
     "@babel/cli": "^7.10.0",
     "@babel/core": "^7.10.0",
     "@babel/preset-env": "^7.10.0",
     "@babel/preset-typescript": "^7.9.0",
+    "@types/benchmark": "^1.0.33",
     "@types/browserslist": "^4.8.0",
-    "@types/eslint": "^6.8.1",
+    "@types/eslint": "^7.2.0",
     "@types/jest": "^25.2.3",
     "@types/lodash.memoize": "^4.1.6",
+    "@types/nodegit": "^0.26.4",
     "@types/semver": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
+    "benchmark": "^2.1.4",
     "cross-env": "^7.0.2",
     "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0",
     "eslint-config-airbnb-typescript": "^7.2.1",
@@ -55,6 +60,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
     "jest": "^26.0.1",
+    "nodegit": "^0.26.5",
     "prettier": "^2.0.5",
     "typescript": "^3.9.2"
   },

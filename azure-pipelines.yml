@@ -85,6 +85,15 @@ steps:
   - task: NodeTool@0
     inputs:
       versionSpec: $(nodeVersion)
+  # nodegit for node>=13.x doesn't come with pre-built binaries, need krb5 to build it during CI
+  # https://github.com/nodegit/nodegit/issues/1753 https://github.com/nodegit/nodegit/issues/1134
+  - task: Bash@3
+    condition: and(eq(variables['Agent.OS'],'Linux'), ge(variables['nodeVersion'], variables['currentNodeVersion']))
+    inputs:
+      targetType: inline
+      script: sudo apt-get install -y libkrb5-dev
+      # nodegit for node>=13.x doesn't come with pre-built binaries, need krb5 to build it during CI
+      # https://github.com/nodegit/nodegit/issues/1753 https://github.com/nodegit/nodegit/issues/1134
   - task: Cache@2
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
@@ -94,6 +103,8 @@ steps:
       path: $(YARN_CACHE_FOLDER)
     displayName: Cache Yarn packages
   - script: yarn --frozen-lockfile && yarn add --dev $(eslintVersion) && yarn test
+  - script: yarn benchmarks
+    condition: ge(variables['eslintVersion'], 'eslint@^7')
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
   - task: PublishCodeCoverageResults@1

@@ -50,3 +50,6 @@ lib
 # Editor
 .idea
 .vscode/
+
+# Benchmark output
+benchmarks-tmp/
