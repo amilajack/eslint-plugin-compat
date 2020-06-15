@@ -6,6 +6,7 @@
 
 ### Internal
 - Migrated from Flow to Typescript
+- Created benchmarks of popular repositories
 - Internal refactors
 
 # v3.7.0
