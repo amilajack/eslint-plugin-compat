@@ -71,6 +71,25 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "handlebars.js",
+    location: path.join(projectRoot, "benchmarks-tmp", "handlebars.js"),
+    remoteLink: "https://github.com/handlebars-lang/handlebars.js.git",
+    targetGitRef: "v4.7.6",
+    filePatterns: ["."],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "handlebars.js"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        parserOptions: {
+          ecmaVersion: 2018,
+          sourceType: "module",
+        },
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
