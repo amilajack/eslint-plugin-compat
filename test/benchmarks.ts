@@ -90,6 +90,29 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "jquery",
+    location: path.join(projectRoot, "benchmarks-tmp", "jquery"),
+    remoteLink: "https://github.com/jquery/jquery.git",
+    targetGitRef: "3.5.1",
+    filePatterns: ["src/**/*.js", "test/**/*.js"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "jquery"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {},
+        globals: {
+          window: true,
+        },
+        parserOptions: {
+          ecmaVersion: 2015,
+          sourceType: "module",
+        },
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
