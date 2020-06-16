@@ -22,7 +22,7 @@ type RepoInfo = {
   targetGitRef: string;
   // file patterns to lint in repo
   filePatterns: Array<string>;
-  // what browsers the repo should target
+  // browsers the repo should target (if omitted then uses default browserlist)
   browserslist?: Array<string>;
   // used in new ESLint(options)
   eslintOptions: ESLint.Options;
