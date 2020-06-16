@@ -113,6 +113,29 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "preact",
+    location: path.join(projectRoot, "benchmarks-tmp", "preact"),
+    remoteLink: "https://github.com/preactjs/preact.git",
+    targetGitRef: "10.4.4",
+    filePatterns: ["*.js"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "preact"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {
+          browser: true,
+        },
+        parserOptions: {
+          ecmaVersion: 7,
+          sourceType: "module",
+        },
+        ignorePatterns: ["test/fixtures", "test/ts/", "*.ts", "dist"],
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
