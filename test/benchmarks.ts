@@ -2,7 +2,7 @@
 import { constants as fsConstants, promises as fs } from "fs";
 import path from "path";
 import { cwd } from "process";
-import { Repository, Clone } from "nodegit";
+import Git from "nodegit";
 import { ESLint } from "eslint";
 import Benchmark from "benchmark";
 
@@ -98,11 +98,11 @@ async function getRepo({ remoteLink, location }: RepoInfo) {
     .access(path.join(location, ".git"), fsConstants.R_OK)
     .then(() => {
       console.log(`Using existing ${location}`);
-      return Repository.open(location);
+      return Git.Repository.open(location);
     })
     .catch(() => {
       console.log(`Cloning ${remoteLink}`);
-      return Clone.clone(remoteLink, location);
+      return Git.Clone.clone(remoteLink, location);
     });
 }
 
@@ -118,9 +118,12 @@ async function getBenchmark(repoInfo: RepoInfo) {
   console.log(`Retrieving ${remoteLink}`);
   const repo = await getRepo(repoInfo);
   const ref = await repo.getReference(targetGitRef);
-  const eslint = new ESLint(eslintOptions);
   console.log(`Checking out ${name} ${targetGitRef}`);
-  await repo.checkoutRef(ref);
+  const targetRef = await ref.peel(Git.Object.TYPE.COMMIT);
+  const commit = await repo.getCommit(targetRef.id());
+  await repo.setHeadDetached(commit.id());
+
+  const eslint = new ESLint(eslintOptions);
   if (repoInfo.browserslist) {
     const packageJsonPath = path.join(location, "package.json");
     console.log(`Editing browserslistrc in ${packageJsonPath}`);
