@@ -8,7 +8,8 @@ import Benchmark from "benchmark";
 
 // Explicitly exit with non-zero when there is some error
 process.on("unhandledRejection", (err) => {
-  throw new Error(err);
+  if (err instanceof Error) throw err;
+  throw new Error("Unhandled promise rejection with no message");
 });
 
 type RepoInfo = {
