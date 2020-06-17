@@ -2,7 +2,7 @@
 import { constants as fsConstants, promises as fs } from "fs";
 import path from "path";
 import { cwd } from "process";
-import { Repository, Clone } from "nodegit";
+import Git from "nodegit";
 import { ESLint } from "eslint";
 import Benchmark from "benchmark";
 
@@ -22,7 +22,7 @@ type RepoInfo = {
   targetGitRef: string;
   // file patterns to lint in repo
   filePatterns: Array<string>;
-  // what browsers the repo should target
+  // browsers the repo should target (if omitted then uses default browserlist)
   browserslist?: Array<string>;
   // used in new ESLint(options)
   eslintOptions: ESLint.Options;
@@ -71,6 +71,192 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "handlebars.js",
+    location: path.join(projectRoot, "benchmarks-tmp", "handlebars.js"),
+    remoteLink: "https://github.com/handlebars-lang/handlebars.js.git",
+    targetGitRef: "v4.7.6",
+    filePatterns: ["."],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "handlebars.js"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        parserOptions: {
+          ecmaVersion: 2018,
+          sourceType: "module",
+        },
+      },
+    },
+  },
+  {
+    name: "jquery",
+    location: path.join(projectRoot, "benchmarks-tmp", "jquery"),
+    remoteLink: "https://github.com/jquery/jquery.git",
+    targetGitRef: "3.5.1",
+    filePatterns: ["src/**/*.js", "test/**/*.js"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "jquery"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {},
+        globals: {
+          window: true,
+        },
+        parserOptions: {
+          ecmaVersion: 2015,
+          sourceType: "module",
+        },
+      },
+    },
+  },
+  {
+    name: "preact",
+    location: path.join(projectRoot, "benchmarks-tmp", "preact"),
+    remoteLink: "https://github.com/preactjs/preact.git",
+    targetGitRef: "10.4.4",
+    filePatterns: ["*.js"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "preact"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {
+          browser: true,
+        },
+        parserOptions: {
+          ecmaVersion: 7,
+          sourceType: "module",
+        },
+        ignorePatterns: ["test/fixtures", "test/ts/", "*.ts", "dist"],
+      },
+    },
+  },
+  {
+    name: "vscode",
+    location: path.join(projectRoot, "benchmarks-tmp", "vscode"),
+    remoteLink: "https://github.com/microsoft/vscode.git",
+    targetGitRef: "1.46.0",
+    filePatterns: ["./src/vs", "./extensions", "./build"],
+    browserslist: ["electron 7.3.1"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "vscode"),
+      extensions: [".js", ".ts"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {
+          node: true,
+          es6: true,
+          browser: true,
+        },
+        parser: "@typescript-eslint/parser",
+        parserOptions: {
+          ecmaVersion: 6,
+          sourceType: "module",
+        },
+      },
+    },
+  },
+  {
+    name: "create-react-app",
+    location: path.join(projectRoot, "benchmarks-tmp", "create-react-app"),
+    remoteLink: "https://github.com/facebook/create-react-app.git",
+    targetGitRef: "create-react-app@3.4.1",
+    filePatterns: ["."],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "create-react-app"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        root: true,
+        parser: "babel-eslint",
+        extends: ["plugin:compat/recommended"],
+        env: {
+          browser: true,
+          commonjs: true,
+          node: true,
+          es6: true,
+        },
+        parserOptions: {
+          ecmaVersion: 2018,
+          sourceType: "module",
+          ecmaFeatures: {
+            jsx: true,
+          },
+        },
+        overrides: [
+          {
+            files: ["**/*.ts?(x)"],
+            parser: "@typescript-eslint/parser",
+            parserOptions: {
+              ecmaVersion: 2018,
+              sourceType: "module",
+              ecmaFeatures: {
+                jsx: true,
+              },
+              warnOnUnsupportedTypeScriptVersion: true,
+            },
+            plugins: ["@typescript-eslint"],
+          },
+        ],
+      },
+    },
+  },
+  {
+    name: "aframe",
+    location: path.join(projectRoot, "benchmarks-tmp", "aframe"),
+    remoteLink: "https://github.com/aframevr/aframe.git",
+    targetGitRef: "v1.0.4",
+    filePatterns: ["."],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "aframe"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {
+          es6: true,
+        },
+        ignorePatterns: [
+          "build/**",
+          "dist/**",
+          "examples/**/shaders/*.js",
+          "**/vendor/**",
+        ],
+      },
+    },
+  },
+  {
+    name: "pixi.js",
+    location: path.join(projectRoot, "benchmarks-tmp", "pixi.js"),
+    remoteLink: "https://github.com/pixijs/pixi.js.git",
+    targetGitRef: "v5.2.4",
+    filePatterns: ["test", "bundles", "packages", "tools"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "pixi.js"),
+      extensions: [".js", ".ts"],
+      useEslintrc: false,
+      baseConfig: {
+        root: true,
+        extends: ["plugin:compat/recommended"],
+        env: {
+          es6: true,
+          browser: true,
+        },
+        parser: "@typescript-eslint/parser",
+        plugins: ["@typescript-eslint"],
+        parserOptions: {
+          ecmaVersion: 8,
+          sourceType: "module",
+        },
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
@@ -79,11 +265,11 @@ async function getRepo({ remoteLink, location }: RepoInfo) {
     .access(path.join(location, ".git"), fsConstants.R_OK)
     .then(() => {
       console.log(`Using existing ${location}`);
-      return Repository.open(location);
+      return Git.Repository.open(location);
     })
     .catch(() => {
       console.log(`Cloning ${remoteLink}`);
-      return Clone.clone(remoteLink, location);
+      return Git.Clone.clone(remoteLink, location);
     });
 }
 
@@ -99,9 +285,12 @@ async function getBenchmark(repoInfo: RepoInfo) {
   console.log(`Retrieving ${remoteLink}`);
   const repo = await getRepo(repoInfo);
   const ref = await repo.getReference(targetGitRef);
-  const eslint = new ESLint(eslintOptions);
   console.log(`Checking out ${name} ${targetGitRef}`);
-  await repo.checkoutRef(ref);
+  const targetRef = await ref.peel(Git.Object.TYPE.COMMIT);
+  const commit = await repo.getCommit(targetRef.id());
+  await repo.setHeadDetached(commit.id());
+
+  const eslint = new ESLint(eslintOptions);
   if (repoInfo.browserslist) {
     const packageJsonPath = path.join(location, "package.json");
     console.log(`Editing browserslistrc in ${packageJsonPath}`);
@@ -130,7 +319,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
       },
       async: true,
       defer: true,
-      maxTime: 30,
+      maxTime: 10,
     }
   );
   return benchmark;
