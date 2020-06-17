@@ -207,6 +207,30 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "aframe",
+    location: path.join(projectRoot, "benchmarks-tmp", "aframe"),
+    remoteLink: "https://github.com/aframevr/aframe.git",
+    targetGitRef: "v1.0.4",
+    filePatterns: ["."],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "aframe"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        extends: ["plugin:compat/recommended"],
+        env: {
+          es6: true,
+        },
+        ignorePatterns: [
+          "build/**",
+          "dist/**",
+          "examples/**/shaders/*.js",
+          "**/vendor/**",
+        ],
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
