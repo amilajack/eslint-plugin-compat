@@ -231,6 +231,32 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "pixi.js",
+    location: path.join(projectRoot, "benchmarks-tmp", "pixi.js"),
+    remoteLink: "https://github.com/pixijs/pixi.js.git",
+    targetGitRef: "v5.2.4",
+    filePatterns: ["test", "bundles", "packages", "tools"],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "pixi.js"),
+      extensions: [".js", ".ts"],
+      useEslintrc: false,
+      baseConfig: {
+        root: true,
+        extends: ["plugin:compat/recommended"],
+        env: {
+          es6: true,
+          browser: true,
+        },
+        parser: "@typescript-eslint/parser",
+        plugins: ["@typescript-eslint"],
+        parserOptions: {
+          ecmaVersion: 8,
+          sourceType: "module",
+        },
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
