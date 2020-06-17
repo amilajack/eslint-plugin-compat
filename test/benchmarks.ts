@@ -319,7 +319,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
       },
       async: true,
       defer: true,
-      maxTime: 30,
+      maxTime: 10,
     }
   );
   return benchmark;
