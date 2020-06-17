@@ -12,6 +12,6 @@ fetch('https://exmaple.com');
 ## This will not be reported
 
 ```js
-// Using default targets
+// Using default browser targets
 fetch('https://exmaple.com');
 ```
