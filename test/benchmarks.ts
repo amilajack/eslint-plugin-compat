@@ -162,6 +162,51 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  {
+    name: "create-react-app",
+    location: path.join(projectRoot, "benchmarks-tmp", "create-react-app"),
+    remoteLink: "https://github.com/facebook/create-react-app.git",
+    targetGitRef: "create-react-app@3.4.1",
+    filePatterns: ["."],
+    eslintOptions: {
+      cwd: path.join(projectRoot, "benchmarks-tmp", "create-react-app"),
+      extensions: [".js"],
+      useEslintrc: false,
+      baseConfig: {
+        root: true,
+        parser: "babel-eslint",
+        extends: ["plugin:compat/recommended"],
+        env: {
+          browser: true,
+          commonjs: true,
+          node: true,
+          es6: true,
+        },
+        parserOptions: {
+          ecmaVersion: 2018,
+          sourceType: "module",
+          ecmaFeatures: {
+            jsx: true,
+          },
+        },
+        overrides: [
+          {
+            files: ["**/*.ts?(x)"],
+            parser: "@typescript-eslint/parser",
+            parserOptions: {
+              ecmaVersion: 2018,
+              sourceType: "module",
+              ecmaFeatures: {
+                jsx: true,
+              },
+              warnOnUnsupportedTypeScriptVersion: true,
+            },
+            plugins: ["@typescript-eslint"],
+          },
+        ],
+      },
+    },
+  },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
