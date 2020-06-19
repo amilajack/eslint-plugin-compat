@@ -297,6 +297,38 @@ async function getBenchmark(repoInfo: RepoInfo) {
     console.log(`Editing browserslistrc in ${packageJsonPath}`);
     await editBrowserslistrc(packageJsonPath, repoInfo.browserslist);
   }
+  console.log(`Checking if  ${name} ${targetGitRef} has fatal linting error`);
+  eslint
+    .lintFiles(repoInfo.filePatterns)
+    .then((lintResults) => {
+      const errors: Array<string> = [];
+      lintResults.forEach((lintResult) => {
+        console.log(`Results for linting: ${lintResult.filePath}`);
+        lintResult.messages.forEach((lintMessage) => {
+          if (lintMessage.fatal) {
+            const errorMessage = `
+              Fatal ESLint parsing error
+              ${JSON.stringify(lintResult, null, 2)}
+            `;
+            throw new Error(errorMessage);
+          }
+          const errorSummary = `
+          message: ${lintMessage.message},
+          suggestions: ${lintMessage.suggestions},
+          `;
+          console.log(errorSummary);
+          errors.push(errorSummary);
+        });
+        if (lintResult.errorCount > 0) console.log();
+      });
+      const errs = lintResults.reduce((sum, e) => e.errorCount + sum, 0);
+      let message = `Files linted: ${lintResults.length}`;
+      message += `\nErrors (errs) found: ${errors.length}`;
+      return errors;
+    })
+    .catch((e) => {
+      throw e;
+    });
 
   const benchmark = new Benchmark(
     name,
