@@ -26,7 +26,7 @@
   ],
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
-    "benchmarks": "cross-env NODE_ENV=production babel test/benchmarks.ts --out-dir benchmarks-tmp --source-maps inline --extensions '.ts' && node -r source-map-support/register benchmarks-tmp/benchmarks.js",
+    "benchmarks": "ts-node-transpile-only test/benchmarks.ts",
     "build": "cross-env NODE_ENV=production rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest",
@@ -36,7 +36,10 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testPathIgnorePatterns": ["/node_modules/", "/benchmarks-tmp/"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/benchmarks-tmp/"
+    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.10.0",
@@ -62,6 +65,7 @@
     "jest": "^26.0.1",
     "nodegit": "^0.26.5",
     "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.2"
   },
   "dependencies": {
