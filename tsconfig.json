@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "es2018",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": [
       "es2018",
       "es2019"

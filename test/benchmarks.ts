@@ -58,21 +58,23 @@ async function getBenchmark(repoInfo: RepoInfo) {
   return benchmark;
 }
 
-const benchmarks = repos.map(getBenchmark);
-const resolvedBenchmarks = await Promise.all(benchmarks);
+(async () => {
+  const benchmarks = repos.map(getBenchmark);
+  const resolvedBenchmarks = await Promise.all(benchmarks);
 
-Benchmark.invoke(resolvedBenchmarks, {
-  name: "run",
-  async: true,
-  onStart: () => console.log(`Starting benchmark suite`),
-  onComplete: (e) => {
-    console.log("Finished benchmark suite");
-    const reports = e.currentTarget.map((benchmark) => ({
-      name: benchmark.name,
-      stats: benchmark.stats,
-      sample: benchmark.stats.sample,
-      sampleCount: benchmark.stats.sample.length,
-    }));
-    console.log(reports);
-  },
-});
+  Benchmark.invoke(resolvedBenchmarks, {
+    name: "run",
+    async: true,
+    onStart: () => console.log(`Starting benchmark suite`),
+    onComplete: (e) => {
+      console.log("Finished benchmark suite");
+      const reports = e.currentTarget.map((benchmark) => ({
+        name: benchmark.name,
+        stats: benchmark.stats,
+        sample: benchmark.stats.sample,
+        sampleCount: benchmark.stats.sample.length,
+      }));
+      console.log(reports);
+    },
+  });
+})();
