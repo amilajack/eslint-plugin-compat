@@ -1,14 +1,11 @@
 import { ESLint } from "eslint";
-import repos, { getRepo } from "./repos";
+import repos, { initRepo } from "./repos";
 
 describe("e2e Repo Tests", () => {
   jest.setTimeout(10 ** 8);
 
   it("should lint repos", async () => {
-    // ESLint is not defined for eslint versions < 7
-    // This allows CI tests to pass on older eslint versions
-    if (!ESLint) return;
-    await Promise.all(repos.map((repo) => getRepo(repo)));
+    await Promise.all(repos.map((repo) => initRepo(repo, false)));
 
     const lintedRepos = await Promise.all(
       repos.map(async ({ eslintOptions, location, name }) => {

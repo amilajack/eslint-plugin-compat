@@ -104,7 +104,11 @@ steps:
     displayName: Cache Yarn packages
   - script: yarn --frozen-lockfile && yarn add --dev $(eslintVersion) && yarn test
     displayName: Install dependencies and run yarn test
-  # Benchmarks uses eslint@7 only feature (the Node.js API class ESLint)
+  # E2E tests use eslint@7 only feature (the Node.js API class ESLint)
+  - script: yarn spec:e2e
+    condition: ge(variables['eslintVersion'], 'eslint@^7')
+    displayName: Run yarn spec:e2e if >=eslint@7# Benchmarks uses eslint@7 only feature (the Node.js API class ESLint)
+  # Benchmarks use eslint@7 only feature (the Node.js API class ESLint)
   - script: yarn benchmarks
     condition: ge(variables['eslintVersion'], 'eslint@^7')
     displayName: Run benchmarks if >=eslint@7

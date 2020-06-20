@@ -254,26 +254,25 @@ const repos: Array<RepoInfo> = [
   },
 ];
 
-export async function getRepo(
+export async function initRepo(
   { name, targetGitRef, remoteLink, location }: RepoInfo,
-  logs = true
+  showLogs = true
 ) {
   const benchmarksAbsPath = path.join(projectRoot, reposDir);
   if (!existsSync(benchmarksAbsPath)) {
     mkdirSync(benchmarksAbsPath);
   }
 
-  if (logs) console.log(`Retrieving ${remoteLink}`);
+  if (showLogs) console.log(`Retrieving ${remoteLink}`);
   // Clone if necessary, else use existing repo
   if (existsSync(path.join(location, ".git"))) {
-    console.log(existsSync(path.join(location, ".git")));
-    if (logs) console.log(`Using existing ${location}`);
+    if (showLogs) console.log(`Using existing ${location}`);
     return Git.Repository.open(location);
   }
   await Git.Clone.clone(remoteLink, location);
   const repo = await Git.Repository.open(location);
   const ref = await repo.getReference(targetGitRef);
-  if (logs) console.log(`Checking out ${name} ${targetGitRef}`);
+  if (showLogs) console.log(`Checking out ${name} ${targetGitRef}`);
   const targetRef = await ref.peel(Git.Object.TYPE.COMMIT);
   const commit = await repo.getCommit(targetRef.id());
   await repo.setHeadDetached(commit.id());

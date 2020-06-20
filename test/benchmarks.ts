@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { ESLint } from "eslint";
 import Benchmark from "benchmark";
-import repos, { RepoInfo, getRepo } from "./repos";
+import repos, { RepoInfo, initRepo } from "./repos";
 
 // Explicitly exit with non-zero when there is some error
 process.on("unhandledRejection", (err) => {
@@ -21,7 +21,7 @@ async function editBrowserslistrc(filePath: string, targets: Array<string>) {
 
 async function getBenchmark(repoInfo: RepoInfo) {
   const { name, targetGitRef, eslintOptions, location } = repoInfo;
-  await getRepo(repoInfo);
+  await initRepo(repoInfo);
 
   const eslint = new ESLint(eslintOptions);
   if (repoInfo.browserslist) {
