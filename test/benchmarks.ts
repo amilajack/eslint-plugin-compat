@@ -7,6 +7,7 @@ import { ESLint } from "eslint";
 import Benchmark from "benchmark";
 
 // Explicitly exit with non-zero when there is some error
+// @TODO better error handling
 process.on("unhandledRejection", (err) => {
   if (err instanceof Error) throw err;
   throw new Error("Unhandled promise rejection with no message");
@@ -69,6 +70,18 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       baseConfig: {
         extends: ["plugin:compat/recommended"],
+        // @TODO INTRO THIS FIX IN ANOTHER PR
+        env: {
+          browser: true,
+          node: true,
+        },
+        parser: "@typescript-eslint/parser",
+        plugins: ["@typescript-eslint"],
+        parserOptions: {
+          ecmaVersion: 2020,
+          sourceType: "module",
+        },
+        ignorePatterns: ["*css.d.ts", "*sass.d.ts", "*scss.d.ts"],
       },
     },
   },
@@ -258,6 +271,33 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
+  // {
+  //   name: "dev.to",
+  //   location: path.join(projectRoot, "benchmarks-tmp", "dev.to"),
+  //   remoteLink: "https://github.com/thepracticaldev/dev.to.git",
+  //   targetGitRef: "9301a127268cd075bc9cfe618c9180cf0353fb44",
+  //   filePatterns: ["*.js", "*.jsx"],
+  //   eslintOptions: {
+  //     cwd: path.join(projectRoot, "benchmarks-tmp", "dev.to"),
+  //     extensions: [".js,.jsx"],
+  //     useEslintrc: false,
+  //     baseConfig: {
+  //       extends: ["plugin:compat/recommended"],
+  //       env: {
+  //         browser: true,
+  //         es6: true,
+  //       },
+  //       globals: {
+  //         Atomics: "readonly",
+  //         SharedArrayBuffer: "readonly",
+  //       },
+  //       parserOptions: {
+  //         ecmaVersion: 2018,
+  //         sourceType: "module",
+  //       },
+  //     },
+  //   },
+  // },
 ];
 
 async function getRepo({ remoteLink, location }: RepoInfo) {
@@ -291,7 +331,23 @@ async function getBenchmark(repoInfo: RepoInfo) {
   const commit = await repo.getCommit(targetRef.id());
   await repo.setHeadDetached(commit.id());
 
+  // const kek = await repo
+  //   .getHeadCommit()
+  //   .then(function (targetCommit) {
+  //     return repo.createBranch(targetGitRef, targetCommit, false);
+  //   })
+  //   .then(function (reference) {
+  //     return repo.checkoutBranch(reference, {});
+  //   })
+  //   .then(function () {
+  //     return repo.getReferenceCommit(targetGitRef);
+  //   })
+  //   .then(function (commit) {
+  //     return Git.Reset.reset(repo, commit, 3, {});
+  //   });
+
   const eslint = new ESLint(eslintOptions);
+  // console.log(await eslint.calculateConfigForFile("app/components/css.d.ts"));
   if (repoInfo.browserslist) {
     const packageJsonPath = path.join(location, "package.json");
     console.log(`Editing browserslistrc in ${packageJsonPath}`);
@@ -324,17 +380,25 @@ async function getBenchmark(repoInfo: RepoInfo) {
       const errs = lintResults.reduce((sum, e) => e.errorCount + sum, 0);
       let message = `Files linted: ${lintResults.length}`;
       message += `\nErrors (errs) found: ${errors.length}`;
+      console.log(message);
       return errors;
     })
     .catch((e) => {
       throw e;
     });
 
+  // console.log(await eslint.calculateConfigForFile("app/components/css.d.ts"));
   const benchmark = new Benchmark(
     name,
     (deferred: { resolve: Function }) => {
       eslint
         .lintFiles(repoInfo.filePatterns)
+        // @TODO: PASS FILE PATTERNS
+        // @TODO: HARD FAIL ON FATAL PARSING ERROR
+        // @TODO: PRINT ERROR ON FATAL
+        // @TODO: CHECK FOR FATAL IN DIFFERENT FUNCTION
+        // @TODO: BETTER WAY TO COUPLE DIRECTORIES WITH ESLINT CONFIG
+        // .lintFiles(location) // .lintFiles(repoInfo.filePatterns)
         .then(() => {
           return deferred.resolve();
         })
@@ -350,7 +414,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
         console.log(`Completed benchmark ${name}`);
       },
       onError: () => {
-        console.error(benchmark.error);
+        throw new Error("Error with benchmark.js suite");
       },
       async: true,
       defer: true,
@@ -361,11 +425,12 @@ async function getBenchmark(repoInfo: RepoInfo) {
 }
 
 (async function main() {
-  const benchmarks = await Promise.all(repos.map(getBenchmark));
+  const benchmarks = await Promise.all(repos.slice(1, 2).map(getBenchmark));
   Benchmark.invoke(benchmarks, {
     name: "run",
     async: true,
-    onStart: () => console.log(`Starting benchmark suite`),
+    onStart: () =>
+      console.log(`Starting benchmark suite: ${repos.map((e) => e.name)}`),
     onComplete: (e) => {
       console.log("Finished benchmark suite");
       const reports = e.currentTarget.map((benchmark) => ({
@@ -378,3 +443,10 @@ async function getBenchmark(repoInfo: RepoInfo) {
     },
   });
 })();
+
+/*
+BETTER BENCHMARKS
+Use Eslint official benchmarks, see how much time is spent on just our benchmarks
+- github actions for benhcmarking
+- separate out eslint test to use with e2e-repos
+*/
