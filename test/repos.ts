@@ -1,6 +1,6 @@
 /* eslint no-console: off */
 import path from "path";
-import { constants as fsConstants, promises as fs } from "fs";
+import { mkdirSync, existsSync } from "fs";
 import Git from "nodegit";
 import { ESLint } from "eslint";
 
@@ -21,17 +21,19 @@ export type RepoInfo = {
   eslintOptions: ESLint.Options;
 };
 
-const projectRoot = process.cwd();
+const projectRoot = path.join(__dirname, "..");
+
+const reposDir = "benchmarks-tmp";
 
 const repos: Array<RepoInfo> = [
   {
     name: "bootstrap",
-    location: path.join(projectRoot, "benchmarks-tmp", "bootstrap"),
+    location: path.join(projectRoot, reposDir, "bootstrap"),
     remoteLink: "https://github.com/twbs/bootstrap.git",
     targetGitRef: "v4.5.0",
     filePatterns: [path.join("js", "src"), path.join("js", "tests"), "build"],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "bootstrap"),
+      cwd: path.join(projectRoot, reposDir, "bootstrap"),
       useEslintrc: false,
       baseConfig: {
         extends: ["plugin:compat/recommended"],
@@ -41,22 +43,14 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "electron-react-boilerplate",
-    location: path.join(
-      projectRoot,
-      "benchmarks-tmp",
-      "electron-react-boilerplate"
-    ),
+    location: path.join(projectRoot, reposDir, "electron-react-boilerplate"),
     remoteLink:
       "https://github.com/electron-react-boilerplate/electron-react-boilerplate.git",
     targetGitRef: "v1.1.0",
     filePatterns: ["."],
     browserslist: ["electron 7.1.13"],
     eslintOptions: {
-      cwd: path.join(
-        projectRoot,
-        "benchmarks-tmp",
-        "electron-react-boilerplate"
-      ),
+      cwd: path.join(projectRoot, reposDir, "electron-react-boilerplate"),
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       useEslintrc: false,
       baseConfig: {
@@ -72,12 +66,12 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "handlebars.js",
-    location: path.join(projectRoot, "benchmarks-tmp", "handlebars.js"),
+    location: path.join(projectRoot, reposDir, "handlebars.js"),
     remoteLink: "https://github.com/handlebars-lang/handlebars.js.git",
     targetGitRef: "v4.7.6",
     filePatterns: ["."],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "handlebars.js"),
+      cwd: path.join(projectRoot, reposDir, "handlebars.js"),
       extensions: [".js"],
       useEslintrc: false,
       baseConfig: {
@@ -91,12 +85,12 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "jquery",
-    location: path.join(projectRoot, "benchmarks-tmp", "jquery"),
+    location: path.join(projectRoot, reposDir, "jquery"),
     remoteLink: "https://github.com/jquery/jquery.git",
     targetGitRef: "3.5.1",
     filePatterns: ["src/**/*.js", "test/**/*.js"],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "jquery"),
+      cwd: path.join(projectRoot, reposDir, "jquery"),
       extensions: [".js"],
       useEslintrc: false,
       baseConfig: {
@@ -114,12 +108,12 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "preact",
-    location: path.join(projectRoot, "benchmarks-tmp", "preact"),
+    location: path.join(projectRoot, reposDir, "preact"),
     remoteLink: "https://github.com/preactjs/preact.git",
     targetGitRef: "10.4.4",
     filePatterns: ["*.js"],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "preact"),
+      cwd: path.join(projectRoot, reposDir, "preact"),
       extensions: [".js"],
       useEslintrc: false,
       baseConfig: {
@@ -139,13 +133,13 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "vscode",
-    location: path.join(projectRoot, "benchmarks-tmp", "vscode"),
+    location: path.join(projectRoot, reposDir, "vscode"),
     remoteLink: "https://github.com/microsoft/vscode.git",
     targetGitRef: "1.46.0",
     filePatterns: ["./src/vs", "./extensions", "./build"],
     browserslist: ["electron 7.3.1"],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "vscode"),
+      cwd: path.join(projectRoot, reposDir, "vscode"),
       extensions: [".js", ".ts"],
       useEslintrc: false,
       baseConfig: {
@@ -165,12 +159,12 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "create-react-app",
-    location: path.join(projectRoot, "benchmarks-tmp", "create-react-app"),
+    location: path.join(projectRoot, reposDir, "create-react-app"),
     remoteLink: "https://github.com/facebook/create-react-app.git",
     targetGitRef: "create-react-app@3.4.1",
     filePatterns: ["."],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "create-react-app"),
+      cwd: path.join(projectRoot, reposDir, "create-react-app"),
       extensions: [".js"],
       useEslintrc: false,
       baseConfig: {
@@ -210,12 +204,12 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "aframe",
-    location: path.join(projectRoot, "benchmarks-tmp", "aframe"),
+    location: path.join(projectRoot, reposDir, "aframe"),
     remoteLink: "https://github.com/aframevr/aframe.git",
     targetGitRef: "v1.0.4",
     filePatterns: ["."],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "aframe"),
+      cwd: path.join(projectRoot, reposDir, "aframe"),
       extensions: [".js"],
       useEslintrc: false,
       baseConfig: {
@@ -234,12 +228,12 @@ const repos: Array<RepoInfo> = [
   },
   {
     name: "pixi.js",
-    location: path.join(projectRoot, "benchmarks-tmp", "pixi.js"),
+    location: path.join(projectRoot, reposDir, "pixi.js"),
     remoteLink: "https://github.com/pixijs/pixi.js.git",
     targetGitRef: "v5.2.4",
     filePatterns: ["test", "bundles", "packages", "tools"],
     eslintOptions: {
-      cwd: path.join(projectRoot, "benchmarks-tmp", "pixi.js"),
+      cwd: path.join(projectRoot, reposDir, "pixi.js"),
       extensions: [".js", ".ts"],
       useEslintrc: false,
       baseConfig: {
@@ -264,16 +258,26 @@ export async function getRepo(
   { name, targetGitRef, remoteLink, location }: RepoInfo,
   logs = true
 ) {
+  const benchmarksAbsPath = path.join(projectRoot, reposDir);
+  if (!existsSync(benchmarksAbsPath)) {
+    mkdirSync(benchmarksAbsPath);
+  }
+
   if (logs) console.log(`Retrieving ${remoteLink}`);
   // Clone if necessary, else use existing repo
-  await fs.access(path.join(location, ".git"), fsConstants.R_OK);
-  if (logs) console.log(`Using existing ${location}`);
+  if (existsSync(path.join(location, ".git"))) {
+    console.log(existsSync(path.join(location, ".git")));
+    if (logs) console.log(`Using existing ${location}`);
+    return Git.Repository.open(location);
+  }
+  await Git.Clone.clone(remoteLink, location);
   const repo = await Git.Repository.open(location);
   const ref = await repo.getReference(targetGitRef);
   if (logs) console.log(`Checking out ${name} ${targetGitRef}`);
   const targetRef = await ref.peel(Git.Object.TYPE.COMMIT);
   const commit = await repo.getCommit(targetRef.id());
   await repo.setHeadDetached(commit.id());
+
   return repo;
 }
 
