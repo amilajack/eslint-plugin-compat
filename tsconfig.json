@@ -1,25 +1,28 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es2018",                       /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
-    "module": "commonjs",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "lib": ["es2018", "es2019"],              /* Specify library files to be included in the compilation. */
-    "declaration": true,                      /* Generates corresponding '.d.ts' file. */
-    "declarationMap": true,                   /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    "noEmit": true,                           /* Do not emit outputs. */
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": [
+      "es2018",
+      "es2019"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": true,
     /* Strict Type-Checking Options */
-    "strict": true,                           /* Enable all strict type-checking options. */
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     /* Module Resolution Options */
-    "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowJs": true,
     /* Advanced Options */
-    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,
   },
   "include": [
     "src/**/*.ts",
