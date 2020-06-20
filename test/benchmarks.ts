@@ -62,10 +62,8 @@ async function getBenchmark(repoInfo: RepoInfo) {
 }
 
 (async () => {
-  const benchmarks = repos.map(getBenchmark);
-  const resolvedBenchmarks = await Promise.all(benchmarks);
-
-  Benchmark.invoke(resolvedBenchmarks, {
+  const benchmarks = await Promise.all(repos.map(getBenchmark));
+  Benchmark.invoke(benchmarks, {
     name: "run",
     async: true,
     onStart: () => console.log(`Starting benchmark suite`),
