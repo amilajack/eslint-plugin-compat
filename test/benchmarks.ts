@@ -39,7 +39,9 @@ async function getBenchmark(repoInfo: RepoInfo) {
         .then(() => {
           return deferred.resolve();
         })
-        .catch(console.error);
+        .catch((e) => {
+          throw e;
+        });
     },
     {
       onStart: () => {
