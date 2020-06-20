@@ -35,7 +35,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
     name,
     (deferred: { resolve: Function }) => {
       eslint
-        .lintFiles(location)
+        .lintFiles(repoInfo.filePatterns)
         .then(() => {
           return deferred.resolve();
         })
