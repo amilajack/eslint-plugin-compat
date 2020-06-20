@@ -16,7 +16,7 @@ strategy:
     linux_node_stable_eslint7:
       imageName: 'ubuntu-16.04'
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: 'eslint@^7'
+      eslintVersion: 'eslint@7.2.0'
     linux_node_current_eslint5:
       imageName: 'ubuntu-16.04'
       nodeVersion: $(currentNodeVersion)
@@ -28,7 +28,7 @@ strategy:
     linux_node_current_eslint7:
       imageName: 'ubuntu-16.04'
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: 'eslint@^7'
+      eslintVersion: 'eslint@7.2.0'
     mac_node_stable_eslint5:
       imageName: 'macos-10.14'
       nodeVersion: $(stableNodeVersion)
@@ -40,7 +40,7 @@ strategy:
     mac_node_stable_eslint7:
       imageName: 'macos-10.14'
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: 'eslint@^7'
+      eslintVersion: 'eslint@7.2.0'
     mac_node_current_eslint5:
       imageName: 'macos-10.14'
       nodeVersion: $(currentNodeVersion)
@@ -52,7 +52,7 @@ strategy:
     mac_node_current_eslint7:
       imageName: 'macos-10.14'
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: 'eslint@^7'
+      eslintVersion: 'eslint@7.2.0'
     windows_node_stable_eslint5:
       imageName: 'vs2017-win2016'
       nodeVersion: $(stableNodeVersion)
@@ -64,7 +64,7 @@ strategy:
     windows_node_stable_eslint7:
       imageName: 'vs2017-win2016'
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: 'eslint@^7'
+      eslintVersion: 'eslint@7.2.0'
     windows_node_current_eslint5:
       imageName: 'vs2017-win2016'
       nodeVersion: $(currentNodeVersion)
@@ -76,7 +76,7 @@ strategy:
     windows_node_current_eslint7:
       imageName: 'vs2017-win2016'
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: 'eslint@^7'
+      eslintVersion: 'eslint@7.2.0'
 
 pool:
   vmImage: $(imageName)
