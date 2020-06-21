@@ -2,6 +2,7 @@ variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
   stableNodeVersion: '12.x'
   currentNodeVersion: '14.x'
+  e2eEslintVersion: 'eslint@7'
 
 strategy:
   matrix:
@@ -106,11 +107,11 @@ steps:
     displayName: Install dependencies and run yarn test
   # E2E tests use eslint@7 only feature (the Node.js API class ESLint)
   - script: yarn spec:e2e
-    condition: ge(variables['eslintVersion'], 'eslint@^7')
+    condition: ge(variables['eslintVersion'], variables['e2eEslintVersion'])
     displayName: Run yarn spec:e2e if >=eslint@7# Benchmarks uses eslint@7 only feature (the Node.js API class ESLint)
   # Benchmarks use eslint@7 only feature (the Node.js API class ESLint)
   - script: yarn benchmarks
-    condition: ge(variables['eslintVersion'], 'eslint@^7')
+    condition: ge(variables['eslintVersion'], variables['e2eEslintVersion'])
     displayName: Run benchmarks if >=eslint@7
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
