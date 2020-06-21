@@ -112,7 +112,7 @@ steps:
   # Benchmarks use eslint@7_ only feature (the Node.js API class ESLint)
   - script: yarn benchmarks
     condition: eq(variables['eslintVersion'], variables['e2eEslintVersion'])
-    displayName: Run yarn spec:e2e if $(eslintVersion)==$(e2eEslintVersion)
+    displayName: Run yarn benchmarks if $(eslintVersion)==$(e2eEslintVersion)
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
     displayName: Generate Jest coverage report
