@@ -42,12 +42,12 @@ Array [
       "messages": Array [
         Object {
           "column": 1,
-          "endColumn": 51,
+          "endColumn": 47,
           "endLine": 1,
           "line": 1,
-          "message": "Definition for rule '@typescript-eslint/ban-ts-ignore' was not found.",
+          "message": "Definition for rule 'react/jsx-props-no-spreading' was not found.",
           "nodeType": null,
-          "ruleId": "@typescript-eslint/ban-ts-ignore",
+          "ruleId": "react/jsx-props-no-spreading",
           "severity": 2,
         },
       ],
@@ -57,13 +57,45 @@ Array [
       "errorCount": 1,
       "messages": Array [
         Object {
-          "column": 7,
-          "endColumn": 69,
-          "endLine": 13,
-          "line": 13,
-          "message": "Definition for rule '@typescript-eslint/no-explicit-any' was not found.",
+          "column": 1,
+          "endColumn": 44,
+          "endLine": 2,
+          "line": 2,
+          "message": "Definition for rule 'import/no-cycle' was not found.",
           "nodeType": null,
-          "ruleId": "@typescript-eslint/no-explicit-any",
+          "ruleId": "import/no-cycle",
+          "severity": 2,
+        },
+      ],
+      "name": "electron-react-boilerplate",
+    },
+    Object {
+      "errorCount": 1,
+      "messages": Array [
+        Object {
+          "column": 1,
+          "endColumn": 44,
+          "endLine": 4,
+          "line": 4,
+          "message": "Definition for rule 'import/no-cycle' was not found.",
+          "nodeType": null,
+          "ruleId": "import/no-cycle",
+          "severity": 2,
+        },
+      ],
+      "name": "electron-react-boilerplate",
+    },
+    Object {
+      "errorCount": 1,
+      "messages": Array [
+        Object {
+          "column": 1,
+          "endColumn": 44,
+          "endLine": 6,
+          "line": 6,
+          "message": "Definition for rule 'import/no-cycle' was not found.",
+          "nodeType": null,
+          "ruleId": "import/no-cycle",
           "severity": 2,
         },
       ],
@@ -112,22 +144,6 @@ Array [
       "name": "electron-react-boilerplate",
     },
     Object {
-      "errorCount": 1,
-      "messages": Array [
-        Object {
-          "column": 1,
-          "endColumn": 47,
-          "endLine": 1,
-          "line": 1,
-          "message": "Definition for rule 'react/jsx-props-no-spreading' was not found.",
-          "nodeType": null,
-          "ruleId": "react/jsx-props-no-spreading",
-          "severity": 2,
-        },
-      ],
-      "name": "electron-react-boilerplate",
-    },
-    Object {
       "errorCount": 2,
       "messages": Array [
         Object {
@@ -154,16 +170,26 @@ Array [
       "name": "electron-react-boilerplate",
     },
     Object {
-      "errorCount": 1,
+      "errorCount": 2,
       "messages": Array [
         Object {
           "column": 1,
-          "endColumn": 47,
+          "endColumn": 87,
           "endLine": 1,
           "line": 1,
-          "message": "Definition for rule 'import/prefer-default-export' was not found.",
+          "message": "Definition for rule 'react/jsx-props-no-spreading' was not found.",
           "nodeType": null,
-          "ruleId": "import/prefer-default-export",
+          "ruleId": "react/jsx-props-no-spreading",
+          "severity": 2,
+        },
+        Object {
+          "column": 1,
+          "endColumn": 87,
+          "endLine": 1,
+          "line": 1,
+          "message": "Definition for rule '@typescript-eslint/ban-ts-comment' was not found.",
+          "nodeType": null,
+          "ruleId": "@typescript-eslint/ban-ts-comment",
           "severity": 2,
         },
       ],

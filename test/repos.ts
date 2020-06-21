@@ -46,7 +46,7 @@ const repos: Array<RepoInfo> = [
     location: path.join(projectRoot, reposDir, "electron-react-boilerplate"),
     remoteLink:
       "https://github.com/electron-react-boilerplate/electron-react-boilerplate.git",
-    targetGitRef: "v1.1.0",
+    targetGitRef: "v1.2.0",
     filePatterns: ["."],
     browserslist: ["electron 7.1.13"],
     eslintOptions: {
