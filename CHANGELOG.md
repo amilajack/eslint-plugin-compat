@@ -6,7 +6,8 @@
 
 ### Internal
 - Migrated from Flow to Typescript
-- Created benchmarks of popular repositories
+- Created performance benchmarks of popular repositories
+- Create E2E linting tests
 - Internal refactors
 
 # v3.7.0
@@ -130,6 +131,7 @@
 
 ### Updated
 - Bumped all dependencies to latest semver
+
 ### Infra
 - Removed boilerplate from `.eslintrc`
 - Run CI against node 8
