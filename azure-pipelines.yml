@@ -107,8 +107,9 @@ steps:
   - script: yarn --frozen-lockfile && yarn add --dev $(eslintVersion) && yarn test
     displayName: Install dependencies and run yarn test
   # E2E tests use eslint@7+ only feature (the Node.js API class ESLint)
+  # Also disabled on windows because of jest snapshot problems
   - script: yarn spec:e2e --ci
-    condition: eq(variables['eslintVersion'], variables['e2eEslintVersion'])
+    condition: and(eq(variables['eslintVersion'], variables['e2eEslintVersion']), ne(variables['imageName'], 'vs2017-win2016'))
     displayName: Run yarn spec:e2e if $(eslintVersion)==$(e2eEslintVersion)
   # Benchmarks use eslint@7_ only feature (the Node.js API class ESLint)
   - script: yarn benchmarks
