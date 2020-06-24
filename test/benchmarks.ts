@@ -31,7 +31,6 @@ async function getBenchmark(repoInfo: RepoInfo) {
     await editBrowserslistrc(packageJsonPath, repoInfo.browserslist);
   }
 
-  console.log(`Checking if  ${name} ${targetGitRef} has fatal linting error`);
   eslint
     .lintFiles(repoInfo.filePatterns)
     .then((lintResults) => {
@@ -41,7 +40,8 @@ async function getBenchmark(repoInfo: RepoInfo) {
         lintResult.messages.forEach((lintMessage) => {
           if (lintMessage.fatal) {
             const errorMessage = `
-              Fatal ESLint parsing error
+              ${name} ${targetGitRef} has a fatal ESLint parsing error (not related to a rule)
+              There's probably a problem with the repoInfo configuration
               ${JSON.stringify(lintResult, null, 2)}
             `;
             throw new Error(errorMessage);
