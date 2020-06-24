@@ -55,9 +55,9 @@ async function getBenchmark(repoInfo: RepoInfo) {
         });
         if (lintResult.errorCount > 0) console.log();
       });
-      // const errs = lintResults.reduce((sum, e) => e.errorCount + sum, 0);
-      let message = `Files linted: ${lintResults.length}`;
-      message += `\nErrors (errs) found: ${errors.length}`;
+      const message = `
+      Files linted count: ${lintResults.length}
+      Eslint rule error count: ${errors.length}`;
       console.log(message);
       return errors;
     })
