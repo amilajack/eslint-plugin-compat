@@ -8,9 +8,9 @@ describe("e2e Repo Tests", () => {
     await Promise.all(repos.map((repo) => initRepo(repo, false)));
 
     const lintedRepos = await Promise.all(
-      repos.map(async ({ eslintOptions, location, name }) => {
+      repos.map(async ({ eslintOptions, filePatterns, name }) => {
         const eslint = new ESLint(eslintOptions);
-        const results = await eslint.lintFiles(location);
+        const results = await eslint.lintFiles(filePatterns);
         return results
           .filter((result) => result.messages.length > 0)
           .map(({ errorCount, messages }) => ({

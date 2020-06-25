@@ -54,13 +54,18 @@ const repos: Array<RepoInfo> = [
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       useEslintrc: false,
       baseConfig: {
-        parser: "@typescript-eslint/parser",
         extends: ["plugin:compat/recommended"],
+        parser: "@typescript-eslint/parser",
+        plugins: ["@typescript-eslint"],
+        env: {
+          browser: true,
+          node: true,
+        },
         parserOptions: {
-          jsx: true,
-          ecmaVersion: 2018,
+          ecmaVersion: 2020,
           sourceType: "module",
         },
+        ignorePatterns: ["*css.d.ts", "*sass.d.ts", "*scss.d.ts"],
       },
     },
   },
