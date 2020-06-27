@@ -3,7 +3,7 @@ variables:
   stableNodeVersion: '12.x'
   currentNodeVersion: '14.x'
   # Used with `eslintVersion` to see if `spec:e2e` and `benchmarks` should run
-  e2eEslintVersion: 'eslint@7.2.0'
+  e2eEslintVersion: 'eslint@7.3.1'
 
 strategy:
   matrix:
