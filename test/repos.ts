@@ -136,32 +136,32 @@ const repos: Array<RepoInfo> = [
       },
     },
   },
-  {
-    name: "vscode",
-    location: path.join(projectRoot, reposDir, "vscode"),
-    remoteLink: "https://github.com/microsoft/vscode.git",
-    targetGitRef: "1.46.0",
-    filePatterns: ["./src/vs", "./extensions", "./build"],
-    browserslist: ["electron 7.3.1"],
-    eslintOptions: {
-      cwd: path.join(projectRoot, reposDir, "vscode"),
-      extensions: [".js", ".ts"],
-      useEslintrc: false,
-      baseConfig: {
-        extends: ["plugin:compat/recommended"],
-        env: {
-          node: true,
-          es6: true,
-          browser: true,
-        },
-        parser: "@typescript-eslint/parser",
-        parserOptions: {
-          ecmaVersion: 6,
-          sourceType: "module",
-        },
-      },
-    },
-  },
+  // {
+  //   name: "vscode",
+  //   location: path.join(projectRoot, reposDir, "vscode"),
+  //   remoteLink: "https://github.com/microsoft/vscode.git",
+  //   targetGitRef: "1.46.0",
+  //   filePatterns: ["./src/vs", "./extensions", "./build"],
+  //   browserslist: ["electron 7.3.1"],
+  //   eslintOptions: {
+  //     cwd: path.join(projectRoot, reposDir, "vscode"),
+  //     extensions: [".js", ".ts"],
+  //     useEslintrc: false,
+  //     baseConfig: {
+  //       extends: ["plugin:compat/recommended"],
+  //       env: {
+  //         node: true,
+  //         es6: true,
+  //         browser: true,
+  //       },
+  //       parser: "@typescript-eslint/parser",
+  //       parserOptions: {
+  //         ecmaVersion: 6,
+  //         sourceType: "module",
+  //       },
+  //     },
+  //   },
+  // },
   {
     name: "create-react-app",
     location: path.join(projectRoot, reposDir, "create-react-app"),
