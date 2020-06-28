@@ -2,7 +2,8 @@ import { RuleTester } from "eslint";
 import rule from "../src/rules/compat";
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+  parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+  parser: require.resolve("@typescript-eslint/parser"),
   settings: {
     lintAllEsApis: true,
   },
@@ -25,6 +26,10 @@ ruleTester.run("compat", rule, {
         }
       `,
       settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
+      code: `window?.fetch?.('example.com')`,
+      settings: { browsers: ["ie 9"] },
     },
     {
       code: `
@@ -607,6 +612,16 @@ ruleTester.run("compat", rule, {
         },
       ],
     },
+    // @TODO: Fix this edge case
+    // {
+    //   code: `window?.fetch`,
+    //   settings: { browsers: ["ie 9"] },
+    //   errors: [
+    //     {
+    //       message: "fetch is not supported in IE 9",
+    //     },
+    //   ],
+    // },
     {
       code: "Object.entries({}), Object.values({})",
       settings: {
