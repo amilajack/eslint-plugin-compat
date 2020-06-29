@@ -271,7 +271,7 @@ const repos: Array<RepoInfo> = [
 ];
 
 export async function initRepo(
-  { name, targetGitRef, remoteLink, location }: RepoInfo,
+  { name, targetGitRef, targetCommitId, remoteLink, location }: RepoInfo,
   showLogs = true
 ) {
   const benchmarksAbsPath = path.join(projectRoot, reposDir);
@@ -287,10 +287,9 @@ export async function initRepo(
   }
   await Git.Clone.clone(remoteLink, location);
   const repo = await Git.Repository.open(location);
-  const ref = await repo.getReference(targetGitRef);
-  if (showLogs) console.log(`Checking out ${name} ${targetGitRef}`);
-  const targetRef = await ref.peel(Git.Object.TYPE.COMMIT);
-  const commit = await repo.getCommit(targetRef.id());
+  if (showLogs)
+    console.log(`Checking out ${name}@${targetGitRef || targetCommitId}`);
+  const commit = await repo.getCommit(targetCommitId);
   await repo.setHeadDetached(commit.id());
 
   return repo;
