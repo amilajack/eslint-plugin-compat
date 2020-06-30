@@ -1,7 +1,7 @@
 /* eslint no-console: off */
 import path from "path";
 import { mkdirSync, existsSync } from "fs";
-import Git from "nodegit";
+import simpleGit, { SimpleGit } from "simple-git";
 import { ESLint } from "eslint";
 
 export type RepoInfo = {
@@ -271,7 +271,7 @@ const repos: Array<RepoInfo> = [
 ];
 
 export async function initRepo(
-  { name, targetGitRef, targetCommitId, remoteLink, location }: RepoInfo,
+  { targetCommitId, remoteLink, location }: RepoInfo,
   showLogs = true
 ) {
   const benchmarksAbsPath = path.join(projectRoot, reposDir);
@@ -280,19 +280,14 @@ export async function initRepo(
   }
 
   if (showLogs) console.log(`Retrieving ${remoteLink}`);
-  // Clone if necessary, else use existing repo
-  if (existsSync(path.join(location, ".git"))) {
-    if (showLogs) console.log(`Using existing ${location}`);
-    return Git.Repository.open(location);
-  }
-  await Git.Clone.clone(remoteLink, location);
-  const repo = await Git.Repository.open(location);
-  if (showLogs)
-    console.log(`Checking out ${name}@${targetGitRef || targetCommitId}`);
-  const commit = await repo.getCommit(targetCommitId);
-  await repo.setHeadDetached(commit.id());
 
-  return repo;
+  const git: SimpleGit = simpleGit();
+  if (!existsSync(path.join(location, ".git"))) {
+    await git.clone(remoteLink, location);
+    git.init();
+  }
+  await git.cwd(location);
+  await git.checkout(targetCommitId);
 }
 
 export default repos;
