@@ -282,7 +282,10 @@ export async function initRepo(
   if (showLogs) console.log(`Retrieving ${remoteLink}`);
 
   const git: SimpleGit = simpleGit();
+  // Clone if necessary, else use existing repo
   if (!existsSync(path.join(location, ".git"))) {
+    if (showLogs)
+      console.log(`${location} not found, proceeding to clone from remote`);
     await git.clone(remoteLink, location);
     git.init();
   }
