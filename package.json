@@ -17,6 +17,10 @@
     "kangax"
   ],
   "author": "Amila Welihinda",
+  "contributors": [
+    "Amila Welihinda <amilajack@gmail.com> (https://github.com/amilajack)",
+    "John Tran <jptran318@gmail.com> (https://github.com/jooohhn)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/amilajack/eslint-plugin-compat/issues"
