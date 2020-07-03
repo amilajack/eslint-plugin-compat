@@ -3,7 +3,7 @@ variables:
   stableNodeVersion: "12.x"
   currentNodeVersion: "14.x"
   # Used with `eslintVersion` to see if `spec:e2e` and `benchmarks` should run
-  e2eEslintVersion: "eslint@7.3.1"
+  e2eEslintVersion: "eslint@7"
 
 strategy:
   matrix:
@@ -101,12 +101,12 @@ steps:
   # E2E tests use eslint@7+ only feature (the Node.js API class ESLint)
   # Also disabled on windows because of jest snapshot problems
   - script: yarn spec:e2e
-    condition: and(eq(variables['eslintVersion'], variables['e2eEslintVersion']), ne(variables['imageName'], 'vs2017-win2016'))
-    displayName: Run yarn spec:e2e if $(eslintVersion)==$(e2eEslintVersion)
+    condition: and(contains(variables['eslintVersion'], variables['e2eEslintVersion']), ne(variables['imageName'], 'vs2017-win2016'))
+    displayName: Run yarn spec:e2e if $(eslintVersion) >= $(e2eEslintVersion)
   # Benchmarks use eslint@7_ only feature (the Node.js API class ESLint)
   - script: yarn benchmarks
-    condition: eq(variables['eslintVersion'], variables['e2eEslintVersion'])
-    displayName: Run yarn benchmarks if $(eslintVersion)==$(e2eEslintVersion)
+    condition: contains(variables['eslintVersion'], variables['e2eEslintVersion'])
+    displayName: Run yarn benchmarks if $(eslintVersion) >= $(e2eEslintVersion)
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
     displayName: Generate Jest coverage report
