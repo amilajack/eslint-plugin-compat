@@ -3,7 +3,7 @@ variables:
   stableNodeVersion: "12.x"
   currentNodeVersion: "14.x"
   # Used with `eslintVersion` to see if `spec:e2e` and `benchmarks` should run
-  e2eEslintVersion: "eslint@7.3.1"
+  e2eEslintVersion: "eslint@7"
 
 strategy:
   matrix:
@@ -18,7 +18,7 @@ strategy:
     linux_node_stable_eslint7:
       imageName: "ubuntu-16.04"
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: "eslint@7.2.0"
+      eslintVersion: "eslint@7.3.1"
     linux_node_current_eslint5:
       imageName: "ubuntu-16.04"
       nodeVersion: $(currentNodeVersion)
@@ -30,7 +30,7 @@ strategy:
     linux_node_current_eslint7:
       imageName: "ubuntu-16.04"
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: "eslint@7.2.0"
+      eslintVersion: "eslint@7.3.1"
     mac_node_stable_eslint5:
       imageName: "macos-10.14"
       nodeVersion: $(stableNodeVersion)
@@ -42,7 +42,7 @@ strategy:
     mac_node_stable_eslint7:
       imageName: "macos-10.14"
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: "eslint@7.2.0"
+      eslintVersion: "eslint@7.3.1"
     mac_node_current_eslint5:
       imageName: "macos-10.14"
       nodeVersion: $(currentNodeVersion)
@@ -54,7 +54,7 @@ strategy:
     mac_node_current_eslint7:
       imageName: "macos-10.14"
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: "eslint@7.2.0"
+      eslintVersion: "eslint@7.3.1"
     windows_node_stable_eslint5:
       imageName: "vs2017-win2016"
       nodeVersion: $(stableNodeVersion)
@@ -66,7 +66,7 @@ strategy:
     windows_node_stable_eslint7:
       imageName: "vs2017-win2016"
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: "eslint@7.2.0"
+      eslintVersion: "eslint@7.3.1"
     windows_node_current_eslint5:
       imageName: "vs2017-win2016"
       nodeVersion: $(currentNodeVersion)
@@ -78,7 +78,7 @@ strategy:
     windows_node_current_eslint7:
       imageName: "vs2017-win2016"
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: "eslint@7.2.0"
+      eslintVersion: "eslint@7.3.1"
 
 pool:
   vmImage: $(imageName)
@@ -88,14 +88,6 @@ steps:
     inputs:
       versionSpec: $(nodeVersion)
     displayName: Install node@$(nodeVersion)
-  # nodegit for node>=13.x doesn't come with pre-built binaries, need krb5 to build it during CI
-  # https://github.com/nodegit/nodegit/issues/1753 https://github.com/nodegit/nodegit/issues/1134
-  # - task: Bash@3
-  #   condition: and(eq(variables['Agent.OS'],'Linux'), ge(variables['nodeVersion'], variables['currentNodeVersion']))
-  #   inputs:
-  #     targetType: inline
-  #     script: sudo apt-get install -y libkrb5-dev
-  #   displayName: Install krb5 if >=node@13.x
   - task: Cache@2
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
@@ -109,12 +101,12 @@ steps:
   # E2E tests use eslint@7+ only feature (the Node.js API class ESLint)
   # Also disabled on windows because of jest snapshot problems
   - script: yarn spec:e2e
-    condition: and(eq(variables['eslintVersion'], variables['e2eEslintVersion']), ne(variables['imageName'], 'vs2017-win2016'))
-    displayName: Run yarn spec:e2e if $(eslintVersion)==$(e2eEslintVersion)
+    condition: and(contains(variables['eslintVersion'], variables['e2eEslintVersion']), ne(variables['imageName'], 'vs2017-win2016'))
+    displayName: Run yarn spec:e2e if $(eslintVersion) >= $(e2eEslintVersion)
   # Benchmarks use eslint@7_ only feature (the Node.js API class ESLint)
   - script: yarn benchmarks
-    condition: eq(variables['eslintVersion'], variables['e2eEslintVersion'])
-    displayName: Run yarn benchmarks if $(eslintVersion)==$(e2eEslintVersion)
+    condition: contains(variables['eslintVersion'], variables['e2eEslintVersion'])
+    displayName: Run yarn benchmarks if $(eslintVersion) >= $(e2eEslintVersion)
   # Upload Jest code coverage
   - script: yarn spec --coverage --coverageReporters=cobertura
     displayName: Generate Jest coverage report
