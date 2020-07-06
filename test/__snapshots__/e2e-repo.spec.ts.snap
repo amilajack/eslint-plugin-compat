@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`e2e Repo Tests should lint repos 1`] = `
+exports[`e2e Repo Tests should match lint result snapshots 1`] = `
 Array [
   Array [
     Object {
