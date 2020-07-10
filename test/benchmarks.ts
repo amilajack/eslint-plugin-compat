@@ -31,40 +31,6 @@ async function getBenchmark(repoInfo: RepoInfo) {
     await editBrowserslistrc(packageJsonPath, repoInfo.browserslist);
   }
 
-  eslint
-    .lintFiles(repoInfo.filePatterns)
-    .then((lintResults) => {
-      const errors: Array<string> = [];
-      lintResults.forEach((lintResult) => {
-        console.log(`Results for linting: ${lintResult.filePath}`);
-        lintResult.messages.forEach((lintMessage) => {
-          if (lintMessage.fatal) {
-            const errorMessage = `
-              ${name} ${targetGitRef} has a fatal ESLint parsing error (not related to a rule)
-              There's probably a problem with the repoInfo configuration
-              ${JSON.stringify(lintResult, null, 2)}
-            `;
-            throw new Error(errorMessage);
-          }
-          const errorSummary = `
-          message: ${lintMessage.message},
-          suggestions: ${lintMessage.suggestions},
-          `;
-          console.log(errorSummary);
-          errors.push(errorSummary);
-        });
-        if (lintResult.errorCount > 0) console.log();
-      });
-      const message = `
-      Files linted count: ${lintResults.length}
-      Eslint rule error count: ${errors.length}`;
-      console.log(message);
-      return errors;
-    })
-    .catch((e) => {
-      throw e;
-    });
-
   const benchmark = new Benchmark(
     name,
     (deferred: { resolve: Function }) => {
