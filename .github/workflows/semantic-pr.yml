@@ -1,0 +1,44 @@
+name: Semantic PR Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+
+jobs:
+  pr-title-check: 
+    name: Check PR for semantic title
+    runs-on: ubuntu-18.04
+    steps:
+      - name: PR title is valid
+        if: >
+          startsWith(github.event.pull_request.title, 'feat:') || startsWith(github.event.pull_request.title, 'feat(') ||
+          startsWith(github.event.pull_request.title, 'fix:') || startsWith(github.event.pull_request.title, 'fix(') ||
+          startsWith(github.event.pull_request.title, 'perf:') || startsWith(github.event.pull_request.title, 'perf(') ||
+          startsWith(github.event.pull_request.title, 'docs:') || startsWith(github.event.pull_request.title, 'docs(') ||
+          startsWith(github.event.pull_request.title, 'test:') || startsWith(github.event.pull_request.title, 'test(') ||
+          startsWith(github.event.pull_request.title, 'refactor:') || startsWith(github.event.pull_request.title, 'refactor(') ||
+          startsWith(github.event.pull_request.title, 'style:') || startsWith(github.event.pull_request.title, 'style(') ||
+          startsWith(github.event.pull_request.title, 'build:') || startsWith(github.event.pull_request.title, 'build(') ||
+          startsWith(github.event.pull_request.title, 'ci:') || startsWith(github.event.pull_request.title, 'ci(') ||
+          startsWith(github.event.pull_request.title, 'chore:') || startsWith(github.event.pull_request.title, 'chore(') ||
+          startsWith(github.event.pull_request.title, 'revert:') || startsWith(github.event.pull_request.title, 'revert(')
+        run: |
+          echo 'Title checks passed'
+
+      - name: PR title is invalid
+        if: >
+          !startsWith(github.event.pull_request.title, 'feat:') && !startsWith(github.event.pull_request.title, 'feat(') &&
+          !startsWith(github.event.pull_request.title, 'fix:') && !startsWith(github.event.pull_request.title, 'fix(') &&
+          !startsWith(github.event.pull_request.title, 'perf:') && !startsWith(github.event.pull_request.title, 'perf(') &&
+          !startsWith(github.event.pull_request.title, 'docs:') && !startsWith(github.event.pull_request.title, 'docs(') &&
+          !startsWith(github.event.pull_request.title, 'test:') && !startsWith(github.event.pull_request.title, 'test(') &&
+          !startsWith(github.event.pull_request.title, 'refactor:') && !startsWith(github.event.pull_request.title, 'refactor(') &&
+          !startsWith(github.event.pull_request.title, 'style:') && !startsWith(github.event.pull_request.title, 'style(') &&
+          !startsWith(github.event.pull_request.title, 'build:') && !startsWith(github.event.pull_request.title, 'build(') &&
+          !startsWith(github.event.pull_request.title, 'ci:') && !startsWith(github.event.pull_request.title, 'ci(') &&
+          !startsWith(github.event.pull_request.title, 'chore:') && !startsWith(github.event.pull_request.title, 'chore(') &&
+          !startsWith(github.event.pull_request.title, 'revert:') && !startsWith(github.event.pull_request.title, 'revert(')
+        run: |
+          echo 'Pull request title is not valid. Please check github.com/amplitude/Amplitude-JavaScript/blob/master/CONTRIBUTING.md#pr-commit-title-conventions'
+          exit 1
+          
