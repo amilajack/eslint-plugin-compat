@@ -39,5 +39,5 @@ jobs:
           !startsWith(github.event.pull_request.title, 'chore:') && !startsWith(github.event.pull_request.title, 'chore(') &&
           !startsWith(github.event.pull_request.title, 'revert:') && !startsWith(github.event.pull_request.title, 'revert(')
         run: |
-          echo 'Pull request title is not valid. Please check github.com/amplitude/Amplitude-JavaScript/blob/master/CONTRIBUTING.md#pr-commit-title-conventions'
+          echo 'Pull request title is not valid. Please follow https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines'
           exit 1
