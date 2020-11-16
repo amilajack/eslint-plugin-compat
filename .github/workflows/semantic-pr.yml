@@ -41,4 +41,3 @@ jobs:
         run: |
           echo 'Pull request title is not valid. Please check github.com/amplitude/Amplitude-JavaScript/blob/master/CONTRIBUTING.md#pr-commit-title-conventions'
           exit 1
-          
