@@ -1,0 +1,66 @@
+name: Release
+
+on: 
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: 'Do a dry run to preview instead of a real release'     
+        required: true
+        default: 'true'
+
+env:
+  stable-node-version: "14.x"
+  e2e-eslint-version: "eslint@7" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7 
+
+jobs:
+  authorize: 
+    name: Authorize
+    runs-on: ubuntu-18.04
+    steps:
+      - name: ${{ github.actor }} permission check to do a release
+        uses: octokit/request-action@v2.0.0
+        with:
+          route: GET /repos/:repository/collaborators/${{ github.actor }}
+          repository: ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    name: Release
+    runs-on: ubuntu-18.04
+    needs: [authorize]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ stable-node-version }}
+
+      - name: node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile && yarn add --dev ${{ e2e-eslint-version }}
+
+      - name: Run tests
+        run: yarn test && yarn spec:e2e
+
+      - name: Release --dry-run  # Uses release.config.js
+        if: ${{ github.event.inputs.dryRun == 'true'}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release --dry-run
+
+      - name: Release # Uses release.config.js
+        if: ${{ github.event.inputs.dryRun == 'false'}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
