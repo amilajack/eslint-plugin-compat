@@ -32,7 +32,7 @@
   "scripts": {
     "benchmarks": "ts-node-transpile-only test/benchmarks.ts",
     "build": "rm -rf lib && babel src --out-dir lib --source-maps inline --extensions '.ts'",
-    "lint": "eslint --ignore-path .gitignore --ignore-pattern release.config.js --ext .js,.ts .",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest --testPathIgnorePatterns test/e2e-repo.spec.ts /benchmarks-tmp",
     "spec:e2e": "jest test/e2e-repo.spec.ts",
     "test": "yarn lint && yarn build && yarn spec",

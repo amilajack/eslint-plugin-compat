@@ -27,6 +27,7 @@
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "release.config.js"
   ]
 }
