@@ -52,7 +52,7 @@
     "@babel/preset-typescript": "^7.12.1",
     "@types/benchmark": "^1.0.33",
     "@types/browserslist": "^4.8.0",
-    "@types/eslint": "^7.2.4",
+    "@types/eslint": "^7.2.5",
     "@types/jest": "^26.0.15",
     "@types/lodash.memoize": "^4.1.6",
     "@types/semver": "^7.3.4",
