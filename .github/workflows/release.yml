@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: ${{ github.actor }} permission check to do a release
-        uses: octokit/request-action@v2.0.0
+        uses: octokit/request-action@v2.0.17
         with:
           route: GET /repos/:repository/collaborators/${{ github.actor }}
           repository: ${{ github.repository }}
