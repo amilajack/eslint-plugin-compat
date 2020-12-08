@@ -8,10 +8,6 @@ on:
         required: true
         default: 'true'
 
-env:
-  stable-node-version: "14.x"
-  e2e-eslint-version: "eslint@7" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7 
-
 jobs:
   authorize: 
     name: Authorize
@@ -29,6 +25,9 @@ jobs:
     name: Release
     runs-on: ubuntu-18.04
     needs: [authorize]
+    env:
+      stable-node-version: "14.x"
+      e2e-eslint-version: "eslint@7" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7 
 
     steps:
       - name: Checkout
@@ -37,7 +36,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ stable-node-version }}
+          node-version: ${{ env.stable-node-version}}
 
       - name: node_modules cache
         uses: actions/cache@v2
@@ -46,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile && yarn add --dev ${{ e2e-eslint-version }}
+        run: yarn install --frozen-lockfile && yarn add --dev ${{ env.e2e-eslint-version }}
 
       - name: Run tests
         run: yarn test && yarn spec:e2e

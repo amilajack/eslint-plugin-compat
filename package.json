@@ -50,6 +50,8 @@
     "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "@types/benchmark": "^1.0.33",
     "@types/browserslist": "^4.8.0",
     "@types/eslint": "^7.2.5",
@@ -68,6 +70,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.1.0",
     "prettier": "^2.2.1",
+    "semantic-release": "^17.3.0",
     "simple-git": "^2.24.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
