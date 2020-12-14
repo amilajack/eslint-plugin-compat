@@ -1,22 +1,6 @@
-import canIUseRecords from "caniuse-db/fulldata-json/data-2.0.json";
+import * as lite from "caniuse-lite";
 import { STANDARD_TARGET_NAME_MAPPING, AstNodeTypes } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
-
-type CanIUseRecords = {
-  data: CanIUseData;
-};
-
-type CanIUseData = {
-  [api: string]: {
-    stats: CanIUseStats;
-  };
-};
-
-type CanIUseStats = {
-  [browser: string]: {
-    [version: string]: string;
-  };
-};
 
 /**
  * Take a target's id and return it's full name by using `targetNameMappings`
@@ -55,7 +39,7 @@ function isSupportedByCanIUse(
   node: AstMetadataApiWithTargetsResolver,
   { version, target, parsedVersion }: Target
 ): boolean {
-  const data = (canIUseRecords as CanIUseRecords).data[node.caniuseId];
+  const data = lite.feature(lite.features[node.caniuseId]);
 
   if (!data) return true;
   const { stats } = data;
