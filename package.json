@@ -72,7 +72,7 @@
     "jest": "^26.1.0",
     "prettier": "^2.2.1",
     "semantic-release": "^17.3.1",
-    "simple-git": "^2.24.0",
+    "simple-git": "^2.31.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
