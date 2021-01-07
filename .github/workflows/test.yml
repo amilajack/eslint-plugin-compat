@@ -1,9 +1,6 @@
 name: Test
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
   release:
