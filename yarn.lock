@@ -1488,12 +1488,10 @@
   resolved "https://registry.yarnpkg.com/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz#8ace5259254426ccef57f3175bc64ed7095ed919"
   integrity sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==
 
-"@mdn/browser-compat-data@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.0.1.tgz#2a4e6aeb4ddc627075f18c02f5abf71a3254a85f"
-  integrity sha512-m8uDiEsOz6n543SbQYoWG5s0/vHEw6B+57Px05HOVX+aiBUhp/RGtyB8vTjU0lDJea79crk6ovpvsHDaa3Vq4g==
-  dependencies:
-    extend "3.0.2"
+"@mdn/browser-compat-data@^3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.3.tgz#139a151e98a7e91b43fc2900d0ccf7edb59bea5a"
+  integrity sha512-ikDzSgs2SbBtKVXCNfU6GzVACpUuojZS8Vu/VhM1EwtWvtfGJsrRETLbV231ODMvWtfKJThzrsk2Hp88fv9+gA==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents":
   version "2.1.8-no-fsevents"
