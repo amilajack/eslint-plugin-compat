@@ -5,13 +5,10 @@ module.exports = {
   },
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
   extends: [
-    "bliss",
     "airbnb-typescript/base",
     "plugin:import/typescript",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
   ],
   parserOptions: {
     project: "./tsconfig.json",

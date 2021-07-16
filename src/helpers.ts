@@ -222,28 +222,26 @@ export function parseBrowsersListVersion(
   return (
     // Sort the targets by target name and then version number in ascending order
     targetslist
-      .map(
-        (e: string): Target => {
-          const [target, version] = e.split(" ") as [
-            keyof TargetNameMappings,
-            number | string
-          ];
+      .map((e: string): Target => {
+        const [target, version] = e.split(" ") as [
+          keyof TargetNameMappings,
+          number | string
+        ];
 
-          const parsedVersion: number = (() => {
-            if (typeof version === "number") return version;
-            if (version === "all") return 0;
-            return version.includes("-")
-              ? parseFloat(version.split("-")[0])
-              : parseFloat(version);
-          })();
+        const parsedVersion: number = (() => {
+          if (typeof version === "number") return version;
+          if (version === "all") return 0;
+          return version.includes("-")
+            ? parseFloat(version.split("-")[0])
+            : parseFloat(version);
+        })();
 
-          return {
-            target,
-            version,
-            parsedVersion,
-          };
-        }
-      ) // Sort the targets by target name and then version number in descending order
+        return {
+          target,
+          version,
+          parsedVersion,
+        };
+      }) // Sort the targets by target name and then version number in descending order
       // ex. [a@3, b@3, a@1] => [a@3, a@1, b@3]
       .sort((a: Target, b: Target): number => {
         if (b.target === a.target) {

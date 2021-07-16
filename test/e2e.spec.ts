@@ -28,7 +28,7 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
-      code: `window?.fetch?.('example.com')`,
+      code: "window?.fetch?.('example.com')",
       settings: { browsers: ["ie 9"] },
     },
     {

@@ -66,7 +66,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
   Benchmark.invoke(benchmarks, {
     name: "run",
     async: true,
-    onStart: () => console.log(`Starting benchmark suite`),
+    onStart: () => console.log("Starting benchmark suite"),
     onComplete: (e) => {
       console.log("Finished benchmark suite");
       const reports = e.currentTarget.map((benchmark) => ({
