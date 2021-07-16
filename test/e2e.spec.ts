@@ -28,10 +28,6 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
-      code: "window?.fetch?.('example.com')",
-      settings: { browsers: ["ie 9"] },
-    },
-    {
       code: `
         if (Array.prototype.flat) {
           new Array.flat()
@@ -255,6 +251,15 @@ ruleTester.run("compat", rule, {
     },
   ],
   invalid: [
+    {
+      code: "window?.fetch?.('example.com')",
+      settings: { browsers: ["ie 9"] },
+      errors: [
+        {
+          message: "fetch is not supported in IE 9",
+        },
+      ],
+    },
     {
       settings: {
         browsers: ["ie 9"],
