@@ -271,6 +271,9 @@ ruleTester.run("compat", rule, {
       `,
       errors: [
         {
+          message: "navigator.hardwareConcurrency() is not supported in IE 9",
+        },
+        {
           message: "navigator.serviceWorker() is not supported in IE 9",
         },
         {

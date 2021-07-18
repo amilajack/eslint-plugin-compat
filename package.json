@@ -64,7 +64,7 @@
         "benchmark": "^2.1.4",
         "browserslist-config-erb": "^0.0.1",
         "electron": "^13.1.7",
-        "eslint": "^7.30.0",
+        "eslint": "^7.31.0",
         "eslint-config-airbnb-typescript": "^12.3.1",
         "eslint-config-bliss": "^5.0.0",
         "eslint-config-prettier": "^8.3.0",
@@ -84,7 +84,7 @@
     },
     "dependencies": {
         "@mdn/browser-compat-data": "^3.3.11",
-        "ast-metadata-inferer": "^0.5.0",
+        "ast-metadata-inferer": "^0.5.1",
         "browserslist": "^4.16.6",
         "caniuse-lite": "^1.0.30001245",
         "core-js": "^3.15.2",
