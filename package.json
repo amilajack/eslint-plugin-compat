@@ -83,7 +83,7 @@
         "semi": true
     },
     "dependencies": {
-        "@mdn/browser-compat-data": "^3.3.11",
+        "@mdn/browser-compat-data": "^3.3.14",
         "ast-metadata-inferer": "^0.5.1",
         "browserslist": "^4.16.6",
         "caniuse-lite": "^1.0.30001245",
