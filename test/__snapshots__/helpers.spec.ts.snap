@@ -33,9 +33,9 @@ Array [
     "version": "13",
   },
   Object {
-    "parsedVersion": 74,
+    "parsedVersion": 75,
     "target": "opera",
-    "version": "74",
+    "version": "75",
   },
   Object {
     "parsedVersion": 11.5,
@@ -143,9 +143,9 @@ Array [
     "version": "13.1",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 77,
     "target": "opera",
-    "version": "76",
+    "version": "77",
   },
   Object {
     "parsedVersion": 64,
@@ -233,9 +233,9 @@ Array [
     "version": "13",
   },
   Object {
-    "parsedVersion": 74,
+    "parsedVersion": 75,
     "target": "opera",
-    "version": "74",
+    "version": "75",
   },
   Object {
     "parsedVersion": 11.5,
@@ -358,9 +358,9 @@ Array [
     "version": "13.1",
   },
   Object {
-    "parsedVersion": 76,
+    "parsedVersion": 77,
     "target": "opera",
-    "version": "76",
+    "version": "77",
   },
   Object {
     "parsedVersion": 64,
