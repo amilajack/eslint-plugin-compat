@@ -1,15 +1,15 @@
 name: Release
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       dryRun:
-        description: 'Do a dry run to preview instead of a real release'     
+        description: "Do a dry run to preview instead of a real release"
         required: true
-        default: 'true'
+        default: "true"
 
 jobs:
-  authorize: 
+  authorize:
     name: Authorize
     runs-on: ubuntu-18.04
     steps:
@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-18.04
     needs: [authorize]
     env:
-      stable-node-version: "14.x"
-      e2e-eslint-version: "eslint@7" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7 
+      stable-node-version: "16.x"
+      e2e-eslint-version: "eslint@8" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7
 
     steps:
       - name: Checkout
@@ -41,7 +41,7 @@ jobs:
       - name: node_modules cache
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
@@ -50,7 +50,7 @@ jobs:
       - name: Run tests
         run: yarn test && yarn spec:e2e
 
-      - name: Release --dry-run  # Uses release.config.js
+      - name: Release --dry-run # Uses release.config.js
         if: ${{ github.event.inputs.dryRun == 'true'}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
