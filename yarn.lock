@@ -2062,10 +2062,11 @@
   dependencies:
     browserslist "*"
 
-"@types/caniuse-lite@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/caniuse-lite/-/caniuse-lite-1.0.1.tgz#368292d5d28268cb7917b9178fcdd500df22d64a"
-  integrity sha512-enW8d/vdojHAhr1C/0BqsNkhz/0ik2WCuAJIp9EClP+mHkR8xXBJ2OGeXHZ6cPqDjVKvWBRe9tY/Nr9r4yQSuA==
+"@types/caniuse-lite@^1.0.1", caniuse-lite@^1.0.30001088, caniuse-lite@^1.0.30001157, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001248, caniuse-lite@^1.0.30001251:
+  name caniuse-lite
+  version "1.0.30001267"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001267.tgz"
+  integrity sha512-r1mjTzAuJ9W8cPBGbbus8E0SKcUP7gn03R14Wk8FlAlqhH9hroy9nLqmpuXlfKEw/oILW+FGz47ipXV2O7x8lg==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -3160,30 +3161,10 @@ caniuse-db@^1.0.30001059:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001090.tgz#676648dc13a0ddb33ab0d00eb22af97b2d470b19"
   integrity sha512-9bA5iz+fyFndgHCO5+OZRtVK3mXd6deUKjXjOCpoFrZIitIpK/CvmytrY+ETEeKdSTCpf86bfKpxLrcHcBlRjQ==
 
-caniuse-lite@^1.0.30001088:
-  version "1.0.30001089"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001089.tgz#0634653159f1179093a35fd7f36dbd7c4ed85101"
-  integrity sha512-RnL5dbdqAfQ5oxHjFUU8uiyJMvTKoXfRn0Asp2R5cpRsyiY5+kLl0fcocQijb0V9XAWFEG/2A/vSswRmpYarmA==
-
-caniuse-lite@^1.0.30001157:
-  version "1.0.30001163"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001163.tgz#7595ae1b430fb4ad6adcd4f0a3d705efad9dc379"
-  integrity sha512-QQbOGkHWnvhn3Dlf4scPlXTZVhGOK+2qCOP5gPxqzXHhtn3tZHwNdH9qNcQRWN0f3tDYrsyXFJCFiP/GLzI5Vg==
-
-caniuse-lite@^1.0.30001219:
-  version "1.0.30001245"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001245.tgz#45b941bbd833cb0fa53861ff2bae746b3c6ca5d4"
-  integrity sha512-768fM9j1PKXpOCKws6eTo3RHmvTUsG9UrpT4WoREFeZgJBTi4/X9g565azS/rVUGtqb8nt7FjLeF5u4kukERnA==
-
-caniuse-lite@^1.0.30001248:
-  version "1.0.30001249"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001249.tgz#90a330057f8ff75bfe97a94d047d5e14fabb2ee8"
-  integrity sha512-vcX4U8lwVXPdqzPWi6cAJ3FnQaqXbBqy/GZseKNQzRj37J7qZdGcBtxq/QLFNLLlfsoXLUdHw8Iwenri86Tagw==
-
-caniuse-lite@^1.0.30001251:
-  version "1.0.30001251"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001251.tgz#6853a606ec50893115db660f82c094d18f096d85"
-  integrity sha512-HOe1r+9VkU4TFmnU70z+r7OLmtR+/chB1rdcJUeQlAinjEeb0cKL20tlAtOagNZhbrtLnCvV19B4FmF1rgzl6A==
+caniuse-lite@^1.0.30001267:
+  version "1.0.30001267"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001267.tgz#b1cf2937175afc0570e4615fc2d2f9069fa0ed30"
+  integrity sha512-r1mjTzAuJ9W8cPBGbbus8E0SKcUP7gn03R14Wk8FlAlqhH9hroy9nLqmpuXlfKEw/oILW+FGz47ipXV2O7x8lg==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"

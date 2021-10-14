@@ -87,7 +87,7 @@
     "@mdn/browser-compat-data": "^3.3.14",
     "ast-metadata-inferer": "^0.7.0",
     "browserslist": "^4.16.8",
-    "caniuse-lite": "^1.0.30001251",
+    "caniuse-lite": "^1.0.30001267",
     "core-js": "^3.16.2",
     "find-up": "^5.0.0",
     "lodash.memoize": "4.1.2",
