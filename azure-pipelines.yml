@@ -1,7 +1,7 @@
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-  stableNodeVersion: "12.x"
-  currentNodeVersion: "14.x"
+  stableNodeVersion: "14.x"
+  currentNodeVersion: "16.x"
   # Used with `eslintVersion` to see if `spec:e2e` and `benchmarks` should run
   e2eEslintVersion: "eslint@7"
 
