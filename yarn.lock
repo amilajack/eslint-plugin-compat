@@ -4338,6 +4338,14 @@ eslint-plugin-compat@^3.5.1:
     mdn-browser-compat-data "^1.0.21"
     semver "7.3.2"
 
+eslint-plugin-eslint-plugin@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-eslint-plugin/-/eslint-plugin-eslint-plugin-4.0.1.tgz#9624f4d8aca75ab52aa5efff9d99889b318b6a06"
+  integrity sha512-ey21uE/uOanYAWakWNeFDXF4MEySczTyhdxbKYs5SCTa89MH5Z/TOZ/ui8OqSsAC+QR49iKNuh5kvVSoZhdc7Q==
+  dependencies:
+    eslint-utils "^3.0.0"
+    estraverse "^5.2.0"
+
 eslint-plugin-import@^2.20.2:
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.22.0.tgz#92f7736fe1fde3e2de77623c838dd992ff5ffb7e"
