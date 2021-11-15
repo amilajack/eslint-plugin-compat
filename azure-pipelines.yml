@@ -1,7 +1,7 @@
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-  stableNodeVersion: "12.x"
-  currentNodeVersion: "14.x"
+  stableNodeVersion: "14.x"
+  currentNodeVersion: "16.x"
   # Used with `eslintVersion` to see if `spec:e2e` and `benchmarks` should run
   e2eEslintVersion: "eslint@7"
 
@@ -18,7 +18,7 @@ strategy:
     linux_node_stable_eslint7:
       imageName: "ubuntu-16.04"
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: "eslint@7.3.1"
+      eslintVersion: "eslint@7.32.0"
     linux_node_current_eslint5:
       imageName: "ubuntu-16.04"
       nodeVersion: $(currentNodeVersion)
@@ -30,7 +30,7 @@ strategy:
     linux_node_current_eslint7:
       imageName: "ubuntu-16.04"
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: "eslint@7.3.1"
+      eslintVersion: "eslint@7.32.0"
     mac_node_stable_eslint5:
       imageName: "macos-10.14"
       nodeVersion: $(stableNodeVersion)
@@ -42,7 +42,7 @@ strategy:
     mac_node_stable_eslint7:
       imageName: "macos-10.14"
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: "eslint@7.3.1"
+      eslintVersion: "eslint@7.32.0"
     mac_node_current_eslint5:
       imageName: "macos-10.14"
       nodeVersion: $(currentNodeVersion)
@@ -54,7 +54,7 @@ strategy:
     mac_node_current_eslint7:
       imageName: "macos-10.14"
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: "eslint@7.3.1"
+      eslintVersion: "eslint@7.32.0"
     windows_node_stable_eslint5:
       imageName: "vs2017-win2016"
       nodeVersion: $(stableNodeVersion)
@@ -66,7 +66,7 @@ strategy:
     windows_node_stable_eslint7:
       imageName: "vs2017-win2016"
       nodeVersion: $(stableNodeVersion)
-      eslintVersion: "eslint@7.3.1"
+      eslintVersion: "eslint@7.32.0"
     windows_node_current_eslint5:
       imageName: "vs2017-win2016"
       nodeVersion: $(currentNodeVersion)
@@ -78,7 +78,7 @@ strategy:
     windows_node_current_eslint7:
       imageName: "vs2017-win2016"
       nodeVersion: $(currentNodeVersion)
-      eslintVersion: "eslint@7.3.1"
+      eslintVersion: "eslint@7.32.0"
 
 pool:
   vmImage: $(imageName)
