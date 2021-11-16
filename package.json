@@ -55,7 +55,7 @@
     "@types/benchmark": "^2.1.1",
     "@types/browserslist": "^4.15.0",
     "@types/caniuse-lite": "^1.0.1",
-    "@types/eslint": "^7.28.0",
+    "@types/eslint": "^7.29.0",
     "@types/jest": "^27.0.1",
     "@types/lodash.memoize": "^4.1.6",
     "@types/semver": "^7.3.8",
