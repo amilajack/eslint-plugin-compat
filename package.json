@@ -62,7 +62,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "benchmark": "^2.1.4",
-    "browserslist-config-erb": "^0.0.1",
+    "browserslist-config-erb": "^0.0.3",
     "electron": "^13.x.x",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
