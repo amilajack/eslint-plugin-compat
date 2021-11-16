@@ -58,7 +58,7 @@
     "@types/eslint": "^7.28.0",
     "@types/jest": "^27.0.1",
     "@types/lodash.memoize": "^4.1.6",
-    "@types/semver": "^7.3.8",
+    "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "benchmark": "^2.1.4",
