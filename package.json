@@ -69,7 +69,7 @@
     "eslint-config-bliss": "^5.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-eslint-plugin": "^4.0.1",
-    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
     "prettier": "^2.3.2",
