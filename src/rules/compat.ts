@@ -77,9 +77,11 @@ const items = [
   // Babel configs
   "babel.config.json",
   "babel.config.js",
+  "babel.config.cjs",
   ".babelrc",
   ".babelrc.json",
   ".babelrc.js",
+  ".babelrc.cjs",
   // TS configs
   "tsconfig.json",
 ];
