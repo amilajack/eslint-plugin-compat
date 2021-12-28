@@ -37,6 +37,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.stable-node-version}}
+          cache: npm
 
       - name: node_modules cache
         uses: actions/cache@v2
