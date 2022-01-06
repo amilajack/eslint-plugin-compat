@@ -111,6 +111,41 @@ function isUsingTranspiler(context: Context): boolean {
   return false;
 }
 
+type RulesFilteredByTargets = {
+  CallExpression: AstMetadataApiWithTargetsResolver[];
+  NewExpression: AstMetadataApiWithTargetsResolver[];
+  MemberExpression: AstMetadataApiWithTargetsResolver[];
+  ExpressionStatement: AstMetadataApiWithTargetsResolver[];
+};
+
+/**
+ * A small optimization that only lints APIs that are not supported by targeted browsers.
+ * For example, if the user is targeting chrome 50, which supports the fetch API, it is
+ * wasteful to lint calls to fetch.
+ */
+const getRulesForTargets = memoize(
+  (targetsJSON: string, lintAllEsApis: boolean): RulesFilteredByTargets => {
+    const result = {
+      CallExpression: [],
+      NewExpression: [],
+      MemberExpression: [],
+      ExpressionStatement: [],
+    };
+    const targets = JSON.parse(targetsJSON);
+
+    nodes
+      .filter((node) => {
+        return lintAllEsApis ? true : node.kind !== "es";
+      })
+      .forEach((node) => {
+        if (!node.getUnsupportedTargets(node, targets).length) return;
+        result[node.astNodeType as keyof RulesFilteredByTargets].push(node);
+      });
+
+    return result;
+  }
+);
+
 export default {
   meta: {
     docs: {
@@ -139,44 +174,10 @@ export default {
       determineTargetsFromConfig(context.getFilename(), browserslistConfig)
     );
 
-    type RulesFilteredByTargets = {
-      CallExpression: AstMetadataApiWithTargetsResolver[];
-      NewExpression: AstMetadataApiWithTargetsResolver[];
-      MemberExpression: AstMetadataApiWithTargetsResolver[];
-      ExpressionStatement: AstMetadataApiWithTargetsResolver[];
-    };
-
-    /**
-     * A small optimization that only lints APIs that are not supported by targeted browsers.
-     * For example, if the user is targeting chrome 50, which supports the fetch API, it is
-     * wasteful to lint calls to fetch.
-     */
-    const getRulesForTargets = memoize(
-      (targetsJSON: string): RulesFilteredByTargets => {
-        const result = {
-          CallExpression: [],
-          NewExpression: [],
-          MemberExpression: [],
-          ExpressionStatement: [],
-        };
-        const targets = JSON.parse(targetsJSON);
-
-        nodes
-          .filter((node) => {
-            return lintAllEsApis ? true : node.kind !== "es";
-          })
-          .forEach((node) => {
-            if (!node.getUnsupportedTargets(node, targets).length) return;
-            result[node.astNodeType as keyof RulesFilteredByTargets].push(node);
-          });
-
-        return result;
-      }
-    );
-
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
     const targetedRules = getRulesForTargets(
-      JSON.stringify(browserslistTargets)
+      JSON.stringify(browserslistTargets),
+      lintAllEsApis
     );
 
     type Error = {
