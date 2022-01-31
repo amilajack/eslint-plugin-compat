@@ -39,17 +39,11 @@ jobs:
           node-version: ${{ env.stable-node-version}}
           cache: npm
 
-      - name: node_modules cache
-        uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
-        run: yarn install --frozen-lockfile && yarn add --dev ${{ env.e2e-eslint-version }}
+        run: npm ci && npm i -D ${{ env.e2e-eslint-version }}
 
       - name: Run tests
-        run: yarn test && yarn spec:e2e
+        run: npm test && npm run spec:e2e
 
       - name: Release --dry-run # Uses release.config.js
         if: ${{ github.event.inputs.dryRun == 'true'}}
