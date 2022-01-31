@@ -35,9 +35,9 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest --testPathIgnorePatterns test/e2e-repo.spec.ts /benchmarks-tmp",
     "spec:e2e": "jest test/e2e-repo.spec.ts",
-    "test": "yarn lint && yarn build && yarn spec",
+    "test": "npm run lint && npm run build && npm run spec",
     "tsc": "tsc",
-    "version": "yarn build"
+    "version": "npm run build"
   },
   "jest": {
     "testEnvironment": "node",

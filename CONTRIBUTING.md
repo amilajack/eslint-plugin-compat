@@ -6,15 +6,15 @@ Here's a list of tips and tricks that will help you get started.
 
 #### Important Concepts
 
-* Static Analysis
-* ASTs
-* Polyfills
-* TypeScript
-* WebIDL
+- Static Analysis
+- ASTs
+- Polyfills
+- TypeScript
+- WebIDL
 
 ### Benchmarking
 
-Benchmarking (`yarn benchmarks`) helps prevent performance regression.
+Benchmarking (`npm run benchmarks`) helps prevent performance regression.
 
 #### Related Projects
 
