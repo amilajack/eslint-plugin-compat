@@ -25,7 +25,7 @@ npm install --save-dev eslint-plugin-compat
 
 ```diff
    {
-+    "plugins" ["compat"],
++    "plugins": ["compat"],
 +    "extends": ["plugin:compat/recommended"],
 +    "env": {
 +      "browser": true
