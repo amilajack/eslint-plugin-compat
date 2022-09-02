@@ -96,6 +96,11 @@ export function isSupportedByMDN(
     if (version === "TP") return true;
     if (versionAdded === "TP") return false;
   }
+
+  // "preview" is always gte than any other releases
+  if (version === "preview") return true;
+  if (versionAdded === "preview") return false;
+
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
   const semverCurrent = semver.coerce(customCoerce(version.toString()));
