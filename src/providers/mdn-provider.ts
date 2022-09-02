@@ -98,7 +98,7 @@ export function isSupportedByMDN(
   }
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
-  const semverCurrent = semver.coerce(customCoerce(version));
+  const semverCurrent = semver.coerce(customCoerce(version.toString()));
   const semverAdded = semver.coerce(customCoerce(versionAdded));
 
   // semver.coerce() might be null for non-semvers (other than Safari TP)
@@ -111,7 +111,7 @@ export function isSupportedByMDN(
     );
     return true;
   }
-  if (!versionAdded) {
+  if (!semverAdded) {
     // eslint-disable-next-line no-console
     console.warn(
       `eslint-plugin-compat: The feature ${node.protoChainId} is supported since a non-semver target "${target} ${versionAdded}", skipping. You're welcome to submit this log to https://github.com/amilajack/eslint-plugin-compat/issues for analysis.`

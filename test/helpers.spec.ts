@@ -75,7 +75,7 @@ describe("Versioning", () => {
 
   it("should fail on incorrect browserslist target version", () => {
     expect(() => {
-      determineTargetsFromConfig(".", "edge 100");
-    }).toThrow("Unknown version 100 of edge");
+      determineTargetsFromConfig(".", "edge 200");
+    }).toThrow("Unknown version 200 of edge");
   });
 });
