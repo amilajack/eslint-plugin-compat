@@ -48,12 +48,30 @@ describe("Versioning", () => {
       singleVersionEnvPackageJSON.browsers
     );
     const result = parseBrowsersListVersion(config);
-    expect(result).toMatchSnapshot([
-      { target: "safari", version: "8", parsedVersion: 8 },
-      { target: "ie", version: "9", parsedVersion: 9 },
-      { target: "firefox", version: "20", parsedVersion: 20 },
-      { target: "chrome", version: "32", parsedVersion: 32 },
-    ]);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "parsedVersion": 8,
+          "target": "safari",
+          "version": "8",
+        },
+        {
+          "parsedVersion": 9,
+          "target": "ie",
+          "version": "9",
+        },
+        {
+          "parsedVersion": 20,
+          "target": "firefox",
+          "version": "20",
+        },
+        {
+          "parsedVersion": 32,
+          "target": "chrome",
+          "version": "32",
+        },
+      ]
+    `);
   });
 
   it("should get lowest target versions", () => {
@@ -75,7 +93,7 @@ describe("Versioning", () => {
 
   it("should fail on incorrect browserslist target version", () => {
     expect(() => {
-      determineTargetsFromConfig(".", "edge 100");
-    }).toThrow("Unknown version 100 of edge");
+      determineTargetsFromConfig(".", "edge 100000");
+    }).toThrow("Unknown version 100000 of edge");
   });
 });

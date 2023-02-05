@@ -1,27 +1,20 @@
 name: Test
-
 on: push
-
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
-        os: [macos-10.14, ubuntu-18.04, windows-2019]
-
+        os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
-
+        uses: actions/checkout@v3
       - name: Install Node.js, NPM
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: npm
-
       - name: npm install
         run: npm ci
-
       - name: npm test
         run: npm test
