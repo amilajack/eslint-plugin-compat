@@ -1,6 +1,6 @@
 # eslint-plugin-compat
 
-[![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.eslint-plugin-compat?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=7&branchName=master)
+[![Test](https://github.com/amilajack/eslint-plugin-compat/actions/workflows/test.yml/badge.svg)](https://github.com/amilajack/eslint-plugin-compat/actions/workflows/test.yml)
 [![Financial Contributors on Open Collective](https://opencollective.com/eslint-plugin-compat/all/badge.svg?label=financial+contributors)](https://opencollective.com/eslint-plugin-compat)
 [![NPM version](https://badge.fury.io/js/eslint-plugin-compat.svg)](http://badge.fury.io/js/eslint-plugin-compat)
 [![npm](https://img.shields.io/npm/dm/eslint-plugin-compat.svg)](https://npm-stat.com/charts.html?package=eslint-plugin-compat)
