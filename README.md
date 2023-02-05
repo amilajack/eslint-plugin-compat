@@ -1,5 +1,5 @@
-eslint-plugin-compat
-=====================
+# eslint-plugin-compat
+
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.eslint-plugin-compat?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=7&branchName=master)
 [![Financial Contributors on Open Collective](https://opencollective.com/eslint-plugin-compat/all/badge.svg?label=financial+contributors)](https://opencollective.com/eslint-plugin-compat)
 [![NPM version](https://badge.fury.io/js/eslint-plugin-compat.svg)](http://badge.fury.io/js/eslint-plugin-compat)
@@ -16,7 +16,7 @@ Lint the browser compatibility of your code
 ### 1. Install
 
 ```bash
-npm install --save-dev eslint-plugin-compat
+npm install eslint-plugin-compat
 ```
 
 ### 2. Update ESLint Config
@@ -76,10 +76,12 @@ Add polyfills to the settings section of your eslint config. Append the name of 
 ```
 
 ## Demo
+
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
 
 ## Advanced
-* [Allowing Custom Records](https://github.com/amilajack/eslint-plugin-compat/wiki/Custom-Compatibility-Records)
+
+- [Allowing Custom Records](https://github.com/amilajack/eslint-plugin-compat/wiki/Custom-Compatibility-Records)
 
 ## Road Map
 
@@ -93,8 +95,8 @@ This project was inspired by a two hour conversation I had with someone on the e
 
 ## Related
 
-* [ast-metadata-inferer](https://github.com/amilajack/ast-metadata-inferer)
-* [compat-db](https://github.com/amilajack/compat-db)
+- [ast-metadata-inferer](https://github.com/amilajack/ast-metadata-inferer)
+- [compat-db](https://github.com/amilajack/compat-db)
 
 ## Contributors
 
