@@ -1,5 +1,3 @@
-/* eslint import/prefer-default-export: off */
-
 export interface TargetNameMappings {
   chrome: "Chrome";
   firefox: "Firefox";
