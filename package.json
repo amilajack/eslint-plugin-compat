@@ -66,7 +66,6 @@
     "electron": "^22.x.x",
     "eslint": "^8.33.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
-    "eslint-config-bliss": "^6.0.4",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-eslint-plugin": "^5.0.8",
     "eslint-plugin-import": "^2.27.5",
@@ -89,6 +88,7 @@
     "browserslist": "^4.21.5",
     "caniuse-lite": "^1.0.30001450",
     "core-js": "^3.27.2",
+    "eslint-config-bliss-typescript": "^6.0.2",
     "find-up": "^5.0.0",
     "lodash.memoize": "4.1.2",
     "semver": "7.3.8"
