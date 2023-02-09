@@ -1,3 +1,4 @@
+import { APIKind } from "ast-metadata-inferer/lib/types";
 import { Rule } from "eslint";
 import { TargetNameMappings } from "./constants";
 
@@ -36,20 +37,22 @@ export type HandleFailingRule = (
 export type TargetNames = Array<string>;
 
 export type ESLintNode = {
-  object?: AstMetadataApi;
+  name: string;
+  type: string;
+  object?: ESLintNode;
   parent?: ESLintNode;
   expression?: ESLintNode;
-  property?: AstMetadataApi;
-  callee?: {
-    name?: string;
+  property?: ESLintNode;
+  callee?: ESLintNode & {
+    name: string;
     type?: string;
-    computed: boolean;
-    object?: AstMetadataApi;
-    property?: AstMetadataApi;
   };
-} & AstMetadataApi;
+};
 
 export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
+  id: string;
+  caniuseId?: string;
+  kind?: APIKind;
   getUnsupportedTargets: (
     node: AstMetadataApiWithTargetsResolver,
     targets: Target[]
@@ -57,7 +60,7 @@ export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
 }
 
 export interface Context extends Rule.RuleContext {
-  settings?: {
+  settings: {
     targets?: string[];
     browsers?: Array<string>;
     polyfills?: Array<string>;

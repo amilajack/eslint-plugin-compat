@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node16",
   "compilerOptions": {
     "outDir": "lib",
-    "allowJs": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

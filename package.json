@@ -31,7 +31,7 @@
   "homepage": "https://github.com/amilajack/eslint-plugin-compat#readme",
   "scripts": {
     "benchmarks": "ts-node-transpile-only test/benchmarks.ts",
-    "build": "rm -rf lib && tsc",
+    "build": "rm -rf lib && tsc --project tsconfig.build.json",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest --testPathIgnorePatterns test/e2e-repo.spec.ts /benchmarks-tmp",
     "spec:e2e": "jest test/e2e-repo.spec.ts",
@@ -88,7 +88,7 @@
     "browserslist": "^4.21.5",
     "caniuse-lite": "^1.0.30001451",
     "core-js": "^3.27.2",
-    "find-up": "^6.3.0",
+    "find-up": "^5.0.0",
     "lodash.memoize": "4.1.2",
     "semver": "7.3.8"
   },

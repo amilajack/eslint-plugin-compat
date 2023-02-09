@@ -9,6 +9,7 @@ const ruleTester = new RuleTester({
   },
 });
 
+// @ts-ignore
 ruleTester.run("compat", rule, {
   valid: [
     // Ignore ES APIs if config detected

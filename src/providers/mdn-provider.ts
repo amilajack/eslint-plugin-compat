@@ -84,7 +84,7 @@ export function isSupportedByMDN(
   if (!Array.isArray(compatRecord) && !("version_added" in compatRecord))
     return true;
   const { version_added: versionAdded } = Array.isArray(compatRecord)
-    ? compatRecord.find((e) => "version_added" in e)
+    ? compatRecord.find((e) => "version_added" in e)!
     : compatRecord;
 
   // If a version is true then it is supported but version is unsure
@@ -98,7 +98,7 @@ export function isSupportedByMDN(
   }
   // A browser supports an API if its version is greater than or equal
   // to the first version of the browser that API was added in
-  const semverCurrent = semver.coerce(customCoerce(version));
+  const semverCurrent = semver.coerce(customCoerce(String(version)));
   const semverAdded = semver.coerce(customCoerce(versionAdded));
 
   // semver.coerce() might be null for non-semvers (other than Safari TP)
@@ -118,6 +118,9 @@ export function isSupportedByMDN(
     );
     return true;
   }
+
+  if (!semverAdded) return false;
+
   return semver.gte(semverCurrent, semverAdded);
 }
 
