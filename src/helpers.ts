@@ -153,7 +153,9 @@ export function lintMemberExpression(
   }
 }
 
-export function reverseTargetMappings(targetMappings: Record<string, string>) {
+export function reverseTargetMappings<K extends string, V extends string>(
+  targetMappings: Record<K, V>
+): Record<V, K> {
   const reversedEntries = Object.entries(targetMappings).map((entry) =>
     entry.reverse()
   );
