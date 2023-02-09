@@ -118,10 +118,5 @@
       ],
       "@babel/preset-typescript"
     ]
-  },
-  "renovate": {
-    "extends": [
-      "bliss"
-    ]
   }
 }
