@@ -23,15 +23,15 @@ npm install eslint-plugin-compat
 
 #### `.eslintrc.json`
 
-```diff
-   {
-+    "plugins": ["compat"],
-+    "extends": ["plugin:compat/recommended"],
-+    "env": {
-+      "browser": true
-+    },
-     // ...
-   }
+```jsonc
+{
+  "plugins": ["compat"],
+  "extends": ["plugin:compat/recommended"],
+  "env": {
+    "browser": true
+  }
+  // ...
+}
 ```
 
 ### 3. Configure Target Browsers
@@ -40,13 +40,11 @@ Browser targets are configured using [browserslist](https://github.com/browsersl
 
 #### `package.json`
 
-```diff
-   {
-     // ...
-+    "browserslist": [
-+      "defaults"
-+    ]
-  }
+```jsonc
+{
+  // ...
+  "browserslist": ["defaults"]
+}
 ```
 
 If no configuration is found, browserslist [defaults to](https://github.com/browserslist/browserslist#queries) `"> 0.5%, last 2 versions, Firefox ESR, not dead"`.
