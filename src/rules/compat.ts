@@ -6,6 +6,7 @@
  *   Gets protochain for the ESLint nodes the plugin is interested in
  */
 import fs from "fs";
+import findUp from "find-up";
 import memoize from "lodash.memoize";
 import {
   lintCallExpression,
