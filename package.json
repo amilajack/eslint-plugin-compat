@@ -102,5 +102,26 @@
     "type": "opencollective",
     "url": "https://opencollective.com/eslint-plugin-compat",
     "logo": "https://opencollective.com/opencollective/logo.txt"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "airbnb-typescript/base",
+      "plugin:eslint-plugin/recommended",
+      "plugin:import/typescript",
+      "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": "off",
+      "import/extensions": "off"
+    }
   }
 }
