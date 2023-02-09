@@ -39,6 +39,8 @@ function isSupportedByCanIUse(
   node: AstMetadataApiWithTargetsResolver,
   { version, target, parsedVersion }: Target
 ): boolean {
+  if (!node.caniuseId) return false;
+
   const data = lite.feature(lite.features[node.caniuseId]);
 
   if (!data) return true;

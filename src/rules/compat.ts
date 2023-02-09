@@ -8,6 +8,7 @@
 import fs from "fs";
 import findUp from "find-up";
 import memoize from "lodash.memoize";
+import { Rule } from "eslint";
 import {
   lintCallExpression,
   lintMemberExpression,
@@ -32,16 +33,16 @@ type ESLint = {
 function getName(node: ESLintNode): string {
   switch (node.type) {
     case "NewExpression": {
-      return node.callee.name;
+      return node.callee!.name;
     }
     case "MemberExpression": {
-      return node.object.name;
+      return node.object!.name;
     }
     case "ExpressionStatement": {
-      return node.expression.name;
+      return node.expression!.name;
     }
     case "CallExpression": {
-      return node.callee.name;
+      return node.callee!.name;
     }
     default:
       throw new Error("not found");
@@ -126,10 +127,10 @@ type RulesFilteredByTargets = {
 const getRulesForTargets = memoize(
   (targetsJSON: string, lintAllEsApis: boolean): RulesFilteredByTargets => {
     const result = {
-      CallExpression: [],
-      NewExpression: [],
-      MemberExpression: [],
-      ExpressionStatement: [],
+      CallExpression: [] as AstMetadataApiWithTargetsResolver[],
+      NewExpression: [] as AstMetadataApiWithTargetsResolver[],
+      MemberExpression: [] as AstMetadataApiWithTargetsResolver[],
+      ExpressionStatement: [] as AstMetadataApiWithTargetsResolver[],
     };
     const targets = JSON.parse(targetsJSON);
 
@@ -139,7 +140,7 @@ const getRulesForTargets = memoize(
       })
       .forEach((node) => {
         if (!node.getUnsupportedTargets(node, targets).length) return;
-        result[node.astNodeType as keyof RulesFilteredByTargets].push(node);
+        result[node.astNodeType].push(node);
       });
 
     return result;
@@ -255,7 +256,7 @@ export default {
         // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
         errors
           .filter((error) => !identifiers.has(getName(error.node)))
-          .forEach((node) => context.report(node));
+          .forEach((node) => context.report(node as Rule.ReportDescriptor));
       },
     };
   },

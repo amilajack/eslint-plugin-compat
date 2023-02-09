@@ -173,14 +173,14 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "102",
   },
   {
-    "parsedVersion": 107,
+    "parsedVersion": 108,
     "target": "edge",
-    "version": "107",
+    "version": "108",
   },
   {
-    "parsedVersion": 107,
+    "parsedVersion": 108,
     "target": "chrome",
-    "version": "107",
+    "version": "108",
   },
   {
     "parsedVersion": 109,
@@ -353,14 +353,14 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "102",
   },
   {
-    "parsedVersion": 107,
+    "parsedVersion": 108,
     "target": "edge",
-    "version": "107",
+    "version": "108",
   },
   {
-    "parsedVersion": 107,
+    "parsedVersion": 108,
     "target": "chrome",
-    "version": "107",
+    "version": "108",
   },
   {
     "parsedVersion": 109,

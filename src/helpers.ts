@@ -97,12 +97,12 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
     switch (node.object.type) {
       case "NewExpression":
       case "CallExpression":
-        return protoChainFromMemberExpression(node.object.callee);
+        return protoChainFromMemberExpression(node.object.callee!);
       default:
         return protoChainFromMemberExpression(node.object);
     }
   })();
-  return [...protoChain, node.property.name];
+  return [...protoChain, node.property!.name];
 }
 
 export function lintMemberExpression(
