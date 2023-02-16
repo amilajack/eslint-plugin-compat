@@ -74,8 +74,7 @@ function isPolyfilled(
   );
 }
 
-const items = [
-  // Babel configs
+const babelConfigs = [
   "babel.config.json",
   "babel.config.js",
   "babel.config.cjs",
@@ -83,21 +82,14 @@ const items = [
   ".babelrc.json",
   ".babelrc.js",
   ".babelrc.cjs",
-  // TS configs
-  "tsconfig.json",
 ];
 
 /**
- * Determine if a user has a TS or babel config. This is used to infer if a user is transpiling their code.
- * If transpiling code, do not lint ES APIs. We assume that all transpiled code is polyfilled.
- * @TODO Use @babel/core to find config. See https://github.com/babel/babel/discussions/11602
- * @param dir @
+ * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
  */
 function isUsingTranspiler(context: Context): boolean {
-  // If tsconfig config exists in parser options, assume transpilation
-  if (context.parserOptions?.tsconfigRootDir === true) return true;
   const dir = context.getFilename();
-  const configPath = findUp.sync(items, {
+  const configPath = findUp.sync(babelConfigs, {
     cwd: dir,
   });
   if (configPath) return true;
@@ -135,9 +127,7 @@ const getRulesForTargets = memoize(
     const targets = JSON.parse(targetsJSON);
 
     nodes
-      .filter((node) => {
-        return lintAllEsApis ? true : node.kind !== "es";
-      })
+      .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
       .forEach((node) => {
         if (!node.getUnsupportedTargets(node, targets).length) return;
         result[node.astNodeType].push(node);
@@ -168,7 +158,7 @@ export default {
 
     const lintAllEsApis: boolean =
       context.settings?.lintAllEsApis === true ||
-      // Attempt to infer polyfilling of ES APIs from ts or babel config
+      // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
         !isUsingTranspiler(context));
     const browserslistTargets = parseBrowsersListVersion(
