@@ -90,14 +90,6 @@ This plugin also supports linting the compatibility of ES APIs in addition to We
 
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
 
-## Advanced
-
-- [Allowing Custom Records](https://github.com/amilajack/eslint-plugin-compat/wiki/Custom-Compatibility-Records)
-
-## Road Map
-
-See the [Road Map](https://github.com/amilajack/eslint-plugin-compat/wiki) for the details.
-
 ## Inspiration
 
 Toolchains for native platforms, like iOS and Android, have had API linting from the start. It's about time that the web had similar tooling.
