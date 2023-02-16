@@ -127,9 +127,7 @@ const getRulesForTargets = memoize(
     const targets = JSON.parse(targetsJSON);
 
     nodes
-      .filter((node) => {
-        return lintAllEsApis ? true : node.kind !== "es";
-      })
+      .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
       .forEach((node) => {
         if (!node.getUnsupportedTargets(node, targets).length) return;
         result[node.astNodeType].push(node);
@@ -160,7 +158,7 @@ export default {
 
     const lintAllEsApis: boolean =
       context.settings?.lintAllEsApis === true ||
-      // Attempt to infer polyfilling of ES APIs from ts or babel config
+      // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
         !isUsingTranspiler(context));
     const browserslistTargets = parseBrowsersListVersion(

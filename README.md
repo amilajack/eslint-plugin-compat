@@ -73,6 +73,19 @@ Add polyfills to the settings section of your eslint config. Append the name of 
 }
 ```
 
+## Linting ES APIs (Experimental)
+
+This plugin also supports linting the compatibility of ES APIs in addition to Web APIs. This is an experimental feature and is disabled by default. To enable this feature, add the following to your eslint config:
+
+```jsonc
+{
+  // ...
+  "settings": {
+    "lintAllEsApis": true
+  }
+}
+```
+
 ## Demo
 
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
