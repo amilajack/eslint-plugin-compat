@@ -103,6 +103,8 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
       node.object.type === "CallExpression"
     ) {
       return protoChainFromMemberExpression(node.object.callee!);
+    } else if (node.object.type === "ArrayExpression") {
+      return ["Array"];
     } else if (isStringLiteral(node.object)) {
       return ["String"];
     } else {
