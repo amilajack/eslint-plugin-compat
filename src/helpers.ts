@@ -98,6 +98,8 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
       case "NewExpression":
       case "CallExpression":
         return protoChainFromMemberExpression(node.object.callee!);
+      case "Literal":
+        return ["String"];
       default:
         return protoChainFromMemberExpression(node.object);
     }

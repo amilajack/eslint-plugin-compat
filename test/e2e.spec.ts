@@ -621,6 +621,17 @@ ruleTester.run("compat", rule, {
         },
       ],
     },
+    {
+      code: "'foo'.at(5)",
+      settings: {
+        browsers: ["ie 11", "safari 12"],
+      },
+      errors: [
+        {
+          message: "String.at() is not supported in Safari 12, IE 11",
+        },
+      ],
+    },
     // @TODO: Fix this edge case
     // {
     //   code: `window?.fetch`,
