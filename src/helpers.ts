@@ -91,17 +91,22 @@ export function lintExpressionStatement(
     );
 }
 
+function isStringLiteral(node: ESLintNode): boolean {
+  return node.type === "Literal" && typeof node.value === "string";
+}
+
 function protoChainFromMemberExpression(node: ESLintNode): string[] {
   if (!node.object) return [node.name];
   const protoChain = (() => {
-    switch (node.object.type) {
-      case "NewExpression":
-      case "CallExpression":
-        return protoChainFromMemberExpression(node.object.callee!);
-      case "Literal":
-        return ["String"];
-      default:
-        return protoChainFromMemberExpression(node.object);
+    if (
+      node.object.type === "NewExpression" ||
+      node.object.type === "CallExpression"
+    ) {
+      return protoChainFromMemberExpression(node.object.callee!);
+    } else if (isStringLiteral(node.object)) {
+      return ["String"];
+    } else {
+      return protoChainFromMemberExpression(node.object);
     }
   })();
   return [...protoChain, node.property!.name];
