@@ -83,10 +83,10 @@
     "semi": true
   },
   "dependencies": {
-    "@mdn/browser-compat-data": "^5.2.34",
-    "ast-metadata-inferer": "^0.7.0",
+    "@mdn/browser-compat-data": "^5.2.47",
+    "ast-metadata-inferer": "^0.8.0",
     "browserslist": "^4.21.5",
-    "caniuse-lite": "^1.0.30001451",
+    "caniuse-lite": "^1.0.30001473",
     "find-up": "^5.0.0",
     "lodash.memoize": "4.1.2",
     "semver": "7.3.8"
