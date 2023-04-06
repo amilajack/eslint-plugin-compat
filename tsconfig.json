@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node16",
+  "extends": "@tsconfig/node14",
   "compilerOptions": {
     "outDir": "lib",
     "resolveJsonModule": true,
