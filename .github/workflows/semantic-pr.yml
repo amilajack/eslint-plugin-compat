@@ -5,9 +5,9 @@ on:
     types: [opened, synchronize, edited]
 
 jobs:
-  pr-title-check: 
+  pr-title-check:
     name: Check PR for semantic title
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: PR title is valid
         if: >
