@@ -23,19 +23,19 @@ exports[`Versioning should get lowest target versions 1`] = `
 exports[`Versioning should support multi env config in browserslist package.json 1`] = `
 [
   {
-    "parsedVersion": 16,
+    "parsedVersion": 17,
     "target": "samsung",
-    "version": "16.0",
+    "version": "17.0",
   },
   {
-    "parsedVersion": 15.6,
+    "parsedVersion": 16.1,
     "target": "safari",
-    "version": "15.6",
+    "version": "16.1",
   },
   {
-    "parsedVersion": 91,
+    "parsedVersion": 92,
     "target": "opera",
-    "version": "91",
+    "version": "92",
   },
   {
     "parsedVersion": 11.5,
@@ -73,14 +73,14 @@ exports[`Versioning should support multi env config in browserslist package.json
     "version": "102",
   },
   {
-    "parsedVersion": 106,
+    "parsedVersion": 108,
     "target": "edge",
-    "version": "106",
+    "version": "108",
   },
   {
-    "parsedVersion": 106,
+    "parsedVersion": 108,
     "target": "chrome",
-    "version": "106",
+    "version": "108",
   },
   {
     "parsedVersion": 7,
@@ -93,9 +93,9 @@ exports[`Versioning should support multi env config in browserslist package.json
     "version": "13.18",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "android",
-    "version": "109",
+    "version": "111",
   },
   {
     "parsedVersion": 13.4,
@@ -108,14 +108,14 @@ exports[`Versioning should support multi env config in browserslist package.json
     "version": "13.1",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 110,
     "target": "and_ff",
-    "version": "109",
+    "version": "110",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "and_chr",
-    "version": "109",
+    "version": "111",
   },
 ]
 `;
@@ -133,9 +133,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
 exports[`Versioning should support resolving browserslist config in subdirectory 2`] = `
 [
   {
-    "parsedVersion": 18,
+    "parsedVersion": 19,
     "target": "samsung",
-    "version": "18.0",
+    "version": "19.0",
   },
   {
     "parsedVersion": 15.6,
@@ -143,9 +143,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "15.6",
   },
   {
-    "parsedVersion": 93,
+    "parsedVersion": 94,
     "target": "opera",
-    "version": "93",
+    "version": "94",
   },
   {
     "parsedVersion": 73,
@@ -173,9 +173,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "102",
   },
   {
-    "parsedVersion": 108,
+    "parsedVersion": 109,
     "target": "edge",
-    "version": "108",
+    "version": "109",
   },
   {
     "parsedVersion": 108,
@@ -183,9 +183,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "108",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "android",
-    "version": "109",
+    "version": "111",
   },
   {
     "parsedVersion": 13.4,
@@ -198,14 +198,14 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "13.1",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 110,
     "target": "and_ff",
-    "version": "109",
+    "version": "110",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "and_chr",
-    "version": "109",
+    "version": "111",
   },
 ]
 `;
@@ -213,19 +213,19 @@ exports[`Versioning should support resolving browserslist config in subdirectory
 exports[`Versioning should support single array config in browserslist package.json 1`] = `
 [
   {
-    "parsedVersion": 16,
+    "parsedVersion": 17,
     "target": "samsung",
-    "version": "16.0",
+    "version": "17.0",
   },
   {
-    "parsedVersion": 15.6,
+    "parsedVersion": 16.1,
     "target": "safari",
-    "version": "15.6",
+    "version": "16.1",
   },
   {
-    "parsedVersion": 91,
+    "parsedVersion": 92,
     "target": "opera",
-    "version": "91",
+    "version": "92",
   },
   {
     "parsedVersion": 11.5,
@@ -263,14 +263,14 @@ exports[`Versioning should support single array config in browserslist package.j
     "version": "102",
   },
   {
-    "parsedVersion": 106,
+    "parsedVersion": 108,
     "target": "edge",
-    "version": "106",
+    "version": "108",
   },
   {
-    "parsedVersion": 100,
+    "parsedVersion": 102,
     "target": "chrome",
-    "version": "100",
+    "version": "102",
   },
   {
     "parsedVersion": 7,
@@ -283,9 +283,9 @@ exports[`Versioning should support single array config in browserslist package.j
     "version": "13.18",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "android",
-    "version": "109",
+    "version": "111",
   },
   {
     "parsedVersion": 13.4,
@@ -298,14 +298,14 @@ exports[`Versioning should support single array config in browserslist package.j
     "version": "13.1",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 110,
     "target": "and_ff",
-    "version": "109",
+    "version": "110",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "and_chr",
-    "version": "109",
+    "version": "111",
   },
 ]
 `;
@@ -313,9 +313,9 @@ exports[`Versioning should support single array config in browserslist package.j
 exports[`Versioning should support string config in rule option 1`] = `
 [
   {
-    "parsedVersion": 18,
+    "parsedVersion": 19,
     "target": "samsung",
-    "version": "18.0",
+    "version": "19.0",
   },
   {
     "parsedVersion": 15.6,
@@ -323,9 +323,9 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "15.6",
   },
   {
-    "parsedVersion": 93,
+    "parsedVersion": 94,
     "target": "opera",
-    "version": "93",
+    "version": "94",
   },
   {
     "parsedVersion": 73,
@@ -353,9 +353,9 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "102",
   },
   {
-    "parsedVersion": 108,
+    "parsedVersion": 109,
     "target": "edge",
-    "version": "108",
+    "version": "109",
   },
   {
     "parsedVersion": 108,
@@ -363,9 +363,9 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "108",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "android",
-    "version": "109",
+    "version": "111",
   },
   {
     "parsedVersion": 13.4,
@@ -378,14 +378,14 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "13.1",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 110,
     "target": "and_ff",
-    "version": "109",
+    "version": "110",
   },
   {
-    "parsedVersion": 109,
+    "parsedVersion": 111,
     "target": "and_chr",
-    "version": "109",
+    "version": "111",
   },
 ]
 `;

@@ -39,6 +39,7 @@ export type TargetNames = Array<string>;
 export type ESLintNode = {
   name: string;
   type: string;
+  value?: unknown;
   object?: ESLintNode;
   parent?: ESLintNode;
   expression?: ESLintNode;
