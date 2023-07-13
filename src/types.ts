@@ -9,6 +9,10 @@ export type BrowserListConfig =
       production?: Array<string>;
       development?: Array<string>;
     }
+  | {
+      ignoreBrowserslistTargets?: boolean;
+      query: string | Array<string>;
+    }
   | null;
 
 // @TODO Replace with types from ast-metadata-inferer

@@ -73,6 +73,22 @@ Add polyfills to the settings section of your eslint config. Append the name of 
 }
 ```
 
+## Ignoring Browserslist native resolution
+
+To exclude targets picked up by your browserslist config and only use targets explictly provided via ESLint:
+
+```jsonc
+{
+  // ...
+  "rules": {
+    "compat/compat": [ "error", {
+      "query": "node 18",
+      "ignoreBrowserslistTargets": true
+    } ]
+  }
+}
+```
+
 ## Linting ES APIs (Experimental)
 
 This plugin also supports linting the compatibility of ES APIs in addition to Web APIs. This is an experimental feature and is disabled by default. To enable this feature, add the following to your eslint config:

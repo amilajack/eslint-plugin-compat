@@ -146,7 +146,29 @@ export default {
       recommended: true,
     },
     type: "problem",
-    schema: [{ type: "string" }],
+    schema: [
+      {
+        oneOf: [
+          { type: "string" },
+          {
+            additionalProperties: false,
+            properties: {
+              ignoreBrowserslistTargets: {
+                type: "boolean",
+              },
+              query: {
+                oneOf: [
+                  { type: "string" },
+                  { items: { type: "string" }, type: "array" },
+                ],
+              },
+            },
+            required: ["query"],
+            type: "object",
+          },
+        ],
+      },
+    ],
   },
   create(context: Context): ESLint {
     // Determine lowest targets from browserslist config, which reads user's
