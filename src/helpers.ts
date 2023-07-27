@@ -7,6 +7,7 @@ import {
   Target,
   HandleFailingRule,
   Context,
+  BrowsersListOpts,
 } from "./types";
 import { TargetNameMappings } from "./constants";
 
@@ -180,9 +181,10 @@ export function reverseTargetMappings<K extends string, V extends string>(
  */
 export function determineTargetsFromConfig(
   configPath: string,
-  config?: BrowserListConfig
+  config?: BrowserListConfig,
+  browserslistOptsFromConfig?: BrowsersListOpts
 ): Array<string> {
-  const browserslistOpts = { path: configPath };
+  const browserslistOpts = { path: configPath, ...browserslistOptsFromConfig };
 
   const eslintTargets = (() => {
     // Get targets from eslint settings

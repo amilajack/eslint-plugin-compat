@@ -1,6 +1,7 @@
 import { APIKind } from "ast-metadata-inferer/lib/types";
 import { Rule } from "eslint";
 import { TargetNameMappings } from "./constants";
+import type { Options as DefaultBrowsersListOpts } from "browserslist";
 
 export type BrowserListConfig =
   | string
@@ -66,5 +67,9 @@ export interface Context extends Rule.RuleContext {
     browsers?: Array<string>;
     polyfills?: Array<string>;
     lintAllEsApis?: boolean;
+    browserslistOpts?: BrowsersListOpts;
   };
 }
+
+export interface BrowsersListOpts
+  extends Exclude<DefaultBrowsersListOpts, "path"> {}
