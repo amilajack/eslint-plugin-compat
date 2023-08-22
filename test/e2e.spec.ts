@@ -667,5 +667,27 @@ ruleTester.run("compat", rule, {
         },
       ],
     },
+    {
+      code: "window.requestIdleCallback(() => {})",
+      settings: {
+        browsers: ["safari 12"],
+      },
+      errors: [
+        {
+          message: "requestIdleCallback is not supported in Safari 12",
+        },
+      ],
+    },
+    {
+      code: "window.requestAnimationFrame(() => {})",
+      settings: {
+        browsers: ["OperaMini all"],
+      },
+      errors: [
+        {
+          message: "requestAnimationFrame is not supported in op_mini all",
+        },
+      ],
+    },
   ],
 });
