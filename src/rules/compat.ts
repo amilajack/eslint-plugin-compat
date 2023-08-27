@@ -23,6 +23,7 @@ import {
   BrowserListConfig,
   HandleFailingRule,
   Context,
+  BrowsersListOpts,
 } from "../types";
 import { nodes } from "../providers";
 
@@ -156,13 +157,29 @@ export default {
       context.settings?.targets ||
       context.options[0];
 
+    if (
+      !context.settings?.browserslistOpts &&
+      // @ts-expect-error Checking for accidental misspellings
+      context.settings.browsersListOpts
+    ) {
+      console.error(
+        'Please ensure you spell `browserslistOpts` with a lowercase "l"!'
+      );
+    }
+    const browserslistOpts: BrowsersListOpts | undefined =
+      context.settings?.browserslistOpts;
+
     const lintAllEsApis: boolean =
       context.settings?.lintAllEsApis === true ||
       // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
         !isUsingTranspiler(context));
     const browserslistTargets = parseBrowsersListVersion(
-      determineTargetsFromConfig(context.getFilename(), browserslistConfig)
+      determineTargetsFromConfig(
+        context.getFilename(),
+        browserslistConfig,
+        browserslistOpts
+      )
     );
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
