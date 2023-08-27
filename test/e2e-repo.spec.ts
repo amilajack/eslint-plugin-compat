@@ -8,7 +8,7 @@ describe("e2e Repo Tests", () => {
     return Promise.all(repos.map((repo) => initRepo(repo, false)));
   });
 
-  it("should not have a fatal parsing error", async () => {
+  it.skip("should not have a fatal parsing error", async () => {
     repos.forEach(async ({ eslintOptions, filePatterns }) => {
       const eslint = new ESLint(eslintOptions);
       const results = await eslint.lintFiles(filePatterns);

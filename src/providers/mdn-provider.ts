@@ -4,7 +4,6 @@ import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import { reverseTargetMappings } from "../helpers";
 import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
-import { BrowserName } from "@mdn/browser-compat-data";
 
 const apis = apiMetadata as ApiMetadata[];
 
@@ -75,7 +74,7 @@ export function isSupportedByMDN(
   { version, target: mdnTarget }: Target
 ): boolean {
   // @ts-ignore
-  const target: BrowserName = reversedTargetMappings[mdnTarget];
+  const target = reversedTargetMappings[mdnTarget];
   // If no record could be found, return true. Rules might not
   // be found because they could belong to another provider
   if (!mdnRecords.has(node.protoChainId)) return true;

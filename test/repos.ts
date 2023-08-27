@@ -41,6 +41,10 @@ const repos: Array<RepoInfo> = [
       baseConfig: {
         extends: ["plugin:compat/recommended"],
         parser: "babel-eslint",
+        parserOptions: {
+          ecmaVersion: 2022,
+          sourceType: "module",
+        },
       },
     },
   },
@@ -66,7 +70,7 @@ const repos: Array<RepoInfo> = [
           node: true,
         },
         parserOptions: {
-          ecmaVersion: 2020,
+          ecmaVersion: 2022,
           sourceType: "module",
         },
         ignorePatterns: ["*css.d.ts", "*sass.d.ts", "*scss.d.ts"],
@@ -87,7 +91,7 @@ const repos: Array<RepoInfo> = [
       baseConfig: {
         extends: ["plugin:compat/recommended"],
         parserOptions: {
-          ecmaVersion: 2018,
+          ecmaVersion: 2022,
           sourceType: "module",
         },
       },
@@ -111,7 +115,7 @@ const repos: Array<RepoInfo> = [
           window: true,
         },
         parserOptions: {
-          ecmaVersion: 2018,
+          ecmaVersion: 2022,
           sourceType: "module",
         },
       },
@@ -135,7 +139,7 @@ const repos: Array<RepoInfo> = [
           browser: true,
         },
         parserOptions: {
-          ecmaVersion: 7,
+          ecmaVersion: 2022,
           sourceType: "module",
           jsx: true,
         },
@@ -192,7 +196,7 @@ const repos: Array<RepoInfo> = [
           es6: true,
         },
         parserOptions: {
-          ecmaVersion: 2018,
+          ecmaVersion: 2022,
           sourceType: "module",
           ecmaFeatures: {
             jsx: true,
@@ -203,7 +207,7 @@ const repos: Array<RepoInfo> = [
             files: ["**/*.ts?(x)"],
             parser: "@typescript-eslint/parser",
             parserOptions: {
-              ecmaVersion: 2018,
+              ecmaVersion: 2022,
               sourceType: "module",
               ecmaFeatures: {
                 jsx: true,
@@ -238,6 +242,10 @@ const repos: Array<RepoInfo> = [
           "examples/**/shaders/*.js",
           "**/vendor/**",
         ],
+        parserOptions: {
+          ecmaVersion: 2022,
+          sourceType: "module",
+        },
       },
     },
   },
@@ -262,7 +270,7 @@ const repos: Array<RepoInfo> = [
         parser: "@typescript-eslint/parser",
         plugins: ["@typescript-eslint"],
         parserOptions: {
-          ecmaVersion: 8,
+          ecmaVersion: 2022,
           sourceType: "module",
         },
       },

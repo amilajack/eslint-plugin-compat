@@ -238,7 +238,7 @@ export function parseBrowsersListVersion(
       .map((e: string): Target => {
         const [target, version] = e.split(" ") as [
           keyof TargetNameMappings,
-          number | string
+          number | string,
         ];
 
         const parsedVersion: number = (() => {
