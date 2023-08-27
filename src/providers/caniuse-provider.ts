@@ -179,6 +179,18 @@ const CanIUseProvider: Array<AstMetadataApiWithTargetsResolver> = [
     object: "performance",
     property: "now",
   },
+  // requestIdleCallback()
+  {
+    caniuseId: "requestidlecallback",
+    astNodeType: AstNodeTypes.CallExpression,
+    object: "requestIdleCallback",
+  },
+  // requestAnimationFrame()
+  {
+    caniuseId: "requestanimationframe",
+    astNodeType: AstNodeTypes.CallExpression,
+    object: "requestAnimationFrame",
+  },
   {
     caniuseId: "typedarrays",
     astNodeType: AstNodeTypes.NewExpression,
