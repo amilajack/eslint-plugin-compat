@@ -86,6 +86,39 @@ This plugin also supports linting the compatibility of ES APIs in addition to We
 }
 ```
 
+## Configuring for Different Environments
+
+Browserslist allows specifying [different browser queries for multiple environments](https://github.com/browserslist/browserslist#configuring-for-different-environments). By default, this plugin targets the `production` browserslist environment. To change this default, set the `settings.browserslistOpts.env` property in your eslint config:
+
+**Example**:
+
+A browserslist with multiple environments:
+
+```jsonc
+  "browserslist": {
+    "production": [
+      "> 1%",
+      "not dead"
+    ],
+    "modern": [
+      "last 1 chrome version",
+      "last 1 firefox version"
+    ]
+  }
+```
+
+Target `modern` browserslist environment:
+
+```jsonc
+{
+  "settings": {
+    "browserslistOpts": {
+      "env": "modern"
+    }
+  }
+}
+```
+
 ## Demo
 
 For a minimal demo, see [amilajack/eslint-plugin-compat-demo](https://github.com/amilajack/eslint-plugin-compat-demo)
