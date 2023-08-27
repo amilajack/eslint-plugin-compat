@@ -55,7 +55,7 @@
     "@types/eslint": "^8.21.0",
     "@types/jest": "^29.4.0",
     "@types/lodash.memoize": "^4.1.7",
-    "@types/semver": "^7.3.13",
+    "@types/semver": "7.5.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "benchmark": "^2.1.4",
@@ -89,7 +89,7 @@
     "caniuse-lite": "^1.0.30001473",
     "find-up": "^5.0.0",
     "lodash.memoize": "4.1.2",
-    "semver": "7.3.8"
+    "semver": "7.5.4"
   },
   "peerDependencies": {
     "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
