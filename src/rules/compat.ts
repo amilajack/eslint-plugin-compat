@@ -130,7 +130,7 @@ const getRulesForTargets = memoize(
     nodes
       .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
       .forEach((node) => {
-        if (!node.getUnsupportedTargets(node, targets).length) return;
+        if (!node.getUnsupportedTargets(targets).length) return;
         result[node.astNodeType].push(node);
       });
 
@@ -205,7 +205,7 @@ export default {
         message: [
           generateErrorName(node),
           "is not supported in",
-          node.getUnsupportedTargets(node, browserslistTargets).join(", "),
+          node.getUnsupportedTargets(browserslistTargets).join(", "),
         ].join(" "),
       });
     };

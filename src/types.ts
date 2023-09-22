@@ -55,10 +55,7 @@ export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
   id: string;
   caniuseId?: string;
   kind?: APIKind;
-  getUnsupportedTargets: (
-    node: AstMetadataApiWithTargetsResolver,
-    targets: Target[]
-  ) => Array<string>;
+  getUnsupportedTargets: (targets: Target[]) => Array<string>;
 }
 
 export interface Context extends Rule.RuleContext {

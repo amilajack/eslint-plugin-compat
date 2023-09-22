@@ -112,11 +112,11 @@ export function isSupportedByMDN(
  * Return an array of all unsupported targets
  */
 export function getUnsupportedTargets(
-  node: AstMetadataApiWithTargetsResolver,
+  this: AstMetadataApiWithTargetsResolver,
   targets: Target[]
 ): string[] {
   return targets
-    .filter((target) => !isSupportedByMDN(node, target))
+    .filter((target) => !isSupportedByMDN(this, target))
     .map(formatTargetNames);
 }
 
