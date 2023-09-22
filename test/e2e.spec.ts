@@ -325,7 +325,7 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message:
-            "Promise.allSettled() is not supported in Safari 12, Chrome 72",
+            "Promise.allSettled() is not supported in Chrome 72, Safari 12",
         },
       ],
     },
@@ -442,7 +442,7 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message:
-            "WebAssembly is not supported in Safari 10.1, Opera 12.1, iOS Safari 10.3, IE 10, Edge 14",
+            "WebAssembly is not supported in Edge 14, IE 10, iOS Safari 10.3, Opera 12.1, Safari 10.1",
           type: "MemberExpression",
         },
       ],
@@ -582,7 +582,7 @@ ruleTester.run("compat", rule, {
       },
       errors: [
         {
-          message: "URL is not supported in Safari 7, Firefox 25, Chrome 31",
+          message: "URL is not supported in Chrome 31, Firefox 25, Safari 7",
           type: "NewExpression",
         },
       ],
@@ -595,7 +595,7 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message:
-            "URLSearchParams is not supported in Safari 10, Firefox 28, Chrome 48",
+            "URLSearchParams is not supported in Chrome 48, Firefox 28, Safari 10",
           type: "NewExpression",
         },
       ],
@@ -617,7 +617,7 @@ ruleTester.run("compat", rule, {
       },
       errors: [
         {
-          message: "ResizeObserver is not supported in Safari 12, IE 11",
+          message: "ResizeObserver is not supported in IE 11, Safari 12",
         },
       ],
     },
@@ -628,7 +628,7 @@ ruleTester.run("compat", rule, {
       },
       errors: [
         {
-          message: "String.at() is not supported in Safari 12, IE 11",
+          message: "String.at() is not supported in IE 11, Safari 12",
         },
       ],
     },
@@ -639,7 +639,7 @@ ruleTester.run("compat", rule, {
       },
       errors: [
         {
-          message: "Array.at() is not supported in Safari 12, IE 11",
+          message: "Array.at() is not supported in IE 11, Safari 12",
         },
       ],
     },
