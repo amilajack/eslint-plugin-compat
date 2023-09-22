@@ -310,6 +310,31 @@ exports[`Versioning should support single array config in browserslist package.j
 ]
 `;
 
+exports[`Versioning should support single version config in browserslist package.json 1`] = `
+[
+  {
+    "parsedVersion": 32,
+    "target": "chrome",
+    "version": "32",
+  },
+  {
+    "parsedVersion": 20,
+    "target": "firefox",
+    "version": "20",
+  },
+  {
+    "parsedVersion": 9,
+    "target": "ie",
+    "version": "9",
+  },
+  {
+    "parsedVersion": 8,
+    "target": "safari",
+    "version": "8",
+  },
+]
+`;
+
 exports[`Versioning should support string config in rule option 1`] = `
 [
   {

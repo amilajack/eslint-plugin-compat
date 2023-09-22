@@ -48,30 +48,7 @@ describe("Versioning", () => {
       singleVersionEnvPackageJSON.browsers
     );
     const result = parseBrowsersListVersion(config);
-    expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "parsedVersion": 8,
-          "target": "safari",
-          "version": "8",
-        },
-        {
-          "parsedVersion": 9,
-          "target": "ie",
-          "version": "9",
-        },
-        {
-          "parsedVersion": 20,
-          "target": "firefox",
-          "version": "20",
-        },
-        {
-          "parsedVersion": 32,
-          "target": "chrome",
-          "version": "32",
-        },
-      ]
-    `);
+    expect(result).toMatchSnapshot();
   });
 
   it("should get lowest target versions", () => {
