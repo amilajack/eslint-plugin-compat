@@ -27,7 +27,7 @@ type AstMetadataApi = {
 export interface Target {
   target: keyof TargetNameMappings;
   parsedVersion: number;
-  version: number | string | "all";
+  version: string | "all";
 }
 
 export type HandleFailingRule = (

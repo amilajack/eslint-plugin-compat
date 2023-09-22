@@ -238,11 +238,11 @@ export function parseBrowsersListVersion(
       .map((e: string): Target => {
         const [target, version] = e.split(" ") as [
           keyof TargetNameMappings,
-          number | string,
+          string,
         ];
 
         const parsedVersion: number = (() => {
-          if (typeof version === "number") return version;
+          // If any version === 'all', return 0. The only version of op_mini is 'all'
           if (version === "all") return 0;
           return version.includes("-")
             ? parseFloat(version.split("-")[0])
@@ -258,19 +258,14 @@ export function parseBrowsersListVersion(
       // ex. [a@3, b@3, a@1] => [a@3, a@1, b@3]
       .sort((a: Target, b: Target): number => {
         if (b.target === a.target) {
-          // If any version === 'all', return 0. The only version of op_mini is 'all'
-          // Otherwise, compare the versions
-          return typeof b.parsedVersion === "string" ||
-            typeof a.parsedVersion === "string"
-            ? 0
-            : b.parsedVersion - a.parsedVersion;
+          return b.parsedVersion - a.parsedVersion;
         }
-        return b.target > a.target ? 1 : -1;
+        return a.target.localeCompare(b.target);
       }) // First last target always has the latest version
       .filter(
         (e: Target, i: number, items: Array<Target>): boolean =>
           // Check if the current target is the last of its kind.
-          // If it is, then it's the most recent version.
+          // If it is, then it's the oldest version.
           i + 1 === items.length || e.target !== items[i + 1].target
       )
   );
