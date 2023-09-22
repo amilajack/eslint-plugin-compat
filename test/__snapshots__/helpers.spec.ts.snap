@@ -23,19 +23,19 @@ exports[`Versioning should get lowest target versions 1`] = `
 exports[`Versioning should support multi env config in browserslist package.json 1`] = `
 [
   {
-    "parsedVersion": 18,
+    "parsedVersion": 19,
     "target": "samsung",
-    "version": "18.0",
+    "version": "19.0",
   },
   {
-    "parsedVersion": 16.2,
+    "parsedVersion": 16.3,
     "target": "safari",
-    "version": "16.2",
+    "version": "16.3",
   },
   {
-    "parsedVersion": 98,
+    "parsedVersion": 99,
     "target": "opera",
-    "version": "98",
+    "version": "99",
   },
   {
     "parsedVersion": 73,
@@ -53,9 +53,9 @@ exports[`Versioning should support multi env config in browserslist package.json
     "version": "2.5",
   },
   {
-    "parsedVersion": 16.1,
+    "parsedVersion": 15.6,
     "target": "ios_saf",
-    "version": "16.1",
+    "version": "15.6-15.7",
   },
   {
     "parsedVersion": 10,
@@ -133,9 +133,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
 exports[`Versioning should support resolving browserslist config in subdirectory 2`] = `
 [
   {
-    "parsedVersion": 20,
+    "parsedVersion": 21,
     "target": "samsung",
-    "version": "20",
+    "version": "21",
   },
   {
     "parsedVersion": 15.6,
@@ -143,9 +143,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "15.6",
   },
   {
-    "parsedVersion": 99,
+    "parsedVersion": 100,
     "target": "opera",
-    "version": "99",
+    "version": "100",
   },
   {
     "parsedVersion": 73,
@@ -163,9 +163,9 @@ exports[`Versioning should support resolving browserslist config in subdirectory
     "version": "2.5",
   },
   {
-    "parsedVersion": 16,
+    "parsedVersion": 15.6,
     "target": "ios_saf",
-    "version": "16.0",
+    "version": "15.6-15.7",
   },
   {
     "parsedVersion": 102,
@@ -213,19 +213,19 @@ exports[`Versioning should support resolving browserslist config in subdirectory
 exports[`Versioning should support single array config in browserslist package.json 1`] = `
 [
   {
-    "parsedVersion": 18,
+    "parsedVersion": 19,
     "target": "samsung",
-    "version": "18.0",
+    "version": "19.0",
   },
   {
-    "parsedVersion": 16.2,
+    "parsedVersion": 16.3,
     "target": "safari",
-    "version": "16.2",
+    "version": "16.3",
   },
   {
-    "parsedVersion": 98,
+    "parsedVersion": 99,
     "target": "opera",
-    "version": "98",
+    "version": "99",
   },
   {
     "parsedVersion": 73,
@@ -243,9 +243,9 @@ exports[`Versioning should support single array config in browserslist package.j
     "version": "2.5",
   },
   {
-    "parsedVersion": 16.1,
+    "parsedVersion": 15.6,
     "target": "ios_saf",
-    "version": "16.1",
+    "version": "15.6-15.7",
   },
   {
     "parsedVersion": 10,
@@ -268,9 +268,9 @@ exports[`Versioning should support single array config in browserslist package.j
     "version": "113",
   },
   {
-    "parsedVersion": 107,
+    "parsedVersion": 108,
     "target": "chrome",
-    "version": "107",
+    "version": "108",
   },
   {
     "parsedVersion": 7,
@@ -313,9 +313,9 @@ exports[`Versioning should support single array config in browserslist package.j
 exports[`Versioning should support string config in rule option 1`] = `
 [
   {
-    "parsedVersion": 20,
+    "parsedVersion": 21,
     "target": "samsung",
-    "version": "20",
+    "version": "21",
   },
   {
     "parsedVersion": 15.6,
@@ -323,9 +323,9 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "15.6",
   },
   {
-    "parsedVersion": 99,
+    "parsedVersion": 100,
     "target": "opera",
-    "version": "99",
+    "version": "100",
   },
   {
     "parsedVersion": 73,
@@ -343,9 +343,9 @@ exports[`Versioning should support string config in rule option 1`] = `
     "version": "2.5",
   },
   {
-    "parsedVersion": 16,
+    "parsedVersion": 15.6,
     "target": "ios_saf",
-    "version": "16.0",
+    "version": "15.6-15.7",
   },
   {
     "parsedVersion": 102,
