@@ -18,7 +18,6 @@ import {
   determineTargetsFromConfig,
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
-  ESLintNode,
   AstMetadataApiWithTargetsResolver,
   BrowserListConfig,
   HandleFailingRule,
@@ -27,23 +26,19 @@ import {
 } from "../types";
 import { nodes } from "../providers";
 
-type ESLint = {
-  [astNodeTypeName: string]: (node: ESLintNode) => void;
-};
-
-function getName(node: ESLintNode): string {
+function getName(node: Rule.Node): string {
   switch (node.type) {
     case "NewExpression": {
-      return node.callee!.name;
+      return (node.callee as any).name;
     }
     case "MemberExpression": {
-      return node.object!.name;
+      return (node.object as any).name;
     }
     case "ExpressionStatement": {
-      return node.expression!.name;
+      return (node.expression as any).name;
     }
     case "CallExpression": {
-      return node.callee!.name;
+      return (node.callee as any).name;
     }
     default:
       throw new Error("not found");
@@ -105,20 +100,13 @@ function isUsingTranspiler(context: Context): boolean {
   return false;
 }
 
-type RulesFilteredByTargets = {
-  CallExpression: AstMetadataApiWithTargetsResolver[];
-  NewExpression: AstMetadataApiWithTargetsResolver[];
-  MemberExpression: AstMetadataApiWithTargetsResolver[];
-  ExpressionStatement: AstMetadataApiWithTargetsResolver[];
-};
-
 /**
  * A small optimization that only lints APIs that are not supported by targeted browsers.
  * For example, if the user is targeting chrome 50, which supports the fetch API, it is
  * wasteful to lint calls to fetch.
  */
 const getRulesForTargets = memoize(
-  (targetsJSON: string, lintAllEsApis: boolean): RulesFilteredByTargets => {
+  (targetsJSON: string, lintAllEsApis: boolean) => {
     const result = {
       CallExpression: [] as AstMetadataApiWithTargetsResolver[],
       NewExpression: [] as AstMetadataApiWithTargetsResolver[],
@@ -138,7 +126,7 @@ const getRulesForTargets = memoize(
   }
 );
 
-export default {
+const ruleModule: Rule.RuleModule = {
   meta: {
     docs: {
       description: "Ensure cross-browser API compatibility",
@@ -149,7 +137,7 @@ export default {
     type: "problem",
     schema: [{ type: "string" }],
   },
-  create(context: Context): ESLint {
+  create(context: Context) {
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
     const browserslistConfig: BrowserListConfig =
@@ -190,14 +178,14 @@ export default {
 
     type Error = {
       message: string;
-      node: ESLintNode;
+      node: Rule.Node;
     };
 
     const errors: Error[] = [];
 
     const handleFailingRule: HandleFailingRule = (
       node: AstMetadataApiWithTargetsResolver,
-      eslintNode: ESLintNode
+      eslintNode: Rule.Node
     ) => {
       if (isPolyfilled(context, node)) return;
       errors.push({
@@ -242,7 +230,7 @@ export default {
         ]
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
-      Identifier(node: ESLintNode) {
+      Identifier(node) {
         if (node.parent) {
           const { type } = node.parent;
           if (
@@ -263,8 +251,10 @@ export default {
         // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
         errors
           .filter((error) => !identifiers.has(getName(error.node)))
-          .forEach((node) => context.report(node as Rule.ReportDescriptor));
+          .forEach((node) => context.report(node));
       },
     };
   },
 };
+
+export default ruleModule;

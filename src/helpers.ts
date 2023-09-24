@@ -1,8 +1,9 @@
 /* eslint no-nested-ternary: off */
 import browserslist from "browserslist";
+import { Rule } from "eslint";
+import type * as ESTree from "estree";
 import {
   AstMetadataApiWithTargetsResolver,
-  ESLintNode,
   BrowserListConfig,
   Target,
   HandleFailingRule,
@@ -30,7 +31,7 @@ function checkNotInsideIfStatementAndReport(
   context: Context,
   handleFailingRule: HandleFailingRule,
   failingRule: AstMetadataApiWithTargetsResolver,
-  node: ESLintNode
+  node: Rule.Node
 ) {
   if (!isInsideIfStatement(context)) {
     handleFailingRule(failingRule, node);
@@ -41,10 +42,10 @@ export function lintCallExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: AstMetadataApiWithTargetsResolver[],
-  node: ESLintNode
+  node: ESTree.CallExpression & Rule.NodeParentExtension
 ) {
   if (!node.callee) return;
-  const calleeName = node.callee.name;
+  const calleeName = (node.callee as any).name;
   const failingRule = rules.find((rule) => rule.object === calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
@@ -59,10 +60,10 @@ export function lintNewExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: Array<AstMetadataApiWithTargetsResolver>,
-  node: ESLintNode
+  node: ESTree.NewExpression & Rule.NodeParentExtension
 ) {
   if (!node.callee) return;
-  const calleeName = node.callee.name;
+  const calleeName = (node.callee as any).name;
   const failingRule = rules.find((rule) => rule.object === calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
@@ -77,11 +78,11 @@ export function lintExpressionStatement(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: AstMetadataApiWithTargetsResolver[],
-  node: ESLintNode
+  node: ESTree.ExpressionStatement & Rule.NodeParentExtension
 ) {
-  if (!node?.expression?.name) return;
+  if (!(node?.expression as any)?.name) return;
   const failingRule = rules.find(
-    (rule) => rule.object === node?.expression?.name
+    (rule) => rule.object === (node?.expression as any)?.name
   );
   if (failingRule)
     checkNotInsideIfStatementAndReport(
@@ -92,40 +93,48 @@ export function lintExpressionStatement(
     );
 }
 
-function isStringLiteral(node: ESLintNode): boolean {
+function isStringLiteral(
+  node: ESTree.Node
+): node is Omit<ESTree.SimpleLiteral, "value"> & { value: string } {
   return node.type === "Literal" && typeof node.value === "string";
 }
 
-function protoChainFromMemberExpression(node: ESLintNode): string[] {
-  if (!node.object) return [node.name];
+function protoChainFromMemberExpression(
+  node: ESTree.MemberExpression
+): string[] {
+  if (!node.object) return [(node as any).name];
   const protoChain = (() => {
     if (
       node.object.type === "NewExpression" ||
       node.object.type === "CallExpression"
     ) {
-      return protoChainFromMemberExpression(node.object.callee!);
+      return protoChainFromMemberExpression(
+        node.object.callee! as ESTree.MemberExpression
+      );
     } else if (node.object.type === "ArrayExpression") {
       return ["Array"];
     } else if (isStringLiteral(node.object)) {
       return ["String"];
     } else {
-      return protoChainFromMemberExpression(node.object);
+      return protoChainFromMemberExpression(
+        node.object as ESTree.MemberExpression
+      );
     }
   })();
-  return [...protoChain, node.property!.name];
+  return [...protoChain, (node.property as any).name];
 }
 
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: Array<AstMetadataApiWithTargetsResolver>,
-  node: ESLintNode
+  node: ESTree.MemberExpression & Rule.NodeParentExtension
 ) {
   if (!node.object || !node.property) return;
   if (
-    !node.object.name ||
-    node.object.name === "window" ||
-    node.object.name === "globalThis"
+    !(node.object as any).name ||
+    (node.object as any).name === "window" ||
+    (node.object as any).name === "globalThis"
   ) {
     const rawProtoChain = protoChainFromMemberExpression(node);
     const [firstObj] = rawProtoChain;
@@ -146,8 +155,8 @@ export function lintMemberExpression(
       );
     }
   } else {
-    const objectName = node.object.name;
-    const propertyName = node.property.name;
+    const objectName = (node.object as any).name;
+    const propertyName = (node.property as any).name;
     const failingRule = rules.find(
       (rule) =>
         rule.object === objectName &&

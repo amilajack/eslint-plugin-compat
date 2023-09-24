@@ -1,5 +1,6 @@
 import { APIKind } from "ast-metadata-inferer/lib/types";
 import { Rule } from "eslint";
+import type * as ESTree from "estree";
 import { TargetNameMappings } from "./constants";
 import type { Options as DefaultBrowsersListOpts } from "browserslist";
 
@@ -32,24 +33,10 @@ export interface Target {
 
 export type HandleFailingRule = (
   node: AstMetadataApiWithTargetsResolver,
-  eslintNode: ESLintNode
+  eslintNode: Rule.Node
 ) => void;
 
 export type TargetNames = Array<string>;
-
-export type ESLintNode = {
-  name: string;
-  type: string;
-  value?: unknown;
-  object?: ESLintNode;
-  parent?: ESLintNode;
-  expression?: ESLintNode;
-  property?: ESLintNode;
-  callee?: ESLintNode & {
-    name: string;
-    type?: string;
-  };
-};
 
 export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
   id: string;
