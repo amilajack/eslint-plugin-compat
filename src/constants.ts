@@ -27,7 +27,7 @@ export const STANDARD_TARGET_NAME_MAPPING = {
 
 export type TargetNameMappings = typeof STANDARD_TARGET_NAME_MAPPING;
 
-export enum AstNodeTypes {
+export enum AstNodeType {
   MemberExpression = "MemberExpression",
   CallExpression = "CallExpression",
   NewExpression = "NewExpression",

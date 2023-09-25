@@ -7,12 +7,13 @@
  */
 import memoize from "lodash.memoize";
 import { Rule } from "eslint";
+import type * as ESTree from "estree";
 import {
-  lintCallExpression,
-  lintMemberExpression,
-  lintNewExpression,
-  lintExpressionStatement,
   determineSettings,
+  isInsideTypeofCheck,
+  determineGuardedScope,
+  GuardedScope,
+  isBlockOrProgram,
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
   AstMetadataApiWithTargetsResolver,
@@ -23,17 +24,11 @@ import { nodes } from "../providers";
 
 function getName(node: Rule.Node): string {
   switch (node.type) {
-    case "NewExpression": {
-      return (node.callee as any).name;
+    case "Identifier": {
+      return node.name;
     }
     case "MemberExpression": {
-      return (node.object as any).name;
-    }
-    case "ExpressionStatement": {
-      return (node.expression as any).name;
-    }
-    case "CallExpression": {
-      return (node.callee as any).name;
+      return (node.object as ESTree.Identifier).name;
     }
     default:
       throw new Error("not found");
@@ -42,7 +37,7 @@ function getName(node: Rule.Node): string {
 
 function generateErrorName(rule: AstMetadataApiWithTargetsResolver): string {
   if (rule.name) return rule.name;
-  if (rule.property) return `${rule.object}.${rule.property}()`;
+  if (rule.property) return `${rule.object}.${rule.property}`;
   return rule.object;
 }
 
@@ -72,19 +67,15 @@ function isPolyfilled(
  */
 const getRulesForTargets = memoize(
   (targetsJSON: string, lintAllEsApis: boolean) => {
-    const result = {
-      CallExpression: [] as AstMetadataApiWithTargetsResolver[],
-      NewExpression: [] as AstMetadataApiWithTargetsResolver[],
-      MemberExpression: [] as AstMetadataApiWithTargetsResolver[],
-      ExpressionStatement: [] as AstMetadataApiWithTargetsResolver[],
-    };
     const targets = JSON.parse(targetsJSON);
+
+    const result: Record<string, AstMetadataApiWithTargetsResolver> = {};
 
     nodes
       .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
       .forEach((node) => {
         if (!node.getUnsupportedTargets(targets).length) return;
-        result[node.astNodeType].push(node);
+        result[node.property || node.object] = node;
       });
 
     return result;
@@ -134,58 +125,103 @@ const ruleModule: Rule.RuleModule = {
     };
 
     const identifiers = new Set();
+    const guardedScopes = new Map<GuardedScope["scope"], number>();
+
+    function shouldIncludeError(node: Rule.Node) {
+      // This matches a rule but it's defined in the global scope
+      if (identifiers.has(getName(node))) return false;
+
+      let expression: Rule.Node = node;
+      while (!isBlockOrProgram(expression.parent)) {
+        expression = expression.parent;
+      }
+
+      // expression is a child of a Program or BlockStatement
+      const scope = expression.parent;
+      const guardedScope = guardedScopes.get(scope);
+      if (guardedScope != null) {
+        const index = scope.body.findIndex((value) => value === expression);
+        if (index >= guardedScope) {
+          return false;
+        }
+      }
+
+      return true;
+    }
 
     return {
-      CallExpression: lintCallExpression.bind(
-        null,
-        context,
-        handleFailingRule,
-        targetedRules.CallExpression
-      ),
-      NewExpression: lintNewExpression.bind(
-        null,
-        context,
-        handleFailingRule,
-        targetedRules.NewExpression
-      ),
-      ExpressionStatement: lintExpressionStatement.bind(
-        null,
-        context,
-        handleFailingRule,
-        [...targetedRules.MemberExpression, ...targetedRules.CallExpression]
-      ),
-      MemberExpression: lintMemberExpression.bind(
-        null,
-        context,
-        handleFailingRule,
-        [
-          ...targetedRules.MemberExpression,
-          ...targetedRules.CallExpression,
-          ...targetedRules.NewExpression,
-        ]
-      ),
-      // Keep track of all the defined variables. Do not report errors for nodes that are not defined
       Identifier(node) {
         if (node.parent) {
-          const { type } = node.parent;
-          if (
-            type === "Property" || // ex. const { Set } = require('immutable');
-            type === "FunctionDeclaration" || // ex. function Set() {}
-            type === "VariableDeclarator" || // ex. const Set = () => {}
-            type === "ClassDeclaration" || // ex. class Set {}
-            type === "ImportDefaultSpecifier" || // ex. import Set from 'set';
-            type === "ImportSpecifier" || // ex. import {Set} from 'set';
-            type === "ImportDeclaration" // ex. import {Set} from 'set';
-          ) {
-            identifiers.add(node.name);
+          // Keep track of all the defined variables. Do not report errors for nodes that are not defined
+          switch (node.parent.type) {
+            case "Property": // ex. const { Set } = require('immutable');
+            case "FunctionDeclaration": // ex. function Set() {}
+            case "VariableDeclarator": // ex. const Set = () => {}
+            case "ClassDeclaration": // ex. class Set {}
+            case "ImportDefaultSpecifier": // ex. import Set from 'set';
+            case "ImportSpecifier": // ex. import {Set} from 'set';
+            case "ImportDeclaration": // ex. import {Set} from 'set';
+              identifiers.add(node.name);
           }
         }
+
+        // Check if the identifier name matches any of the ones in our list
+        const name = node.name;
+        const rule = targetedRules[name];
+        if (!rule) return;
+
+        if (
+          node.parent.type !== "MemberExpression" &&
+          !isInsideTypeofCheck(node)
+        ) {
+          // This will always produce a ReferenceError in unsupported browsers
+          handleFailingRule(rule, node);
+          return;
+        }
+
+        let object = "window";
+
+        let expression: Rule.Node = node;
+        if (expression.parent.type === "MemberExpression") {
+          expression = expression.parent;
+          if (expression.object.type === "MemberExpression") {
+            // thing.Promise.all, thing.thing.Promise.all, ignore this
+            if (
+              expression.object.object.type !== "Literal" ||
+              expression.object.object.value !== "window" ||
+              expression.object.property.type !== "Identifier"
+            ) {
+              return;
+            }
+
+            // window.Promise.all, for example
+            object = expression.object.property.name;
+          } else if (expression.object.type === "Identifier") {
+            object = expression.object.name;
+          } else {
+            // unrecognized syntax
+            return;
+          }
+        }
+
+        // This doesn't actually match our rule, like `Thing.all`
+        if (object !== "window" && rule.object !== object) return;
+
+        const scope = determineGuardedScope(expression);
+        if (!scope) {
+          // this node isn't guarding an if statement, so we can report an error
+          handleFailingRule(rule, expression);
+          return;
+        }
+
+        // Otherwise let's mark the scope that this node is guarding
+        guardedScopes.set(scope.scope, scope.index);
       },
       "Program:exit": () => {
         // Get a map of all the variables defined in the root scope (not the global scope)
         // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
         errors
-          .filter((error) => !identifiers.has(getName(error.node)))
+          .filter((error) => shouldIncludeError(error.node))
           .forEach((node) => context.report(node));
       },
     };

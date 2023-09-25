@@ -133,12 +133,11 @@ function getMetadataName(metadata: ApiMetadata) {
 const MdnProvider: Array<AstMetadataApiWithTargetsResolver> = apis
   // Create entries for each ast node type
   .map((metadata) =>
-    metadata.astNodeTypes.map((astNodeType) => ({
+    metadata.astNodeTypes.map(() => ({
       ...metadata,
       name: getMetadataName(metadata),
       id: metadata.protoChainId,
       protoChainId: metadata.protoChainId,
-      astNodeType,
       object: metadata.protoChain[0],
       // @TODO Handle cases where 'prototype' is in protoChain
       property: metadata.protoChain[1],

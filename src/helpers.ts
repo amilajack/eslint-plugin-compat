@@ -1,18 +1,11 @@
 import fs from "fs";
 
 import browserslist from "browserslist";
-import { Rule } from "eslint";
+import type { Rule } from "eslint";
 import type * as ESTree from "estree";
 import findUp from "find-up";
 
-import {
-  AstMetadataApiWithTargetsResolver,
-  BrowserListConfig,
-  Target,
-  HandleFailingRule,
-  Context,
-  BrowsersListOpts,
-} from "./types";
+import { BrowserListConfig, Target, Context, BrowsersListOpts } from "./types";
 import { TargetNameMappings } from "./constants";
 
 const BABEL_CONFIGS = [
@@ -34,155 +27,138 @@ const BABEL_CONFIGS = [
   - All of the rules have compatibility info attached to them
 - Each API is given to versioning.ts with compatibility info
 */
-function isInsideIfStatement(context: Context) {
-  return context.getAncestors().some((ancestor) => {
-    return ancestor.type === "IfStatement";
-  });
+
+export interface GuardedScope {
+  scope: Rule.Node;
+  index: number;
 }
 
-function checkNotInsideIfStatementAndReport(
-  context: Context,
-  handleFailingRule: HandleFailingRule,
-  failingRule: AstMetadataApiWithTargetsResolver,
-  node: Rule.Node
-) {
-  if (!isInsideIfStatement(context)) {
-    handleFailingRule(failingRule, node);
+/**
+ * Checks if the given node is used in an if statement, and if it is, returns the
+ * scope that the guard applies to and after which index it applies.
+ * Should be called with either a bare Identifier or a MemberExpression.
+ */
+export function determineGuardedScope(
+  node: (ESTree.Identifier | ESTree.MemberExpression) & Rule.NodeParentExtension
+): GuardedScope | null {
+  const result = getIfStatementAndGuardType(node);
+  if (!result) return null;
+
+  const [ifStatement, positiveGuard] = result;
+
+  if (positiveGuard) {
+    // It's okay to use the identifier inside of the if statement
+    return { scope: ifStatement.consequent as Rule.Node, index: 0 };
   }
+
+  if (
+    ifStatementHasEarlyReturn(ifStatement) &&
+    isBlockOrProgram(ifStatement.parent)
+  ) {
+    // It's okay to use the identifier after the if statement
+    const scope = ifStatement.parent;
+    const index = scope.body.indexOf(ifStatement) + 1;
+    return { scope, index };
+  }
+
+  return null;
 }
 
-export function lintCallExpression(
-  context: Context,
-  handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
-  node: ESTree.CallExpression & Rule.NodeParentExtension
-) {
-  if (!node.callee) return;
-  const calleeName = (node.callee as any).name;
-  const failingRule = rules.find((rule) => rule.object === calleeName);
-  if (failingRule)
-    checkNotInsideIfStatementAndReport(
-      context,
-      handleFailingRule,
-      failingRule,
-      node
-    );
+export function isBlockOrProgram(
+  node: Rule.Node
+): node is (ESTree.Program | ESTree.BlockStatement) & Rule.NodeParentExtension {
+  return node.type === "Program" || node.type === "BlockStatement";
 }
 
-export function lintNewExpression(
-  context: Context,
-  handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithTargetsResolver>,
-  node: ESTree.NewExpression & Rule.NodeParentExtension
-) {
-  if (!node.callee) return;
-  const calleeName = (node.callee as any).name;
-  const failingRule = rules.find((rule) => rule.object === calleeName);
-  if (failingRule)
-    checkNotInsideIfStatementAndReport(
-      context,
-      handleFailingRule,
-      failingRule,
-      node
-    );
+function getIfStatementAndGuardType(
+  node: (ESTree.Identifier | ESTree.MemberExpression) & Rule.NodeParentExtension
+): [ESTree.IfStatement & Rule.NodeParentExtension, boolean] | null {
+  let positiveGuard = true;
+  let expression: Rule.Node = node;
+
+  if (
+    node.parent?.type === "UnaryExpression" &&
+    node.parent.operator === "typeof"
+  ) {
+    // unused typeof check
+    if (node.parent.parent?.type !== "BinaryExpression") return null;
+
+    expression = node.parent.parent;
+    // unexpected comparison
+    if (!isStringLiteral(expression.right)) return null;
+
+    const operator = expression.operator;
+    const right = expression.right.value;
+
+    const operatorIsPositive = operator === "===" || operator === "==";
+    const rightIsPositive = right !== "undefined";
+
+    if (
+      (operatorIsPositive && rightIsPositive) ||
+      (!operatorIsPositive && !rightIsPositive)
+    ) {
+      // typeof foo === "function"
+      // typeof foo !== "undefined"
+      positiveGuard = true;
+    } else {
+      // typeof foo !== "function"
+      // typepf foo === "undefined"
+      positiveGuard = false;
+    }
+  }
+
+  // !window.fetch
+  // !!window.fetch
+  // !!!!!!window.fetch
+  // !(typeof fetch === "undefined")
+  while (
+    expression.parent?.type === "UnaryExpression" &&
+    expression.parent.operator === "!"
+  ) {
+    expression = expression.parent;
+    positiveGuard = !positiveGuard;
+  }
+
+  // TODO: allow && checks, but || checks aren't really safe
+  // skip over && and || expressions
+  while (expression.parent?.type === "LogicalExpression") {
+    expression = expression.parent;
+  }
+
+  if (expression.parent?.type === "IfStatement") {
+    return [expression.parent, positiveGuard];
+  }
+
+  return null;
 }
 
-export function lintExpressionStatement(
-  context: Context,
-  handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
-  node: ESTree.ExpressionStatement & Rule.NodeParentExtension
+function ifStatementHasEarlyReturn(
+  node: ESTree.IfStatement & Rule.NodeParentExtension
 ) {
-  if (!(node?.expression as any)?.name) return;
-  const failingRule = rules.find(
-    (rule) => rule.object === (node?.expression as any)?.name
+  return (
+    node.consequent.type === "ReturnStatement" ||
+    node.consequent.type === "ThrowStatement" ||
+    (node.consequent.type === "BlockStatement" &&
+      node.consequent.body.some(
+        (statement) =>
+          statement.type === "ReturnStatement" ||
+          statement.type === "ThrowStatement"
+      ))
   );
-  if (failingRule)
-    checkNotInsideIfStatementAndReport(
-      context,
-      handleFailingRule,
-      failingRule,
-      node
-    );
+}
+
+export function isInsideTypeofCheck(
+  node: ESTree.Identifier & Rule.NodeParentExtension
+) {
+  return (
+    node.parent.type === "UnaryExpression" && node.parent.operator === "typeof"
+  );
 }
 
 function isStringLiteral(
   node: ESTree.Node
-): node is Omit<ESTree.SimpleLiteral, "value"> & { value: string } {
+): node is ESTree.SimpleLiteral & { value: string } {
   return node.type === "Literal" && typeof node.value === "string";
-}
-
-function protoChainFromMemberExpression(
-  node: ESTree.MemberExpression
-): string[] {
-  if (!node.object) return [(node as any).name];
-  const protoChain = (() => {
-    if (
-      node.object.type === "NewExpression" ||
-      node.object.type === "CallExpression"
-    ) {
-      return protoChainFromMemberExpression(
-        node.object.callee! as ESTree.MemberExpression
-      );
-    } else if (node.object.type === "ArrayExpression") {
-      return ["Array"];
-    } else if (isStringLiteral(node.object)) {
-      return ["String"];
-    } else {
-      return protoChainFromMemberExpression(
-        node.object as ESTree.MemberExpression
-      );
-    }
-  })();
-  return [...protoChain, (node.property as any).name];
-}
-
-export function lintMemberExpression(
-  context: Context,
-  handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithTargetsResolver>,
-  node: ESTree.MemberExpression & Rule.NodeParentExtension
-) {
-  if (!node.object || !node.property) return;
-  if (
-    !(node.object as any).name ||
-    (node.object as any).name === "window" ||
-    (node.object as any).name === "globalThis"
-  ) {
-    const rawProtoChain = protoChainFromMemberExpression(node);
-    const [firstObj] = rawProtoChain;
-    const protoChain =
-      firstObj === "window" || firstObj === "globalThis"
-        ? rawProtoChain.slice(1)
-        : rawProtoChain;
-    const protoChainId = protoChain.join(".");
-    const failingRule = rules.find(
-      (rule) => rule.protoChainId === protoChainId
-    );
-    if (failingRule) {
-      checkNotInsideIfStatementAndReport(
-        context,
-        handleFailingRule,
-        failingRule,
-        node
-      );
-    }
-  } else {
-    const objectName = (node.object as any).name;
-    const propertyName = (node.property as any).name;
-    const failingRule = rules.find(
-      (rule) =>
-        rule.object === objectName &&
-        (rule.property == null || rule.property === propertyName)
-    );
-    if (failingRule)
-      checkNotInsideIfStatementAndReport(
-        context,
-        handleFailingRule,
-        failingRule,
-        node
-      );
-  }
 }
 
 export function reverseTargetMappings<K extends string, V extends string>(

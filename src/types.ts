@@ -1,6 +1,5 @@
 import { APIKind } from "ast-metadata-inferer/lib/types";
-import { Rule } from "eslint";
-import type * as ESTree from "estree";
+import type { Rule } from "eslint";
 import { TargetNameMappings } from "./constants";
 import type { Options as DefaultBrowsersListOpts } from "browserslist";
 
@@ -19,7 +18,6 @@ type AstMetadataApi = {
   type?: string;
   name?: string;
   object: string;
-  astNodeType: "MemberExpression" | "CallExpression" | "NewExpression";
   property?: string;
   protoChainId: string;
   protoChain: Array<string>;

@@ -61,6 +61,27 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
+      code: `
+        if (!window.fetch) return
+        fetch()
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
+      code: `
+        if (typeof fetch === 'undefined') return
+        fetch()
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
+      code: `
+        if (typeof window.fetch === 'undefined') return
+        fetch()
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
       code: "window",
       settings: { browsers: ["ExplorerMobile 10"] },
     },
@@ -250,17 +271,12 @@ ruleTester.run("compat", rule, {
         browsers: ["chrome 49", "safari 10.1", "firefox 44"],
       },
     },
+    {
+      code: "window.fetch?.('example.com')",
+      settings: { browsers: ["ie 9"] },
+    },
   ],
   invalid: [
-    {
-      code: "window?.fetch?.('example.com')",
-      settings: { browsers: ["ie 9"] },
-      errors: [
-        {
-          message: "fetch is not supported in IE 9",
-        },
-      ],
-    },
     {
       settings: {
         browsers: ["ie 9"],
@@ -536,6 +552,16 @@ ruleTester.run("compat", rule, {
       ],
     },
     {
+      code: "fetch",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "fetch is not supported in IE 11",
+          type: "ExpressionStatement",
+        },
+      ],
+    },
+    {
       code: "Promise.resolve()",
       settings: { browsers: ["ie 10"] },
       errors: [
@@ -640,6 +666,21 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "Array.at() is not supported in IE 11, Safari 12",
+        },
+      ],
+    },
+    {
+      code: `
+        if (true) {
+          [].at(5)
+        }
+      `,
+      settings: {
+        browsers: ["ie 11"],
+      },
+      errors: [
+        {
+          message: "Array.at() is not supported in IE 11",
         },
       ],
     },
