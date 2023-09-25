@@ -46,13 +46,15 @@ export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
 }
 
 export interface Context extends Rule.RuleContext {
-  settings: {
-    targets?: string[];
-    browsers?: Array<string>;
-    polyfills?: Array<string>;
-    lintAllEsApis?: boolean;
-    browserslistOpts?: BrowsersListOpts;
-  };
+  settings: Settings;
+}
+
+export interface Settings {
+  targets?: Array<string>;
+  browsers?: Array<string>;
+  polyfills?: Array<string>;
+  lintAllEsApis?: boolean;
+  browserslistOpts?: BrowsersListOpts;
 }
 
 export interface BrowsersListOpts

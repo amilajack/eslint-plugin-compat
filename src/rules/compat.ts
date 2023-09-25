@@ -5,8 +5,6 @@
  *   Tells eslint to lint certain nodes  (lintCallExpression, lintMemberExpression, lintNewExpression)
  *   Gets protochain for the ESLint nodes the plugin is interested in
  */
-import fs from "fs";
-import findUp from "find-up";
 import memoize from "lodash.memoize";
 import { Rule } from "eslint";
 import {
@@ -14,15 +12,12 @@ import {
   lintMemberExpression,
   lintNewExpression,
   lintExpressionStatement,
-  parseBrowsersListVersion,
-  determineTargetsFromConfig,
+  determineSettings,
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
   AstMetadataApiWithTargetsResolver,
-  BrowserListConfig,
   HandleFailingRule,
   Context,
-  BrowsersListOpts,
 } from "../types";
 import { nodes } from "../providers";
 
@@ -70,36 +65,6 @@ function isPolyfilled(
   );
 }
 
-const babelConfigs = [
-  "babel.config.json",
-  "babel.config.js",
-  "babel.config.cjs",
-  ".babelrc",
-  ".babelrc.json",
-  ".babelrc.js",
-  ".babelrc.cjs",
-];
-
-/**
- * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
- */
-function isUsingTranspiler(context: Context): boolean {
-  const dir = context.getFilename();
-  const configPath = findUp.sync(babelConfigs, {
-    cwd: dir,
-  });
-  if (configPath) return true;
-  const pkgPath = findUp.sync("package.json", {
-    cwd: dir,
-  });
-  // Check if babel property exists
-  if (pkgPath) {
-    const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
-    return !!pkg.babel;
-  }
-  return false;
-}
-
 /**
  * A small optimization that only lints APIs that are not supported by targeted browsers.
  * For example, if the user is targeting chrome 50, which supports the fetch API, it is
@@ -138,37 +103,7 @@ const ruleModule: Rule.RuleModule = {
     schema: [{ type: "string" }],
   },
   create(context: Context) {
-    // Determine lowest targets from browserslist config, which reads user's
-    // package.json config section. Use config from eslintrc for testing purposes
-    const browserslistConfig: BrowserListConfig =
-      context.settings.browsers ||
-      context.settings.targets ||
-      context.options[0];
-
-    if (
-      !context.settings.browserslistOpts &&
-      // @ts-expect-error Checking for accidental misspellings
-      context.settings.browsersListOpts
-    ) {
-      console.error(
-        'Please ensure you spell `browserslistOpts` with a lowercase "l"!'
-      );
-    }
-    const browserslistOpts: BrowsersListOpts | undefined =
-      context.settings.browserslistOpts;
-
-    const lintAllEsApis: boolean =
-      context.settings.lintAllEsApis === true ||
-      // Attempt to infer polyfilling of ES APIs from babel config
-      (!context.settings.polyfills?.includes("es:all") &&
-        !isUsingTranspiler(context));
-    const browserslistTargets = parseBrowsersListVersion(
-      determineTargetsFromConfig(
-        context.getFilename(),
-        browserslistConfig,
-        browserslistOpts
-      )
-    );
+    const { lintAllEsApis, browserslistTargets } = determineSettings(context);
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
     const targetedRules = getRulesForTargets(

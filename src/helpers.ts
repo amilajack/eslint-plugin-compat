@@ -1,7 +1,10 @@
-/* eslint no-nested-ternary: off */
+import fs from "fs";
+
 import browserslist from "browserslist";
 import { Rule } from "eslint";
 import type * as ESTree from "estree";
+import findUp from "find-up";
+
 import {
   AstMetadataApiWithTargetsResolver,
   BrowserListConfig,
@@ -11,6 +14,16 @@ import {
   BrowsersListOpts,
 } from "./types";
 import { TargetNameMappings } from "./constants";
+
+const BABEL_CONFIGS = [
+  "babel.config.json",
+  "babel.config.js",
+  "babel.config.cjs",
+  ".babelrc",
+  ".babelrc.json",
+  ".babelrc.js",
+  ".babelrc.cjs",
+];
 
 /*
 3) Figures out which browsers user is targeting
@@ -182,6 +195,43 @@ export function reverseTargetMappings<K extends string, V extends string>(
 }
 
 /**
+ * Determine the settings to run this plugin with, including the browserslist targets and
+ * whether to lint all ES APIs.
+ */
+export function determineSettings(context: Context) {
+  const settings = context.settings;
+
+  // Determine lowest targets from browserslist config, which reads user's
+  // package.json config section. Use config from eslintrc for testing purposes
+  const browserslistConfig: BrowserListConfig =
+    settings.browsers || settings.targets || context.options[0];
+
+  // check for accidental misspellings
+  if (!settings.browserslistOpts && (settings as any).browsersListOpts) {
+    console.error(
+      'Please ensure you spell `browserslistOpts` with a lowercase "l"!'
+    );
+  }
+
+  const browserslistOpts = settings.browserslistOpts;
+
+  const lintAllEsApis: boolean =
+    settings.lintAllEsApis === true ||
+    // Attempt to infer polyfilling of ES APIs from babel config
+    (!settings.polyfills?.includes("es:all") && !isUsingTranspiler(context));
+
+  const browserslistTargets = parseBrowsersListVersion(
+    determineTargetsFromConfig(
+      context.getFilename(),
+      browserslistConfig,
+      browserslistOpts
+    )
+  );
+
+  return { lintAllEsApis, browserslistTargets };
+}
+
+/**
  * Determine the targets based on the browserslist config object
  * Get the targets from the eslint config and merge them with targets in browserslist config
  * Eslint target config will be deprecated in 4.0.0
@@ -278,4 +328,22 @@ export function parseBrowsersListVersion(
           i + 1 === items.length || e.target !== items[i + 1].target
       )
   );
+}
+
+/**
+ * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
+ */
+function isUsingTranspiler(context: Context): boolean {
+  const dir = context.getFilename();
+  const configPath = findUp.sync(BABEL_CONFIGS, { cwd: dir });
+  if (configPath) return true;
+
+  const pkgPath = findUp.sync("package.json", { cwd: dir });
+  if (pkgPath) {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+    // Check if babel property exists
+    return !!pkg.babel;
+  }
+
+  return false;
 }
