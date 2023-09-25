@@ -60,7 +60,7 @@ function isPolyfilled(
   context: Context,
   rule: AstMetadataApiWithTargetsResolver
 ): boolean {
-  if (!context.settings?.polyfills) return false;
+  if (!context.settings.polyfills) return false;
   const polyfills = getPolyfillSet(JSON.stringify(context.settings.polyfills));
   return (
     // v2 allowed users to select polyfills based off their caniuseId. This is
@@ -141,12 +141,12 @@ const ruleModule: Rule.RuleModule = {
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
     const browserslistConfig: BrowserListConfig =
-      context.settings?.browsers ||
-      context.settings?.targets ||
+      context.settings.browsers ||
+      context.settings.targets ||
       context.options[0];
 
     if (
-      !context.settings?.browserslistOpts &&
+      !context.settings.browserslistOpts &&
       // @ts-expect-error Checking for accidental misspellings
       context.settings.browsersListOpts
     ) {
@@ -155,12 +155,12 @@ const ruleModule: Rule.RuleModule = {
       );
     }
     const browserslistOpts: BrowsersListOpts | undefined =
-      context.settings?.browserslistOpts;
+      context.settings.browserslistOpts;
 
     const lintAllEsApis: boolean =
-      context.settings?.lintAllEsApis === true ||
+      context.settings.lintAllEsApis === true ||
       // Attempt to infer polyfilling of ES APIs from babel config
-      (!context.settings?.polyfills?.includes("es:all") &&
+      (!context.settings.polyfills?.includes("es:all") &&
         !isUsingTranspiler(context));
     const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(
