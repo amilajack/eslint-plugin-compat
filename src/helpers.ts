@@ -222,7 +222,7 @@ export function determineSettings(context: Context) {
 
   const browserslistTargets = parseBrowsersListVersion(
     determineTargetsFromConfig(
-      context.getFilename(),
+      context.filename,
       browserslistConfig,
       browserslistOpts
     )
@@ -334,7 +334,7 @@ export function parseBrowsersListVersion(
  * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
  */
 function isUsingTranspiler(context: Context): boolean {
-  const dir = context.getFilename();
+  const dir = context.filename;
   const configPath = findUp.sync(BABEL_CONFIGS, { cwd: dir });
   if (configPath) return true;
 
