@@ -18,6 +18,8 @@ const BABEL_CONFIGS = [
   ".babelrc.cjs",
 ];
 
+export const GLOBALS = ["window", "globalThis"];
+
 /*
 3) Figures out which browsers user is targeting
 
@@ -38,9 +40,7 @@ export interface GuardedScope {
  * scope that the guard applies to and after which index it applies.
  * Should be called with either a bare Identifier or a MemberExpression.
  */
-export function determineGuardedScope(
-  node: (ESTree.Identifier | ESTree.MemberExpression) & Rule.NodeParentExtension
-): GuardedScope | null {
+export function determineGuardedScope(node: Rule.Node): GuardedScope | null {
   const result = getIfStatementAndGuardType(node);
   if (!result) return null;
 
@@ -71,15 +71,12 @@ export function isBlockOrProgram(
 }
 
 function getIfStatementAndGuardType(
-  node: (ESTree.Identifier | ESTree.MemberExpression) & Rule.NodeParentExtension
+  node: Rule.Node
 ): [ESTree.IfStatement & Rule.NodeParentExtension, boolean] | null {
   let positiveGuard = true;
   let expression: Rule.Node = node;
 
-  if (
-    node.parent?.type === "UnaryExpression" &&
-    node.parent.operator === "typeof"
-  ) {
+  if (isUnaryExpression(node.parent, "typeof")) {
     // unused typeof check
     if (node.parent.parent?.type !== "BinaryExpression") return null;
 
@@ -105,16 +102,21 @@ function getIfStatementAndGuardType(
       // typepf foo === "undefined"
       positiveGuard = false;
     }
+  } else if (isBinaryExpression(expression.parent, "in")) {
+    expression = expression.parent;
+  } else if (isBinaryExpression(expression.parent)) {
+    if (
+      expression.parent.right.type === "Identifier" &&
+      expression.parent.right.name === "undefined"
+    ) {
+    }
   }
 
   // !window.fetch
   // !!window.fetch
   // !!!!!!window.fetch
   // !(typeof fetch === "undefined")
-  while (
-    expression.parent?.type === "UnaryExpression" &&
-    expression.parent.operator === "!"
-  ) {
+  while (isUnaryExpression(expression.parent, "!")) {
     expression = expression.parent;
     positiveGuard = !positiveGuard;
   }
@@ -147,18 +149,35 @@ function ifStatementHasEarlyReturn(
   );
 }
 
-export function isInsideTypeofCheck(
-  node: ESTree.Identifier & Rule.NodeParentExtension
-) {
+export function isInsideTypeofCheck(node: Rule.Node) {
   return (
     node.parent.type === "UnaryExpression" && node.parent.operator === "typeof"
   );
 }
 
 function isStringLiteral(
-  node: ESTree.Node
-): node is ESTree.SimpleLiteral & { value: string } {
+  node: Rule.Node
+): node is ESTree.SimpleLiteral & { value: string } & Rule.NodeParentExtension {
   return node.type === "Literal" && typeof node.value === "string";
+}
+
+function isBinaryExpression(
+  node: Rule.Node,
+  operator?: string
+): node is ESTree.BinaryExpression & Rule.NodeParentExtension {
+  return (
+    node.type === "BinaryExpression" &&
+    (!operator || node.operator === operator)
+  );
+}
+
+function isUnaryExpression(
+  node: Rule.Node,
+  operator?: string
+): node is ESTree.UnaryExpression & Rule.NodeParentExtension {
+  return (
+    node.type === "UnaryExpression" && (!operator || node.operator === operator)
+  );
 }
 
 export function reverseTargetMappings<K extends string, V extends string>(
@@ -168,6 +187,90 @@ export function reverseTargetMappings<K extends string, V extends string>(
     entry.reverse()
   );
   return Object.fromEntries(reversedEntries);
+}
+
+export function topmostIdentifierOrMemberExpression(
+  node: Rule.Node
+):
+  | ((ESTree.Identifier | ESTree.MemberExpression) & Rule.NodeParentExtension)
+  | null {
+  switch (node.type) {
+    case "Identifier":
+    case "MemberExpression": {
+      if (node.parent.type !== "MemberExpression") return node;
+
+      let expression = node.parent;
+      while (expression.parent.type === "MemberExpression") {
+        expression = expression.parent;
+      }
+
+      return expression;
+    }
+
+    default:
+      return null;
+  }
+}
+
+interface IdentifierProtoChain {
+  protoChain: string[];
+  expression: Rule.Node;
+}
+
+export function identifierProtoChain(
+  node: ESTree.Identifier & Rule.NodeParentExtension
+): null | IdentifierProtoChain {
+  const result = identifierProtoChainHelper(node);
+  if (!result) return null;
+
+  const { expression, protoChain } = result;
+
+  if (
+    isBinaryExpression(expression, "in") &&
+    isStringLiteral(expression.left)
+  ) {
+    // e.g. `if ("fetch" in window) {}`
+    protoChain.push(expression.left.value);
+  }
+
+  return { expression, protoChain };
+}
+
+/**
+ * Returns an array of property names from the given identifier, without any leading
+ * window or globalThis.
+ */
+function identifierProtoChainHelper(
+  node: ESTree.Identifier & Rule.NodeParentExtension
+): null | IdentifierProtoChain {
+  const expression = topmostIdentifierOrMemberExpression(node);
+  if (!expression) return null;
+
+  const protoChain: string[] = [];
+
+  const protoChainFromMemberExpressionObject = (obj: ESTree.Node) => {
+    if (obj.type === "Identifier") {
+      protoChain.push(obj.name);
+      return true;
+    }
+
+    if (obj.type === "MemberExpression") {
+      if (obj.property.type !== "Identifier") return false;
+      if (!protoChainFromMemberExpressionObject(obj.object)) return false;
+      protoChain.push(obj.property.name);
+      return true;
+    }
+
+    return false;
+  };
+
+  if (!protoChainFromMemberExpressionObject(expression)) return null;
+
+  if (GLOBALS.includes(protoChain[0])) {
+    protoChain.shift();
+  }
+
+  return { expression, protoChain };
 }
 
 /**

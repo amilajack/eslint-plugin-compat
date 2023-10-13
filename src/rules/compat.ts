@@ -14,6 +14,8 @@ import {
   determineGuardedScope,
   GuardedScope,
   isBlockOrProgram,
+  identifierProtoChain,
+  GLOBALS,
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
   AstMetadataApiWithTargetsResolver,
@@ -21,6 +23,19 @@ import {
   Context,
 } from "../types";
 import { nodes } from "../providers";
+
+function getErrorNode(node: Rule.Node): Rule.Node {
+  switch (node.type) {
+    case "MemberExpression": {
+      return node.property;
+    }
+    case "Identifier": {
+      return node;
+    }
+    default:
+      throw new Error("not found");
+  }
+}
 
 function getName(node: Rule.Node): string {
   switch (node.type) {
@@ -71,12 +86,14 @@ const getRulesForTargets = memoize(
 
     const result: Record<string, AstMetadataApiWithTargetsResolver> = {};
 
-    nodes
-      .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
-      .forEach((node) => {
-        if (!node.getUnsupportedTargets(targets).length) return;
-        result[node.property || node.object] = node;
-      });
+    for (const node of nodes) {
+      if (
+        (lintAllEsApis || node.kind !== "es") &&
+        node.getUnsupportedTargets(targets).length > 0
+      ) {
+        result[node.protoChainId] = node;
+      }
+    }
 
     return result;
   }
@@ -114,8 +131,12 @@ const ruleModule: Rule.RuleModule = {
       eslintNode: Rule.Node
     ) => {
       if (isPolyfilled(context, node)) return;
+
+      // TODO: name should never include leading "window" or "globalThis"
+      // and location should also not include it, we have to compute location ourselves
+
       errors.push({
-        node: eslintNode,
+        node: getErrorNode(eslintNode),
         message: [
           generateErrorName(node),
           "is not supported in",
@@ -165,49 +186,28 @@ const ruleModule: Rule.RuleModule = {
           }
         }
 
+        // Check if identifier is one we care about
+        const result = identifierProtoChain(node);
+        if (!result) return;
+
         // Check if the identifier name matches any of the ones in our list
-        const name = node.name;
-        const rule = targetedRules[name];
+        const protoChainId = result.protoChain.join(".");
+        const rule = targetedRules[protoChainId];
         if (!rule) return;
 
+        // If this a bare Identifier, not window / globalThis, and not used in a `typeof`
+        // expression, then we can error immediately
         if (
-          node.parent.type !== "MemberExpression" &&
-          !isInsideTypeofCheck(node)
+          result.expression.type === "Identifier" &&
+          !GLOBALS.includes(result.expression.name) &&
+          !isInsideTypeofCheck(result.expression)
         ) {
-          // This will always produce a ReferenceError in unsupported browsers
+          // This will always produce a `ReferenceError` in unsupported browsers
           handleFailingRule(rule, node);
           return;
         }
 
-        let object = "window";
-
-        let expression: Rule.Node = node;
-        if (expression.parent.type === "MemberExpression") {
-          expression = expression.parent;
-          if (expression.object.type === "MemberExpression") {
-            // thing.Promise.all, thing.thing.Promise.all, ignore this
-            if (
-              expression.object.object.type !== "Literal" ||
-              expression.object.object.value !== "window" ||
-              expression.object.property.type !== "Identifier"
-            ) {
-              return;
-            }
-
-            // window.Promise.all, for example
-            object = expression.object.property.name;
-          } else if (expression.object.type === "Identifier") {
-            object = expression.object.name;
-          } else {
-            // unrecognized syntax
-            return;
-          }
-        }
-
-        // This doesn't actually match our rule, like `Thing.all`
-        if (object !== "window" && rule.object !== object) return;
-
-        const scope = determineGuardedScope(expression);
+        const scope = determineGuardedScope(result.expression);
         if (!scope) {
           // this node isn't guarding an if statement, so we can report an error
           handleFailingRule(rule, expression);

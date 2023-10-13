@@ -35,6 +35,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest --testPathIgnorePatterns test/e2e-repo.spec.ts /benchmarks-tmp",
     "spec:e2e": "jest test/e2e-repo.spec.ts",
+    "spec:watch": "npm run spec -- --watch",
     "test": "npm run lint && npm run build && npm run spec",
     "tsc": "tsc",
     "version": "npm run build"
