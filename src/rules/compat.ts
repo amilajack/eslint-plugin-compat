@@ -11,11 +11,11 @@ import type * as ESTree from "estree";
 import {
   determineSettings,
   isInsideTypeofCheck,
-  determineGuardedScope,
-  GuardedScope,
+  determineIfStatementAndGuardedScope,
   isBlockOrProgram,
   identifierProtoChain,
   GLOBALS,
+  expressionWouldThrow,
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
   AstMetadataApiWithTargetsResolver,
@@ -131,7 +131,7 @@ const ruleModule: Rule.RuleModule = {
     };
 
     const identifiers = new Set();
-    const guardedScopes = new Map<GuardedScope["scope"], number>();
+    const guardedScopes = new Map<Rule.Node, number>();
 
     function shouldIncludeError(node: Rule.Node) {
       // check if this node has already been reported
@@ -166,6 +166,8 @@ const ruleModule: Rule.RuleModule = {
 
     return {
       Identifier(node) {
+        if (node.name === "undefined") return;
+
         // Keep track of all the defined variables. Do not report errors for nodes that are not defined
         switch (node.parent.type) {
           case "Property": // ex. const { Set } = require('immutable');
@@ -176,6 +178,8 @@ const ruleModule: Rule.RuleModule = {
           case "ImportSpecifier": // ex. import {Set} from 'set';
           case "ImportDeclaration": // ex. import {Set} from 'set';
             identifiers.add(node.name);
+            // These would never be errors so we can return early
+            return;
         }
 
         // Check if identifier is one we care about
@@ -187,27 +191,23 @@ const ruleModule: Rule.RuleModule = {
         const rule = targetedRules[protoChainId];
         if (!rule) return;
 
-        // If this a bare Identifier, not window / globalThis, and not used
-        // in a `typeof` expression, then we can error immediately
-        if (
-          result.expression.type === "Identifier" &&
-          !GLOBALS.includes(result.expression.name) &&
-          !isInsideTypeofCheck(result.expression)
-        ) {
-          // This will always produce a `ReferenceError` in unsupported browsers
-          handleFailingRule(rule, node);
+        if (expressionWouldThrow(result.expression)) {
+          handleFailingRule(rule, result.expression);
           return;
         }
 
-        const scope = determineGuardedScope(result.expression);
-        if (scope) {
-          guardedScopes.set(scope.scope, scope.index);
+        const { ifStatement, guardedScope } =
+          determineIfStatementAndGuardedScope(result.expression);
+        if (guardedScope) {
+          guardedScopes.set(guardedScope.scope, guardedScope.index);
           return;
         }
 
-        // This node isn't guarding an if statement, so report it as an error.
-        // Unless this is an optional call expression, which is a valid way to
-        // call a potentially undefined function.
+        // This identifier is used inside an if statement and won't cause any
+        // runtime issues, so don't report anything.
+        if (ifStatement) return;
+
+        // If it is an optional function call, then we can ignore it
         if (
           result.expression.parent.type === "CallExpression" &&
           result.expression.parent.optional
@@ -215,6 +215,7 @@ const ruleModule: Rule.RuleModule = {
           return;
         }
 
+        // This node isn't guarding an if statement, so report it as an error.
         handleFailingRule(rule, result.expression);
       },
     };

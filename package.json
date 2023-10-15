@@ -77,7 +77,8 @@
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
       "/benchmarks-tmp/"
-    ]
+    ],
+    "collectCoverage": true
   },
   "dependencies": {
     "@mdn/browser-compat-data": "^5.3.16",

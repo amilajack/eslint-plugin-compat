@@ -20,6 +20,12 @@ const BABEL_CONFIGS = [
 
 export const GLOBALS = ["window", "globalThis"];
 
+const enum GuardType {
+  NONE,
+  POSITIVE,
+  NEGATIVE,
+}
+
 /*
 3) Figures out which browsers user is targeting
 
@@ -30,25 +36,63 @@ export const GLOBALS = ["window", "globalThis"];
 - Each API is given to versioning.ts with compatibility info
 */
 
-export interface GuardedScope {
-  scope: Rule.Node;
-  index: number;
+export function expressionWouldThrow(node: Rule.Node) {
+  // If this a bare Identifier, not window / globalThis, and not used
+  // in a `typeof` expression, then it would throw a `ReferenceError`
+  if (
+    node.type === "Identifier" &&
+    !GLOBALS.includes(node.name) &&
+    !isInsideTypeofCheck(node)
+  ) {
+    return true;
+  }
+
+  // These would throw `TypeError`s
+  if (node.parent.type === "CallExpression") {
+    return !node.parent.optional;
+  }
+
+  if (node.parent.type === "NewExpression") {
+    return true;
+  }
+
+  // TODO: member access off of the node would also be an error
+
+  return false;
+}
+
+export interface IfStatementAndGuardedScope {
+  /**
+   * May be true even if guardedScope is undefined, meaning the check exists
+   * inside an if statement but isn't guarding anything meaningful.
+   */
+  ifStatement: boolean;
+  guardedScope?: {
+    scope: Rule.Node;
+    index: number;
+  };
 }
 
 /**
- * Checks if the given node is used in an if statement, and if it is, returns the
+ * Checks if the given node is used in an if statement, and if it is, return the
  * scope that the guard applies to and after which index it applies.
  * Should be called with either a bare Identifier or a MemberExpression.
  */
-export function determineGuardedScope(node: Rule.Node): GuardedScope | null {
+export function determineIfStatementAndGuardedScope(
+  node: Rule.Node
+): IfStatementAndGuardedScope {
   const result = getIfStatementAndGuardType(node);
-  if (!result) return null;
+  if (!result) return { ifStatement: false };
 
-  const [ifStatement, positiveGuard] = result;
+  const [ifStatement, guardType] = result;
+  if (guardType === GuardType.NONE) return { ifStatement: true };
 
-  if (positiveGuard) {
+  if (guardType === GuardType.POSITIVE) {
     // It's okay to use the identifier inside of the if statement
-    return { scope: ifStatement.consequent as Rule.Node, index: 0 };
+    return {
+      ifStatement: true,
+      guardedScope: { scope: ifStatement.consequent as Rule.Node, index: 0 },
+    };
   }
 
   if (
@@ -58,10 +102,10 @@ export function determineGuardedScope(node: Rule.Node): GuardedScope | null {
     // It's okay to use the identifier after the if statement
     const scope = ifStatement.parent;
     const index = scope.body.indexOf(ifStatement) + 1;
-    return { scope, index };
+    return { ifStatement: true, guardedScope: { scope, index } };
   }
 
-  return null;
+  return { ifStatement: true };
 }
 
 export function isBlockOrProgram(
@@ -72,15 +116,19 @@ export function isBlockOrProgram(
 
 function getIfStatementAndGuardType(
   node: Rule.Node
-): [ESTree.IfStatement & Rule.NodeParentExtension, boolean] | null {
+): Readonly<[ESTree.IfStatement & Rule.NodeParentExtension, GuardType]> | null {
+  const ifStatement = findContainingIfStatement(node);
+  if (!ifStatement) return null;
+
   let positiveGuard = true;
   let expression: Rule.Node = node;
+  const noGuard = [ifStatement, GuardType.NONE] as const;
 
   if (isUnaryExpression(node.parent, "typeof")) {
     expression = node.parent;
 
     // unused typeof check
-    if (expression.parent.type !== "BinaryExpression") return null;
+    if (expression.parent.type !== "BinaryExpression") return noGuard;
 
     // figure out which side of the comparison is opposite the typeof check
     //   typeof fetch === "undefined" // comparee is right
@@ -91,7 +139,7 @@ function getIfStatementAndGuardType(
         : expression.parent.left;
 
     // unexpected comparison
-    if (!isStringLiteral(comparee)) return null;
+    if (!isStringLiteral(comparee)) return noGuard;
 
     expression = expression.parent;
 
@@ -125,12 +173,13 @@ function getIfStatementAndGuardType(
         : expression.parent.left;
 
     // unexpected comparee
-    if (comparee.type !== "Literal") return null;
+    const compareeValue = nullOrUndefined(comparee as any);
+    if (!compareeValue) return noGuard;
 
     expression = expression.parent;
 
     // unexpected operator
-    if (!/^[!=]==?$/.test(expression.operator)) return null;
+    if (!/^[!=]==?$/.test(expression.operator)) return noGuard;
 
     // you can do == null or == undefined or === undefined, but not === null
     const isStrictOperator = expression.operator.length === 3;
@@ -138,7 +187,7 @@ function getIfStatementAndGuardType(
       ? ["undefined"]
       : ["null", "undefined"];
 
-    if (!validCompareeNames.includes(comparee.raw!)) return null;
+    if (!validCompareeNames.includes(compareeValue)) return noGuard;
 
     if (expression.operator.startsWith("=")) {
       // `window.fetch == null` means we enter the block if the api is
@@ -147,23 +196,52 @@ function getIfStatementAndGuardType(
     }
   }
 
-  // !window.fetch
-  // !!window.fetch
-  // !!!!!!window.fetch
-  // !(typeof fetch === "undefined")
-  while (isUnaryExpression(expression.parent, "!")) {
+  while (expression.parent !== ifStatement) {
     expression = expression.parent;
-    positiveGuard = !positiveGuard;
+
+    switch (expression.type) {
+      case "UnaryExpression": {
+        if (expression.operator === "!") {
+          // !window.fetch
+          // !!window.fetch
+          // !!!!!!window.fetch
+          // !(typeof fetch === "undefined")
+          positiveGuard = !positiveGuard;
+        }
+        // else, should we ignore this?
+        // what about ~window.fetch?
+        break;
+      }
+
+      case "LogicalExpression": {
+        // && is safe for positive guards,
+        // || is safe for negative guards w/ early returns
+        if (
+          !(
+            (positiveGuard && expression.operator === "&&") ||
+            (!positiveGuard && expression.operator === "||")
+          )
+        ) {
+          return noGuard;
+        }
+        break;
+      }
+    }
   }
 
-  // TODO: allow && checks, but || checks aren't really safe
-  // skip over && and || expressions
-  while (expression.parent.type === "LogicalExpression") {
-    expression = expression.parent;
+  return [
+    expression.parent,
+    positiveGuard ? GuardType.POSITIVE : GuardType.NEGATIVE,
+  ];
+}
+
+function nullOrUndefined(node: Rule.Node): "null" | "undefined" | null {
+  if (node.type === "Literal" && node.value === null) {
+    return "null";
   }
 
-  if (expression.parent.type === "IfStatement") {
-    return [expression.parent, positiveGuard];
+  if (node.type === "Identifier" && node.name === "undefined") {
+    return "undefined";
   }
 
   return null;
@@ -186,6 +264,15 @@ function ifStatementHasEarlyReturn(
 
 export function isInsideTypeofCheck(node: Rule.Node) {
   return isUnaryExpression(node.parent, "typeof");
+}
+
+function findContainingIfStatement(
+  node: Rule.Node
+): (ESTree.IfStatement & Rule.NodeParentExtension) | null {
+  while (node.parent && node.parent.type !== "IfStatement") {
+    node = node.parent;
+  }
+  return node.parent;
 }
 
 function isStringLiteral(
@@ -224,28 +311,6 @@ export function reverseTargetMappings<K extends string, V extends string>(
     entry.reverse()
   );
   return Object.fromEntries(reversedEntries);
-}
-
-export function topmostIdentifierOrMemberExpression(
-  node: Rule.Node
-):
-  | ((ESTree.Identifier | ESTree.MemberExpression) & Rule.NodeParentExtension)
-  | null {
-  switch (node.type) {
-    case "Identifier":
-    case "MemberExpression": {
-      let expression = node;
-
-      while (expression.parent.type === "MemberExpression") {
-        expression = expression.parent;
-      }
-
-      return expression;
-    }
-
-    default:
-      return null;
-  }
 }
 
 interface IdentifierProtoChain {
