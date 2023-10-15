@@ -65,6 +65,36 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ExplorerMobile 10"] },
     },
     {
+      code: `
+        if ("undefined" != typeof fetch) {
+          fetch()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
+      code: `
+        if (window.fetch == null) return
+        fetch()
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
+      code: `
+        if (window.fetch != null) {
+          fetch()
+        }
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
+      code: `
+        if (!!!(window.fetch != null)) return
+        fetch()
+      `,
+      settings: { browsers: ["ExplorerMobile 10"] },
+    },
+    {
       code: "window",
       settings: { browsers: ["ExplorerMobile 10"] },
     },
@@ -286,6 +316,14 @@ ruleTester.run("compat", rule, {
         { message: "fetch is not supported in IE Mobile 10" },
         { message: "fetch is not supported in IE Mobile 10" },
       ],
+    },
+    {
+      settings: { browsers: ["ExplorerMobile 10"] },
+      code: `
+        if (!!!!(window.fetch != null)) return
+        fetch()
+      `,
+      errors: [{ message: "fetch is not supported in IE Mobile 10" }],
     },
     {
       settings: {

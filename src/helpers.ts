@@ -77,19 +77,26 @@ function getIfStatementAndGuardType(
   let expression: Rule.Node = node;
 
   if (isUnaryExpression(node.parent, "typeof")) {
+    expression = node.parent;
+
     // unused typeof check
-    if (node.parent.parent?.type !== "BinaryExpression") return null;
+    if (expression.parent.type !== "BinaryExpression") return null;
 
-    expression = node.parent.parent;
+    // figure out which side of the comparison is opposite the typeof check
+    //   typeof fetch === "undefined" // comparee is right
+    //   "undefined" === typeof fetch // comparee is left
+    const comparee =
+      expression.parent.left === expression
+        ? expression.parent.right
+        : expression.parent.left;
+
     // unexpected comparison
-    if (!isStringLiteral(expression.right)) return null;
+    if (!isStringLiteral(comparee)) return null;
 
-    const operator = expression.operator;
-    // TODO: can't assume right, could also do `"function" === typeof foo`
-    const right = expression.right.value;
+    expression = expression.parent;
 
-    const operatorIsPositive = /^===?$/.test(operator);
-    const rightIsPositive = right !== "undefined";
+    const operatorIsPositive = /^===?$/.test(expression.operator);
+    const rightIsPositive = comparee.value !== "undefined";
 
     if (
       (operatorIsPositive && rightIsPositive) ||
@@ -113,12 +120,12 @@ function getIfStatementAndGuardType(
     // null == window.fetch
 
     const comparee =
-      expression.parent.right === expression
-        ? expression.parent.left
-        : expression.parent.right;
+      expression.parent.left === expression
+        ? expression.parent.right
+        : expression.parent.left;
 
     // unexpected comparee
-    if (comparee.type !== "Identifier") return null;
+    if (comparee.type !== "Literal") return null;
 
     expression = expression.parent;
 
@@ -131,7 +138,7 @@ function getIfStatementAndGuardType(
       ? ["undefined"]
       : ["null", "undefined"];
 
-    if (!validCompareeNames.includes(comparee.name)) return null;
+    if (!validCompareeNames.includes(comparee.raw!)) return null;
 
     if (expression.operator.startsWith("=")) {
       // `window.fetch == null` means we enter the block if the api is
