@@ -196,6 +196,14 @@ const ruleModule: Rule.RuleModule = {
           return;
         }
 
+        // If it is an optional function call, then we can bail
+        if (
+          result.expression.parent.type === "CallExpression" &&
+          result.expression.parent.optional
+        ) {
+          return;
+        }
+
         const { ifStatement, guardedScope } =
           determineIfStatementAndGuardedScope(result.expression);
         if (guardedScope) {
@@ -206,14 +214,6 @@ const ruleModule: Rule.RuleModule = {
         // This identifier is used inside an if statement and won't cause any
         // runtime issues, so don't report anything.
         if (ifStatement) return;
-
-        // If it is an optional function call, then we can ignore it
-        if (
-          result.expression.parent.type === "CallExpression" &&
-          result.expression.parent.optional
-        ) {
-          return;
-        }
 
         // This node isn't guarding an if statement, so report it as an error.
         handleFailingRule(rule, result.expression);
