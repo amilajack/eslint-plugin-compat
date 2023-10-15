@@ -10,12 +10,11 @@ import { Rule } from "eslint";
 import type * as ESTree from "estree";
 import {
   determineSettings,
-  isInsideTypeofCheck,
   determineIfStatementAndGuardedScope,
   isBlockOrProgram,
   identifierProtoChain,
-  GLOBALS,
   expressionWouldThrow,
+  isStringLiteral,
 } from "../helpers"; // will be deprecated and introduced to this file
 import {
   AstMetadataApiWithTargetsResolver,
@@ -24,7 +23,7 @@ import {
 } from "../types";
 import { nodes } from "../providers";
 
-function getName(node: Rule.Node): string {
+function getName(node: Rule.Node): string | null {
   switch (node.type) {
     case "Identifier": {
       return node.name;
@@ -33,7 +32,7 @@ function getName(node: Rule.Node): string {
       return (node.object as ESTree.Identifier).name;
     }
     default:
-      throw new Error("not found");
+      return null;
   }
 }
 
@@ -71,14 +70,21 @@ const getRulesForTargets = memoize(
   (targetsJSON: string, lintAllEsApis: boolean) => {
     const targets = JSON.parse(targetsJSON);
 
-    const result: Record<string, AstMetadataApiWithTargetsResolver> = {};
+    const result: {
+      objects: Record<string, AstMetadataApiWithTargetsResolver>;
+      regexps: Record<string, AstMetadataApiWithTargetsResolver>;
+    } = { objects: {}, regexps: {} };
 
     for (const node of nodes) {
       if (
         (lintAllEsApis || node.kind !== "es") &&
         node.getUnsupportedTargets(targets).length > 0
       ) {
-        result[node.protoChainId] = node;
+        if (node.regexp) {
+          result.regexps[node.protoChainId] = node;
+        } else {
+          result.objects[node.protoChainId] = node;
+        }
       }
     }
 
@@ -188,7 +194,7 @@ const ruleModule: Rule.RuleModule = {
 
         // Check if the identifier name matches any of the ones in our list
         const protoChainId = result.protoChain.join(".");
-        const rule = targetedRules[protoChainId];
+        const rule = targetedRules.objects[protoChainId];
         if (!rule) return;
 
         if (expressionWouldThrow(result.expression)) {
@@ -218,6 +224,43 @@ const ruleModule: Rule.RuleModule = {
         // This node isn't guarding an if statement, so report it as an error.
         handleFailingRule(rule, result.expression);
       },
+
+      ...(Object.keys(targetedRules.regexps).length === 0
+        ? {}
+        : {
+            'NewExpression[callee.name="RegExp"],Literal[regex]'(
+              node: Rule.Node
+            ) {
+              let regexString: string | undefined;
+
+              if (
+                node.type === "NewExpression" &&
+                isStringLiteral(node.arguments[0])
+              ) {
+                regexString = node.arguments[0].value;
+              } else if (node.type === "Literal") {
+                regexString = (node as ESTree.RegExpLiteral).regex.pattern;
+              }
+
+              if (!regexString) return;
+
+              for (const rule of Object.values(targetedRules.regexps)) {
+                switch (rule.id) {
+                  case "js-regexp-lookbehind": {
+                    if (
+                      regexString.includes("(?<=") ||
+                      regexString.includes("(?<!")
+                    ) {
+                      // would be cool to report the exact location of the lookbehind
+                      handleFailingRule(rule, node);
+                      return;
+                    }
+                    break;
+                  }
+                }
+              }
+            },
+          }),
     };
   },
 };

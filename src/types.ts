@@ -40,6 +40,7 @@ export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
   id: string;
   caniuseId?: string;
   kind?: APIKind;
+  regexp?: boolean;
   getUnsupportedTargets: (targets: Target[]) => Array<string>;
 }
 

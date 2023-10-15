@@ -275,7 +275,7 @@ function findContainingIfStatement(
   return node.parent;
 }
 
-function isStringLiteral(
+export function isStringLiteral(
   node: ESTree.Node
 ): node is ESTree.SimpleLiteral & { value: string } {
   return node.type === "Literal" && typeof node.value === "string";

@@ -302,6 +302,10 @@ ruleTester.run("compat", rule, {
       code: "window.fetch?.('example.com')",
       settings: { browsers: ["ie 9"] },
     },
+    {
+      code: "/(?<=pattern)/",
+      settings: { browsers: ["safari 16.4"] },
+    },
   ],
   invalid: [
     {
@@ -666,6 +670,24 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "requestAnimationFrame is not supported in op_mini all",
+        },
+      ],
+    },
+    {
+      settings: { browsers: ["safari 14"] },
+      code: "/(?<=pattern)/",
+      errors: [
+        {
+          message: "RegExp Lookbehind Assertions is not supported in Safari 14",
+        },
+      ],
+    },
+    {
+      settings: { browsers: ["safari 14"] },
+      code: "new RegExp('(?<!pattern)')",
+      errors: [
+        {
+          message: "RegExp Lookbehind Assertions is not supported in Safari 14",
         },
       ],
     },

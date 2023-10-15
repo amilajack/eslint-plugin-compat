@@ -213,12 +213,26 @@ const CanIUseProvider: Array<AstMetadataApiWithTargetsResolver> = [
     caniuseId: "typedarrays",
     object: "Float64Array",
   },
+  {
+    caniuseId: "js-regexp-lookbehind",
+    name: "RegExp Lookbehind Assertions",
+    regexp: true,
+    object: "",
+  },
 ].map((rule) => ({
   ...rule,
   getUnsupportedTargets,
-  id: rule.property ? `${rule.object}.${rule.property}` : rule.object,
-  protoChainId: rule.property ? `${rule.object}.${rule.property}` : rule.object,
-  protoChain: rule.property ? [rule.object, rule.property] : [rule.object],
+  id: rule.property
+    ? `${rule.object}.${rule.property}`
+    : rule.object || rule.caniuseId,
+  protoChainId: rule.property
+    ? `${rule.object}.${rule.property}`
+    : rule.object || rule.caniuseId,
+  protoChain: rule.property
+    ? [rule.object, rule.property]
+    : rule.object
+    ? [rule.object]
+    : [],
 }));
 
 export default CanIUseProvider;
