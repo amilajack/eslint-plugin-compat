@@ -1,5 +1,5 @@
 import * as lite from "caniuse-lite";
-import { STANDARD_TARGET_NAME_MAPPING, AstNodeType } from "../constants";
+import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
 
 /**
@@ -83,162 +83,134 @@ const CanIUseProvider: Array<AstMetadataApiWithTargetsResolver> = [
   // new ServiceWorker()
   {
     caniuseId: "serviceworkers",
-    astNodeType: AstNodeType.NewExpression,
     object: "ServiceWorker",
   },
   {
     caniuseId: "serviceworkers",
-    astNodeType: AstNodeType.MemberExpression,
     object: "navigator",
     property: "serviceWorker",
   },
   // document.querySelector()
   {
     caniuseId: "queryselector",
-    astNodeType: AstNodeType.CallExpression,
     object: "document",
     property: "querySelector",
   },
   // IntersectionObserver
   {
     caniuseId: "intersectionobserver",
-    astNodeType: AstNodeType.NewExpression,
     object: "IntersectionObserver",
   },
   // ResizeObserver
   {
     caniuseId: "resizeobserver",
-    astNodeType: AstNodeType.NewExpression,
     object: "ResizeObserver",
   },
   // PaymentRequest
   {
     caniuseId: "payment-request",
-    astNodeType: AstNodeType.NewExpression,
     object: "PaymentRequest",
   },
   // Promises
   {
     caniuseId: "promises",
-    astNodeType: AstNodeType.NewExpression,
     object: "Promise",
   },
   {
     caniuseId: "promises",
-    astNodeType: AstNodeType.CallExpression,
     object: "Promise",
     property: "resolve",
   },
   {
     caniuseId: "promises",
-    astNodeType: AstNodeType.CallExpression,
     object: "Promise",
     property: "all",
   },
   {
     caniuseId: "promises",
-    astNodeType: AstNodeType.CallExpression,
     object: "Promise",
     property: "race",
   },
   {
     caniuseId: "promises",
-    astNodeType: AstNodeType.CallExpression,
     object: "Promise",
     property: "reject",
   },
   // fetch
   {
     caniuseId: "fetch",
-    astNodeType: AstNodeType.CallExpression,
     object: "fetch",
   },
   // document.currentScript()
   {
     caniuseId: "document-currentscript",
-    astNodeType: AstNodeType.MemberExpression,
     object: "document",
     property: "currentScript",
   },
   // URL
   {
     caniuseId: "url",
-    astNodeType: AstNodeType.NewExpression,
     object: "URL",
   },
   // URLSearchParams
   {
     caniuseId: "urlsearchparams",
-    astNodeType: AstNodeType.NewExpression,
     object: "URLSearchParams",
   },
   // performance.now()
   {
     caniuseId: "high-resolution-time",
-    astNodeType: AstNodeType.CallExpression,
     object: "performance",
     property: "now",
   },
   // requestIdleCallback()
   {
     caniuseId: "requestidlecallback",
-    astNodeType: AstNodeType.CallExpression,
     object: "requestIdleCallback",
   },
   // requestAnimationFrame()
   {
     caniuseId: "requestanimationframe",
-    astNodeType: AstNodeType.CallExpression,
     object: "requestAnimationFrame",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "TypedArray",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Int8Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Uint8Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Uint8ClampedArray",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Int16Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Uint16Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Int32Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Uint32Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Float32Array",
   },
   {
     caniuseId: "typedarrays",
-    astNodeType: AstNodeType.NewExpression,
     object: "Float64Array",
   },
 ].map((rule) => ({
