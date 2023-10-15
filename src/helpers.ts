@@ -320,8 +320,14 @@ function identifierProtoChainHelper(
 
   protoChain.push(expression.name);
 
-  while (expression.parent.type === "MemberExpression") {
-    expression = expression.parent;
+  while (
+    expression.parent.type === "MemberExpression" ||
+    (expression.parent.type === "NewExpression" &&
+      expression.parent.parent.type === "MemberExpression")
+  ) {
+    // cast is okay here because we're guaranteed to keep looping
+    // until expression is a MemberExpression
+    expression = expression.parent as any;
   }
 
   if (GLOBALS.includes(protoChain[0])) {

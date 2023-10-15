@@ -24,19 +24,6 @@ import {
 } from "../types";
 import { nodes } from "../providers";
 
-function getErrorNode(node: Rule.Node): Rule.Node {
-  switch (node.type) {
-    case "MemberExpression": {
-      return node.property as Rule.Node;
-    }
-    case "Identifier": {
-      return node;
-    }
-    default:
-      throw new Error("not found");
-  }
-}
-
 function getName(node: Rule.Node): string {
   switch (node.type) {
     case "Identifier": {
@@ -119,28 +106,26 @@ const ruleModule: Rule.RuleModule = {
       lintAllEsApis
     );
 
-    type Error = {
-      message: string;
-      node: Rule.Node;
-    };
-
-    const errors: Error[] = [];
+    const reportedNodes = new Set<Rule.Node>();
 
     const handleFailingRule: HandleFailingRule = (
-      node: AstMetadataApiWithTargetsResolver,
-      eslintNode: Rule.Node
+      rule: AstMetadataApiWithTargetsResolver,
+      node: Rule.Node
     ) => {
-      if (isPolyfilled(context, node)) return;
+      if (isPolyfilled(context, rule)) return;
+      if (!shouldIncludeError(node)) return;
+
+      reportedNodes.add(node);
 
       // TODO: name should never include leading "window" or "globalThis"
       // and location should also not include it, we have to compute location ourselves
 
-      errors.push({
-        node: getErrorNode(eslintNode),
+      context.report({
+        node,
         message: [
-          generateErrorName(node),
+          generateErrorName(rule),
           "is not supported in",
-          node.getUnsupportedTargets(browserslistTargets).join(", "),
+          rule.getUnsupportedTargets(browserslistTargets).join(", "),
         ].join(" "),
       });
     };
@@ -148,11 +133,20 @@ const ruleModule: Rule.RuleModule = {
     const identifiers = new Set();
     const guardedScopes = new Map<GuardedScope["scope"], number>();
 
-    function shouldIncludeError(err: Error, idx: number) {
-      // This matches a rule but it's defined in the global scope
-      if (identifiers.has(getName(err.node))) return false;
+    function shouldIncludeError(node: Rule.Node) {
+      // check if this node has already been reported
+      // TODO: ideally our rules would be smart enough to only include the
+      // highest member of the property chain if the members have the exact same
+      // browser support window, so we don't have the issue of duplicates like
+      // Promise and Promise.resolve, etc.
+      if (reportedNodes.has(node)) {
+        return false;
+      }
 
-      let expression: Rule.Node = err.node;
+      // This matches a rule but it's defined in the global scope
+      if (identifiers.has(getName(node))) return false;
+
+      let expression: Rule.Node = node;
       while (!isBlockOrProgram(expression.parent)) {
         expression = expression.parent;
       }
@@ -163,13 +157,6 @@ const ruleModule: Rule.RuleModule = {
       if (guardedScope != null) {
         const index = scope.body.findIndex((value) => value === expression);
         if (index >= guardedScope) {
-          return false;
-        }
-      }
-
-      // check if this node has already been reported
-      for (let i = 0; i < idx; i++) {
-        if (errors[i].node === err.node) {
           return false;
         }
       }
@@ -229,13 +216,6 @@ const ruleModule: Rule.RuleModule = {
         }
 
         handleFailingRule(rule, result.expression);
-      },
-      "Program:exit": () => {
-        // Get a map of all the variables defined in the root scope (not the global scope)
-        // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
-        errors
-          .filter(shouldIncludeError)
-          .forEach((node) => context.report(node));
       },
     };
   },

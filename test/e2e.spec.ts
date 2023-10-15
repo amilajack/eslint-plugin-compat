@@ -450,18 +450,12 @@ ruleTester.run("compat", rule, {
     {
       code: "new Map().size",
       settings: { browsers: ["ie 8"] },
-      errors: [
-        { message: "Map is not supported in IE 8" },
-        { message: "Map.size() is not supported in IE 8" },
-      ],
+      errors: [{ message: "Map is not supported in IE 8" }],
     },
     {
       code: "new window.Map().size",
       settings: { browsers: ["ie 8"] },
-      errors: [
-        { message: "Map is not supported in IE 8" },
-        { message: "Map.size() is not supported in IE 8" },
-      ],
+      errors: [{ message: "Map is not supported in IE 8" }],
     },
     {
       code: "new Array().flat",
