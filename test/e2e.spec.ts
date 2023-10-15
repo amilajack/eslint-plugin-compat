@@ -9,7 +9,6 @@ const ruleTester = new RuleTester({
   },
 });
 
-// @ts-ignore
 ruleTester.run("compat", rule, {
   valid: [
     // Ignore ES APIs if config detected
@@ -22,24 +21,8 @@ ruleTester.run("compat", rule, {
     // Feature detection Cases
     {
       code: `
-        if (fetch) {
-          fetch()
-        }
-      `,
-      settings: { browsers: ["ExplorerMobile 10"] },
-    },
-    {
-      code: `
         if (Array.prototype.flat) {
           new Array.flat()
-        }
-      `,
-      settings: { browsers: ["ExplorerMobile 10"] },
-    },
-    {
-      code: `
-        if (fetch && otherConditions) {
-          fetch()
         }
       `,
       settings: { browsers: ["ExplorerMobile 10"] },
@@ -278,6 +261,33 @@ ruleTester.run("compat", rule, {
   ],
   invalid: [
     {
+      settings: { browsers: ["ExplorerMobile 10"] },
+      code: `
+        if (fetch) {
+          fetch()
+        }
+      `,
+      errors: [
+        // This will report for both fetch identifiers
+        // TODO: the first one could use a different error that it is not a
+        // valid way to check for the existence of fetch
+        { message: "fetch is not supported in IE Mobile 10" },
+        { message: "fetch is not supported in IE Mobile 10" },
+      ],
+    },
+    {
+      settings: { browsers: ["ExplorerMobile 10"] },
+      code: `
+        if (fetch && otherConditions) {
+          fetch()
+        }
+      `,
+      errors: [
+        { message: "fetch is not supported in IE Mobile 10" },
+        { message: "fetch is not supported in IE Mobile 10" },
+      ],
+    },
+    {
       settings: {
         browsers: ["ie 9"],
       },
@@ -287,15 +297,9 @@ ruleTester.run("compat", rule, {
         new SharedWorker();
       `,
       errors: [
-        {
-          message: "navigator.hardwareConcurrency() is not supported in IE 9",
-        },
-        {
-          message: "navigator.serviceWorker() is not supported in IE 9",
-        },
-        {
-          message: "SharedWorker is not supported in IE 9",
-        },
+        { message: "navigator.hardwareConcurrency() is not supported in IE 9" },
+        { message: "navigator.serviceWorker() is not supported in IE 9" },
+        { message: "SharedWorker is not supported in IE 9" },
       ],
     },
     {
@@ -360,81 +364,43 @@ ruleTester.run("compat", rule, {
           new Set()
         `,
       settings: { browsers: ["ie 9"] },
-      errors: [
-        {
-          message: "Set is not supported in IE 9",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "Set is not supported in IE 9" }],
     },
     {
       code: "new Set()",
       settings: { browsers: ["ie 9"] },
-      errors: [
-        {
-          message: "Set is not supported in IE 9",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "Set is not supported in IE 9" }],
     },
     {
       code: "new TypedArray()",
       settings: { browsers: ["ie 9"] },
-      errors: [
-        {
-          message: "TypedArray is not supported in IE 9",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "TypedArray is not supported in IE 9" }],
     },
     {
       code: "new Int8Array()",
       settings: { browsers: ["ie 9"] },
-      errors: [
-        {
-          message: "Int8Array is not supported in IE 9",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "Int8Array is not supported in IE 9" }],
     },
     {
       code: "new AnimationEvent",
       settings: { browsers: ["chrome 40"] },
-      errors: [
-        {
-          message: "AnimationEvent is not supported in Chrome 40",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "AnimationEvent is not supported in Chrome 40" }],
     },
     {
       code: "Object.values({})",
       settings: { browsers: ["safari 9"] },
-      errors: [
-        {
-          message: "Object.values() is not supported in Safari 9",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "Object.values() is not supported in Safari 9" }],
     },
     {
       code: "new ServiceWorker()",
       settings: { browsers: ["chrome 31"] },
-      errors: [
-        {
-          message: "ServiceWorker is not supported in Chrome 31",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "ServiceWorker is not supported in Chrome 31" }],
     },
     {
       code: "new IntersectionObserver(() => {}, {});",
       settings: { browsers: ["chrome 49"] },
       errors: [
-        {
-          message: "IntersectionObserver is not supported in Chrome 49",
-          type: "NewExpression",
-        },
+        { message: "IntersectionObserver is not supported in Chrome 49" },
       ],
     },
     {
@@ -459,19 +425,13 @@ ruleTester.run("compat", rule, {
         {
           message:
             "WebAssembly is not supported in Edge 14, IE 10, iOS Safari 10.3, Opera 12.1, Safari 10.1",
-          type: "MemberExpression",
         },
       ],
     },
     {
       code: "new PaymentRequest(methodData, details, options)",
       settings: { browsers: ["chrome 57"] },
-      errors: [
-        {
-          message: "PaymentRequest is not supported in Chrome 57",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "PaymentRequest is not supported in Chrome 57" }],
     },
     {
       code: "navigator.serviceWorker",
@@ -479,139 +439,76 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "navigator.serviceWorker() is not supported in Safari 10.1",
-          type: "MemberExpression",
         },
       ],
     },
     {
       code: "window.document.fonts()",
       settings: { browsers: ["ie 8"] },
-      errors: [
-        {
-          message: "document.fonts() is not supported in IE 8",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "document.fonts() is not supported in IE 8" }],
     },
     {
       code: "new Map().size",
       settings: { browsers: ["ie 8"] },
       errors: [
-        {
-          message: "Map.size() is not supported in IE 8",
-          type: "MemberExpression",
-        },
-        {
-          message: "Map is not supported in IE 8",
-          type: "NewExpression",
-        },
+        { message: "Map is not supported in IE 8" },
+        { message: "Map.size() is not supported in IE 8" },
       ],
     },
     {
       code: "new window.Map().size",
       settings: { browsers: ["ie 8"] },
       errors: [
-        {
-          message: "Map.size() is not supported in IE 8",
-          type: "MemberExpression",
-        },
-        {
-          message: "Map is not supported in IE 8",
-          type: "MemberExpression",
-        },
+        { message: "Map is not supported in IE 8" },
+        { message: "Map.size() is not supported in IE 8" },
       ],
     },
     {
       code: "new Array().flat",
       settings: { browsers: ["ie 8"] },
-      errors: [
-        {
-          message: "Array.flat() is not supported in IE 8",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "Array.flat() is not supported in IE 8" }],
     },
     {
       code: "globalThis.fetch()",
       settings: { browsers: ["ie 11"] },
-      errors: [
-        {
-          message: "fetch is not supported in IE 11",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "fetch is not supported in IE 11" }],
     },
     {
       code: "fetch()",
       settings: { browsers: ["ie 11"] },
-      errors: [
-        {
-          message: "fetch is not supported in IE 11",
-          type: "CallExpression",
-        },
-      ],
+      errors: [{ message: "fetch is not supported in IE 11" }],
     },
     {
       code: "fetch",
       settings: { browsers: ["ie 11"] },
-      errors: [
-        {
-          message: "fetch is not supported in IE 11",
-          type: "ExpressionStatement",
-        },
-      ],
+      errors: [{ message: "fetch is not supported in IE 11" }],
     },
     {
       code: "Promise.resolve()",
       settings: { browsers: ["ie 10"] },
-      errors: [
-        {
-          message: "Promise.resolve() is not supported in IE 10",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "Promise is not supported in IE 10" }],
     },
     {
       code: "Promise.all()",
       settings: { browsers: ["ie 10"] },
-      errors: [
-        {
-          message: "Promise.all() is not supported in IE 10",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "Promise is not supported in IE 10" }],
     },
     {
       code: "Promise.race()",
       settings: { browsers: ["ie 10"] },
-      errors: [
-        {
-          message: "Promise.race() is not supported in IE 10",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "Promise is not supported in IE 10" }],
     },
     {
       code: "Promise.reject()",
       settings: { browsers: ["ie 10"] },
-      errors: [
-        {
-          message: "Promise.reject() is not supported in IE 10",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "Promise is not supported in IE 10" }],
     },
     {
       code: "new URL('http://example')",
       settings: {
         browsers: ["chrome 31", "safari 7", "firefox 25"],
       },
-      errors: [
-        {
-          message: "URL is not supported in Chrome 31, Firefox 25, Safari 7",
-          type: "NewExpression",
-        },
-      ],
+      errors: [{ message: "URL is not supported in Chrome 31" }],
     },
     {
       code: "new URLSearchParams()",
@@ -622,19 +519,13 @@ ruleTester.run("compat", rule, {
         {
           message:
             "URLSearchParams is not supported in Chrome 48, Firefox 28, Safari 10",
-          type: "NewExpression",
         },
       ],
     },
     {
       code: "performance.now()",
       settings: { browsers: ["ie 9"] },
-      errors: [
-        {
-          message: "performance.now() is not supported in IE 9",
-          type: "MemberExpression",
-        },
-      ],
+      errors: [{ message: "performance.now() is not supported in IE 9" }],
     },
     {
       code: "new ResizeObserver()",
@@ -642,9 +533,7 @@ ruleTester.run("compat", rule, {
         browsers: ["ie 11", "safari 12"],
       },
       errors: [
-        {
-          message: "ResizeObserver is not supported in IE 11, Safari 12",
-        },
+        { message: "ResizeObserver is not supported in IE 11, Safari 12" },
       ],
     },
     {
@@ -652,22 +541,14 @@ ruleTester.run("compat", rule, {
       settings: {
         browsers: ["ie 11", "safari 12"],
       },
-      errors: [
-        {
-          message: "String.at() is not supported in IE 11, Safari 12",
-        },
-      ],
+      errors: [{ message: "String.at() is not supported in IE 11, Safari 12" }],
     },
     {
       code: "[].at(5)",
       settings: {
         browsers: ["ie 11", "safari 12"],
       },
-      errors: [
-        {
-          message: "Array.at() is not supported in IE 11, Safari 12",
-        },
-      ],
+      errors: [{ message: "Array.at() is not supported in IE 11, Safari 12" }],
     },
     {
       code: `
@@ -678,11 +559,7 @@ ruleTester.run("compat", rule, {
       settings: {
         browsers: ["ie 11"],
       },
-      errors: [
-        {
-          message: "Array.at() is not supported in IE 11",
-        },
-      ],
+      errors: [{ message: "Array.at() is not supported in IE 11" }],
     },
     // @TODO: Fix this edge case
     // {

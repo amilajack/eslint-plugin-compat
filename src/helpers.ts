@@ -85,9 +85,10 @@ function getIfStatementAndGuardType(
     if (!isStringLiteral(expression.right)) return null;
 
     const operator = expression.operator;
+    // TODO: can't assume right, could also do `"function" === typeof foo`
     const right = expression.right.value;
 
-    const operatorIsPositive = operator === "===" || operator === "==";
+    const operatorIsPositive = /^===?$/.test(operator);
     const rightIsPositive = right !== "undefined";
 
     if (
@@ -105,10 +106,37 @@ function getIfStatementAndGuardType(
   } else if (isBinaryExpression(expression.parent, "in")) {
     expression = expression.parent;
   } else if (isBinaryExpression(expression.parent)) {
-    if (
-      expression.parent.right.type === "Identifier" &&
-      expression.parent.right.name === "undefined"
-    ) {
+    // window.fetch == null
+    // window.fetch === undefined
+    // window.fetch != null
+    // window.fetch !== undefined
+    // null == window.fetch
+
+    const comparee =
+      expression.parent.right === expression
+        ? expression.parent.left
+        : expression.parent.right;
+
+    // unexpected comparee
+    if (comparee.type !== "Identifier") return null;
+
+    expression = expression.parent;
+
+    // unexpected operator
+    if (!/^[!=]==?$/.test(expression.operator)) return null;
+
+    // you can do == null or == undefined or === undefined, but not === null
+    const isStrictOperator = expression.operator.length === 3;
+    const validCompareeNames = isStrictOperator
+      ? ["undefined"]
+      : ["null", "undefined"];
+
+    if (!validCompareeNames.includes(comparee.name)) return null;
+
+    if (expression.operator.startsWith("=")) {
+      // `window.fetch == null` means we enter the block if the api is
+      //unsupported, so this is a negative guard
+      positiveGuard = false;
     }
   }
 
@@ -123,11 +151,11 @@ function getIfStatementAndGuardType(
 
   // TODO: allow && checks, but || checks aren't really safe
   // skip over && and || expressions
-  while (expression.parent?.type === "LogicalExpression") {
+  while (expression.parent.type === "LogicalExpression") {
     expression = expression.parent;
   }
 
-  if (expression.parent?.type === "IfStatement") {
+  if (expression.parent.type === "IfStatement") {
     return [expression.parent, positiveGuard];
   }
 
@@ -150,31 +178,33 @@ function ifStatementHasEarlyReturn(
 }
 
 export function isInsideTypeofCheck(node: Rule.Node) {
-  return (
-    node.parent.type === "UnaryExpression" && node.parent.operator === "typeof"
-  );
+  return isUnaryExpression(node.parent, "typeof");
 }
 
 function isStringLiteral(
-  node: Rule.Node
-): node is ESTree.SimpleLiteral & { value: string } & Rule.NodeParentExtension {
+  node: ESTree.Node
+): node is ESTree.SimpleLiteral & { value: string } {
   return node.type === "Literal" && typeof node.value === "string";
 }
 
-function isBinaryExpression(
+function isBinaryExpression<S extends string | undefined = undefined>(
   node: Rule.Node,
-  operator?: string
-): node is ESTree.BinaryExpression & Rule.NodeParentExtension {
+  operator?: S
+): node is ESTree.BinaryExpression &
+  Rule.NodeParentExtension &
+  (S extends string ? { operator: S } : {}) {
   return (
     node.type === "BinaryExpression" &&
     (!operator || node.operator === operator)
   );
 }
 
-function isUnaryExpression(
+function isUnaryExpression<S extends string | undefined = undefined>(
   node: Rule.Node,
-  operator?: string
-): node is ESTree.UnaryExpression & Rule.NodeParentExtension {
+  operator?: S
+): node is ESTree.UnaryExpression &
+  Rule.NodeParentExtension &
+  (S extends string ? { operator: S } : {}) {
   return (
     node.type === "UnaryExpression" && (!operator || node.operator === operator)
   );
@@ -197,9 +227,8 @@ export function topmostIdentifierOrMemberExpression(
   switch (node.type) {
     case "Identifier":
     case "MemberExpression": {
-      if (node.parent.type !== "MemberExpression") return node;
+      let expression = node;
 
-      let expression = node.parent;
       while (expression.parent.type === "MemberExpression") {
         expression = expression.parent;
       }
@@ -226,11 +255,13 @@ export function identifierProtoChain(
   const { expression, protoChain } = result;
 
   if (
-    isBinaryExpression(expression, "in") &&
-    isStringLiteral(expression.left)
+    // TODO: do I need to check the parent?
+    isBinaryExpression(expression.parent, "in") &&
+    isStringLiteral(expression.parent.left)
   ) {
     // e.g. `if ("fetch" in window) {}`
-    protoChain.push(expression.left.value);
+    // in this case we want "fetch" in the protoChain
+    protoChain.push(expression.parent.left.value);
   }
 
   return { expression, protoChain };
@@ -243,28 +274,55 @@ export function identifierProtoChain(
 function identifierProtoChainHelper(
   node: ESTree.Identifier & Rule.NodeParentExtension
 ): null | IdentifierProtoChain {
-  const expression = topmostIdentifierOrMemberExpression(node);
-  if (!expression) return null;
+  let expression: (ESTree.Identifier | ESTree.MemberExpression) &
+    Rule.NodeParentExtension = node;
 
   const protoChain: string[] = [];
 
-  const protoChainFromMemberExpressionObject = (obj: ESTree.Node) => {
-    if (obj.type === "Identifier") {
-      protoChain.push(obj.name);
-      return true;
-    }
+  function protoChainFromMemberExpressionObject(obj: ESTree.Node) {
+    switch (obj.type) {
+      case "Identifier":
+        protoChain.push(obj.name);
+        return true;
 
-    if (obj.type === "MemberExpression") {
-      if (obj.property.type !== "Identifier") return false;
-      if (!protoChainFromMemberExpressionObject(obj.object)) return false;
-      protoChain.push(obj.property.name);
-      return true;
+      case "MemberExpression":
+        if (obj.property.type !== "Identifier") return false;
+        if (!protoChainFromMemberExpressionObject(obj.object)) return false;
+        protoChain.push(obj.property.name);
+        return true;
+
+      case "NewExpression":
+        return protoChainFromMemberExpressionObject(obj.callee);
+
+      case "ArrayExpression":
+        protoChain.push("Array");
+        return true;
+
+      case "Literal":
+        if (typeof obj.value === "string") {
+          protoChain.push("String");
+          return true;
+        }
+        return false;
     }
 
     return false;
-  };
+  }
 
-  if (!protoChainFromMemberExpressionObject(expression)) return null;
+  if (
+    expression.parent.type === "MemberExpression" &&
+    expression === expression.parent.property
+  ) {
+    if (!protoChainFromMemberExpressionObject(expression.parent.object)) {
+      return null;
+    }
+  }
+
+  protoChain.push(expression.name);
+
+  while (expression.parent.type === "MemberExpression") {
+    expression = expression.parent;
+  }
 
   if (GLOBALS.includes(protoChain[0])) {
     protoChain.shift();

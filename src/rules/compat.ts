@@ -27,7 +27,7 @@ import { nodes } from "../providers";
 function getErrorNode(node: Rule.Node): Rule.Node {
   switch (node.type) {
     case "MemberExpression": {
-      return node.property;
+      return node.property as Rule.Node;
     }
     case "Identifier": {
       return node;
@@ -148,11 +148,11 @@ const ruleModule: Rule.RuleModule = {
     const identifiers = new Set();
     const guardedScopes = new Map<GuardedScope["scope"], number>();
 
-    function shouldIncludeError(node: Rule.Node) {
+    function shouldIncludeError(err: Error, idx: number) {
       // This matches a rule but it's defined in the global scope
-      if (identifiers.has(getName(node))) return false;
+      if (identifiers.has(getName(err.node))) return false;
 
-      let expression: Rule.Node = node;
+      let expression: Rule.Node = err.node;
       while (!isBlockOrProgram(expression.parent)) {
         expression = expression.parent;
       }
@@ -167,23 +167,28 @@ const ruleModule: Rule.RuleModule = {
         }
       }
 
+      // check if this node has already been reported
+      for (let i = 0; i < idx; i++) {
+        if (errors[i].node === err.node) {
+          return false;
+        }
+      }
+
       return true;
     }
 
     return {
       Identifier(node) {
-        if (node.parent) {
-          // Keep track of all the defined variables. Do not report errors for nodes that are not defined
-          switch (node.parent.type) {
-            case "Property": // ex. const { Set } = require('immutable');
-            case "FunctionDeclaration": // ex. function Set() {}
-            case "VariableDeclarator": // ex. const Set = () => {}
-            case "ClassDeclaration": // ex. class Set {}
-            case "ImportDefaultSpecifier": // ex. import Set from 'set';
-            case "ImportSpecifier": // ex. import {Set} from 'set';
-            case "ImportDeclaration": // ex. import {Set} from 'set';
-              identifiers.add(node.name);
-          }
+        // Keep track of all the defined variables. Do not report errors for nodes that are not defined
+        switch (node.parent.type) {
+          case "Property": // ex. const { Set } = require('immutable');
+          case "FunctionDeclaration": // ex. function Set() {}
+          case "VariableDeclarator": // ex. const Set = () => {}
+          case "ClassDeclaration": // ex. class Set {}
+          case "ImportDefaultSpecifier": // ex. import Set from 'set';
+          case "ImportSpecifier": // ex. import {Set} from 'set';
+          case "ImportDeclaration": // ex. import {Set} from 'set';
+            identifiers.add(node.name);
         }
 
         // Check if identifier is one we care about
@@ -195,8 +200,8 @@ const ruleModule: Rule.RuleModule = {
         const rule = targetedRules[protoChainId];
         if (!rule) return;
 
-        // If this a bare Identifier, not window / globalThis, and not used in a `typeof`
-        // expression, then we can error immediately
+        // If this a bare Identifier, not window / globalThis, and not used
+        // in a `typeof` expression, then we can error immediately
         if (
           result.expression.type === "Identifier" &&
           !GLOBALS.includes(result.expression.name) &&
@@ -208,20 +213,28 @@ const ruleModule: Rule.RuleModule = {
         }
 
         const scope = determineGuardedScope(result.expression);
-        if (!scope) {
-          // this node isn't guarding an if statement, so we can report an error
-          handleFailingRule(rule, expression);
+        if (scope) {
+          guardedScopes.set(scope.scope, scope.index);
           return;
         }
 
-        // Otherwise let's mark the scope that this node is guarding
-        guardedScopes.set(scope.scope, scope.index);
+        // This node isn't guarding an if statement, so report it as an error.
+        // Unless this is an optional call expression, which is a valid way to
+        // call a potentially undefined function.
+        if (
+          result.expression.parent.type === "CallExpression" &&
+          result.expression.parent.optional
+        ) {
+          return;
+        }
+
+        handleFailingRule(rule, result.expression);
       },
       "Program:exit": () => {
         // Get a map of all the variables defined in the root scope (not the global scope)
         // const variablesMap = context.getScope().childScopes.map(e => e.set)[0];
         errors
-          .filter((error) => shouldIncludeError(error.node))
+          .filter(shouldIncludeError)
           .forEach((node) => context.report(node));
       },
     };
