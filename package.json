@@ -97,7 +97,7 @@
     "babel-eslint": "^10.1.0",
     "benchmark": "^2.1.4",
     "browserslist-config-erb": "^0.0.3",
-    "electron": "^26.x.x",
+    "electron": "^27.x.x",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-bliss-typescript": "^6.0.2",
