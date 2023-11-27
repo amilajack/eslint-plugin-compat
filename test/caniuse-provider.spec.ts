@@ -14,7 +14,7 @@ describe("CanIUseProvider", () => {
       expectRangeResultJSON.browsers
     );
     const targets = parseBrowsersListVersion(config);
-    const result = getUnsupportedTargets(node, targets);
+    const result = getUnsupportedTargets.call(node, targets);
     expect(result).toMatchSnapshot();
   });
 });

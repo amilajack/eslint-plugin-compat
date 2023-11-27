@@ -12,27 +12,10 @@ const mdnRecords: Map<string, ApiMetadata> = new Map(
   apis.map((e) => [e.protoChainId, e])
 );
 
-interface TargetIdMappings {
-  chrome: "chrome";
-  firefox: "firefox";
-  opera: "opera";
-  safari: "safari";
-  safari_ios: "ios_saf";
-  ie: "ie";
-  edge_mobile: "ie_mob";
-  edge: "edge";
-  opera_android: "and_opera";
-  chrome_android: "and_chrome";
-  firefox_android: "and_firefox";
-  webview_android: "and_webview";
-  samsunginternet_android: "and_samsung";
-  nodejs: "node";
-}
-
 /**
  * Map ids of mdn targets to their "common/friendly" name
  */
-const targetIdMappings: Readonly<TargetIdMappings> = {
+const targetIdMappings = {
   chrome: "chrome",
   firefox: "firefox",
   opera: "opera",
@@ -47,7 +30,7 @@ const targetIdMappings: Readonly<TargetIdMappings> = {
   webview_android: "and_webview",
   samsunginternet_android: "and_samsung",
   nodejs: "node",
-};
+} as const;
 
 const reversedTargetMappings = reverseTargetMappings(targetIdMappings);
 
@@ -129,11 +112,11 @@ export function isSupportedByMDN(
  * Return an array of all unsupported targets
  */
 export function getUnsupportedTargets(
-  node: AstMetadataApiWithTargetsResolver,
+  this: AstMetadataApiWithTargetsResolver,
   targets: Target[]
 ): string[] {
   return targets
-    .filter((target) => !isSupportedByMDN(node, target))
+    .filter((target) => !isSupportedByMDN(this, target))
     .map(formatTargetNames);
 }
 
@@ -150,12 +133,11 @@ function getMetadataName(metadata: ApiMetadata) {
 const MdnProvider: Array<AstMetadataApiWithTargetsResolver> = apis
   // Create entries for each ast node type
   .map((metadata) =>
-    metadata.astNodeTypes.map((astNodeType) => ({
+    metadata.astNodeTypes.map(() => ({
       ...metadata,
       name: getMetadataName(metadata),
       id: metadata.protoChainId,
       protoChainId: metadata.protoChainId,
-      astNodeType,
       object: metadata.protoChain[0],
       // @TODO Handle cases where 'prototype' is in protoChain
       property: metadata.protoChain[1],
