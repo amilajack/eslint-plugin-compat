@@ -267,4 +267,4 @@ export default {
       },
     };
   },
-};
+} as Rule.RuleModule;
