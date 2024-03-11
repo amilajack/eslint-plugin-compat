@@ -44,6 +44,9 @@ plugin.configs = configs;
 
 export = {
   ...(plugin as typeof plugin & { configs: typeof configs }),
-  // Kept for backwards compatibility
+  // TODO: Remove this in next major release
+  /**
+   * @deprecated Use `.configs` instead. This will be removed in the next major release.
+   */
   config: configs,
 };
