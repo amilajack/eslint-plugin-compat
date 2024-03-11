@@ -7,6 +7,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 import recommended from "./config/recommended";
+import pkg from "../package.json";
+import type { Linter } from "eslint";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
@@ -15,13 +17,33 @@ import recommended from "./config/recommended";
 // import all rules in lib/rules
 import compat from "./rules/compat";
 
-export const configs = {
-  recommended,
+const rules = {
+  compat,
 };
 
-// Kept for backwards compatibility
-export const config = configs;
+const plugin = {
+  meta: {
+    name: pkg.name,
+    version: pkg.version,
+  },
+  configs: {},
+  rules,
+};
 
-export const rules = {
-  compat,
+const configs = {
+  "flat/recommended": {
+    plugins: { compat: plugin },
+    ...recommended.flat,
+  } as Linter.FlatConfig,
+  recommended: {
+    plugins: ["compat"],
+    ...recommended.legacy,
+  } as Linter.Config,
+};
+plugin.configs = configs;
+
+export = {
+  ...(plugin as typeof plugin & { configs: typeof configs }),
+  // Kept for backwards compatibility
+  config: configs,
 };

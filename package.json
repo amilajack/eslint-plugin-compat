@@ -78,6 +78,7 @@
     "browserslist": "^4.23.0",
     "caniuse-lite": "^1.0.30001605",
     "find-up": "^5.0.0",
+    "globals": "^13.24.0",
     "lodash.memoize": "^4.1.2",
     "semver": "^7.6.0"
   },
