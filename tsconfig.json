@@ -1,7 +1,8 @@
 {
-  "extends": "@tsconfig/node16",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "outDir": "lib",
+    "declaration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true
   }
