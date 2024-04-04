@@ -21,7 +21,17 @@ npm install eslint-plugin-compat
 
 ### 2. Update ESLint Config
 
-#### `.eslintrc.json`
+#### New Config (`eslint.config.mjs`)
+
+```js
+import compat from "eslint-plugin-compat"
+
+export default [
+  compat.configs['flat/recommended']
+];
+```
+
+#### Legacy Config (`.eslintrc.json`)
 
 ```jsonc
 {
