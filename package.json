@@ -25,13 +25,26 @@
     "Amila Welihinda <amilajack@gmail.com> (https://github.com/amilajack)",
     "John Tran <jptran318@gmail.com> (https://github.com/jooohhn)"
   ],
-  "main": "lib/index.js",
+  "main": "./lib/cjs/src/index.js",
+  "types": "./lib/cjs/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm//src/index.d.mts",
+        "default": "./lib/esm/src/index.js"
+      },
+      "require": {
+        "types": "./lib/cjs/src/index.d.ts",
+        "default": "./lib/cjs/src/index.js"
+      }
+    }
+  },
   "files": [
     "lib"
   ],
   "scripts": {
     "benchmarks": "ts-node-transpile-only test/benchmarks.ts",
-    "build": "rm -rf lib && tsc --project tsconfig.build.json",
+    "build": "rm -rf lib && tsc --project tsconfig.build.json && tsc --project tsconfig.esm.json",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "spec": "jest --testPathIgnorePatterns test/e2e-repo.spec.ts /benchmarks-tmp",
     "spec:e2e": "jest test/e2e-repo.spec.ts",
