@@ -40,10 +40,11 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       baseConfig: {
         extends: ["plugin:compat/recommended"],
-        parser: "babel-eslint",
+        parser: "@babel/eslint-parser",
         parserOptions: {
           ecmaVersion: 2022,
           sourceType: "module",
+          requireConfigFile: false,
         },
       },
     },
@@ -187,7 +188,7 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       baseConfig: {
         root: true,
-        parser: "babel-eslint",
+        parser: "@babel/eslint-parser",
         extends: ["plugin:compat/recommended"],
         env: {
           browser: true,
@@ -201,6 +202,7 @@ const repos: Array<RepoInfo> = [
           ecmaFeatures: {
             jsx: true,
           },
+          requireConfigFile: false,
         },
         overrides: [
           {
