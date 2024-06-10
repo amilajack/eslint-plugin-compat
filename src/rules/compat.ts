@@ -26,6 +26,7 @@ import {
   BrowsersListOpts,
 } from "../types";
 import { nodes } from "../providers";
+import { RulesLookup, makeLookup } from "../rules-lookup";
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void;
@@ -112,18 +113,26 @@ type RulesFilteredByTargets = {
   ExpressionStatement: AstMetadataApiWithTargetsResolver[];
 };
 
+type RuleLookupsSet = {
+  CallExpressionsByObject: RulesLookup;
+  NewExpressionsByObject: RulesLookup;
+  ExpressionStatementsByObject: RulesLookup;
+  MemberExpressionsByProtoChainId: RulesLookup;
+  MemberExpressionsByObjectProperty: RulesLookup;
+};
+
 /**
  * A small optimization that only lints APIs that are not supported by targeted browsers.
  * For example, if the user is targeting chrome 50, which supports the fetch API, it is
  * wasteful to lint calls to fetch.
  */
 const getRulesForTargets = memoize(
-  (targetsJSON: string, lintAllEsApis: boolean): RulesFilteredByTargets => {
-    const result = {
-      CallExpression: [] as AstMetadataApiWithTargetsResolver[],
-      NewExpression: [] as AstMetadataApiWithTargetsResolver[],
-      MemberExpression: [] as AstMetadataApiWithTargetsResolver[],
-      ExpressionStatement: [] as AstMetadataApiWithTargetsResolver[],
+  (targetsJSON: string, lintAllEsApis: boolean): RuleLookupsSet => {
+    const rules: RulesFilteredByTargets = {
+      CallExpression: [],
+      NewExpression: [],
+      MemberExpression: [],
+      ExpressionStatement: [],
     };
     const targets = JSON.parse(targetsJSON);
 
@@ -131,10 +140,36 @@ const getRulesForTargets = memoize(
       .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
       .forEach((node) => {
         if (!node.getUnsupportedTargets(node, targets).length) return;
-        result[node.astNodeType].push(node);
+        rules[node.astNodeType].push(node);
       });
 
-    return result;
+    const expressionStatementRules = [
+      ...rules.MemberExpression,
+      ...rules.CallExpression,
+    ];
+    const memberExpressionRules = [
+      ...rules.MemberExpression,
+      ...rules.CallExpression,
+      ...rules.NewExpression,
+    ];
+
+    return {
+      CallExpressionsByObject: makeLookup(rules.CallExpression, "object"),
+      NewExpressionsByObject: makeLookup(rules.NewExpression, "object"),
+      ExpressionStatementsByObject: makeLookup(
+        expressionStatementRules,
+        "object"
+      ),
+      MemberExpressionsByProtoChainId: makeLookup(
+        memberExpressionRules,
+        "protoChainId"
+      ),
+      MemberExpressionsByObjectProperty: makeLookup(
+        memberExpressionRules,
+        "object",
+        "property"
+      ),
+    };
   }
 );
 
@@ -217,29 +252,26 @@ export default {
         null,
         context,
         handleFailingRule,
-        targetedRules.CallExpression
+        targetedRules.CallExpressionsByObject
       ),
       NewExpression: lintNewExpression.bind(
         null,
         context,
         handleFailingRule,
-        targetedRules.NewExpression
+        targetedRules.NewExpressionsByObject
       ),
       ExpressionStatement: lintExpressionStatement.bind(
         null,
         context,
         handleFailingRule,
-        [...targetedRules.MemberExpression, ...targetedRules.CallExpression]
+        targetedRules.ExpressionStatementsByObject
       ),
       MemberExpression: lintMemberExpression.bind(
         null,
         context,
         handleFailingRule,
-        [
-          ...targetedRules.MemberExpression,
-          ...targetedRules.CallExpression,
-          ...targetedRules.NewExpression,
-        ]
+        targetedRules.MemberExpressionsByProtoChainId,
+        targetedRules.MemberExpressionsByObjectProperty
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
       Identifier(node: ESLintNode) {

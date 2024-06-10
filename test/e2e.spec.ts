@@ -540,7 +540,7 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ie 10"] },
       errors: [
         {
-          message: "Promise.resolve() is not supported in IE 10",
+          message: "Promise is not supported in IE 10",
           type: "MemberExpression",
         },
       ],
@@ -550,7 +550,7 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ie 10"] },
       errors: [
         {
-          message: "Promise.all() is not supported in IE 10",
+          message: "Promise is not supported in IE 10",
           type: "MemberExpression",
         },
       ],
@@ -560,7 +560,7 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ie 10"] },
       errors: [
         {
-          message: "Promise.race() is not supported in IE 10",
+          message: "Promise is not supported in IE 10",
           type: "MemberExpression",
         },
       ],
@@ -570,7 +570,7 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["ie 10"] },
       errors: [
         {
-          message: "Promise.reject() is not supported in IE 10",
+          message: "Promise is not supported in IE 10",
           type: "MemberExpression",
         },
       ],
