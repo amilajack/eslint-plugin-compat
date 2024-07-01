@@ -1,15 +1,17 @@
 import { RuleTester } from "eslint";
 import rule from "../src/rules/compat";
+import { parser } from 'typescript-eslint';
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaVersion: 2020, sourceType: "module" },
-  parser: require.resolve("@typescript-eslint/parser"),
+  languageOptions: {
+    parser,
+    parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+  },
   settings: {
     lintAllEsApis: true,
   },
 });
 
-// @ts-ignore
 ruleTester.run("compat", rule, {
   valid: [
     // Ignore ES APIs if config detected

@@ -33,7 +33,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
 
   const benchmark = new Benchmark(
     name,
-    (deferred: { resolve: Function }) => {
+    (deferred: { resolve: () => void }) => {
       eslint
         .lintFiles(repoInfo.filePatterns)
         .then(() => {
@@ -67,7 +67,7 @@ async function getBenchmark(repoInfo: RepoInfo) {
     name: "run",
     async: true,
     onStart: () => console.log("Starting benchmark suite"),
-    onComplete: (e) => {
+    onComplete: (e: Event & {currentTarget: Benchmark[]}) => {
       console.log("Finished benchmark suite");
       const reports = e.currentTarget.map((benchmark) => ({
         name: benchmark.name,

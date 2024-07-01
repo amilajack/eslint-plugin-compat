@@ -73,7 +73,7 @@ export function isSupportedByMDN(
   node: AstMetadataApiWithTargetsResolver,
   { version, target: mdnTarget }: Target
 ): boolean {
-  // @ts-ignore
+  // @ts-expect-error Expected
   const target = reversedTargetMappings[mdnTarget];
   // If no record could be found, return true. Rules might not
   // be found because they could belong to another provider

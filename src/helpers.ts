@@ -3,6 +3,7 @@ import browserslist from "browserslist";
 import {
   AstMetadataApiWithTargetsResolver,
   ESLintNode,
+  SourceCode,
   BrowserListConfig,
   Target,
   HandleFailingRule,
@@ -20,8 +21,12 @@ import { TargetNameMappings } from "./constants";
   - All of the rules have compatibility info attached to them
 - Each API is given to versioning.ts with compatibility info
 */
-function isInsideIfStatement(context: Context) {
-  return context.getAncestors().some((ancestor) => {
+function isInsideIfStatement(node: ESLintNode, sourceCode: SourceCode, context: Context) {
+  const ancestors = 'getAncestors' in sourceCode
+    // @ts-expect-error Fits
+    ? sourceCode?.getAncestors?.(node)
+    : context.getAncestors();
+  return ancestors?.some((ancestor) => {
     return ancestor.type === "IfStatement";
   });
 }
@@ -30,9 +35,10 @@ function checkNotInsideIfStatementAndReport(
   context: Context,
   handleFailingRule: HandleFailingRule,
   failingRule: AstMetadataApiWithTargetsResolver,
+  sourceCode: SourceCode,
   node: ESLintNode
 ) {
-  if (!isInsideIfStatement(context)) {
+  if (!isInsideIfStatement(node, sourceCode, context)) {
     handleFailingRule(failingRule, node);
   }
 }
@@ -41,6 +47,7 @@ export function lintCallExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: AstMetadataApiWithTargetsResolver[],
+  sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.callee) return;
@@ -51,6 +58,7 @@ export function lintCallExpression(
       context,
       handleFailingRule,
       failingRule,
+      sourceCode,
       node
     );
 }
@@ -59,6 +67,7 @@ export function lintNewExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: Array<AstMetadataApiWithTargetsResolver>,
+  sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.callee) return;
@@ -69,6 +78,7 @@ export function lintNewExpression(
       context,
       handleFailingRule,
       failingRule,
+      sourceCode,
       node
     );
 }
@@ -77,6 +87,7 @@ export function lintExpressionStatement(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: AstMetadataApiWithTargetsResolver[],
+  sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
@@ -88,6 +99,7 @@ export function lintExpressionStatement(
       context,
       handleFailingRule,
       failingRule,
+      sourceCode,
       node
     );
 }
@@ -119,6 +131,7 @@ export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
   rules: Array<AstMetadataApiWithTargetsResolver>,
+  sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.object || !node.property) return;
@@ -142,6 +155,7 @@ export function lintMemberExpression(
         context,
         handleFailingRule,
         failingRule,
+        sourceCode,
         node
       );
     }
@@ -158,6 +172,7 @@ export function lintMemberExpression(
         context,
         handleFailingRule,
         failingRule,
+        sourceCode,
         node
       );
   }

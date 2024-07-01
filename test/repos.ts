@@ -3,6 +3,15 @@ import path from "path";
 import { mkdirSync, existsSync } from "fs";
 import simpleGit, { SimpleGit } from "simple-git";
 import { ESLint } from "eslint";
+import globals from 'globals';
+import compat from "../src/index";
+import {
+  parser as typescriptEslintParser,
+  plugin as typescriptEslintPlugin
+} from 'typescript-eslint';
+
+// @ts-expect-error Missing
+import * as babelEslintParser from '@babel/eslint-parser';
 
 export type RepoInfo = {
   // name of repo
@@ -38,15 +47,20 @@ const repos: Array<RepoInfo> = [
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "bootstrap"),
       useEslintrc: false,
-      baseConfig: {
-        extends: ["plugin:compat/recommended"],
-        parser: "@babel/eslint-parser",
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-          requireConfigFile: false,
-        },
-      },
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          languageOptions: {
+            parser: babelEslintParser,
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+              requireConfigFile: false,
+            }
+          },
+        }
+      ],
     },
   },
   {
@@ -62,20 +76,27 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "electron-react-boilerplate"),
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       useEslintrc: false,
-      baseConfig: {
-        extends: ["plugin:compat/recommended"],
-        parser: "@typescript-eslint/parser",
-        plugins: ["@typescript-eslint"],
-        env: {
-          browser: true,
-          node: true,
-        },
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-        },
-        ignorePatterns: ["*css.d.ts", "*sass.d.ts", "*scss.d.ts"],
-      },
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          plugins: {
+            "@typescript-eslint": typescriptEslintPlugin
+          },
+          languageOptions: {
+            globals: {
+              ...globals.browser,
+              ...globals.node
+            },
+            parser: typescriptEslintParser,
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+            }
+          },
+          ignores: ["*css.d.ts", "*sass.d.ts", "*scss.d.ts"],
+        }
+      ],
     },
   },
   {
@@ -89,13 +110,18 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "handlebars.js"),
       extensions: [".js"],
       useEslintrc: false,
-      baseConfig: {
-        extends: ["plugin:compat/recommended"],
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-        },
-      },
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          languageOptions: {
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+            }
+          }
+        }
+      ],
     },
   },
   {
@@ -109,17 +135,21 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "jquery"),
       extensions: [".js"],
       useEslintrc: false,
-      baseConfig: {
-        extends: ["plugin:compat/recommended"],
-        env: {},
-        globals: {
-          window: true,
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          languageOptions: {
+            globals: {
+              window: true,
+            },
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+            }
+          }
         },
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-        },
-      },
+      ],
     },
   },
   {
@@ -133,19 +163,22 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "preact"),
       extensions: [".js"],
       useEslintrc: false,
-      baseConfig: {
-        parser: "@typescript-eslint/parser",
-        extends: ["plugin:compat/recommended"],
-        env: {
-          browser: true,
-        },
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-          jsx: true,
-        },
-        ignorePatterns: ["test/fixtures", "test/ts/", "*.ts", "dist"],
-      },
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          languageOptions: {
+            globals: globals.browser,
+            parser: typescriptEslintParser,
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+              jsx: true,
+            }
+          },
+          ignores: ["test/fixtures", "test/ts/", "*.ts", "dist"],
+        }
+      ],
     },
   },
   // {
@@ -160,19 +193,24 @@ const repos: Array<RepoInfo> = [
   //     cwd: path.join(projectRoot, reposDir, "vscode"),
   //     extensions: [".js", ".ts"],
   //     useEslintrc: false,
-  //     baseConfig: {
-  //       extends: ["plugin:compat/recommended"],
-  //       env: {
-  //         node: true,
-  //         es6: true,
-  //         browser: true,
+  //     // @ts-expect-error Bug?
+  //     baseConfig: [
+  //       compat.configs['flat/recommended'],
+  //       {
+  //         languageOptions: {
+  //           globals: {
+  //             ...globals.node,
+  //             ...globals.es2015,
+  //             ...globals.browser
+  //           },
+  //           parser: typescriptEslintParser,
+  //           parserOptions: {
+  //             ecmaVersion: 6,
+  //             sourceType: "module",
+  //           }
+  //         }
   //       },
-  //       parser: "@typescript-eslint/parser",
-  //       parserOptions: {
-  //         ecmaVersion: 6,
-  //         sourceType: "module",
-  //       },
-  //     },
+  //     ],
   //   },
   // },
   {
@@ -186,27 +224,12 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "create-react-app"),
       extensions: [".js"],
       useEslintrc: false,
-      baseConfig: {
-        root: true,
-        parser: "@babel/eslint-parser",
-        extends: ["plugin:compat/recommended"],
-        env: {
-          browser: true,
-          commonjs: true,
-          node: true,
-          es6: true,
-        },
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-          ecmaFeatures: {
-            jsx: true,
-          },
-          requireConfigFile: false,
-        },
-        overrides: [
-          {
-            files: ["**/*.ts?(x)"],
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          files: ["**/*.ts?(x)"],
+          languageOptions: {
             parser: "@typescript-eslint/parser",
             parserOptions: {
               ecmaVersion: 2022,
@@ -215,11 +238,32 @@ const repos: Array<RepoInfo> = [
                 jsx: true,
               },
               warnOnUnsupportedTypeScriptVersion: true,
-            },
-            plugins: ["@typescript-eslint"],
+            }
           },
-        ],
-      },
+          plugins: {
+            "@typescript-eslint": typescriptEslintPlugin
+          },
+        },
+        {
+          languageOptions: {
+            globals: {
+              ...globals.browser,
+              ...globals.commonjs,
+              ...globals.node,
+              ...globals.es2015
+            },
+            parser: babelEslintParser,
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+              ecmaFeatures: {
+                jsx: true,
+              },
+              requireConfigFile: false,
+            }
+          },
+        },
+      ],
     },
   },
   {
@@ -233,22 +277,25 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "aframe"),
       extensions: [".js"],
       useEslintrc: false,
-      baseConfig: {
-        extends: ["plugin:compat/recommended"],
-        env: {
-          es6: true,
-        },
-        ignorePatterns: [
-          "build/**",
-          "dist/**",
-          "examples/**/shaders/*.js",
-          "**/vendor/**",
-        ],
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-        },
-      },
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          ignores: [
+            "build/**",
+            "dist/**",
+            "examples/**/shaders/*.js",
+            "**/vendor/**",
+          ],
+          languageOptions: {
+            globals: globals.es2015,
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+            }
+          }
+        }
+      ],
     },
   },
   {
@@ -262,20 +309,26 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "pixi.js"),
       extensions: [".js", ".ts"],
       useEslintrc: false,
-      baseConfig: {
-        root: true,
-        extends: ["plugin:compat/recommended"],
-        env: {
-          es6: true,
-          browser: true,
-        },
-        parser: "@typescript-eslint/parser",
-        plugins: ["@typescript-eslint"],
-        parserOptions: {
-          ecmaVersion: 2022,
-          sourceType: "module",
-        },
-      },
+      // @ts-expect-error Bug?
+      baseConfig: [
+        compat.configs['flat/recommended'],
+        {
+          plugins: {
+            "@typescript-eslint": typescriptEslintPlugin
+          },
+          languageOptions: {
+            globals: {
+              ...globals.es2015,
+              ...globals.browser
+            },
+            parser: typescriptEslintParser,
+            parserOptions: {
+              ecmaVersion: 2022,
+              sourceType: "module",
+            }
+          },
+        }
+      ],
     },
   },
 ];
