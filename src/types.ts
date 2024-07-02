@@ -51,7 +51,7 @@ export type ESLintNode = {
   };
 };
 
-export type SourceCode = import('eslint').SourceCode;
+export type SourceCode = import("eslint").SourceCode;
 
 export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
   id: string;

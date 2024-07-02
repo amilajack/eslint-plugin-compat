@@ -24,11 +24,9 @@ npm install eslint-plugin-compat
 #### New Config (`eslint.config.mjs`)
 
 ```js
-import compat from "eslint-plugin-compat"
+import compat from "eslint-plugin-compat";
 
-export default [
-  compat.configs['flat/recommended']
-];
+export default [compat.configs["flat/recommended"]];
 ```
 
 #### Legacy Config (`.eslintrc.json`)
@@ -38,8 +36,8 @@ export default [
   "plugins": ["compat"],
   "extends": ["plugin:compat/recommended"],
   "env": {
-    "browser": true
-  }
+    "browser": true,
+  },
   // ...
 }
 ```
@@ -53,7 +51,7 @@ Browser targets are configured using [browserslist](https://github.com/browsersl
 ```jsonc
 {
   // ...
-  "browserslist": ["defaults"]
+  "browserslist": ["defaults"],
 }
 ```
 
@@ -77,9 +75,9 @@ Add polyfills to the settings section of your eslint config. Append the name of 
       // Example of API with no property (i.e. a function)
       "fetch",
       // Example of instance method, must add `.prototype.`
-      "Array.prototype.push"
-    ]
-  }
+      "Array.prototype.push",
+    ],
+  },
 }
 ```
 
@@ -91,8 +89,8 @@ This plugin also supports linting the compatibility of ES APIs in addition to We
 {
   // ...
   "settings": {
-    "lintAllEsApis": true
-  }
+    "lintAllEsApis": true,
+  },
 }
 ```
 
@@ -123,9 +121,9 @@ Target `modern` browserslist environment:
 {
   "settings": {
     "browserslistOpts": {
-      "env": "modern"
-    }
-  }
+      "env": "modern",
+    },
+  },
 }
 ```
 

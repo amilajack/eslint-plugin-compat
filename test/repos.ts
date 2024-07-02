@@ -3,15 +3,15 @@ import path from "path";
 import { mkdirSync, existsSync } from "fs";
 import simpleGit, { SimpleGit } from "simple-git";
 import { ESLint } from "eslint";
-import globals from 'globals';
+import globals from "globals";
 import compat from "../src/index";
 import {
   parser as typescriptEslintParser,
-  plugin as typescriptEslintPlugin
-} from 'typescript-eslint';
+  plugin as typescriptEslintPlugin,
+} from "typescript-eslint";
 
 // @ts-expect-error Missing
-import * as babelEslintParser from '@babel/eslint-parser';
+import * as babelEslintParser from "@babel/eslint-parser";
 
 export type RepoInfo = {
   // name of repo
@@ -49,7 +49,7 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           languageOptions: {
             parser: babelEslintParser,
@@ -57,9 +57,9 @@ const repos: Array<RepoInfo> = [
               ecmaVersion: 2022,
               sourceType: "module",
               requireConfigFile: false,
-            }
+            },
           },
-        }
+        },
       ],
     },
   },
@@ -78,24 +78,24 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           plugins: {
-            "@typescript-eslint": typescriptEslintPlugin
+            "@typescript-eslint": typescriptEslintPlugin,
           },
           languageOptions: {
             globals: {
               ...globals.browser,
-              ...globals.node
+              ...globals.node,
             },
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
-            }
+            },
           },
           ignores: ["*css.d.ts", "*sass.d.ts", "*scss.d.ts"],
-        }
+        },
       ],
     },
   },
@@ -112,15 +112,15 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           languageOptions: {
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
-            }
-          }
-        }
+            },
+          },
+        },
       ],
     },
   },
@@ -137,7 +137,7 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           languageOptions: {
             globals: {
@@ -146,8 +146,8 @@ const repos: Array<RepoInfo> = [
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
-            }
-          }
+            },
+          },
         },
       ],
     },
@@ -165,7 +165,7 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           languageOptions: {
             globals: globals.browser,
@@ -174,10 +174,10 @@ const repos: Array<RepoInfo> = [
               ecmaVersion: 2022,
               sourceType: "module",
               jsx: true,
-            }
+            },
           },
           ignores: ["test/fixtures", "test/ts/", "*.ts", "dist"],
-        }
+        },
       ],
     },
   },
@@ -226,7 +226,7 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           files: ["**/*.ts?(x)"],
           languageOptions: {
@@ -238,10 +238,10 @@ const repos: Array<RepoInfo> = [
                 jsx: true,
               },
               warnOnUnsupportedTypeScriptVersion: true,
-            }
+            },
           },
           plugins: {
-            "@typescript-eslint": typescriptEslintPlugin
+            "@typescript-eslint": typescriptEslintPlugin,
           },
         },
         {
@@ -250,7 +250,7 @@ const repos: Array<RepoInfo> = [
               ...globals.browser,
               ...globals.commonjs,
               ...globals.node,
-              ...globals.es2015
+              ...globals.es2015,
             },
             parser: babelEslintParser,
             parserOptions: {
@@ -260,7 +260,7 @@ const repos: Array<RepoInfo> = [
                 jsx: true,
               },
               requireConfigFile: false,
-            }
+            },
           },
         },
       ],
@@ -279,7 +279,7 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           ignores: [
             "build/**",
@@ -292,9 +292,9 @@ const repos: Array<RepoInfo> = [
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
-            }
-          }
-        }
+            },
+          },
+        },
       ],
     },
   },
@@ -311,23 +311,23 @@ const repos: Array<RepoInfo> = [
       useEslintrc: false,
       // @ts-expect-error Bug?
       baseConfig: [
-        compat.configs['flat/recommended'],
+        compat.configs["flat/recommended"],
         {
           plugins: {
-            "@typescript-eslint": typescriptEslintPlugin
+            "@typescript-eslint": typescriptEslintPlugin,
           },
           languageOptions: {
             globals: {
               ...globals.es2015,
-              ...globals.browser
+              ...globals.browser,
             },
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
-            }
+            },
           },
-        }
+        },
       ],
     },
   },

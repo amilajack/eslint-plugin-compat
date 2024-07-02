@@ -1,6 +1,6 @@
 import { RuleTester } from "eslint";
 import rule from "../src/rules/compat";
-import { parser } from 'typescript-eslint';
+import { parser } from "typescript-eslint";
 
 const ruleTester = new RuleTester({
   languageOptions: {
