@@ -21,11 +21,16 @@ import { TargetNameMappings } from "./constants";
   - All of the rules have compatibility info attached to them
 - Each API is given to versioning.ts with compatibility info
 */
-function isInsideIfStatement(node: ESLintNode, sourceCode: SourceCode, context: Context) {
-  const ancestors = 'getAncestors' in sourceCode
-    // @ts-expect-error Fits
-    ? sourceCode?.getAncestors?.(node)
-    : context.getAncestors();
+function isInsideIfStatement(
+  node: ESLintNode,
+  sourceCode: SourceCode,
+  context: Context
+) {
+  const ancestors =
+    "getAncestors" in sourceCode
+      ? // @ts-expect-error Fits
+        sourceCode?.getAncestors?.(node)
+      : context.getAncestors();
   return ancestors?.some((ancestor) => {
     return ancestor.type === "IfStatement";
   });
