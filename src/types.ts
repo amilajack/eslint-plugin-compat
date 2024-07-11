@@ -51,6 +51,8 @@ export type ESLintNode = {
   };
 };
 
+export type SourceCode = import("eslint").SourceCode;
+
 export interface AstMetadataApiWithTargetsResolver extends AstMetadataApi {
   id: string;
   caniuseId?: string;
@@ -70,6 +72,6 @@ export interface Context extends Rule.RuleContext {
     browserslistOpts?: BrowsersListOpts;
   };
 }
-
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface BrowsersListOpts
   extends Exclude<DefaultBrowsersListOpts, "path"> {}

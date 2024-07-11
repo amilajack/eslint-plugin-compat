@@ -57,7 +57,7 @@ function generateErrorName(rule: AstMetadataApiWithTargetsResolver): string {
 }
 
 const getPolyfillSet = memoize(
-  (polyfillArrayJSON: string): Set<String> =>
+  (polyfillArrayJSON: string): Set<string> =>
     new Set(JSON.parse(polyfillArrayJSON))
 );
 
@@ -89,7 +89,7 @@ const babelConfigs = [
  * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
  */
 function isUsingTranspiler(context: Context): boolean {
-  const dir = context.getFilename();
+  const dir = context.filename ?? context.getFilename();
   const configPath = findUp.sync(babelConfigs, {
     cwd: dir,
   });
@@ -150,6 +150,8 @@ export default {
     schema: [{ type: "string" }],
   },
   create(context: Context): ESLint {
+    const sourceCode = context.sourceCode ?? context.getSourceCode();
+
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
     const browserslistConfig: BrowserListConfig =
@@ -162,6 +164,7 @@ export default {
       // @ts-expect-error Checking for accidental misspellings
       context.settings.browsersListOpts
     ) {
+      // eslint-disable-next-line -- CLI
       console.error(
         'Please ensure you spell `browserslistOpts` with a lowercase "l"!'
       );
@@ -217,19 +220,22 @@ export default {
         null,
         context,
         handleFailingRule,
-        targetedRules.CallExpression
+        targetedRules.CallExpression,
+        sourceCode
       ),
       NewExpression: lintNewExpression.bind(
         null,
         context,
         handleFailingRule,
-        targetedRules.NewExpression
+        targetedRules.NewExpression,
+        sourceCode
       ),
       ExpressionStatement: lintExpressionStatement.bind(
         null,
         context,
         handleFailingRule,
-        [...targetedRules.MemberExpression, ...targetedRules.CallExpression]
+        [...targetedRules.MemberExpression, ...targetedRules.CallExpression],
+        sourceCode
       ),
       MemberExpression: lintMemberExpression.bind(
         null,
@@ -239,7 +245,8 @@ export default {
           ...targetedRules.MemberExpression,
           ...targetedRules.CallExpression,
           ...targetedRules.NewExpression,
-        ]
+        ],
+        sourceCode
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
       Identifier(node: ESLintNode) {
