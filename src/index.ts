@@ -32,6 +32,7 @@ const plugin = {
 
 const configs = {
   "flat/recommended": {
+    name: 'compat/flat/recommended',
     plugins: { compat: plugin },
     ...recommended.flat,
   } as Linter.FlatConfig,
