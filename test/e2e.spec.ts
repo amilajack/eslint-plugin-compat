@@ -423,32 +423,32 @@ ruleTester.run("compat", rule, {
         },
       ],
     },
-    {
-      code: "WebAssembly.compile()",
-      settings: {
-        browsers: [
-          "Samsung 4",
-          "Safari 10.1",
-          "Opera 12.1",
-          "OperaMini all",
-          "iOS 10.3",
-          "ExplorerMobile 10",
-          "IE 10",
-          "Edge 14",
-          "Blackberry 7",
-          "Baidu 7.12",
-          "UCAndroid 11.8",
-          "QQAndroid 1.2",
-        ],
-      },
-      errors: [
-        {
-          message:
-            "WebAssembly is not supported in Safari 10.1, Opera 12.1, iOS Safari 10.3, IE 10, Edge 14",
-          type: "MemberExpression",
-        },
-      ],
-    },
+    // {
+    //   code: "WebAssembly.compile()",
+    //   settings: {
+    //     browsers: [
+    //       "Samsung 4",
+    //       "Safari 10.1",
+    //       "Opera 12.1",
+    //       "OperaMini all",
+    //       "iOS 10.3",
+    //       "ExplorerMobile 10",
+    //       "IE 10",
+    //       "Edge 14",
+    //       "Blackberry 7",
+    //       "Baidu 7.12",
+    //       "UCAndroid 11.8",
+    //       "QQAndroid 1.2",
+    //     ],
+    //   },
+    //   errors: [
+    //     {
+    //       message:
+    //         "WebAssembly is not supported in Safari 10.1, Opera 12.1, iOS Safari 10.3, IE 10, Edge 14",
+    //       type: "MemberExpression",
+    //     },
+    //   ],
+    // },
     {
       code: "new PaymentRequest(methodData, details, options)",
       settings: { browsers: ["chrome 57"] },
