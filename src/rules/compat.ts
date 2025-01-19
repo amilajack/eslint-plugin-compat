@@ -5,27 +5,28 @@
  *   Tells eslint to lint certain nodes  (lintCallExpression, lintMemberExpression, lintNewExpression)
  *   Gets protochain for the ESLint nodes the plugin is interested in
  */
-import fs from "fs";
-import findUp from "find-up";
-import memoize from "lodash.memoize";
 import { Rule } from "eslint";
+import findUp from "find-up";
+import fs from "fs";
+import memoize from "lodash.memoize";
 import {
+  determineTargetsFromConfig,
   lintCallExpression,
+  lintExpressionStatement,
+  lintLiteral,
   lintMemberExpression,
   lintNewExpression,
-  lintExpressionStatement,
   parseBrowsersListVersion,
-  determineTargetsFromConfig,
 } from "../helpers"; // will be deprecated and introduced to this file
+import { nodes } from "../providers";
 import {
-  ESLintNode,
   AstMetadataApiWithTargetsResolver,
   BrowserListConfig,
-  HandleFailingRule,
-  Context,
   BrowsersListOpts,
+  Context,
+  ESLintNode,
+  HandleFailingRule,
 } from "../types";
-import { nodes } from "../providers";
 
 type ESLint = {
   [astNodeTypeName: string]: (node: ESLintNode) => void;
@@ -44,6 +45,9 @@ function getName(node: ESLintNode): string {
     }
     case "CallExpression": {
       return node.callee!.name;
+    }
+    case "Literal": {
+      return node.type;
     }
     default:
       throw new Error("not found");
@@ -110,6 +114,7 @@ type RulesFilteredByTargets = {
   NewExpression: AstMetadataApiWithTargetsResolver[];
   MemberExpression: AstMetadataApiWithTargetsResolver[];
   ExpressionStatement: AstMetadataApiWithTargetsResolver[];
+  Literal: AstMetadataApiWithTargetsResolver[];
 };
 
 /**
@@ -124,6 +129,7 @@ const getRulesForTargets = memoize(
       NewExpression: [] as AstMetadataApiWithTargetsResolver[],
       MemberExpression: [] as AstMetadataApiWithTargetsResolver[],
       ExpressionStatement: [] as AstMetadataApiWithTargetsResolver[],
+      Literal: [] as AstMetadataApiWithTargetsResolver[],
     };
     const targets = JSON.parse(targetsJSON);
 
@@ -246,6 +252,13 @@ export default {
           ...targetedRules.CallExpression,
           ...targetedRules.NewExpression,
         ],
+        sourceCode
+      ),
+      Literal: lintLiteral.bind(
+        null,
+        context,
+        handleFailingRule,
+        targetedRules.Literal,
         sourceCode
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined

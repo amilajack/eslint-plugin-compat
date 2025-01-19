@@ -1,6 +1,6 @@
 import { RuleTester } from "eslint";
-import rule from "../src/rules/compat";
 import { parser } from "typescript-eslint";
+import rule from "../src/rules/compat";
 
 const ruleTester = new RuleTester({
   languageOptions: {
@@ -688,6 +688,22 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "requestAnimationFrame is not supported in op_mini all",
+        },
+      ],
+    },
+    {
+      code: "/(?<=y)x/, new RegExp('(?<!y)x'), 'x', true, false, null, 1, 0n",
+      settings: {
+        browsers: ["Safari >= 16.3", "iOS >= 16.3"],
+      },
+      errors: [
+        {
+          message:
+            "Lookbehind is not supported in Safari 16.3, iOS Safari 16.3",
+        },
+        {
+          message:
+            "Lookbehind is not supported in Safari 16.3, iOS Safari 16.3",
         },
       ],
     },

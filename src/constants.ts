@@ -54,4 +54,5 @@ export enum AstNodeTypes {
   MemberExpression = "MemberExpression",
   CallExpression = "CallExpression",
   NewExpression = "NewExpression",
+  Literal = "Literal",
 }

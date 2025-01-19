@@ -6,9 +6,9 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-import recommended from "./config/recommended";
-import pkg from "../package.json";
 import type { Linter } from "eslint";
+import pkg from "../package.json";
+import recommended from "./config/recommended";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
@@ -32,7 +32,7 @@ const plugin = {
 
 const configs = {
   "flat/recommended": {
-    name: 'compat/flat/recommended',
+    name: "compat/flat/recommended",
     plugins: { compat: plugin },
     ...recommended.flat,
   } as Linter.FlatConfig,
