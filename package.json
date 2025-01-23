@@ -30,7 +30,7 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./lib/esm//src/index.d.mts",
+        "types": "./lib/esm/src/index.d.ts",
         "default": "./lib/esm/src/index.js"
       },
       "require": {
