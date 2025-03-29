@@ -1,7 +1,7 @@
 /* eslint no-console: off */
 import path from "path";
 import { mkdirSync, existsSync } from "fs";
-import simpleGit, { SimpleGit } from "simple-git";
+import { simpleGit, type SimpleGit } from "simple-git";
 import { ESLint } from "eslint";
 import globals from "globals";
 import compat from "../src/index";
@@ -10,7 +10,6 @@ import {
   plugin as typescriptEslintPlugin,
 } from "typescript-eslint";
 
-// @ts-expect-error Missing
 import * as babelEslintParser from "@babel/eslint-parser";
 
 export type RepoInfo = {
@@ -46,8 +45,6 @@ const repos: Array<RepoInfo> = [
     filePatterns: [path.join("js", "src"), path.join("js", "tests"), "build"],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "bootstrap"),
-      useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
@@ -76,11 +73,11 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "electron-react-boilerplate"),
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           plugins: {
+            // @ts-expect-error -- tseslint is stricter
             "@typescript-eslint": typescriptEslintPlugin,
           },
           languageOptions: {
@@ -88,6 +85,7 @@ const repos: Array<RepoInfo> = [
               ...globals.browser,
               ...globals.node,
             },
+            // @ts-expect-error -- tseslint is stricter
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
@@ -108,9 +106,6 @@ const repos: Array<RepoInfo> = [
     filePatterns: ["."],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "handlebars.js"),
-      extensions: [".js"],
-      useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
@@ -133,9 +128,6 @@ const repos: Array<RepoInfo> = [
     filePatterns: ["src/**/*.js", "test/**/*.js"],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "jquery"),
-      extensions: [".js"],
-      useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
@@ -163,12 +155,12 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "preact"),
       extensions: [".js"],
       useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           languageOptions: {
             globals: globals.browser,
+            // @ts-expect-error -- tseslint is stricter
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
@@ -222,14 +214,12 @@ const repos: Array<RepoInfo> = [
     filePatterns: ["."],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "create-react-app"),
-      extensions: [".js"],
-      useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           files: ["**/*.ts?(x)"],
           languageOptions: {
+            // @ts-expect-error -- tseslint is stricter
             parser: "@typescript-eslint/parser",
             parserOptions: {
               ecmaVersion: 2022,
@@ -241,6 +231,7 @@ const repos: Array<RepoInfo> = [
             },
           },
           plugins: {
+            // @ts-expect-error -- tseslint is stricter
             "@typescript-eslint": typescriptEslintPlugin,
           },
         },
@@ -275,9 +266,6 @@ const repos: Array<RepoInfo> = [
     filePatterns: ["."],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "aframe"),
-      extensions: [".js"],
-      useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
@@ -309,11 +297,11 @@ const repos: Array<RepoInfo> = [
       cwd: path.join(projectRoot, reposDir, "pixi.js"),
       extensions: [".js", ".ts"],
       useEslintrc: false,
-      // @ts-expect-error Bug?
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           plugins: {
+            // @ts-expect-error -- tseslint is stricter
             "@typescript-eslint": typescriptEslintPlugin,
           },
           languageOptions: {
@@ -321,6 +309,7 @@ const repos: Array<RepoInfo> = [
               ...globals.es2015,
               ...globals.browser,
             },
+            // @ts-expect-error -- tseslint is stricter
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
