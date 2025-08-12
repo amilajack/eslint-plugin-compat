@@ -80,7 +80,7 @@ export function isSupportedByMDN(
   if (!mdnRecords.has(node.protoChainId)) return true;
   const record = mdnRecords.get(node.protoChainId);
   if (!record || !record.compat.support) return true;
-  const compatRecord = record.compat.support[target];
+  const compatRecord = record.compat.support[target as keyof typeof record.compat.support];
   if (!compatRecord) return true;
   if (!Array.isArray(compatRecord) && !("version_added" in compatRecord))
     return true;
