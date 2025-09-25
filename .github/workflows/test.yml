@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
-      - name: Install Node.js, NPM
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
       - name: Install dependencies
         run: npm ci && npm i -D ${{ env.e2e-eslint-version }}
