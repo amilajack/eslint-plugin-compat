@@ -9,7 +9,7 @@
 
 Lint the browser compatibility of your code
 
-![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/master/img/eslint-plugin-compat-demo.gif)
+![demo of plugin usage](https://raw.githubusercontent.com/amilajack/eslint-plugin-compat/main/img/eslint-plugin-compat-demo.gif)
 
 ## Setup
 

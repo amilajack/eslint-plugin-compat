@@ -1,7 +1,10 @@
 name: Release
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
     branches:
       - main
   workflow_dispatch:
@@ -29,10 +32,10 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: [authorize]
-    if: always() && (needs.authorize.result == 'success' || needs.authorize.result == 'skipped')
-    env:
-      stable-node-version: "20.x"
-      e2e-eslint-version: "eslint@8" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7
+    if: |
+      always() && 
+      (needs.authorize.result == 'success' || needs.authorize.result == 'skipped') &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
 
     steps:
       - name: Checkout
@@ -44,14 +47,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.stable-node-version}}
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
-        run: npm ci && npm i -D ${{ env.e2e-eslint-version }}
-
-      - name: Run tests
-        run: npm test && npm run spec:e2e
+        run: npm ci
 
       - name: Release --dry-run # Uses release.config.js
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dryRun == 'true'}}
