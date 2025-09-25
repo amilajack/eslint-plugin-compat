@@ -54,7 +54,7 @@ jobs:
               });
               
               const testChecks = checks.check_runs.filter(check => 
-                check.name.startsWith('test (') && check.name.endsWith(')')
+                check.name.startsWith('Test (Node 20, ESLint')
               );
               
               if (testChecks.length === 0) {
