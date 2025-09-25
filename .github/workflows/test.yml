@@ -21,6 +21,11 @@ jobs:
       - name: Install ESLint ${{ matrix.eslint-version }}
         run: npm i -D eslint@${{ matrix.eslint-version }}
       - name: Run tests
-        run: npm test
+        run: |
+          if [ "${{ matrix.eslint-version }}" = "9" ]; then
+            npm run build && npm run spec
+          else
+            npm test
+          fi
       - name: Run e2e tests
         run: npm run spec:e2e
