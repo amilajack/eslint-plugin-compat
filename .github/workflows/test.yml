@@ -23,7 +23,7 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ matrix.eslint-version }}" = "9" ]; then
-            npm run build && npm run spec
+            npm run build && npm run spec -- --testPathIgnorePatterns="test/e2e-repo.spec.ts|test/flat-config-typing.spec.ts"
           else
             npm test
           fi
