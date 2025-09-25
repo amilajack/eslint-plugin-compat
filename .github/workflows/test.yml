@@ -7,14 +7,14 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
         eslint-version: [8, 9]
-    name: Test (Node 20, ESLint ${{ matrix.eslint-version }}, ${{ matrix.os }})
+    name: Test (Node 22, ESLint ${{ matrix.eslint-version }}, ${{ matrix.os }})
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - name: Install dependencies
         run: npm ci
