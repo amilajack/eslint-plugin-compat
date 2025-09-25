@@ -6,7 +6,7 @@ import eslint from "@eslint/js";
 import { defineConfig } from "eslint/config";
 import eslintPlugin from "eslint-plugin-eslint-plugin";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
-import importX from "eslint-plugin-import-x";
+import * as importX from "eslint-plugin-import-x";
 import tseslint from "typescript-eslint";
 import globals from "globals";
 import compat from "./lib/esm/src/index.js";

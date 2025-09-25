@@ -26,19 +26,13 @@ function isInsideIfStatement(
   sourceCode: SourceCode,
   context: Context
 ) {
-  // Handle both ESLint 8 and 9 - getAncestors moved from context to sourceCode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let ancestors: any;
-  if ("getAncestors" in sourceCode) {
-    // @ts-expect-error - ESLint 9+ uses sourceCode.getAncestors
-    ancestors = sourceCode?.getAncestors?.(node);
-  } else {
-    // ESLint 8 uses context.getAncestors - cast to any for compatibility
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ancestors = (context as any).getAncestors?.();
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return ancestors?.some((ancestor: any) => {
+  const ancestors =
+    "getAncestors" in sourceCode
+      ? // @ts-expect-error Fits
+        sourceCode?.getAncestors?.(node)
+      : // @ts-expect-error getAncestors might not exist in newer ESLint versions
+        context.getAncestors?.();
+  return ancestors?.some((ancestor: ESLintNode) => {
     return ancestor.type === "IfStatement";
   });
 }
