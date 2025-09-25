@@ -71,13 +71,10 @@ const repos: Array<RepoInfo> = [
     browserslist: ["electron 7.1.13"],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "electron-react-boilerplate"),
-      extensions: [".js", ".jsx", ".ts", ".tsx"],
-      useEslintrc: false,
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           plugins: {
-            // @ts-expect-error -- tseslint is stricter
             "@typescript-eslint": typescriptEslintPlugin,
           },
           languageOptions: {
@@ -85,7 +82,6 @@ const repos: Array<RepoInfo> = [
               ...globals.browser,
               ...globals.node,
             },
-            // @ts-expect-error -- tseslint is stricter
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
@@ -153,14 +149,11 @@ const repos: Array<RepoInfo> = [
     filePatterns: ["*.js"],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "preact"),
-      extensions: [".js"],
-      useEslintrc: false,
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           languageOptions: {
             globals: globals.browser,
-            // @ts-expect-error -- tseslint is stricter
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
@@ -231,7 +224,6 @@ const repos: Array<RepoInfo> = [
             },
           },
           plugins: {
-            // @ts-expect-error -- tseslint is stricter
             "@typescript-eslint": typescriptEslintPlugin,
           },
         },
@@ -295,13 +287,10 @@ const repos: Array<RepoInfo> = [
     filePatterns: ["test", "bundles", "packages", "tools"],
     eslintOptions: {
       cwd: path.join(projectRoot, reposDir, "pixi.js"),
-      extensions: [".js", ".ts"],
-      useEslintrc: false,
       baseConfig: [
         compat.configs["flat/recommended"],
         {
           plugins: {
-            // @ts-expect-error -- tseslint is stricter
             "@typescript-eslint": typescriptEslintPlugin,
           },
           languageOptions: {
@@ -309,7 +298,6 @@ const repos: Array<RepoInfo> = [
               ...globals.es2015,
               ...globals.browser,
             },
-            // @ts-expect-error -- tseslint is stricter
             parser: typescriptEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
