@@ -1,16 +1,38 @@
-import { RuleTester } from "eslint";
+import * as eslint from "eslint";
 import { parser } from "typescript-eslint";
 import rule from "../src/rules/compat";
 
-const ruleTester = new RuleTester({
-  languageOptions: {
-    parser,
-    parserOptions: { ecmaVersion: 2020, sourceType: "module" },
-  },
-  settings: {
-    lintAllEsApis: true,
-  },
-});
+// Detect ESLint version
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const eslintMod = eslint as any;
+const eslintVersion = parseInt(
+  (eslintMod.Linter?.version || eslintMod.version || '9').split('.')[0],
+  10
+);
+
+// Create RuleTester with appropriate config for ESLint version
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const config: any = eslintVersion >= 9
+  ? {
+      // ESLint 9+ flat config
+      languageOptions: {
+        parser,
+        parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+      },
+      settings: {
+        lintAllEsApis: true,
+      },
+    }
+  : {
+      // ESLint 8 and below
+      parser: require.resolve("@typescript-eslint/parser"),
+      parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+      settings: {
+        lintAllEsApis: true,
+      },
+    };
+
+const ruleTester = new eslint.RuleTester(config);
 
 ruleTester.run("compat", rule, {
   valid: [
