@@ -2,11 +2,12 @@ name: Test
 on: [push, pull_request]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
         eslint-version: [8, 9]
-    name: Test (Node 22, ESLint ${{ matrix.eslint-version }})
+    name: Test (Node 22, ESLint ${{ matrix.eslint-version }}, ${{ matrix.os }})
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
@@ -20,13 +21,6 @@ jobs:
       - name: Install ESLint ${{ matrix.eslint-version }}
         run: npm i -D eslint@${{ matrix.eslint-version }}
       - name: Run tests
-        run: |
-          if [ "${{ matrix.eslint-version }}" = "9" ]; then
-            npm run build && npm run spec -- --testPathIgnorePatterns="test/e2e-repo.spec.ts|test/flat-config-typing.spec.ts"
-          else
-            npm test
-          fi
+        run: npm test
       - name: Run e2e tests
-        # Skip e2e tests for ESLint 9 due to API incompatibilities
-        if: matrix.eslint-version != '9'
         run: npm run spec:e2e
