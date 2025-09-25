@@ -39,7 +39,8 @@ const configs = {
   recommended: {
     plugins: ["compat"],
     ...recommended.legacy,
-  } as Linter.Config,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any, // Legacy config format - type differs between ESLint 8 and 9
 };
 plugin.configs = configs;
 

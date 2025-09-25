@@ -98,7 +98,7 @@
     "benchmark": "^2.1.4",
     "browserslist-config-erb": "^0.0.3",
     "electron": "^29.x.x",
-    "eslint": "^8.57.1",
+    "eslint": "^9.36.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-eslint-plugin": "^6.2.0",
     "eslint-plugin-prettier": "^5.1.3",
