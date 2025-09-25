@@ -35,7 +35,7 @@ const configs = {
     name: "compat/flat/recommended",
     plugins: { compat: plugin },
     ...recommended.flat,
-  } as Linter.FlatConfig,
+  } as Linter.Config,
   recommended: {
     plugins: ["compat"],
     ...recommended.legacy,
