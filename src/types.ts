@@ -1,7 +1,7 @@
 import { APIKind } from "ast-metadata-inferer/lib/types";
+import type { Options as DefaultBrowsersListOpts } from "browserslist";
 import { Rule } from "eslint";
 import { TargetNameMappings } from "./constants";
-import type { Options as DefaultBrowsersListOpts } from "browserslist";
 
 export type BrowserListConfig =
   | string
@@ -18,8 +18,13 @@ type AstMetadataApi = {
   type?: string;
   name?: string;
   object: string;
-  astNodeType: "MemberExpression" | "CallExpression" | "NewExpression";
+  astNodeType:
+    | "MemberExpression"
+    | "CallExpression"
+    | "NewExpression"
+    | "Literal";
   property?: string;
+  syntaxes?: string[];
   protoChainId: string;
   protoChain: Array<string>;
 };
@@ -49,6 +54,11 @@ export type ESLintNode = {
     name: string;
     type?: string;
   };
+  regex?: {
+    flags: string;
+    pattern: string;
+  };
+  raw: string;
 };
 
 export type SourceCode = import("eslint").SourceCode;

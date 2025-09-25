@@ -1,5 +1,5 @@
 import * as lite from "caniuse-lite";
-import { STANDARD_TARGET_NAME_MAPPING, AstNodeTypes } from "../constants";
+import { AstNodeTypes, STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
 
 /**
@@ -240,6 +240,13 @@ const CanIUseProvider: Array<AstMetadataApiWithTargetsResolver> = [
     caniuseId: "typedarrays",
     astNodeType: AstNodeTypes.NewExpression,
     object: "Float64Array",
+  },
+  {
+    caniuseId: "js-regexp-lookbehind",
+    astNodeType: AstNodeTypes.Literal,
+    name: "Lookbehind",
+    object: "RegExp",
+    syntaxes: ["?<=", "?<!"],
   },
 ].map((rule) => ({
   ...rule,

@@ -1,16 +1,16 @@
 /* eslint no-nested-ternary: off */
 import browserslist from "browserslist";
+import { AstNodeTypes, TargetNameMappings } from "./constants";
 import {
   AstMetadataApiWithTargetsResolver,
-  ESLintNode,
-  SourceCode,
   BrowserListConfig,
-  Target,
-  HandleFailingRule,
-  Context,
   BrowsersListOpts,
+  Context,
+  ESLintNode,
+  HandleFailingRule,
+  SourceCode,
+  Target,
 } from "./types";
-import { TargetNameMappings } from "./constants";
 
 /*
 3) Figures out which browsers user is targeting
@@ -109,8 +109,31 @@ export function lintExpressionStatement(
     );
 }
 
+function checkRegexpLiteral(node: ESLintNode): boolean {
+  return (
+    node.type === AstNodeTypes.Literal &&
+    (!!node.regex || node.parent?.callee?.name === "RegExp")
+  );
+}
+
+export function lintLiteral(
+  context: Context,
+  handleFailingRule: HandleFailingRule,
+  rules: AstMetadataApiWithTargetsResolver[],
+  sourceCode: SourceCode,
+  node: ESLintNode
+) {
+  const isRegexpLiteral = checkRegexpLiteral(node);
+  const failingRule = rules.find((rule) =>
+    rule.syntaxes?.some(
+      (syntax) => (isRegexpLiteral ? node.raw.includes(syntax) : false) // non-regexp literals are not supported yet
+    )
+  );
+  if (failingRule) handleFailingRule(failingRule, node);
+}
+
 function isStringLiteral(node: ESLintNode): boolean {
-  return node.type === "Literal" && typeof node.value === "string";
+  return node.type === AstNodeTypes.Literal && typeof node.value === "string";
 }
 
 function protoChainFromMemberExpression(node: ESLintNode): string[] {
