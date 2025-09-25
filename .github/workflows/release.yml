@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       dryRun:
@@ -11,7 +14,8 @@ on:
 jobs:
   authorize:
     name: Authorize
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: ${{ github.actor }} permission check to do a release
         uses: octokit/request-action@v2.x
@@ -23,15 +27,19 @@ jobs:
 
   release:
     name: Release
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     needs: [authorize]
+    if: always() && (needs.authorize.result == 'success' || needs.authorize.result == 'skipped')
     env:
-      stable-node-version: "16.x"
+      stable-node-version: "20.x"
       e2e-eslint-version: "eslint@8" # Used because e2e and benchmark tests use ESLint's Node.js API class introduced in eslint@7
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -46,14 +54,14 @@ jobs:
         run: npm test && npm run spec:e2e
 
       - name: Release --dry-run # Uses release.config.js
-        if: ${{ github.event.inputs.dryRun == 'true'}}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dryRun == 'true'}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release --dry-run
 
       - name: Release # Uses release.config.js
-        if: ${{ github.event.inputs.dryRun == 'false'}}
+        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.dryRun == 'false')}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

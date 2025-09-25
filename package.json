@@ -48,11 +48,14 @@
     "lint": "eslint .",
     "prettier": "prettier --check .",
     "prettier:write": "prettier --write .",
+    "release": "semantic-release",
+    "release:dry-run": "semantic-release --dry-run",
     "spec": "jest --testPathIgnorePatterns test/e2e-repo.spec.ts /benchmarks-tmp",
     "spec:e2e": "jest --detectOpenHandles test/e2e-repo.spec.ts",
     "test": "npm run build && npm run lint && npm run spec",
     "tsc": "tsc",
-    "version": "npm run build"
+    "version": "npm run build",
+    "prepare": "husky"
   },
   "prettier": {
     "semi": true,
@@ -79,6 +82,8 @@
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@babel/eslint-parser": "^7.24.7",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@eslint/compat": "^1.1.0",
     "@eslint/js": "^9.6.0",
     "@semantic-release/changelog": "^6.0.3",
@@ -98,6 +103,7 @@
     "eslint-plugin-eslint-plugin": "^6.2.0",
     "eslint-plugin-prettier": "^5.1.3",
     "expect-type": "^0.19.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "prettier": "^3.3.2",
     "semantic-release": "^22.0.12",

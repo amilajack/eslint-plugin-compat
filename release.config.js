@@ -1,36 +1,18 @@
 module.exports = {
-  branches: ["master"],
+  branches: [
+    "main",
+    {
+      name: "(feat|fix|chore)-*",
+      prerelease: true,
+    },
+  ],
   plugins: [
-    [
-      "@semantic-release/commit-analyzer",
-      {
-        preset: "angular",
-        parserOpts: {
-          noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"],
-        },
-      },
-    ],
-    [
-      "@semantic-release/release-notes-generator",
-      {
-        preset: "angular",
-      },
-    ],
-    [
-      "@semantic-release/changelog",
-      {
-        changelogFile: "CHANGELOG.md",
-      },
-    ],
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
     "@semantic-release/npm",
+    // Only commit the pkg.json changes on main branch
+    ...(process.env.GITHUB_REF_NAME === "main" ? ["@semantic-release/git"] : []),
     "@semantic-release/github",
-    [
-      "@semantic-release/git",
-      {
-        assets: ["package.json", "CHANGELOG.md"],
-        message:
-          "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}", // eslint-disable-line no-template-curly-in-string
-      },
-    ],
   ],
 };
