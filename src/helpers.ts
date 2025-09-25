@@ -11,6 +11,7 @@ import {
   BrowsersListOpts,
 } from "./types";
 import { TargetNameMappings } from "./constants";
+import { RulesLookup, lookupKey } from "./rules-lookup";
 
 /*
 3) Figures out which browsers user is targeting
@@ -51,13 +52,13 @@ function checkNotInsideIfStatementAndReport(
 export function lintCallExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
+  rulesByObject: RulesLookup,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
-  const failingRule = rules.find((rule) => rule.object === calleeName);
+  const failingRule = rulesByObject.get(calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -71,13 +72,13 @@ export function lintCallExpression(
 export function lintNewExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithTargetsResolver>,
+  rulesByObject: RulesLookup,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
-  const failingRule = rules.find((rule) => rule.object === calleeName);
+  const failingRule = rulesByObject.get(calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -91,14 +92,12 @@ export function lintNewExpression(
 export function lintExpressionStatement(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
+  rulesByObject: RulesLookup,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
-  const failingRule = rules.find(
-    (rule) => rule.object === node?.expression?.name
-  );
+  const failingRule = rulesByObject.get(node?.expression?.name);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -135,7 +134,8 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithTargetsResolver>,
+  rulesByProtoChainId: RulesLookup,
+  rulesByObjectProperty: RulesLookup,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
@@ -152,9 +152,7 @@ export function lintMemberExpression(
         ? rawProtoChain.slice(1)
         : rawProtoChain;
     const protoChainId = protoChain.join(".");
-    const failingRule = rules.find(
-      (rule) => rule.protoChainId === protoChainId
-    );
+    const failingRule = rulesByProtoChainId.get(protoChainId);
     if (failingRule) {
       checkNotInsideIfStatementAndReport(
         context,
@@ -167,11 +165,9 @@ export function lintMemberExpression(
   } else {
     const objectName = node.object.name;
     const propertyName = node.property.name;
-    const failingRule = rules.find(
-      (rule) =>
-        rule.object === objectName &&
-        (rule.property == null || rule.property === propertyName)
-    );
+    const failingRule =
+      rulesByObjectProperty.get(lookupKey(objectName, null)) ||
+      rulesByObjectProperty.get(lookupKey(objectName, propertyName));
     if (failingRule)
       checkNotInsideIfStatementAndReport(
         context,
