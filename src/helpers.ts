@@ -237,31 +237,32 @@ export function determineTargetsFromConfig(
   const browserslistOpts = { path: configPath, ...browserslistOptsFromConfig };
 
   const eslintTargets = (() => {
-    // Get targets from eslint settings
-    if (Array.isArray(config) || typeof config === "string") {
-      return browserslist(config, browserslistOpts);
-    }
-    if (config && typeof config === "object") {
-      return browserslist(
-        [...(config.production || []), ...(config.development || [])],
-        browserslistOpts
-      );
-    }
-    return [];
+    const query = config
+      ? Array.isArray(config) || typeof config === "string"
+        ? config
+        : "query" in config
+        ? config.query
+        : [...(config.production || []), ...(config.development || [])]
+      : [];
+    return query.length ? browserslist(query, browserslistOpts) : [];
   })();
 
-  if (browserslist.findConfig(configPath)) {
-    // If targets are defined in ESLint and browerslist configs, merge the targets together
-    if (eslintTargets.length) {
-      const browserslistTargets = browserslist(undefined, browserslistOpts);
-      return Array.from(new Set(eslintTargets.concat(browserslistTargets)));
-    }
-  } else if (eslintTargets.length) {
+  // Determine if targets picked up by browserslist should be included
+  const ignoreBrowserslistTargets =
+    config && "object" === typeof config && "query" in config
+      ? Boolean(config.ignoreBrowserslistTargets)
+      : // Included for backwards-compatibility; remove in next major version (return false instead)
+        !browserslist.findConfig(configPath) && eslintTargets.length > 0;
+
+  if (ignoreBrowserslistTargets) {
     return eslintTargets;
   }
 
   // Get targets fron browserslist configs
-  return browserslist(undefined, browserslistOpts);
+  const browserslistTargets = browserslist(undefined, browserslistOpts);
+
+  // If targets are defined in ESLint and browerslist configs, merge the targets together
+  return Array.from(new Set(eslintTargets.concat(browserslistTargets)));
 }
 
 /**
