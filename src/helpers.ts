@@ -170,47 +170,48 @@ export function lintMemberExpression(
   node: ESLintNode
 ) {
   if (!node.object || !node.property) return;
-  if (
-    !node.object.name ||
-    node.object.name === "window" ||
-    node.object.name === "globalThis"
-  ) {
-    const rawProtoChain = protoChainFromMemberExpression(node);
-    const [firstObj] = rawProtoChain;
-    const protoChain =
-      firstObj === "window" || firstObj === "globalThis"
-        ? rawProtoChain.slice(1)
-        : rawProtoChain;
-    const protoChainId = protoChain.join(".");
-    const failingRule = rules.find(
-      (rule) => rule.protoChainId === protoChainId
+  const propertyName = node.property.name;
+  const rawProtoChain = protoChainFromMemberExpression(node);
+  const [firstObj] = rawProtoChain;
+  const hasGlobalThisRule = rules.some(
+    (rule) =>
+      rule.object === "globalThis" &&
+      rule.property != null &&
+      rule.property === propertyName
+  );
+  const shouldTrimFirst =
+    firstObj === "window" ||
+    (firstObj === "globalThis" && !hasGlobalThisRule);
+  const protoChain = shouldTrimFirst ? rawProtoChain.slice(1) : rawProtoChain;
+  const protoChainId = protoChain.join(".");
+  const protoChainRule = rules.find(
+    (rule) => rule.protoChainId === protoChainId
+  );
+  if (protoChainRule) {
+    checkNotInsideIfStatementAndReport(
+      context,
+      handleFailingRule,
+      protoChainRule,
+      sourceCode,
+      node
     );
-    if (failingRule) {
-      checkNotInsideIfStatementAndReport(
-        context,
-        handleFailingRule,
-        failingRule,
-        sourceCode,
-        node
-      );
-    }
-  } else {
-    const objectName = node.object.name;
-    const propertyName = node.property.name;
-    const failingRule = rules.find(
-      (rule) =>
-        rule.object === objectName &&
-        (rule.property == null || rule.property === propertyName)
-    );
-    if (failingRule)
-      checkNotInsideIfStatementAndReport(
-        context,
-        handleFailingRule,
-        failingRule,
-        sourceCode,
-        node
-      );
+    return;
   }
+  if (!node.object.name) return;
+  const objectName = node.object.name;
+  const failingRule = rules.find(
+    (rule) =>
+      rule.object === objectName &&
+      (rule.property == null || rule.property === propertyName)
+  );
+  if (failingRule)
+    checkNotInsideIfStatementAndReport(
+      context,
+      handleFailingRule,
+      failingRule,
+      sourceCode,
+      node
+    );
 }
 
 export function reverseTargetMappings<K extends string, V extends string>(
