@@ -274,6 +274,27 @@ ruleTester.run("compat", rule, {
         browsers: ["chrome 49", "safari 10.1", "firefox 44"],
       },
     },
+    // AbortSignal.any() - valid when browsers support it
+    {
+      code: "AbortSignal.any([signal1, signal2])",
+      settings: {
+        browsers: ["chrome 116", "safari 17.4", "firefox 124"],
+      },
+    },
+    // AbortSignal.abort() - valid when browsers support it
+    {
+      code: "AbortSignal.abort()",
+      settings: {
+        browsers: ["chrome 93", "safari 15", "firefox 88"],
+      },
+    },
+    // AbortSignal.timeout() - valid when browsers support it
+    {
+      code: "AbortSignal.timeout(5000)",
+      settings: {
+        browsers: ["chrome 124", "safari 16", "firefox 100"],
+      },
+    },
   ],
   invalid: [
     {
@@ -726,6 +747,48 @@ ruleTester.run("compat", rule, {
         {
           message:
             "Lookbehind is not supported in Safari 16.3, iOS Safari 16.3",
+        },
+      ],
+    },
+    // AbortSignal.any() static method
+    {
+      code: "AbortSignal.any([signal1, signal2])",
+      settings: {
+        browsers: ["chrome 115", "safari 17"],
+      },
+      errors: [
+        {
+          message:
+            "AbortSignal.any() is not supported in Safari 17.0, Chrome 115",
+          type: "MemberExpression",
+        },
+      ],
+    },
+    // AbortSignal.abort() static method
+    {
+      code: "AbortSignal.abort()",
+      settings: {
+        browsers: ["chrome 92", "safari 14"],
+      },
+      errors: [
+        {
+          message:
+            "AbortSignal.abort() is not supported in Safari 14, Chrome 92",
+          type: "MemberExpression",
+        },
+      ],
+    },
+    // AbortSignal.timeout() static method
+    {
+      code: "AbortSignal.timeout(5000)",
+      settings: {
+        browsers: ["chrome 102", "safari 15"],
+      },
+      errors: [
+        {
+          message:
+            "AbortSignal.timeout() is not supported in Safari 15, Chrome 102",
+          type: "MemberExpression",
         },
       ],
     },
