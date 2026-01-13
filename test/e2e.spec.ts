@@ -277,6 +277,22 @@ ruleTester.run("compat", rule, {
   ],
   invalid: [
     {
+      code: `
+        if (fetch) {
+          fetch()
+        }
+      `,
+      settings: {
+        browsers: ["ExplorerMobile 10"],
+        ignoreConditionalChecks: true,
+      },
+      errors: [
+        {
+          message: "fetch is not supported in IE Mobile 10",
+        },
+      ],
+    },
+    {
       code: "window?.fetch?.('example.com')",
       settings: { browsers: ["ie 9"] },
       errors: [

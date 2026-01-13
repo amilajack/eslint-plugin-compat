@@ -79,6 +79,7 @@ export interface Context extends Rule.RuleContext {
     browsers?: Array<string>;
     polyfills?: Array<string>;
     lintAllEsApis?: boolean;
+    ignoreConditionalChecks?: boolean;
     browserslistOpts?: BrowsersListOpts;
   };
 }
