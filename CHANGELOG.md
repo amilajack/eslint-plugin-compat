@@ -28,6 +28,21 @@
 * add semantic-release automation ([#661](https://github.com/amilajack/eslint-plugin-compat/issues/661)) ([ae98059](https://github.com/amilajack/eslint-plugin-compat/commit/ae980599942c66cc0b5fdeddfa6527d1159f1b8c))
 * added support for regexp literal ([#644](https://github.com/amilajack/eslint-plugin-compat/issues/644)) ([ee71626](https://github.com/amilajack/eslint-plugin-compat/commit/ee716260e27aa2b6d2bd8ff64268c832f588d2df))
 
+# [6.1.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.0.2...v6.1.0) (2026-01-23)
+
+
+### Bug Fixes
+
+* correct event name check in release workflow ([1b573c6](https://github.com/amilajack/eslint-plugin-compat/commit/1b573c6aeb6e531689cd1197af867e42cd10ab8d))
+* fix CI failures and improve test/release workflow separation ([#662](https://github.com/amilajack/eslint-plugin-compat/issues/662)) ([2b62f0e](https://github.com/amilajack/eslint-plugin-compat/commit/2b62f0e1f00ffd211419ea9e2fdfcaf82cfe3caf))
+
+
+### Features
+
+* add ignoreConditionalChecks setting ([#676](https://github.com/amilajack/eslint-plugin-compat/issues/676)) ([4c3f730](https://github.com/amilajack/eslint-plugin-compat/commit/4c3f730e74e370ac07e69ae15aba9070dcd63043))
+* add semantic-release automation ([#661](https://github.com/amilajack/eslint-plugin-compat/issues/661)) ([ae98059](https://github.com/amilajack/eslint-plugin-compat/commit/ae980599942c66cc0b5fdeddfa6527d1159f1b8c))
+* added support for regexp literal ([#644](https://github.com/amilajack/eslint-plugin-compat/issues/644)) ([ee71626](https://github.com/amilajack/eslint-plugin-compat/commit/ee716260e27aa2b6d2bd8ff64268c832f588d2df))
+
 # v3.8.0
 
 ### Added
