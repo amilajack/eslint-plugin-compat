@@ -50,7 +50,10 @@ function checkNotInsideIfStatementAndReport(
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
-  if (!isInsideIfStatement(node, sourceCode, context)) {
+  if (
+    context.settings?.ignoreConditionalChecks === true ||
+    !isInsideIfStatement(node, sourceCode, context)
+  ) {
     handleFailingRule(failingRule, node);
   }
 }

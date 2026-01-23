@@ -94,6 +94,19 @@ This plugin also supports linting the compatibility of ES APIs in addition to We
 }
 ```
 
+## Conditional Checks
+
+By default, feature detection like `if (fetch) { ... }` does not trigger a
+report. To lint these conditionals anyway, set the following:
+
+```jsonc
+{
+  "settings": {
+    "ignoreConditionalChecks": true,
+  },
+}
+```
+
 ## Configuring for Different Environments
 
 Browserslist allows specifying [different browser queries for multiple environments](https://github.com/browserslist/browserslist#configuring-for-different-environments). By default, this plugin targets the `production` browserslist environment. To change this default, set the `settings.browserslistOpts.env` property in your eslint config:
