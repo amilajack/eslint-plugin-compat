@@ -1,15 +1,70 @@
 import apiMetadata from "ast-metadata-inferer";
 import semver from "semver";
-import { ApiMetadata } from "ast-metadata-inferer/lib/types";
+import {
+  ApiMetadata,
+  AstNodeTypes as MetadataAstNodeTypes,
+  Language,
+  APIKind,
+} from "ast-metadata-inferer/lib/types";
+import mdnBrowserCompat from "@mdn/browser-compat-data";
 import { reverseTargetMappings } from "../helpers";
 import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
 
 const apis = apiMetadata as ApiMetadata[];
 
+/**
+ * APIs that are not yet in ast-metadata-inferer but are available in @mdn/browser-compat-data.
+ * These are manually added until ast-metadata-inferer is updated.
+ */
+const additionalApis: ApiMetadata[] = [
+  // AbortSignal.abort() static method
+  {
+    id: "AbortSignal.abort",
+    name: "abort",
+    language: Language.JS,
+    protoChain: ["AbortSignal", "abort"],
+    protoChainId: "AbortSignal.abort",
+    kind: APIKind.Web,
+    compat: mdnBrowserCompat.api.AbortSignal.abort_static
+      .__compat as ApiMetadata["compat"],
+    astNodeTypes: [MetadataAstNodeTypes.MemberExpression],
+    isBoolean: false,
+  },
+  // AbortSignal.any() static method
+  {
+    id: "AbortSignal.any",
+    name: "any",
+    language: Language.JS,
+    protoChain: ["AbortSignal", "any"],
+    protoChainId: "AbortSignal.any",
+    kind: APIKind.Web,
+    compat: mdnBrowserCompat.api.AbortSignal.any_static
+      .__compat as ApiMetadata["compat"],
+    astNodeTypes: [MetadataAstNodeTypes.MemberExpression],
+    isBoolean: false,
+  },
+  // AbortSignal.timeout() static method
+  {
+    id: "AbortSignal.timeout",
+    name: "timeout",
+    language: Language.JS,
+    protoChain: ["AbortSignal", "timeout"],
+    protoChainId: "AbortSignal.timeout",
+    kind: APIKind.Web,
+    compat: mdnBrowserCompat.api.AbortSignal.timeout_static
+      .__compat as ApiMetadata["compat"],
+    astNodeTypes: [MetadataAstNodeTypes.MemberExpression],
+    isBoolean: false,
+  },
+];
+
+// Combine apis from ast-metadata-inferer with additional manually-added APIs
+const allApis = [...apis, ...additionalApis];
+
 // @TODO Import this type from ast-metadata-inferer after migrating this project to TypeScript
 const mdnRecords: Map<string, ApiMetadata> = new Map(
-  apis.map((e) => [e.protoChainId, e])
+  allApis.map((e) => [e.protoChainId, e])
 );
 
 interface TargetIdMappings {
@@ -147,7 +202,7 @@ function getMetadataName(metadata: ApiMetadata) {
   }
 }
 
-const MdnProvider: Array<AstMetadataApiWithTargetsResolver> = apis
+const MdnProvider: Array<AstMetadataApiWithTargetsResolver> = allApis
   // Create entries for each ast node type
   .map((metadata) =>
     metadata.astNodeTypes.map((astNodeType) => ({
