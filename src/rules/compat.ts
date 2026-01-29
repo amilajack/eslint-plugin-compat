@@ -93,7 +93,8 @@ const babelConfigs = [
  * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
  */
 function isUsingTranspiler(context: Context): boolean {
-  const dir = context.filename ?? context.getFilename();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dir = (context as any).filename ?? (context as any).getFilename();
   const configPath = findUp.sync(babelConfigs, {
     cwd: dir,
   });
@@ -156,7 +157,8 @@ export default {
     schema: [{ type: "string" }],
   },
   create(context: Context): ESLint {
-    const sourceCode = context.sourceCode ?? context.getSourceCode();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sourceCode = (context as any).sourceCode ?? (context as any).getSourceCode();
 
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
@@ -183,9 +185,11 @@ export default {
       // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
         !isUsingTranspiler(context));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const browserslistDir = (context as any).filename ?? (context as any).getFilename();
     const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(
-        context.getFilename(),
+        browserslistDir,
         browserslistConfig,
         browserslistOpts
       )
@@ -287,4 +291,4 @@ export default {
       },
     };
   },
-} as Rule.RuleModule;
+} as unknown as Rule.RuleModule;
