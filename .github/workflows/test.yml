@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        eslint-version: [8, 9, next]
+        eslint-version: [8, 9, 10]
     name: Test (Node 22, ESLint ${{ matrix.eslint-version }})
     steps:
       - name: Check out Git repository
