@@ -2,7 +2,7 @@ import apiMetadata from "ast-metadata-inferer";
 import semver from "semver";
 import { ApiMetadata } from "ast-metadata-inferer/lib/types";
 import { reverseTargetMappings } from "../helpers";
-import { STANDARD_TARGET_NAME_MAPPING } from "../constants";
+import { AstNodeTypes, STANDARD_TARGET_NAME_MAPPING } from "../constants";
 import { AstMetadataApiWithTargetsResolver, Target } from "../types";
 
 const apis = apiMetadata as ApiMetadata[];
@@ -168,5 +168,37 @@ const MdnProvider: Array<AstMetadataApiWithTargetsResolver> = apis
     ...rule,
     getUnsupportedTargets,
   }));
+
+const callExpressionProtoChains = [
+  "window.requestIdleCallback",
+  "window.requestAnimationFrame",
+];
+
+for (const protoChainId of callExpressionProtoChains) {
+  const metadata = mdnRecords.get(protoChainId);
+  if (!metadata) continue;
+  const fnName = metadata.protoChain[metadata.protoChain.length - 1];
+  mdnRecords.set(fnName, metadata);
+  MdnProvider.push({
+    ...metadata,
+    name: fnName,
+    id: `${fnName}#call`,
+    protoChainId: fnName,
+    astNodeType: AstNodeTypes.CallExpression,
+    object: fnName,
+    property: undefined,
+    getUnsupportedTargets,
+  });
+  MdnProvider.unshift({
+    ...metadata,
+    name: fnName,
+    id: `${fnName}#globalThis`,
+    protoChainId: fnName,
+    astNodeType: AstNodeTypes.MemberExpression,
+    object: "globalThis",
+    property: fnName,
+    getUnsupportedTargets,
+  });
+}
 
 export default MdnProvider;
