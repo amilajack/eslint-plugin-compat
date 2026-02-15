@@ -9,6 +9,7 @@ import { Rule } from "eslint";
 import findUp from "find-up";
 import fs from "fs";
 import memoize from "lodash.memoize";
+import path from "path";
 import {
   determineTargetsFromConfig,
   lintCallExpression,
@@ -91,23 +92,27 @@ const babelConfigs = [
 
 /**
  * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
+ * Memoized by directory so multiple files in the same project reuse the result.
  */
-function isUsingTranspiler(context: Context): boolean {
-  const dir = context.filename ?? context.getFilename();
-  const configPath = findUp.sync(babelConfigs, {
-    cwd: dir,
-  });
-  if (configPath) return true;
-  const pkgPath = findUp.sync("package.json", {
-    cwd: dir,
-  });
-  // Check if babel property exists
-  if (pkgPath) {
-    const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
-    return !!pkg.babel;
-  }
-  return false;
-}
+const isUsingTranspiler = memoize(
+  (filePath: string): boolean => {
+    const dir = path.dirname(filePath);
+    const configPath = findUp.sync(babelConfigs, {
+      cwd: dir,
+    });
+    if (configPath) return true;
+    const pkgPath = findUp.sync("package.json", {
+      cwd: dir,
+    });
+    // Check if babel property exists
+    if (pkgPath) {
+      const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
+      return !!pkg.babel;
+    }
+    return false;
+  },
+  (filePath: string) => path.resolve(path.dirname(filePath))
+);
 
 type RulesFilteredByTargets = {
   CallExpression: AstMetadataApiWithTargetsResolver[];
@@ -182,7 +187,7 @@ export default {
       context.settings?.lintAllEsApis === true ||
       // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
-        !isUsingTranspiler(context));
+        !isUsingTranspiler(context.filename ?? context.getFilename()));
     const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(
         context.getFilename(),
