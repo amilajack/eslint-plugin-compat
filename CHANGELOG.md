@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.1.0...v6.2.0) (2026-02-18)
+
+
+### Features
+
+* eslint 10 support ([#677](https://github.com/amilajack/eslint-plugin-compat/issues/677)) ([6aaec34](https://github.com/amilajack/eslint-plugin-compat/commit/6aaec34a74f302db93ab4122c9057aceffc0519c))
+
 # [6.1.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.0.2...v6.1.0) (2026-01-23)
 
 
