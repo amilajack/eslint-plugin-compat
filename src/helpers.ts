@@ -202,7 +202,7 @@ export function lintMemberExpression(
     const propertyName = node.property.name;
     const failingRule = rules.find(
       (rule) =>
-        rule.object === objectName &&
+        rule.object.toLowerCase() === objectName.toLowerCase() &&
         (rule.property == null || rule.property === propertyName)
     );
     if (failingRule)
