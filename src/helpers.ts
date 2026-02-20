@@ -58,16 +58,19 @@ function checkNotInsideIfStatementAndReport(
   }
 }
 
+export type RuleMap = Map<string, AstMetadataApiWithTargetsResolver>;
+
 export function lintCallExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
+  rulesMap: RuleMap,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
-  const failingRule = rules.find((rule) => rule.object === calleeName);
+  if (!calleeName) return;
+  const failingRule = rulesMap.get(calleeName.toLowerCase());
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -81,13 +84,14 @@ export function lintCallExpression(
 export function lintNewExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithTargetsResolver>,
+  rulesMap: RuleMap,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node.callee) return;
   const calleeName = node.callee.name;
-  const failingRule = rules.find((rule) => rule.object === calleeName);
+  if (!calleeName) return;
+  const failingRule = rulesMap.get(calleeName.toLowerCase());
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -101,14 +105,12 @@ export function lintNewExpression(
 export function lintExpressionStatement(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
+  rulesMap: RuleMap,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
-  const failingRule = rules.find(
-    (rule) => rule.object === node?.expression?.name
-  );
+  const failingRule = rulesMap.get(node.expression!.name.toLowerCase());
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -129,17 +131,18 @@ function checkRegexpLiteral(node: ESLintNode): boolean {
 export function lintLiteral(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: AstMetadataApiWithTargetsResolver[],
+  rulesMap: RuleMap,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
   const isRegexpLiteral = checkRegexpLiteral(node);
-  const failingRule = rules.find((rule) =>
-    rule.syntaxes?.some(
-      (syntax) => (isRegexpLiteral ? node.raw.includes(syntax) : false) // non-regexp literals are not supported yet
-    )
-  );
-  if (failingRule) handleFailingRule(failingRule, node);
+  if (!isRegexpLiteral) return;
+  for (const [syntax, rule] of rulesMap) {
+    if (node.raw.includes(syntax)) {
+      handleFailingRule(rule, node);
+      return;
+    }
+  }
 }
 
 function isStringLiteral(node: ESLintNode): boolean {
@@ -168,7 +171,7 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
-  rules: Array<AstMetadataApiWithTargetsResolver>,
+  rulesMap: RuleMap,
   sourceCode: SourceCode,
   node: ESLintNode
 ) {
@@ -185,9 +188,7 @@ export function lintMemberExpression(
         ? rawProtoChain.slice(1)
         : rawProtoChain;
     const protoChainId = protoChain.join(".");
-    const failingRule = rules.find(
-      (rule) => rule.protoChainId === protoChainId
-    );
+    const failingRule = rulesMap.get(protoChainId.toLowerCase());
     if (failingRule) {
       checkNotInsideIfStatementAndReport(
         context,
@@ -200,11 +201,10 @@ export function lintMemberExpression(
   } else {
     const objectName = node.object.name;
     const propertyName = node.property.name;
-    const failingRule = rules.find(
-      (rule) =>
-        rule.object.toLowerCase() === objectName.toLowerCase() &&
-        (rule.property == null || rule.property === propertyName)
-    );
+    if (!objectName || !propertyName) return;
+    const failingRule =
+      rulesMap.get(`${objectName}.${propertyName}`.toLowerCase()) ??
+      rulesMap.get(objectName.toLowerCase());
     if (failingRule)
       checkNotInsideIfStatementAndReport(
         context,

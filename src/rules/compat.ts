@@ -17,6 +17,7 @@ import {
   lintMemberExpression,
   lintNewExpression,
   parseBrowsersListVersion,
+  type RuleMap,
 } from "../helpers"; // will be deprecated and introduced to this file
 import { nodes } from "../providers";
 import {
@@ -110,22 +111,23 @@ function isUsingTranspiler(context: Context): boolean {
   return false;
 }
 
-type RulesFilteredByTargets = {
-  CallExpression: AstMetadataApiWithTargetsResolver[];
-  NewExpression: AstMetadataApiWithTargetsResolver[];
-  MemberExpression: AstMetadataApiWithTargetsResolver[];
-  ExpressionStatement: AstMetadataApiWithTargetsResolver[];
-  Literal: AstMetadataApiWithTargetsResolver[];
+type RuleMapsForTargets = {
+  callExpression: RuleMap;
+  newExpression: RuleMap;
+  expressionStatement: RuleMap;
+  memberExpression: RuleMap;
+  literal: RuleMap;
 };
 
 /**
  * A small optimization that only lints APIs that are not supported by targeted browsers.
  * For example, if the user is targeting chrome 50, which supports the fetch API, it is
  * wasteful to lint calls to fetch.
+ * Returns Maps for O(1) rule lookup per node (first match wins).
  */
 const getRulesForTargets = memoize(
-  (targetsJSON: string, lintAllEsApis: boolean): RulesFilteredByTargets => {
-    const result = {
+  (targetsJSON: string, lintAllEsApis: boolean): RuleMapsForTargets => {
+    const byType = {
       CallExpression: [] as AstMetadataApiWithTargetsResolver[],
       NewExpression: [] as AstMetadataApiWithTargetsResolver[],
       MemberExpression: [] as AstMetadataApiWithTargetsResolver[],
@@ -138,10 +140,51 @@ const getRulesForTargets = memoize(
       .filter((node) => (lintAllEsApis ? true : node.kind !== "es"))
       .forEach((node) => {
         if (!node.getUnsupportedTargets(node, targets).length) return;
-        result[node.astNodeType].push(node);
+        byType[node.astNodeType].push(node);
       });
 
-    return result;
+    const callExpression = new Map<string, AstMetadataApiWithTargetsResolver>();
+    for (const rule of byType.CallExpression) {
+      const key = rule.object.toLowerCase();
+      if (!callExpression.has(key)) callExpression.set(key, rule);
+    }
+    const newExpression = new Map<string, AstMetadataApiWithTargetsResolver>();
+    for (const rule of byType.NewExpression) {
+      const key = rule.object.toLowerCase();
+      if (!newExpression.has(key)) newExpression.set(key, rule);
+    }
+    const expressionStatement = new Map<string, AstMetadataApiWithTargetsResolver>();
+    for (const rule of [...byType.MemberExpression, ...byType.CallExpression]) {
+      const key = rule.object.toLowerCase();
+      if (!expressionStatement.has(key))
+        expressionStatement.set(key, rule);
+    }
+    const memberExpression = new Map<string, AstMetadataApiWithTargetsResolver>();
+    for (const rule of [
+      ...byType.MemberExpression,
+      ...byType.CallExpression,
+      ...byType.NewExpression,
+    ]) {
+      const protoChainKey = rule.protoChainId.toLowerCase();
+      if (!memberExpression.has(protoChainKey))
+        memberExpression.set(protoChainKey, rule);
+      const key = (rule.property ? `${rule.object}.${rule.property}` : rule.object).toLowerCase();
+      if (!memberExpression.has(key)) memberExpression.set(key, rule);
+    }
+    const literal = new Map<string, AstMetadataApiWithTargetsResolver>();
+    for (const rule of byType.Literal) {
+      for (const syntax of rule.syntaxes ?? []) {
+        if (!literal.has(syntax)) literal.set(syntax, rule);
+      }
+    }
+
+    return {
+      callExpression,
+      newExpression,
+      expressionStatement,
+      memberExpression,
+      literal,
+    };
   }
 );
 
@@ -198,7 +241,7 @@ export default {
     );
 
     // Stringify to support memoization; browserslistConfig is always an array of new objects.
-    const targetedRules = getRulesForTargets(
+    const ruleMaps = getRulesForTargets(
       JSON.stringify(browserslistTargets),
       lintAllEsApis
     );
@@ -232,39 +275,35 @@ export default {
         null,
         context,
         handleFailingRule,
-        targetedRules.CallExpression,
+        ruleMaps.callExpression,
         sourceCode
       ),
       NewExpression: lintNewExpression.bind(
         null,
         context,
         handleFailingRule,
-        targetedRules.NewExpression,
+        ruleMaps.newExpression,
         sourceCode
       ),
       ExpressionStatement: lintExpressionStatement.bind(
         null,
         context,
         handleFailingRule,
-        [...targetedRules.MemberExpression, ...targetedRules.CallExpression],
+        ruleMaps.expressionStatement,
         sourceCode
       ),
       MemberExpression: lintMemberExpression.bind(
         null,
         context,
         handleFailingRule,
-        [
-          ...targetedRules.MemberExpression,
-          ...targetedRules.CallExpression,
-          ...targetedRules.NewExpression,
-        ],
+        ruleMaps.memberExpression,
         sourceCode
       ),
       Literal: lintLiteral.bind(
         null,
         context,
         handleFailingRule,
-        targetedRules.Literal,
+        ruleMaps.literal,
         sourceCode
       ),
       // Keep track of all the defined variables. Do not report errors for nodes that are not defined
