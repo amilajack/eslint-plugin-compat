@@ -161,7 +161,9 @@ export default {
     schema: [{ type: "string" }],
   },
   create(context: Context): ESLint {
-    const sourceCode = context.sourceCode ?? context.getSourceCode();
+    const sourceCode =
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (context as any).sourceCode ?? (context as any).getSourceCode();
 
     // Determine lowest targets from browserslist config, which reads user's
     // package.json config section. Use config from eslintrc for testing purposes
@@ -183,14 +185,17 @@ export default {
     const browserslistOpts: BrowsersListOpts | undefined =
       context.settings?.browserslistOpts;
 
+    const browserslistDir =
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (context as any).filename ?? (context as any).getFilename();
     const lintAllEsApis: boolean =
       context.settings?.lintAllEsApis === true ||
       // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
-        !isUsingTranspiler(context.filename ?? context.getFilename()));
+        !isUsingTranspiler(browserslistDir));
     const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(
-        context.getFilename(),
+        browserslistDir,
         browserslistConfig,
         browserslistOpts
       )
@@ -209,6 +214,21 @@ export default {
 
     const errors: Error[] = [];
 
+    // Cache getUnsupportedTargets per rule; targets are fixed for this context.
+    const unsupportedTargetsByRule = new Map<string, string>();
+    const getUnsupportedTargetsMessage = (
+      rule: AstMetadataApiWithTargetsResolver
+    ): string => {
+      let message = unsupportedTargetsByRule.get(rule.id);
+      if (message === undefined) {
+        message = rule
+          .getUnsupportedTargets(rule, browserslistTargets)
+          .join(", ");
+        unsupportedTargetsByRule.set(rule.id, message);
+      }
+      return message;
+    };
+
     const handleFailingRule: HandleFailingRule = (
       node: AstMetadataApiWithTargetsResolver,
       eslintNode: ESLintNode
@@ -219,7 +239,7 @@ export default {
         message: [
           generateErrorName(node),
           "is not supported in",
-          node.getUnsupportedTargets(node, browserslistTargets).join(", "),
+          getUnsupportedTargetsMessage(node),
         ].join(" "),
       });
     };
@@ -292,4 +312,4 @@ export default {
       },
     };
   },
-} as Rule.RuleModule;
+} as unknown as Rule.RuleModule;
