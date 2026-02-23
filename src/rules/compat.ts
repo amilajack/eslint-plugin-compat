@@ -9,6 +9,7 @@ import { Rule } from "eslint";
 import findUp from "find-up";
 import fs from "fs";
 import memoize from "lodash.memoize";
+import path from "path";
 import {
   determineTargetsFromConfig,
   lintCallExpression,
@@ -91,24 +92,27 @@ const babelConfigs = [
 
 /**
  * Determine if a user has a babel config, which we use to infer if the linted code is polyfilled.
+ * Memoized by directory so multiple files in the same project reuse the result.
  */
-function isUsingTranspiler(context: Context): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dir = (context as any).filename ?? (context as any).getFilename();
-  const configPath = findUp.sync(babelConfigs, {
-    cwd: dir,
-  });
-  if (configPath) return true;
-  const pkgPath = findUp.sync("package.json", {
-    cwd: dir,
-  });
-  // Check if babel property exists
-  if (pkgPath) {
-    const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
-    return !!pkg.babel;
-  }
-  return false;
-}
+const isUsingTranspiler = memoize(
+  (filePath: string): boolean => {
+    const dir = path.dirname(filePath);
+    const configPath = findUp.sync(babelConfigs, {
+      cwd: dir,
+    });
+    if (configPath) return true;
+    const pkgPath = findUp.sync("package.json", {
+      cwd: dir,
+    });
+    // Check if babel property exists
+    if (pkgPath) {
+      const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
+      return !!pkg.babel;
+    }
+    return false;
+  },
+  (filePath: string) => path.resolve(path.dirname(filePath))
+);
 
 type RulesFilteredByTargets = {
   CallExpression: AstMetadataApiWithTargetsResolver[];
@@ -181,14 +185,14 @@ export default {
     const browserslistOpts: BrowsersListOpts | undefined =
       context.settings?.browserslistOpts;
 
+    const browserslistDir =
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (context as any).filename ?? (context as any).getFilename();
     const lintAllEsApis: boolean =
       context.settings?.lintAllEsApis === true ||
       // Attempt to infer polyfilling of ES APIs from babel config
       (!context.settings?.polyfills?.includes("es:all") &&
-        !isUsingTranspiler(context));
-    const browserslistDir =
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (context as any).filename ?? (context as any).getFilename();
+        !isUsingTranspiler(browserslistDir));
     const browserslistTargets = parseBrowsersListVersion(
       determineTargetsFromConfig(
         browserslistDir,
@@ -210,6 +214,21 @@ export default {
 
     const errors: Error[] = [];
 
+    // Cache getUnsupportedTargets per rule; targets are fixed for this context.
+    const unsupportedTargetsByRule = new Map<string, string>();
+    const getUnsupportedTargetsMessage = (
+      rule: AstMetadataApiWithTargetsResolver
+    ): string => {
+      let message = unsupportedTargetsByRule.get(rule.id);
+      if (message === undefined) {
+        message = rule
+          .getUnsupportedTargets(rule, browserslistTargets)
+          .join(", ");
+        unsupportedTargetsByRule.set(rule.id, message);
+      }
+      return message;
+    };
+
     const handleFailingRule: HandleFailingRule = (
       node: AstMetadataApiWithTargetsResolver,
       eslintNode: ESLintNode
@@ -220,7 +239,7 @@ export default {
         message: [
           generateErrorName(node),
           "is not supported in",
-          node.getUnsupportedTargets(node, browserslistTargets).join(", "),
+          getUnsupportedTargetsMessage(node),
         ].join(" "),
       });
     };
