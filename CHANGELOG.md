@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.2.1...v7.0.0) (2026-02-25)
+
+
+* feat!: drop support for ESLint 4-8 ([259bc2e](https://github.com/amilajack/eslint-plugin-compat/commit/259bc2e89ef908a9f7eea4edd11ccbdd020cb7aa))
+
+
+### BREAKING CHANGES
+
+* Minimum supported ESLint version is now 9.0.0.
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
 ## [6.2.1](https://github.com/amilajack/eslint-plugin-compat/compare/v6.2.0...v6.2.1) (2026-02-25)
 
 
