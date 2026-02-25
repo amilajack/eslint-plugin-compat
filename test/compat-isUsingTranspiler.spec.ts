@@ -53,7 +53,9 @@ describe("isUsingTranspiler (babel config detection)", () => {
   });
 
   it("reports ES APIs when lintAllEsApis is true (backwards compatible behavior)", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "compat-lintAllEsApis-"));
+    const tmpDir = await fs.mkdtemp(
+      path.join(os.tmpdir(), "compat-lintAllEsApis-")
+    );
     try {
       const filePath = path.join(tmpDir, "index.js");
       await fs.writeFile(filePath, codeWithEsApi);
