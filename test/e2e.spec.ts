@@ -727,7 +727,6 @@ ruleTester.run("compat", rule, {
         {
           message:
             "Crypto.randomUUID() is not supported in Safari 14, Chrome 52",
-          type: "MemberExpression",
         },
       ],
     },
