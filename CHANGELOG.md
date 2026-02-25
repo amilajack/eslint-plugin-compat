@@ -1,3 +1,16 @@
+## [6.2.1](https://github.com/amilajack/eslint-plugin-compat/compare/v6.2.0...v6.2.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* case-insensitive match for lowercase browser globals ([#649](https://github.com/amilajack/eslint-plugin-compat/issues/649)) ([#681](https://github.com/amilajack/eslint-plugin-compat/issues/681)) ([367fc02](https://github.com/amilajack/eslint-plugin-compat/commit/367fc025ba41a9e117f1b589961bf2134015a7ef))
+* format test files with prettier ([4f47dd4](https://github.com/amilajack/eslint-plugin-compat/commit/4f47dd4168194185148a20d3c6524675c1b177a8))
+
+
+### Performance Improvements
+
+* compat ([#680](https://github.com/amilajack/eslint-plugin-compat/issues/680)) ([9c21fdd](https://github.com/amilajack/eslint-plugin-compat/commit/9c21fdd266732dd76be434634e4519fae52a8cc4))
+
 # [6.2.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.1.0...v6.2.0) (2026-02-18)
 
 
