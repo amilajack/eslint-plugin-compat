@@ -15,23 +15,23 @@ const eslintVersion = parseInt(
 const config: any =
   eslintVersion >= 9
     ? {
-        // ESLint 9+ flat config
-        languageOptions: {
-          parser,
-          parserOptions: { ecmaVersion: 2020, sourceType: "module" },
-        },
-        settings: {
-          lintAllEsApis: true,
-        },
-      }
-    : {
-        // ESLint 8 and below
-        parser: require.resolve("@typescript-eslint/parser"),
+      // ESLint 9+ flat config
+      languageOptions: {
+        parser,
         parserOptions: { ecmaVersion: 2020, sourceType: "module" },
-        settings: {
-          lintAllEsApis: true,
-        },
-      };
+      },
+      settings: {
+        lintAllEsApis: true,
+      },
+    }
+    : {
+      // ESLint 8 and below
+      parser: require.resolve("@typescript-eslint/parser"),
+      parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+      settings: {
+        lintAllEsApis: true,
+      },
+    };
 
 const ruleTester = new eslint.RuleTester(config);
 
@@ -727,6 +727,69 @@ ruleTester.run("compat", rule, {
         {
           message:
             "Crypto.randomUUID() is not supported in Safari 14, Chrome 52",
+        },
+      ],
+    },
+    {
+      code: "['some', 'arrays'].at(-1)",
+      settings: { browsers: ["safari 11"] },
+      errors: [
+        {
+          message: "Array.at() is not supported in Safari 11",
+        },
+      ],
+    },
+    {
+      code: "[].includes()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "Array.includes() is not supported in IE 11",
+        },
+      ],
+    },
+    {
+      code: "'strsd'.includes()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "String.includes() is not supported in IE 11",
+        },
+      ],
+    },
+    {
+      code: "[1, 2, [3, 4]].flat()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "Array.flat() is not supported in IE 11",
+        },
+      ],
+    },
+    {
+      code: "[1,2,3].flatMap(x => [x, x*2])",
+      settings: { browsers: ["chrome 68"] },
+      errors: [
+        {
+          message: "Array.flatMap() is not supported in Chrome 68",
+        },
+      ],
+    },
+    {
+      code: "Object.fromEntries([])",
+      settings: { browsers: ["chrome 72"] },
+      errors: [
+        {
+          message: "Object.fromEntries() is not supported in Chrome 72",
+        },
+      ],
+    },
+    {
+      code: "'hello'.replaceAll('l', 'r')",
+      settings: { browsers: ["chrome 84"] },
+      errors: [
+        {
+          message: "String.replaceAll() is not supported in Chrome 84",
         },
       ],
     },
