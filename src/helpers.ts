@@ -1,5 +1,6 @@
 /* eslint no-nested-ternary: off */
 import browserslist from "browserslist";
+import globals from "globals";
 import { AstNodeTypes, TargetNameMappings } from "./constants";
 import {
   AstMetadataApiWithTargetsResolver,
@@ -165,6 +166,8 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
   return [...protoChain, node.property!.name];
 }
 
+const browserGlobals = new Set(Object.keys(globals.browser));
+
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
@@ -200,11 +203,20 @@ export function lintMemberExpression(
   } else {
     const objectName = node.object.name;
     const propertyName = node.property.name;
-    const failingRule = rules.find(
-      (rule) =>
-        rule.object.toLowerCase() === objectName.toLowerCase() &&
+    const isBrowserGlobal = browserGlobals.has(objectName);
+    const objectNameLower = objectName.toLowerCase();
+
+    const failingRule = rules.find((rule) => {
+      // Match case-insensitively IF the objectName was case-sentively found in browserGlobals
+      const objectNameMatches = isBrowserGlobal
+        ? rule.object.toLowerCase() === objectNameLower
+        : rule.object === objectName;
+      return (
+        objectNameMatches &&
         (rule.property == null || rule.property === propertyName)
-    );
+      );
+    });
+
     if (failingRule)
       checkNotInsideIfStatementAndReport(
         context,
