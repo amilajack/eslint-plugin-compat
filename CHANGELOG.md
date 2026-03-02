@@ -1,3 +1,10 @@
+## [7.0.1](https://github.com/amilajack/eslint-plugin-compat/compare/v7.0.0...v7.0.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* Case-insensitive globals matching ([#684](https://github.com/amilajack/eslint-plugin-compat/issues/684)) ([#685](https://github.com/amilajack/eslint-plugin-compat/issues/685)) ([90ceb71](https://github.com/amilajack/eslint-plugin-compat/commit/90ceb71b6d2bcacdfbdf1e8ab37a21643ff52e51))
+
 # [7.0.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.2.1...v7.0.0) (2026-02-25)
 
 
