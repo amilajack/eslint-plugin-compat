@@ -70,7 +70,6 @@
     ]
   },
   "dependencies": {
-    "@mdn/browser-compat-data": "^6.1.1",
     "ast-metadata-inferer": "^0.8.1",
     "browserslist": "^4.25.2",
     "find-up": "^5.0.0",
