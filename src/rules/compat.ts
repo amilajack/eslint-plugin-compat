@@ -293,6 +293,8 @@ export default {
           if (
             type === "Property" || // ex. const { Set } = require('immutable');
             type === "FunctionDeclaration" || // ex. function Set() {}
+            type === "FunctionExpression" || // ex. arr.map(function(Set) {})
+            type === "ArrowFunctionExpression" || // ex. arr.map(Set => Set.id)
             type === "VariableDeclarator" || // ex. const Set = () => {}
             type === "ClassDeclaration" || // ex. class Set {}
             type === "ImportDefaultSpecifier" || // ex. import Set from 'set';

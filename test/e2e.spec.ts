@@ -246,6 +246,36 @@ ruleTester.run("compat", rule, {
       `,
       settings: { browsers: ["ie 9"] },
     },
+    // Arrow function parameter shadowing
+    {
+      code: `
+        const items = [1, 2, 3];
+        items.map(fetch => fetch.toString());
+      `,
+      settings: { browsers: ["ie 9"] },
+    },
+    {
+      code: `
+        const schedulers = [{ id: '1', name: 'A' }];
+        schedulers.map(scheduler => scheduler.name);
+      `,
+      settings: { browsers: ["safari 15.6"] },
+    },
+    {
+      code: `
+        const schedulers = [{ id: '1', name: 'A' }];
+        schedulers.flatMap(scheduler => scheduler.managedByRoleIds);
+      `,
+      settings: { browsers: ["safari 15.6"] },
+    },
+    // Function expression parameter shadowing
+    {
+      code: `
+        const items = [1, 2, 3];
+        items.map(function(fetch) { return fetch.toString(); });
+      `,
+      settings: { browsers: ["ie 9"] },
+    },
     {
       code: "document.documentElement()",
       settings: { browsers: ["Safari 11", "Opera 57", "Edge 17"] },
