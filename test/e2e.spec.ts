@@ -89,6 +89,45 @@ ruleTester.run("compat", rule, {
       code: "window",
       settings: { browsers: ["ExplorerMobile 10"] },
     },
+    // Early return guard patterns
+    {
+      code: `
+        function setup() {
+          if (!('serviceWorker' in navigator)) { return; }
+          navigator.serviceWorker.register('/sw.js');
+        }
+      `,
+      settings: { browsers: ["safari 10.1"] },
+    },
+    {
+      code: `
+        function setup() {
+          if (!navigator.serviceWorker) { return; }
+          navigator.serviceWorker.register('/sw.js');
+        }
+      `,
+      settings: { browsers: ["safari 10.1"] },
+    },
+    {
+      code: `
+        function init() {
+          if (!window.fetch) {
+            throw new Error('fetch not supported');
+          }
+          fetch('/api/data');
+        }
+      `,
+      settings: { browsers: ["ie 9"] },
+    },
+    {
+      code: `
+        function init() {
+          if (!fetch) return;
+          fetch('/api/data');
+        }
+      `,
+      settings: { browsers: ["ie 9"] },
+    },
     {
       code: "document.fonts()",
       settings: { browsers: ["edge 79"] },
@@ -374,6 +413,41 @@ ruleTester.run("compat", rule, {
       errors: [
         {
           message: "fetch is not supported in IE 9",
+        },
+      ],
+    },
+    // Early return with unrelated guard should NOT suppress
+    {
+      code: `
+        function setup() {
+          if (!someCondition) { return; }
+          navigator.serviceWorker.register('/sw.js');
+        }
+      `,
+      settings: { browsers: ["safari 10.1"] },
+      errors: [
+        {
+          message:
+            "navigator.serviceWorker() is not supported in Safari 10.1",
+        },
+      ],
+    },
+    // ignoreConditionalChecks overrides early return guards
+    {
+      code: `
+        function setup() {
+          if (!('serviceWorker' in navigator)) { return; }
+          navigator.serviceWorker.register('/sw.js');
+        }
+      `,
+      settings: {
+        browsers: ["safari 10.1"],
+        ignoreConditionalChecks: true,
+      },
+      errors: [
+        {
+          message:
+            "navigator.serviceWorker() is not supported in Safari 10.1",
         },
       ],
     },
