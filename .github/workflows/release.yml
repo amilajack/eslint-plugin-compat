@@ -33,9 +33,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: [authorize]
     if: |
-      always() && 
+      always() &&
       (needs.authorize.result == 'success' || needs.authorize.result == 'skipped') &&
       (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write # Required for npm trusted publishing (OIDC)
 
     steps:
       - name: Checkout
@@ -47,8 +52,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Upgrade npm # Trusted publishing requires npm >= 11.5.1
+        run: npm install -g npm@11
 
       - name: Install dependencies
         run: npm ci
@@ -57,12 +66,10 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dryRun == 'true'}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release --dry-run
 
       - name: Release # Uses release.config.js
         if: ${{ github.event_name == 'workflow_run' || (github.event_name == 'workflow_dispatch' && github.event.inputs.dryRun == 'false')}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release

@@ -105,7 +105,7 @@
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "prettier": "^3.3.2",
-    "semantic-release": "^22.0.12",
+    "semantic-release": "^24.2.9",
     "simple-git": "^3.25.0",
     "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
@@ -116,7 +116,7 @@
     "eslint": "^9.0.0 || ^10.0.0"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": ">=22.x"
   },
   "collective": {
     "type": "opencollective",
