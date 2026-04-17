@@ -21,25 +21,11 @@ npm install eslint-plugin-compat
 
 ### 2. Update ESLint Config
 
-#### New Config (`eslint.config.mjs`)
-
 ```js
+// eslint.config.mjs
 import compat from "eslint-plugin-compat";
 
 export default [compat.configs["flat/recommended"]];
-```
-
-#### Legacy Config (`.eslintrc.json`)
-
-```jsonc
-{
-  "plugins": ["compat"],
-  "extends": ["plugin:compat/recommended"],
-  "env": {
-    "browser": true,
-  },
-  // ...
-}
 ```
 
 ### 3. Configure Target Browsers

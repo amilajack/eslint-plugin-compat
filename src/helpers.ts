@@ -1,5 +1,6 @@
 /* eslint no-nested-ternary: off */
 import browserslist from "browserslist";
+import globals from "globals";
 import { AstNodeTypes, TargetNameMappings } from "./constants";
 import {
   AstMetadataApiWithTargetsResolver,
@@ -168,6 +169,8 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
   return [...protoChain, node.property!.name];
 }
 
+const browserGlobals = new Set(Object.keys(globals.browser));
+
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
@@ -202,9 +205,17 @@ export function lintMemberExpression(
     const objectName = node.object.name;
     const propertyName = node.property.name;
     if (!objectName || !propertyName) return;
-    const failingRule =
+    const isBrowserGlobal = browserGlobals.has(objectName);
+    let failingRule =
       rulesMap.get(`${objectName}.${propertyName}`.toLowerCase()) ??
       rulesMap.get(objectName.toLowerCase());
+    if (
+      failingRule &&
+      !isBrowserGlobal &&
+      failingRule.object !== objectName
+    ) {
+      failingRule = undefined;
+    }
     if (failingRule)
       checkNotInsideIfStatementAndReport(
         context,

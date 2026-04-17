@@ -1,3 +1,35 @@
+## [7.0.1](https://github.com/amilajack/eslint-plugin-compat/compare/v7.0.0...v7.0.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* Case-insensitive globals matching ([#684](https://github.com/amilajack/eslint-plugin-compat/issues/684)) ([#685](https://github.com/amilajack/eslint-plugin-compat/issues/685)) ([90ceb71](https://github.com/amilajack/eslint-plugin-compat/commit/90ceb71b6d2bcacdfbdf1e8ab37a21643ff52e51))
+
+# [7.0.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.2.1...v7.0.0) (2026-02-25)
+
+
+* feat!: drop support for ESLint 4-8 ([259bc2e](https://github.com/amilajack/eslint-plugin-compat/commit/259bc2e89ef908a9f7eea4edd11ccbdd020cb7aa))
+
+
+### BREAKING CHANGES
+
+* Minimum supported ESLint version is now 9.0.0.
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
+## [6.2.1](https://github.com/amilajack/eslint-plugin-compat/compare/v6.2.0...v6.2.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* case-insensitive match for lowercase browser globals ([#649](https://github.com/amilajack/eslint-plugin-compat/issues/649)) ([#681](https://github.com/amilajack/eslint-plugin-compat/issues/681)) ([367fc02](https://github.com/amilajack/eslint-plugin-compat/commit/367fc025ba41a9e117f1b589961bf2134015a7ef))
+* format test files with prettier ([4f47dd4](https://github.com/amilajack/eslint-plugin-compat/commit/4f47dd4168194185148a20d3c6524675c1b177a8))
+
+
+### Performance Improvements
+
+* compat ([#680](https://github.com/amilajack/eslint-plugin-compat/issues/680)) ([9c21fdd](https://github.com/amilajack/eslint-plugin-compat/commit/9c21fdd266732dd76be434634e4519fae52a8cc4))
+
 # [6.2.0](https://github.com/amilajack/eslint-plugin-compat/compare/v6.1.0...v6.2.0) (2026-02-18)
 
 

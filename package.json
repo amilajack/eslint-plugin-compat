@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-compat",
-  "version": "6.2.0",
+  "version": "7.0.1",
   "description": "Lint browser compatibility of API used",
   "keywords": [
     "eslint",
@@ -73,7 +73,6 @@
     "@mdn/browser-compat-data": "^6.1.1",
     "ast-metadata-inferer": "^0.8.1",
     "browserslist": "^4.25.2",
-    "caniuse-lite": "^1.0.30001687",
     "find-up": "^5.0.0",
     "globals": "^15.7.0",
     "lodash.memoize": "^4.1.2",
@@ -106,7 +105,7 @@
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "prettier": "^3.3.2",
-    "semantic-release": "^22.0.12",
+    "semantic-release": "^24.2.9",
     "simple-git": "^3.25.0",
     "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
@@ -114,7 +113,7 @@
     "typescript-eslint": "^8.56.0"
   },
   "peerDependencies": {
-    "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0"
+    "eslint": "^9.0.0 || ^10.0.0"
   },
   "engines": {
     "node": ">=18.x"

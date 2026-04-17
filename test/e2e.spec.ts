@@ -93,6 +93,51 @@ ruleTester.run("compat", rule, {
       code: "document.fonts()",
       settings: { browsers: ["edge 79"] },
     },
+    {
+      code: `
+        import * as serviceWorker from './serviceWorker';
+        serviceWorker.register(false);
+      `,
+      settings: { browsers: ["chrome 52", "android 145"] },
+    },
+    {
+      code: `
+        navigator.permissions
+          .query({ name: 'local-network-access' })
+          .then((permissionStatus) => {
+            permissionStatus.addEventListener('change', () => {});
+          });
+      `,
+      settings: { browsers: ["chrome 52", "android 145"] },
+    },
+    {
+      code: `
+        const abortController = new AbortController();
+        abortController.abort();
+      `,
+      settings: { browsers: ["chrome 70"] },
+    },
+    {
+      code: `
+        const mutationObserver = new MutationObserver(() => {});
+        mutationObserver.observe(document.body, { childList: true });
+      `,
+      settings: { browsers: ["chrome 52"] },
+    },
+    {
+      code: `
+        const intersectionObserver = new IntersectionObserver(() => {});
+        intersectionObserver.observe(document.body);
+      `,
+      settings: { browsers: ["chrome 70"] },
+    },
+    {
+      code: `
+        const IntersectionObserver = "test";
+        IntersectionObserver.trim();
+      `,
+      settings: { browsers: ["chrome 30"] },
+    },
     // Import cases
     {
       code: `
@@ -725,10 +770,124 @@ ruleTester.run("compat", rule, {
       settings: { browsers: ["chrome 52", "safari 14"] },
       errors: [
         {
-          message: "Crypto.randomUUID() is not supported in Safari 14, Chrome 52",
-          type: "MemberExpression",
+          message:
+            "Crypto.randomUUID() is not supported in Safari 14, Chrome 52",
         },
       ],
-    },    
+    },
+    {
+      code: "[].includes()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "Array.includes() is not supported in IE 11",
+        },
+      ],
+    },
+    {
+      code: "'strsd'.includes()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "String.includes() is not supported in IE 11",
+        },
+      ],
+    },
+    {
+      code: "[1, 2, [3, 4]].flat()",
+      settings: { browsers: ["ie 11"] },
+      errors: [
+        {
+          message: "Array.flat() is not supported in IE 11",
+        },
+      ],
+    },
+    {
+      code: "[1,2,3].flatMap(x => [x, x])",
+      settings: { browsers: ["chrome 68"] },
+      errors: [
+        {
+          message: "Array.flatMap() is not supported in Chrome 68",
+        },
+      ],
+    },
+    {
+      code: "Object.fromEntries([])",
+      settings: { browsers: ["chrome 72"] },
+      errors: [
+        {
+          message: "Object.fromEntries() is not supported in Chrome 72",
+        },
+      ],
+    },
+    {
+      code: "'text'.replaceAll('x', 's')",
+      settings: { browsers: ["chrome 84"] },
+      errors: [
+        {
+          message: "String.replaceAll() is not supported in Chrome 84",
+        },
+      ],
+    },
+    {
+      code: `navigator.serviceWorker.register("/service_worker.js");`,
+      settings: { browsers: ["chrome 39"] },
+      errors: [
+        {
+          message: "navigator.serviceWorker() is not supported in Chrome 39",
+        },
+      ],
+    },
+    {
+      code: `
+        const abortController = new AbortController();
+        abortController.abort();
+      `,
+      settings: { browsers: ["chrome 65"] },
+      errors: [
+        {
+          message: "AbortController is not supported in Chrome 65",
+        },
+      ],
+    },
+    {
+      code: `
+        const mutationObserver = new MutationObserver(() => {});
+        mutationObserver.observe(document.body, { childList: true });
+      `,
+      settings: { browsers: ["chrome 25"] },
+      errors: [
+        {
+          message: "MutationObserver is not supported in Chrome 25",
+        },
+      ],
+    },
+    {
+      code: `
+        const intersectionObserver = new IntersectionObserver(() => {});
+        intersectionObserver.observe(document.body);
+      `,
+      settings: { browsers: ["chrome 50"] },
+      errors: [
+        {
+          message: "IntersectionObserver is not supported in Chrome 50",
+        },
+      ],
+    },
+    {
+      code: `
+        navigator.permissions
+          .query({ name: 'local-network-access' })
+          .then((permissionStatus) => {
+            permissionStatus.addEventListener('change', () => {});
+          });
+      `,
+      settings: { browsers: ["chrome 41"] },
+      errors: [
+        {
+          message: "navigator.permissions() is not supported in Chrome 41",
+        },
+      ],
+    },
   ],
 });
