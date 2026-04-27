@@ -71,7 +71,7 @@ export function lintCallExpression(
   if (!node.callee) return;
   const calleeName = node.callee.name;
   if (!calleeName) return;
-  const failingRule = rulesMap.get(calleeName.toLowerCase());
+  const failingRule = rulesMap.get(calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -92,7 +92,7 @@ export function lintNewExpression(
   if (!node.callee) return;
   const calleeName = node.callee.name;
   if (!calleeName) return;
-  const failingRule = rulesMap.get(calleeName.toLowerCase());
+  const failingRule = rulesMap.get(calleeName);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -111,7 +111,7 @@ export function lintExpressionStatement(
   node: ESLintNode
 ) {
   if (!node?.expression?.name) return;
-  const failingRule = rulesMap.get(node.expression!.name.toLowerCase());
+  const failingRule = rulesMap.get(node.expression!.name);
   if (failingRule)
     checkNotInsideIfStatementAndReport(
       context,
@@ -171,6 +171,31 @@ function protoChainFromMemberExpression(node: ESLintNode): string[] {
 
 const browserGlobals = new Set(Object.keys(globals.browser));
 
+/**
+ * Secondary lookup for built-in `obj.prop` when the map was keyed with different
+ * casing for `object` (e.g. `Document` in metadata vs `document` in the AST). The
+ * property name must still match the source exactly.
+ */
+function findMemberRuleByGlobalObjectCasing(
+  rulesMap: RuleMap,
+  objectName: string,
+  propertyName: string
+): AstMetadataApiWithTargetsResolver | undefined {
+  for (const [k, rule] of rulesMap) {
+    const dot = k.indexOf(".");
+    if (dot === -1) continue;
+    const kObj = k.slice(0, dot);
+    const kProp = k.slice(dot + 1);
+    if (
+      kObj.toLowerCase() === objectName.toLowerCase() &&
+      kProp === propertyName
+    ) {
+      return rule;
+    }
+  }
+  return undefined;
+}
+
 export function lintMemberExpression(
   context: Context,
   handleFailingRule: HandleFailingRule,
@@ -191,7 +216,7 @@ export function lintMemberExpression(
         ? rawProtoChain.slice(1)
         : rawProtoChain;
     const protoChainId = protoChain.join(".");
-    const failingRule = rulesMap.get(protoChainId.toLowerCase());
+    const failingRule = rulesMap.get(protoChainId);
     if (failingRule) {
       checkNotInsideIfStatementAndReport(
         context,
@@ -207,8 +232,16 @@ export function lintMemberExpression(
     if (!objectName || !propertyName) return;
     const isBrowserGlobal = browserGlobals.has(objectName);
     let failingRule =
-      rulesMap.get(`${objectName}.${propertyName}`.toLowerCase()) ??
-      rulesMap.get(objectName.toLowerCase());
+      rulesMap.get(`${objectName}.${propertyName}`) ??
+      rulesMap.get(objectName);
+
+    if (!failingRule && isBrowserGlobal) {
+      failingRule = findMemberRuleByGlobalObjectCasing(
+        rulesMap,
+        objectName,
+        propertyName
+      );
+    }
     if (
       failingRule &&
       !isBrowserGlobal &&

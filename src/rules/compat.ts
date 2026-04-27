@@ -149,19 +149,16 @@ const getRulesForTargets = memoize(
 
     const callExpression = new Map<string, AstMetadataApiWithTargetsResolver>();
     for (const rule of byType.CallExpression) {
-      const key = rule.object.toLowerCase();
-      if (!callExpression.has(key)) callExpression.set(key, rule);
+      if (!callExpression.has(rule.object)) callExpression.set(rule.object, rule);
     }
     const newExpression = new Map<string, AstMetadataApiWithTargetsResolver>();
     for (const rule of byType.NewExpression) {
-      const key = rule.object.toLowerCase();
-      if (!newExpression.has(key)) newExpression.set(key, rule);
+      if (!newExpression.has(rule.object)) newExpression.set(rule.object, rule);
     }
     const expressionStatement = new Map<string, AstMetadataApiWithTargetsResolver>();
     for (const rule of [...byType.MemberExpression, ...byType.CallExpression]) {
-      const key = rule.object.toLowerCase();
-      if (!expressionStatement.has(key))
-        expressionStatement.set(key, rule);
+      if (!expressionStatement.has(rule.object))
+        expressionStatement.set(rule.object, rule);
     }
     const memberExpression = new Map<string, AstMetadataApiWithTargetsResolver>();
     for (const rule of [
@@ -169,10 +166,11 @@ const getRulesForTargets = memoize(
       ...byType.CallExpression,
       ...byType.NewExpression,
     ]) {
-      const protoChainKey = rule.protoChainId.toLowerCase();
-      if (!memberExpression.has(protoChainKey))
-        memberExpression.set(protoChainKey, rule);
-      const key = (rule.property ? `${rule.object}.${rule.property}` : rule.object).toLowerCase();
+      if (!memberExpression.has(rule.protoChainId))
+        memberExpression.set(rule.protoChainId, rule);
+      const key = rule.property
+        ? `${rule.object}.${rule.property}`
+        : rule.object;
       if (!memberExpression.has(key)) memberExpression.set(key, rule);
     }
     const literal = new Map<string, AstMetadataApiWithTargetsResolver>();
@@ -189,7 +187,10 @@ const getRulesForTargets = memoize(
       memberExpression,
       literal,
     };
-  }
+  },
+  // lodash.memoize keys on the first argument only by default; include lintAllEsApis
+  // so the cache does not return the wrong rules when targets match but ES filtering differs.
+  (targetsJSON, lintAllEsApis) => `${targetsJSON}\0${lintAllEsApis}`
 );
 
 export default {
