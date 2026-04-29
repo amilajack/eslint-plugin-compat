@@ -44,6 +44,104 @@ function isInsideIfStatement(
   });
 }
 
+/**
+ * Check if a node (IfStatement consequent) contains a return or throw statement,
+ * indicating an early exit guard.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function containsEarlyExit(node: any): boolean {
+  if (!node) return false;
+  if (node.type === "ReturnStatement" || node.type === "ThrowStatement")
+    return true;
+  if (node.type === "BlockStatement" && Array.isArray(node.body)) {
+    return node.body.some(containsEarlyExit);
+  }
+  return false;
+}
+
+/**
+ * Recursively check if an expression references the API identified by the rule
+ * (by object name, property name, or a string literal matching either).
+ */
+function expressionReferencesApi(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  node: any,
+  rule: AstMetadataApiWithTargetsResolver
+): boolean {
+  if (!node) return false;
+  if (node.type === "Identifier") {
+    return node.name === rule.object || node.name === rule.property;
+  }
+  if (node.type === "Literal" && typeof node.value === "string") {
+    return node.value === rule.object || node.value === rule.property;
+  }
+  if (node.type === "UnaryExpression") {
+    return expressionReferencesApi(node.argument, rule);
+  }
+  if (node.type === "BinaryExpression" || node.type === "LogicalExpression") {
+    return (
+      expressionReferencesApi(node.left, rule) ||
+      expressionReferencesApi(node.right, rule)
+    );
+  }
+  if (node.type === "MemberExpression") {
+    return (
+      expressionReferencesApi(node.object, rule) ||
+      expressionReferencesApi(node.property, rule)
+    );
+  }
+  if (node.type === "CallExpression") {
+    return expressionReferencesApi(node.callee, rule);
+  }
+  return false;
+}
+
+/**
+ * Detect the early-return guard pattern:
+ *
+ *   if (!('foo' in window)) { return; }
+ *   window.foo.bar();  // <-- this node is guarded
+ *
+ * Walks up from the node to the nearest block body, then checks preceding
+ * sibling statements for an if-with-early-exit whose test references the
+ * same API as the failing rule.
+ */
+function isGuardedByEarlyReturn(
+  node: ESLintNode,
+  failingRule: AstMetadataApiWithTargetsResolver
+): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let current: any = node;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let parent: any = node.parent;
+
+  while (parent) {
+    if (
+      (parent.type === "BlockStatement" || parent.type === "Program") &&
+      Array.isArray(parent.body)
+    ) {
+      const stmtIndex = parent.body.indexOf(current);
+      if (stmtIndex > 0) {
+        for (let i = 0; i < stmtIndex; i++) {
+          const stmt = parent.body[i];
+          if (
+            stmt.type === "IfStatement" &&
+            containsEarlyExit(stmt.consequent) &&
+            expressionReferencesApi(stmt.test, failingRule)
+          ) {
+            return true;
+          }
+        }
+      }
+      break;
+    }
+    current = parent;
+    parent = parent.parent;
+  }
+
+  return false;
+}
+
 function checkNotInsideIfStatementAndReport(
   context: Context,
   handleFailingRule: HandleFailingRule,
@@ -53,7 +151,8 @@ function checkNotInsideIfStatementAndReport(
 ) {
   if (
     context.settings?.ignoreConditionalChecks === true ||
-    !isInsideIfStatement(node, sourceCode, context)
+    (!isInsideIfStatement(node, sourceCode, context) &&
+      !isGuardedByEarlyReturn(node, failingRule))
   ) {
     handleFailingRule(failingRule, node);
   }
