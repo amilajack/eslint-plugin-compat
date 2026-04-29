@@ -1,3 +1,10 @@
+## [7.0.2](https://github.com/amilajack/eslint-plugin-compat/compare/v7.0.1...v7.0.2) (2026-04-29)
+
+
+### Performance Improvements
+
+* Use `Map` instead of `AstMetadataApiWithTargetsResolver[]` for faster matching ([#679](https://github.com/amilajack/eslint-plugin-compat/issues/679)) ([fecdcc6](https://github.com/amilajack/eslint-plugin-compat/commit/fecdcc6613bf95cbed0a1cfd35e503c3612f1d32))
+
 ## [7.0.1](https://github.com/amilajack/eslint-plugin-compat/compare/v7.0.0...v7.0.1) (2026-03-02)
 
 
