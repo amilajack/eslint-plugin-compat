@@ -10,9 +10,6 @@ import {
   plugin as typescriptEslintPlugin,
 } from "typescript-eslint";
 
-// @ts-expect-error Missing
-import * as babelEslintParser from "@babel/eslint-parser";
-
 export type RepoInfo = {
   // name of repo
   name: string;
@@ -52,11 +49,9 @@ const repos: Array<RepoInfo> = [
         compat.configs["flat/recommended"],
         {
           languageOptions: {
-            parser: babelEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
-              requireConfigFile: false,
             },
           },
         },
@@ -252,14 +247,12 @@ const repos: Array<RepoInfo> = [
               ...globals.node,
               ...globals.es2015,
             },
-            parser: babelEslintParser,
             parserOptions: {
               ecmaVersion: 2022,
               sourceType: "module",
               ecmaFeatures: {
                 jsx: true,
               },
-              requireConfigFile: false,
             },
           },
         },
