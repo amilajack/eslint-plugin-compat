@@ -17,7 +17,7 @@ export default [
   includeIgnoreFile(gitignorePath),
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  eslintPlugin.configs?.["flat/recommended"],
+  eslintPlugin.configs.recommended,
   compat.configs["flat/recommended"],
   eslintConfigPrettier,
   {

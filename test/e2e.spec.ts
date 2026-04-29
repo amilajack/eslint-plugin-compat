@@ -98,7 +98,7 @@ ruleTester.run("compat", rule, {
         import * as serviceWorker from './serviceWorker';
         serviceWorker.register(false);
       `,
-      settings: { browsers: ["chrome 52", "android 145"] },
+      settings: { browsers: ["chrome 52", "android 147"] },
     },
     {
       code: `
@@ -108,7 +108,7 @@ ruleTester.run("compat", rule, {
             permissionStatus.addEventListener('change', () => {});
           });
       `,
-      settings: { browsers: ["chrome 52", "android 145"] },
+      settings: { browsers: ["chrome 52", "android 147"] },
     },
     {
       code: `
