@@ -4,6 +4,7 @@
     "outDir": "lib/esm",
     "declaration": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["node", "jest"]
   }
 }
