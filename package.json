@@ -73,6 +73,7 @@
     "@mdn/browser-compat-data": "^7.3.13",
     "ast-metadata-inferer": "^0.8.1",
     "browserslist": "^4.28.2",
+    "caniuse-lite": "^1.0.30001806",
     "find-up": "^5.0.0",
     "globals": "^17.5.0",
     "lodash.memoize": "^4.1.2",
