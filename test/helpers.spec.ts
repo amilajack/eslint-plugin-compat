@@ -91,6 +91,40 @@ describe("Versioning", () => {
     expect(result).toMatchSnapshot();
   });
 
+  it("should support object config in rule option", () => {
+    const config = determineTargetsFromConfig(
+      path.join(__dirname, ".browserslistrc"),
+      {
+        query: "node 18",
+      }
+    );
+    const result = parseBrowsersListVersion(config);
+    expect(result).toMatchSnapshot();
+  });
+
+  it("should support object config with query array in rule option", () => {
+    const config = determineTargetsFromConfig(
+      path.join(__dirname, ".browserslistrc"),
+      {
+        query: ["node 18"],
+      }
+    );
+    const result = parseBrowsersListVersion(config);
+    expect(result).toMatchSnapshot();
+  });
+
+  it("should support object config with ignore option in rule option", () => {
+    const config = determineTargetsFromConfig(
+      path.join(__dirname, ".browserslistrc"),
+      {
+        query: "node 18",
+        ignoreBrowserslistTargets: true,
+      }
+    );
+    const result = parseBrowsersListVersion(config);
+    expect(result).toMatchSnapshot();
+  });
+
   it("should fail on incorrect browserslist target version", () => {
     expect(() => {
       determineTargetsFromConfig(".", "edge 100000");

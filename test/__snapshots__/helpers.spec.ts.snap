@@ -120,6 +120,46 @@ exports[`Versioning should support multi env config in browserslist package.json
 ]
 `;
 
+exports[`Versioning should support object config in rule option 1`] = `
+[
+  {
+    "parsedVersion": 18.14,
+    "target": "node",
+    "version": "18.14.0",
+  },
+  {
+    "parsedVersion": 70,
+    "target": "chrome",
+    "version": "70",
+  },
+]
+`;
+
+exports[`Versioning should support object config with ignore option in rule option 1`] = `
+[
+  {
+    "parsedVersion": 18.14,
+    "target": "node",
+    "version": "18.14.0",
+  },
+]
+`;
+
+exports[`Versioning should support object config with query array in rule option 1`] = `
+[
+  {
+    "parsedVersion": 18.14,
+    "target": "node",
+    "version": "18.14.0",
+  },
+  {
+    "parsedVersion": 70,
+    "target": "chrome",
+    "version": "70",
+  },
+]
+`;
+
 exports[`Versioning should support resolving browserslist config in subdirectory 1`] = `
 [
   {
