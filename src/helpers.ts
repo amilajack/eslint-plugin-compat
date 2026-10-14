@@ -369,6 +369,8 @@ export function reverseTargetMappings<K extends string, V extends string>(
   return Object.fromEntries(reversedEntries);
 }
 
+const targetsCache = new Map<string, Array<string>>();
+
 /**
  * Determine the targets based on the browserslist config object
  * Get the targets from the eslint config and merge them with targets in browserslist config
@@ -376,8 +378,6 @@ export function reverseTargetMappings<K extends string, V extends string>(
  *
  * @param configPath - The file or a directory path to look for the browserslist config file
  */
-const targetsCache = new Map<string, Array<string>>();
-
 export function determineTargetsFromConfig(
   configPath: string,
   config?: BrowserListConfig,
