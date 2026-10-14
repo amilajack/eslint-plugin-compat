@@ -1,6 +1,7 @@
 /* eslint no-nested-ternary: off */
 import browserslist from "browserslist";
 import globals from "globals";
+import { dirname } from "path";
 import { AstNodeTypes, TargetNameMappings } from "./constants";
 import {
   AstMetadataApiWithTargetsResolver,
@@ -375,7 +376,31 @@ export function reverseTargetMappings<K extends string, V extends string>(
  *
  * @param configPath - The file or a directory path to look for the browserslist config file
  */
+const targetsCache = new Map<string, Array<string>>();
+
 export function determineTargetsFromConfig(
+  configPath: string,
+  config?: BrowserListConfig,
+  browserslistOptsFromConfig?: BrowsersListOpts
+): Array<string> {
+  const key = JSON.stringify([
+    dirname(configPath),
+    config,
+    browserslistOptsFromConfig,
+  ]);
+  const cachedTargets = targetsCache.get(key);
+  if (cachedTargets) return cachedTargets;
+
+  const targets = determineTargetsFromConfigUncached(
+    configPath,
+    config,
+    browserslistOptsFromConfig
+  );
+  targetsCache.set(key, targets);
+  return targets;
+}
+
+function determineTargetsFromConfigUncached(
   configPath: string,
   config?: BrowserListConfig,
   browserslistOptsFromConfig?: BrowsersListOpts
