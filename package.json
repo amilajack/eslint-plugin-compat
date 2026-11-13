@@ -91,6 +91,7 @@
     "@types/eslint": "^9.6.1",
     "@types/jest": "^30.0.0",
     "@types/lodash.memoize": "^4.1.9",
+    "@types/node": "^24.19.2",
     "@types/semver": "7.7.1",
     "benchmark": "^2.1.4",
     "browserslist-config-erb": "^0.0.3",
